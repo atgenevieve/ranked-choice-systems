@@ -87,3 +87,18 @@ Only wards where the party ran 2 or more candidates. Voters whose first choice w
 | LD | 38 | 76,338 | 77% |
 | Glasgow First | 2 | 1,383 | 39% |
 | IANL | 2 | 1,289 | 58% |
+
+### Candidates and first choices by party, pooled
+
+The model gives slates the same share of candidates as of voters. This compares each party's share of all candidacies with its share of all first choices.
+
+| Party | Candidacies | Share of candidacies | Share of first choices | First choices per candidate, relative to average |
+|---|---|---|---|---|
+| SNP | 1,838 | 23.1% | 32.6% | 1.41 |
+| Lab | 1,436 | 18.0% | 24.4% | 1.35 |
+| Ind | 1,359 | 17.1% | 10.1% | 0.59 |
+| Con | 1,199 | 15.0% | 19.4% | 1.29 |
+| LD | 800 | 10.0% | 7.5% | 0.74 |
+| Gr | 584 | 7.3% | 4.4% | 0.60 |
+| API | 112 | 1.4% | 0.2% | 0.16 |
+| UKIP | 104 | 1.3% | 0.1% | 0.11 |

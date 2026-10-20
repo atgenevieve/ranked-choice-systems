@@ -10,6 +10,7 @@ Usage:
 
     python3 -I data/calibration.py OUTPUT.jsonl INPUT [INPUT ...]
         [--group-by FIELD] [--title TEXT]
+    python3 -I data/calibration.py --lognormal-reference N
 
 Each INPUT is a .ballots file or a folder of them. Each .ballots file
 needs a matching .json metadata file (see docs/ballot-format.md).
@@ -163,6 +164,7 @@ def first_choice_stats(nc, ballots):
     gap_top = math.log(pos[0] / med) if len(pos) >= 2 else None
     gap_bottom = math.log(med / pos[-1]) if len(pos) >= 2 else None
     return {
+        "shares_by_candidate": [r(x / total, 6) for x in fp],
         "top10pct_share": r(top10),
         "log_gap_top_to_median": r(gap_top),
         "log_gap_median_to_bottom": r(gap_bottom),
@@ -385,6 +387,7 @@ def analyze(path):
         "candidates": nc,
         "seats": ns,
         "seat_share": r(ns / nc),
+        "parties": meta.get("parties"),
         "voters": voters,
         "first_choice": first_choice_stats(nc, ballots),
         "ballot_length": length_stats(nc, ballots, ns),
@@ -483,7 +486,35 @@ def summary(results, group_by=None, title=None):
         out.append(f"| {g} | " + " | ".join(f"{100 * c[k] / tot:.1f}%" for k in range(1, maxlen + 1)) + " |")
     out += party_flow_table(results)
     out += cohesion_by_party_table(results)
+    out += candidates_by_party_table(results)
     return "\n".join(out) + "\n"
+
+
+def candidates_by_party_table(results, top=8):
+    """Each party's share of all candidacies and of all first choices."""
+    cands, firsts = Counter(), Counter()
+    for x in results:
+        parties = x.get("parties")
+        if not parties:
+            continue
+        labels = [PARTY_ALIASES.get(p, p) if p not in NO_PARTY else "Ind" for p in parties]
+        shares = x["first_choice"]["shares_by_candidate"]
+        for i, p in enumerate(labels):
+            cands[p] += 1
+            firsts[p] += shares[i] * x["voters"]
+    if not cands:
+        return []
+    tc, tf = sum(cands.values()), sum(firsts.values())
+    out = ["", "### Candidates and first choices by party, pooled\n",
+           "The model gives slates the same share of candidates as of voters. "
+           "This compares each party's share of all candidacies with its share "
+           "of all first choices.\n",
+           "| Party | Candidacies | Share of candidacies | Share of first choices | First choices per candidate, relative to average |",
+           "|---|---|---|---|---|"]
+    for p, n in cands.most_common(top):
+        sc, sf = n / tc, firsts[p] / tf
+        out.append(f"| {p} | {n:,} | {100 * sc:.1f}% | {100 * sf:.1f}% | {sf / sc:.2f} |")
+    return out
 
 
 def cohesion_by_party_table(results, top=6):
@@ -538,8 +569,45 @@ def party_flow_table(results, top=7):
     return out
 
 
+def lognormal_reference(n, draws=20000, seed=7):
+    """What first-choice shares look like if they followed popularity alone.
+
+    Draws n candidate popularities from a lognormal with each spread,
+    treats the shares as popularity divided by the total (no slates, no
+    voters), and prints the median of the statistic-1 measures. Compare
+    these with real elections of n candidates."""
+    import random
+    import statistics
+    rng = random.Random(seed)
+    lines = [f"Popularity alone, {n} candidates, {draws:,} draws (seed {seed}).", "",
+             "| Spread | Top share | Top / median | Log gap top to median | "
+             "Log gap median to bottom | Fitted spread |", "|---|---|---|---|---|---|"]
+    for sigma in (0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0):
+        top, ratio, up, lo, sd = [], [], [], [], []
+        for _ in range(draws):
+            w = sorted((math.exp(rng.gauss(0, sigma)) for _ in range(n)), reverse=True)
+            t = sum(w)
+            w = [x / t for x in w]
+            med = quantile(w, 0.5)
+            logs = [math.log(x) for x in w]
+            top.append(w[0])
+            ratio.append(w[0] / med)
+            up.append(math.log(w[0] / med))
+            lo.append(math.log(med / w[-1]))
+            sd.append(statistics.stdev(logs))
+        lines.append(f"| {sigma} | " + " | ".join(
+            f"{statistics.median(v):.2f}" for v in (top, ratio, up, lo, sd)) + " |")
+    return "\n".join(lines) + "\n"
+
+
 def main():
-    ap = argparse.ArgumentParser(description="Compute calibration statistics 1-4.")
+    if len(sys.argv) == 3 and sys.argv[1] == "--lognormal-reference":
+        sys.stdout.write(lognormal_reference(int(sys.argv[2])))
+        return
+    ap = argparse.ArgumentParser(
+        description="Compute calibration statistics 1-4. "
+                    "Or run with --lognormal-reference N for a popularity-only "
+                    "reference table for N candidates.")
     ap.add_argument("output", help="JSON Lines file to write")
     ap.add_argument("inputs", nargs="+", help=".ballots files or folders")
     ap.add_argument("--group-by", help="metadata field to split the summary by, such as year")
