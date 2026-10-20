@@ -88,8 +88,8 @@ window.SECTIONS["quota-rounding"] = () => {
   // ---- What to recommend: each simulated election draws its own turnout around the expected one.
   if (E.every(e => e.turnout)) {
     const f = figure("What to recommend: cover the turnouts you expect",
-      "You can't know turnout to the voter, so the model doesn't use one exact number. Each simulated election draws its own number of voters around the expected one: with 10% uncertainty, about 2 in 3 elections land within 10% of the expected turnout, and 19 in 20 within 20%. That spans several quota steps, so the sawtooth averages out, and the answer barely depends on exactly where you center it. It reads: \"Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks.\"",
-      "The thin line is one exact voter count (the sawtooth above). The thick line is the same election with turnout spread around each expected number. The blue line is the exact quota with 10% uncertainty, for comparison: much higher, so the voting method's quota matters more than turnout does. The spread answer sits in the middle of the sawtooth, not at its peaks: the deep answers happen only in the narrow stretch just before each step, so they're a small share of the turnouts you might get. Ranking deeper never hurts a voter's earlier choices under these rules, so anyone who wants to be safe can rank further. Each point is 1,000 simulated elections.");
+      "You can't know turnout to the voter, so the model doesn't use one exact number. Each simulated election draws its own number of voters around the expected one: with a 10% turnout range, about 2 in 3 elections land within 10% of the expected turnout, and 19 in 20 within 20%. That spans several quota steps, so the sawtooth averages out, and the answer barely depends on exactly where you center it. It reads: \"Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks.\"",
+      "The thin line is one exact voter count (the sawtooth above). The thick line is the same election with turnout spread around each expected number. The blue line is the exact quota with a 10% turnout range, for comparison: much higher, so the voting method's quota matters more than turnout does. The spread answer sits in the middle of the sawtooth, not at its peaks: the deep answers happen only in the narrow stretch just before each step, so they're a small share of the turnouts you might get. Ranking deeper never hurts a voter's earlier choices under these rules, so anyone who wants to be safe can rank further. Each point is 1,000 simulated elections.");
     const row = document.createElement("div"); row.className = "note"; row.style.display = "flex"; row.style.flexWrap = "wrap"; row.style.gap = "8px 16px";
     const select = (label, options, value) => {
       const l = document.createElement("label"); l.textContent = label + " ";
@@ -98,7 +98,7 @@ window.SECTIONS["quota-rounding"] = () => {
       s.value = value; l.append(s); row.append(l); return s;
     };
     const which = select("Election:", E.map((e, i) => [i, e.name]), 0);
-    const spread = select("Turnout uncertainty:", [["0.05", "5%"], ["0.1", "10% (default)"], ["0.15", "15%"]], "0.1");
+    const spread = select("Turnout range:", [["0.05", "±5%"], ["0.1", "±10% (default)"], ["0.15", "±15%"]], "0.1");
     f.append(row);
     const out = document.createElement("div"); f.append(out);
     const draw = () => {
