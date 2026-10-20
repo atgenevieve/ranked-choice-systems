@@ -60,16 +60,12 @@ svg text.lab { font-family: var(--font-body); font-size: 12px; fill: var(--ink-2
 svg text.title { font-family: var(--font-body); font-size: 12px; fill: var(--muted); }
 svg .hit { fill: transparent; cursor: pointer; }
 svg .hit:focus-visible { outline: none; stroke: var(--ink); stroke-width: 2; }
-/* Summary rows: the number on the left, its label and explanation beside it, hairlines between rows. */
-.predict { display: grid; }
-.predict > div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); grid-template-areas: "v h" "v s"; column-gap: 16px; row-gap: 2px; padding-block: 12px; border-top: 1px solid var(--grid); align-items: baseline; }
-.predict > div:first-child { border-top: 0; padding-top: 4px; }
-.predict .v { grid-area: v; white-space: nowrap; font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
-.predict .h { grid-area: h; font-weight: 600; }
-.predict .s { grid-area: s; font-size: 13px; color: var(--ink-2); max-width: 70ch; }
-@media (max-width: 520px) {
-  .predict > div { grid-template-columns: minmax(0, 1fr); grid-template-areas: "h" "v" "s"; }
-}
+/* Summary boxes: one box per finding (heading, big number, explanation). Only the direct children are boxes. */
+.predict { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+.predict > div { border: 1px solid var(--grid); border-radius: 8px; padding: 12px 14px; display: grid; gap: 2px; align-content: start; }
+.predict .h { font-weight: 600; }
+.predict .v { font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.predict .s { font-size: 13px; color: var(--ink-2); }
 details { font-size: 13px; }
 details summary { cursor: pointer; color: var(--ink-2); padding-block: 4px; }
 details summary:focus-visible { outline: 2px solid var(--public); outline-offset: 2px; }
@@ -381,7 +377,7 @@ function scatter(f, opts) {
   const C = DATA.cut_at_seats;
   const f = figure("A limit equal to the number of seats",
     "Where voters are told to rank as many as there are seats, most do exactly that. And cutting real ballots at that rank rarely changes who wins.",
-    "The first four rows are what voters did under a limit or instruction equal to the seats. Minneapolis had a maximum (\"up to 3\"); Canberra and the Senate set a minimum (\"at least\"), with no maximum. The 2016 Australian Senate figure for above-the-line party boxes comes from the research write-up (docs/large-elections.md). The last two rows recount this project's real ballots with every ballot cut after rank = seats. That only shortens ballots; a real limit would also change how far people rank.");
+    "The first four boxes are what voters did under a limit or instruction equal to the seats. Minneapolis had a maximum (\"up to 3\"); Canberra and the Senate set a minimum (\"at least\"), with no maximum. The 2016 Australian Senate figure for above-the-line party boxes comes from the research write-up (docs/large-elections.md). The last two boxes recount this project's real ballots with every ballot cut after rank = seats. That only shortens ballots; a real limit would also change how far people rank.");
   const box = document.createElement("div"); box.className = "predict";
   const cards = [
     ["Minneapolis Park Board, 2009", "54%", "3 seats, 3 ranks allowed: share of ballots that ranked all 3. The only election in this project's data with a limit equal to the seats."],
