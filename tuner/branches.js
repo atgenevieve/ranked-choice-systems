@@ -65,10 +65,10 @@ function drawSummary() {
     const got = branchResults.get(b.name);
     const f = got && branchFigures(got.r);
     const tr = document.createElement("tr");
-    const cells = [b.name, b.candidates, b.seats, Number(b.voters).toLocaleString(), ...(f ? [f.k50, f.k80, f.k95, f.kAll, f.kOne] : ["…", "…", "…", "…", "…"])];
+    const cells = [b.name, b.candidates, b.seats, Number(b.voters).toLocaleString(), ...(f ? [f.k95, f.kOne] : ["…", "…"])];
     cells.forEach((v, i) => {
       const td = document.createElement("td"); td.textContent = v;
-      if (i > 0) td.className = i === 6 ? "n k95" : "n";
+      if (i > 0) td.className = i === 4 ? "n k95" : "n";
       tr.append(td);
     });
     body.append(tr);
