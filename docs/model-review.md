@@ -11,7 +11,7 @@
 | # | Assumption | Now | Proposal | Decision needed |
 |---|---|---|---|---|
 | 5 | Ballot length | Everyone ranks everyone | A new setting, tied to slates, that grows with seats; three variants tested side by side | **Biggest decision.** How length grows in a 50-seat election |
-| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line | Replace the line? |
+| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune only to groupings the owner marks | Replace the line? Mark groupings on the review page |
 | 3 | Candidate popularity | Lognormal, spread 1.0 | Keep the lognormal, add a separate tail of long-shot candidates | Add the tail? |
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately | Separate them? |
 | 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | Allow candidates outside slates? |
@@ -78,15 +78,43 @@ These would give very different truncation results, so this is the decision that
 **What the real ballots show:**
 
 - **Party loyalty is very strong.** Among Scottish voters whose first choice has a running mate, 84% rank a running mate second. If voters ignored party, it would be about 17%.
-- **Endorsement slates are looser, but still strong.** In Portland's council races, voters whose first choice was on an endorsement slate (Working Families Party, labor councils, United for Portland, and so on) ranked another candidate from the same slate second 45% of the time, against 13% by chance. In NYC's 2025 mayoral primary, 66% of voters who ranked Mamdani or Lander first ranked the other second, against 9% by chance.
+- **Endorsement slates are much looser, and mostly explained by popularity.** Compare each grouping with what you'd see if second choices followed each candidate's first-choice share and ignored the grouping ("popularity alone"). This is what the model produces with no slates, so the gap above it is what slate settings must explain:
+
+  | Grouping | Observed | Popularity alone | Random |
+  |---|---|---|---|
+  | Scottish parties (typical ward) | 84% | 21% | 17% |
+  | Portland endorsement slates (typical race) | 45% | 31% | 13% |
+  | NYC endorsement slates (typical contest) | 38% | 29% | 17% |
+  | Mamdani and Lander, NYC 2025 | 66% | 26% | 9% |
+
+  An earlier draft compared only with random second choices, which made endorsement slates look far stronger than they are.
 - **Votes that leave a slate spread widely,** not mainly to one neighboring slate. Scottish transfers between parties have an evenness of 0.85, where 1 means a perfectly even spread. Even distant pairs see real traffic.
 - **Some flows are lopsided:** 42% of Scottish Green voters rank the SNP second, but only 8% of SNP voters rank a Green second. Scotland has at least two divides (left against right, independence against the union), which no single line can hold.
 
 **Why it matters:** with the current setting, a slate three steps along the line gets about 1/300 of the weight. That can't produce strong loyalty *and* a wide spread at the same time. Slate behavior shapes how votes move once a candidate wins or is excluded, which is what truncation measures.
 
+**Correlation, not cause (owner's point, October 20, 2026).** A pairing on ballots doesn't show that an endorsement or pact changed votes. Mamdani and Lander were the two democratic socialist candidates, so their voters would likely have ranked each other often without any pact. The excess above popularity mixes at least three things that ballot data can't separate:
+
+1. Voters already saw the candidates as similar (shared politics, identity, or style).
+2. The endorsement or pact itself moved votes.
+3. Endorsers followed voters, picking candidates whose supporters already overlapped.
+
+Endorsements also differ in how many voters even knew about them, which ballots can't measure directly.
+
+**What's defensible, given that:**
+
+- **The model needs patterns, not causes.** Truncation and reach depend on which candidates get ranked together, not on why. So a "slate" in the model means a group of candidates whose voters tend to rank each other, for whatever reason. It does not mean "an endorsement and its effect."
+- **Strength comes from the ballots, not from the endorsement.** Each grouping's strength is tuned to how much it actually shows up above popularity on real ballots. An endorsement few people knew about, or one that changed nothing, shows little excess and gets little weight. This handles awareness imperfectly but honestly, without guessing reach.
+- **The owner chooses which groupings count.** Endorsement lists overlap, many have one member, and some are media endorsements that may mean little. None is used for tuning automatically. The owner marks each grouping on the slate review page, and only groupings marked "counts" are used. The page also lists pairs found directly in the ballots, which voters rank together far more than popularity predicts, whether or not any slate names them (for example, Cuomo and Stringer in 2025: 18% against 5% from popularity, with no shared endorsement in our data).
+- **The report makes no causal claims.** It describes how voters group candidates. It must not claim what endorsements or slates do, such as "formal slates make members rank deeper."
+- **Test whether it matters.** Run the headline results across the full plausible range of slate strength. If they hold, the causal question doesn't change the answer. If they don't, the report says so.
+- **For the organization itself,** model slates should be its real groupings (caucuses, tendencies), which the owner knows better than any endorsement list.
+
+The review page is at https://claude.ai/artifact/3UBqtyAtQWBAPLH9LUQDGy. Its data comes from `data/slate_review.py` (output `data/slate-review.json`; page template `data/slate_review_page.html`). Marks are read back and recorded in the repository before any are used.
+
 **Proposal:** replace the line with two settings:
 
-- **Own-slate loyalty:** how strongly voters prefer their own slate. Tune it to 84% for parties and about 45% for endorsement slates.
+- **Own-slate loyalty:** how strongly voters prefer their own slate, beyond popularity. Tune it to the gap above popularity: large for parties (84% against 21%), small for endorsement slates, using only the groupings the owner marked.
 - **Spread to other slates:** how evenly voters spread to everyone else. Tune it to the evenness of 0.85.
 
 Keep an optional table of closeness between slates for later, if real data from your organization shows strong pairings.

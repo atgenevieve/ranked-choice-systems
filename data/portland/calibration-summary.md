@@ -24,10 +24,12 @@ Each cell: median across elections, with the 10th to 90th percentile range in br
 | 2. ... expected if order were random | 0.01 (0.01–0.01) |
 | 3. Slate cohesion (second choice same party) | – |
 | 3. Cohesion if second choices ignored party | – |
+| 3. Cohesion if second choices followed popularity alone | – |
 | 3. Share of voters whose first choice has a running mate | – |
 | 3. Of those, share ranking only that party, then stopping | – |
 | 3b. Endorsement-slate cohesion (second choice same slate; non-media slates of 2+) | 0.45 (0.39–0.52) |
 | 3b. ... if second choices ignored the slate | 0.13 (0.09–0.19) |
+| 3b. ... if second choices followed popularity alone | 0.31 (0.27–0.36) |
 | 4. Transfer evenness (0 = all to one, 1 = even) | 0.66 (0.60–0.78) |
 | 4. Share of transfer going to top recipient | 0.35 (0.29–0.69) |
 | 4. Effective number of recipients | 9.50 (3.38–10.40) |

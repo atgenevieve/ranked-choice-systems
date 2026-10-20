@@ -217,6 +217,25 @@ def length_stats(nc, ballots, seats):
 # Statistic 3: slate cohesion
 
 
+def first_shares(nc, ballots):
+    fp = [0] * nc
+    for w, b in ballots:
+        fp[b[0]] += w
+    total = sum(fp)
+    return [x / total for x in fp]
+
+
+def popularity_baseline(shares, first, members):
+    """Chance a voter whose first choice is `first` ranks a member of `members`
+    second, if second choices followed popularity alone (first-choice shares)
+    and ignored slates. This is what the model produces with no slates, so
+    cohesion above it is what slate settings have to explain."""
+    rest = 1 - shares[first]
+    if rest <= 0:
+        return 0.0
+    return sum(shares[m] for m in members if m != first) / rest
+
+
 def group_labels(parties):
     """Turn party labels into group ids; no-party candidates get their own."""
     out = []
@@ -235,6 +254,11 @@ def cohesion_stats(nc, ballots, parties):
     # a voter whose first choice is a party's only candidate has no
     # same-party candidate to rank second.
     multi = {g for g, n in size.items() if n >= 2 and not g.startswith("__solo")}
+    shares = first_shares(nc, ballots)
+    members_of = defaultdict(list)
+    for i, g in enumerate(groups):
+        members_of[g].append(i)
+    pop_base = 0.0
     per = defaultdict(lambda: [0, 0, 0])  # [first-choice voters, ranked 2+, second same]
     party_only = 0
     # Pooled flows: first-choice party -> second-choice party (or "(none)"
@@ -253,6 +277,7 @@ def cohesion_stats(nc, ballots, parties):
         per[g][0] += w
         if len(b) >= 2:
             per[g][1] += w
+            pop_base += w * popularity_baseline(shares, b[0], members_of[g])
             if groups[b[1]] == g:
                 per[g][2] += w
     total_first = sum(w for w, _ in ballots)
@@ -266,6 +291,7 @@ def cohesion_stats(nc, ballots, parties):
     return {
         "cohesion": r(same / eligible) if eligible else None,
         "random_baseline": r(base / eligible) if eligible else None,
+        "popularity_baseline": r(pop_base / eligible) if eligible else None,
         "voters_considered": eligible,
         "share_of_voters_first_choice_in_multi_candidate_party":
             r(sum(v[0] for v in per.values()) / total_first) if total_first else None,
@@ -295,18 +321,21 @@ def slate_stats(nc, ballots, slates):
     """
     if not slates or nc < 2:
         return None
+    shares = first_shares(nc, ballots)
     rows = []
     for sl in slates:
         members = set(sl["members"])
         if len(members) < 2:
             continue
         first = ranked2 = same = 0
+        pop = 0.0
         for w, b in ballots:
             if b[0] not in members:
                 continue
             first += w
             if len(b) >= 2:
                 ranked2 += w
+                pop += w * popularity_baseline(shares, b[0], members)
                 if b[1] in members:
                     same += w
         rows.append({
@@ -318,7 +347,9 @@ def slate_stats(nc, ballots, slates):
             "ranked_2_plus": ranked2,
             "cohesion": r(same / ranked2) if ranked2 else None,
             "random_baseline": r((len(members) - 1) / (nc - 1)),
+            "popularity_baseline": r(pop / ranked2) if ranked2 else None,
             "_same": same,
+            "_pop": pop,
         })
     pooled = [x for x in rows if not x["media"] and x["ranked_2_plus"]]
     n = sum(x["ranked_2_plus"] for x in pooled)
@@ -326,10 +357,11 @@ def slate_stats(nc, ballots, slates):
         "slates_with_2_plus_members": len(rows),
         "cohesion": r(sum(x["_same"] for x in pooled) / n) if n else None,
         "random_baseline": r(sum(x["ranked_2_plus"] * x["random_baseline"] for x in pooled) / n) if n else None,
+        "popularity_baseline": r(sum(x["_pop"] for x in pooled) / n) if n else None,
         "by_slate": rows,
     }
     for x in rows:
-        del x["_same"]
+        del x["_same"], x["_pop"]
     return out
 
 
@@ -469,10 +501,12 @@ SUMMARY_ROWS = [
     ("2. ... expected if order were random", ("ballot_length", "share_4plus_in_listed_order_by_chance")),
     ("3. Slate cohesion (second choice same party)", ("slate_cohesion", "cohesion")),
     ("3. Cohesion if second choices ignored party", ("slate_cohesion", "random_baseline")),
+    ("3. Cohesion if second choices followed popularity alone", ("slate_cohesion", "popularity_baseline")),
     ("3. Share of voters whose first choice has a running mate", ("slate_cohesion", "share_of_voters_first_choice_in_multi_candidate_party")),
     ("3. Of those, share ranking only that party, then stopping", ("slate_cohesion", "share_party_only_ballots")),
     ("3b. Endorsement-slate cohesion (second choice same slate; non-media slates of 2+)", ("endorsement_slate_cohesion", "cohesion")),
     ("3b. ... if second choices ignored the slate", ("endorsement_slate_cohesion", "random_baseline")),
+    ("3b. ... if second choices followed popularity alone", ("endorsement_slate_cohesion", "popularity_baseline")),
     ("4. Transfer evenness (0 = all to one, 1 = even)", ("transfer_spread", "evenness_weighted_mean")),
     ("4. Share of transfer going to top recipient", ("transfer_spread", "top_recipient_share_weighted_mean")),
     ("4. Effective number of recipients", ("transfer_spread", "effective_recipients_weighted_mean")),

@@ -1,0 +1,304 @@
+<title>Slate Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working ledger. Sticky filter bar, then one block per election, one row per grouping with a measured strip and a three-way mark. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #1b2330;
+  --muted: #5d6878;
+  --rule: #dde2ea;
+  --accent: #2647b8;
+  --accent-soft: #e6ebfa;
+  --yes: #1d7a4c;
+  --yes-soft: #e1f2e9;
+  --no: #8a3b3b;
+  --no-soft: #f5e6e6;
+  --maybe: #946200;
+  --maybe-soft: #faf0d9;
+  --strip: #e9edf3;
+  --pop: #7d8aa0;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --ink: #e6eaf1; --muted: #9aa5b6; --rule: #2c3442;
+    --accent: #8ea6ff; --accent-soft: #232d4a; --yes: #6fd3a0; --yes-soft: #17352a;
+    --no: #f0a0a0; --no-soft: #3a2224; --maybe: #f0c062; --maybe-soft: #3a2f14;
+    --strip: #262e3a; --pop: #8792a6; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --ink: #e6eaf1; --muted: #9aa5b6; --rule: #2c3442;
+  --accent: #8ea6ff; --accent-soft: #232d4a; --yes: #6fd3a0; --yes-soft: #17352a;
+  --no: #f0a0a0; --no-soft: #3a2224; --maybe: #f0c062; --maybe-soft: #3a2f14;
+  --strip: #262e3a; --pop: #8792a6; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.intro { padding-block: 28px 18px; display: grid; gap: 12px; }
+h1 { font-size: 28px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 68ch; }
+.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
+.how div { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; font-size: 14px; }
+.how b { display: block; margin-bottom: 2px; }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
+.bar-filters { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--rule); }
+.bar-filters .wrap { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-block: 10px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink); padding: 5px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.seg button:focus-visible, .mark button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.flabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 6px; }
+.progress { margin-left: auto; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.progress strong { color: var(--ink); }
+.status { font-size: 13px; color: var(--muted); padding-block: 8px 0; }
+.status.warn { color: var(--no); }
+main { padding-block: 18px 60px; display: grid; gap: 22px; }
+section.election { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.ehead { padding: 14px 16px 10px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; border-bottom: 1px solid var(--rule); }
+.ehead h2 { font-size: 17px; margin: 0; flex: 1 1 320px; min-width: 0; text-wrap: balance; }
+.emeta { font-family: var(--font-data); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 10px 18px; padding: 12px 16px; border-top: 1px solid var(--rule); align-items: start; }
+.row:first-of-type { border-top: 0; }
+.row[data-decision="counts"] { box-shadow: inset 3px 0 0 var(--yes); }
+.row[data-decision="not"] { box-shadow: inset 3px 0 0 var(--no); }
+.row[data-decision="unsure"] { box-shadow: inset 3px 0 0 var(--maybe); }
+.who { min-width: 0; display: grid; gap: 4px; }
+.gname { font-weight: 600; }
+.chip { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 6px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; background: var(--strip); color: var(--muted); }
+.chip.campaign { background: var(--accent-soft); color: var(--accent); }
+.chip.found { background: var(--maybe-soft); color: var(--maybe); }
+.members { font-size: 13px; color: var(--muted); }
+.aside { font-size: 12px; color: var(--muted); }
+.aside a { color: var(--accent); }
+.measure { min-width: 0; display: grid; gap: 6px; }
+.strip { position: relative; height: 14px; background: var(--strip); border-radius: 3px; }
+.strip .obs { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 3px; }
+.strip .tick { position: absolute; top: -3px; bottom: -3px; width: 2px; transform: translateX(-1px); }
+.strip .tick.pop { background: var(--pop); }
+.strip .tick.rnd { background: var(--muted); opacity: 0.5; width: 1px; }
+.nums { font-family: var(--font-data); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 12px; font-variant-numeric: tabular-nums; }
+.nums .o { color: var(--ink); font-weight: 500; }
+.excess { font-weight: 600; }
+.excess.big { color: var(--yes); }
+.excess.small { color: var(--muted); }
+.excess.neg { color: var(--no); }
+.decide { display: grid; gap: 6px; justify-items: end; }
+.mark { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.mark button { font: inherit; font-size: 13px; border: 0; background: var(--surface); color: var(--ink); padding: 6px 10px; cursor: pointer; white-space: nowrap; }
+.mark button + button { border-left: 1px solid var(--rule); }
+.mark button[data-v="counts"][aria-pressed="true"] { background: var(--yes-soft); color: var(--yes); font-weight: 600; }
+.mark button[data-v="not"][aria-pressed="true"] { background: var(--no-soft); color: var(--no); font-weight: 600; }
+.mark button[data-v="unsure"][aria-pressed="true"] { background: var(--maybe-soft); color: var(--maybe); font-weight: 600; }
+.mark button:disabled { cursor: default; opacity: 0.6; }
+.reason { width: 240px; max-width: 100%; font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); }
+.saved { font-size: 11px; color: var(--muted); min-height: 1em; }
+.empty { padding: 30px 16px; text-align: center; color: var(--muted); }
+@media (max-width: 720px) {
+  .row { grid-template-columns: 1fr; }
+  .decide { justify-items: start; }
+  .reason { width: 100%; }
+  .progress { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: no-preference) { .strip .obs { transition: width .2s ease; } }
+</style>
+
+<header class="wrap intro">
+  <h1>Slate review</h1>
+  <p class="lede">Each row is a group of candidates whose voters might rank each other. Mark whether it reflects real structure in how voters group candidates. Only groups you mark <b>Counts</b> will be used to tune the model's slate settings. The numbers show association, not cause: a pairing can come from shared politics, from the endorsement itself, or from endorsers following voters.</p>
+  <div class="how">
+    <div><b><span class="key"><span class="swatch" style="background:var(--accent)"></span>Observed</span></b>Of voters whose first choice is in the group and who ranked a second, the share whose second choice is also in the group.</div>
+    <div><b><span class="key"><span class="swatch" style="background:var(--pop)"></span>Popularity alone</span></b>What you'd see if second choices followed each candidate's first-choice share and ignored the group. The gap above this is what slate settings must explain.</div>
+    <div><b><span class="key"><span class="swatch" style="background:var(--muted);opacity:.5"></span>Random</span></b>What you'd see if second choices were spread evenly over the other candidates. Shown for reference only.</div>
+    <div><b>Found in ballots</b>Pairs whose voters rank each other far more than popularity predicts, found from the ballots whether or not any slate names them.</div>
+  </div>
+</header>
+
+<nav class="bar-filters" aria-label="Filters">
+  <div class="wrap">
+    <span><span class="flabel">Source</span><span class="seg" id="f-source"></span></span>
+    <span><span class="flabel">Kind</span><span class="seg" id="f-kind"></span></span>
+    <span><span class="flabel">Show</span><span class="seg" id="f-status"></span></span>
+    <span class="progress" id="progress"></span>
+  </div>
+</nav>
+
+<div class="wrap"><p class="status" id="status">Loading saved marks…</p></div>
+<main class="wrap" id="list"></main>
+
+<script>
+const DATA = /*DATA*/null;
+const KINDS = { endorsement: "Endorsement", campaign: "Campaign pact", media: "Media", "found-in-ballots": "Found in ballots" };
+const SOURCES = [["all", "All"], ["nyc", "NYC"], ["portland", "Portland"], ["preflib", "PrefLib"]];
+const KIND_OPTS = [["all", "All"], ["endorsement", "Endorsement"], ["campaign", "Pact"], ["media", "Media"], ["found-in-ballots", "Found"]];
+const STATUS_OPTS = [["all", "All"], ["unmarked", "Unmarked"], ["counts", "Counts"], ["not", "Doesn't count"], ["unsure", "Unsure"]];
+const state = { source: "all", kind: "all", status: "all" };
+const marks = {};          // key -> {decision, reason}
+let db = null, canWrite = true;
+
+const pct = x => (x * 100).toFixed(0) + "%";
+const sourceOf = e => e.file.split("/")[1];
+const keyOf = (e, g) => (e.file.split("/").pop().replace(/\.ballots$/, "") + "~" + g.id).replace(/[^A-Za-z0-9_.~:@+-]/g, "-");
+
+function seg(el, opts, field) {
+  el.replaceChildren(...opts.map(([v, label]) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = label; b.setAttribute("aria-pressed", String(state[field] === v));
+    b.addEventListener("click", () => { state[field] = v; seg(el, opts, field); render(); });
+    return b;
+  }));
+}
+
+function strip(g) {
+  const s = document.createElement("div"); s.className = "strip";
+  s.setAttribute("role", "img");
+  s.setAttribute("aria-label", `Observed ${pct(g.observed)}, popularity alone ${pct(g.popularity)}, random ${pct(g.random)}`);
+  const o = document.createElement("div"); o.className = "obs"; o.style.width = (g.observed * 100) + "%";
+  const p = document.createElement("div"); p.className = "tick pop"; p.style.left = (g.popularity * 100) + "%";
+  const r = document.createElement("div"); r.className = "tick rnd"; r.style.left = (g.random * 100) + "%";
+  s.append(o, r, p);
+  return s;
+}
+
+function row(e, g) {
+  const key = keyOf(e, g);
+  const m = marks[key] || {};
+  const el = document.createElement("div"); el.className = "row";
+  if (m.decision) el.dataset.decision = m.decision;
+
+  const who = document.createElement("div"); who.className = "who";
+  const name = document.createElement("div"); name.className = "gname";
+  const chip = document.createElement("span");
+  chip.className = "chip" + (g.kind === "campaign" ? " campaign" : g.kind === "found-in-ballots" ? " found" : "");
+  chip.textContent = KINDS[g.kind] || g.kind;
+  name.append(chip, document.createTextNode(g.name.replace(/ \(media\)$/, "")));
+  const mem = document.createElement("div"); mem.className = "members"; mem.textContent = g.members.join(" · ");
+  who.append(name, mem);
+  const bits = [];
+  if (g.in_slates && g.in_slates.length) bits.push("Also on: " + g.in_slates.join(", "));
+  else if (g.kind === "found-in-ballots") bits.push("No slate in our data names this pair.");
+  if (g.date) bits.push("Dated " + g.date);
+  if (g.note) bits.push(g.note);
+  if (bits.length || g.source) {
+    const a = document.createElement("div"); a.className = "aside"; a.textContent = bits.join(". ") + (bits.length ? ". " : "");
+    if (g.source) { const l = document.createElement("a"); l.href = g.source; l.target = "_blank"; l.rel = "noopener"; l.textContent = "Source"; a.append(l); }
+    who.append(a);
+  }
+
+  const meas = document.createElement("div"); meas.className = "measure";
+  const nums = document.createElement("div"); nums.className = "nums";
+  const ex = g.observed - g.popularity;
+  const exEl = document.createElement("span");
+  exEl.className = "excess " + (ex >= 0.15 ? "big" : ex >= 0 ? "small" : "neg");
+  exEl.textContent = (ex >= 0 ? "+" : "−") + Math.abs(ex * 100).toFixed(0) + " pts over popularity";
+  nums.innerHTML = `<span class="o">Observed ${pct(g.observed)}</span><span>Popularity ${pct(g.popularity)}</span><span>Random ${pct(g.random)}</span><span>${g.voters.toLocaleString()} voters</span>`;
+  meas.append(strip(g), nums, exEl);
+
+  const dec = document.createElement("div"); dec.className = "decide";
+  const mark = document.createElement("div"); mark.className = "mark"; mark.setAttribute("role", "group"); mark.setAttribute("aria-label", "Mark " + g.name);
+  const saved = document.createElement("div"); saved.className = "saved";
+  const reason = document.createElement("input");
+  reason.className = "reason"; reason.id = "r-" + key; reason.placeholder = "Reason (optional)"; reason.value = m.reason || "";
+  reason.disabled = !canWrite;
+  for (const [v, label] of [["counts", "Counts"], ["not", "Doesn't count"], ["unsure", "Unsure"]]) {
+    const b = document.createElement("button"); b.type = "button"; b.dataset.v = v; b.textContent = label;
+    b.setAttribute("aria-pressed", String(m.decision === v)); b.disabled = !canWrite;
+    b.addEventListener("click", () => save(e, g, key, m.decision === v ? null : v, reason.value, saved));
+    mark.append(b);
+  }
+  let t = null;
+  reason.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => {
+    if ((marks[key]?.reason || "") !== reason.value) save(e, g, key, marks[key]?.decision || null, reason.value, saved, true);
+  }, 800); });
+  dec.append(mark, reason, saved);
+  el.append(who, meas, dec);
+  return el;
+}
+
+async function save(e, g, key, decision, reason, savedEl, quiet) {
+  if (!db) return;
+  const ref = db.collection("decisions").doc(key);
+  const prev = marks[key];
+  try {
+    if (!decision && !reason) { delete marks[key]; if (!quiet) render(); await ref.delete(); }
+    else {
+      marks[key] = { decision, reason };
+      if (!quiet) render();
+      await ref.set({ election: e.election, file: e.file, grouping: g.id, kind: g.kind, name: g.name,
+        members: g.members, decision: decision || null, reason: reason || "",
+        observed: g.observed, popularity: g.popularity, updated_at: new Date().toISOString() });
+    }
+    if (savedEl && quiet) savedEl.textContent = "Reason saved";
+  } catch (err) {
+    if (prev) marks[key] = prev; else delete marks[key];
+    setStatus(err && err.code === "invalid_argument" ? "You can view these marks but not change them." : "Couldn't save that mark. Check your connection and try again.", true);
+    if (err && err.code === "invalid_argument") { canWrite = false; }
+    render();
+  }
+}
+
+function setStatus(text, warn) {
+  const s = document.getElementById("status"); s.textContent = text; s.classList.toggle("warn", !!warn); s.hidden = !text;
+}
+
+function render() {
+  const list = document.getElementById("list");
+  let total = 0, done = 0, shown = 0;
+  const frag = document.createDocumentFragment();
+  for (const e of DATA.elections) {
+    const rows = [];
+    for (const g of e.groupings) {
+      total++;
+      const m = marks[keyOf(e, g)];
+      if (m && m.decision) done++;
+      if (state.source !== "all" && sourceOf(e) !== state.source) continue;
+      if (state.kind !== "all" && g.kind !== state.kind) continue;
+      const st = m && m.decision ? m.decision : "unmarked";
+      if (state.status !== "all" && st !== state.status) continue;
+      rows.push(row(e, g));
+    }
+    if (!rows.length) continue;
+    shown += rows.length;
+    const sec = document.createElement("section"); sec.className = "election";
+    const h = document.createElement("div"); h.className = "ehead";
+    const h2 = document.createElement("h2"); h2.textContent = e.election;
+    const meta = document.createElement("div"); meta.className = "emeta";
+    meta.textContent = `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.voters.toLocaleString()} voters`;
+    h.append(h2, meta);
+    sec.append(h, ...rows);
+    frag.append(sec);
+  }
+  if (!shown) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "No groupings match these filters."; frag.append(p); }
+  list.replaceChildren(frag);
+  document.getElementById("progress").innerHTML = `<strong>${done}</strong> of ${total} marked`;
+}
+
+seg(document.getElementById("f-source"), SOURCES, "source");
+seg(document.getElementById("f-kind"), KIND_OPTS, "kind");
+seg(document.getElementById("f-status"), STATUS_OPTS, "status");
+render();
+
+(async () => {
+  try { db = await claude.use("db"); } catch (_) { db = null; }
+  if (!db) { canWrite = false; setStatus("Saving isn't available in this view, so marks can't be recorded here. Open the page signed in to claude.ai.", true); render(); return; }
+  try {
+    const u = await claude.use("user");
+    if (u && (await u.can("data.write")) === false) canWrite = false;
+  } catch (_) {}
+  db.collection("decisions").onSnapshot(snap => {
+    for (const k of Object.keys(marks)) delete marks[k];
+    for (const d of snap.docs) { const v = d.data(); marks[d.id] = { decision: v.decision, reason: v.reason }; }
+    setStatus(canWrite ? "" : "You can view these marks but not change them.", !canWrite);
+    if (!document.activeElement || !document.activeElement.classList.contains("reason")) render();
+    else document.getElementById("progress").innerHTML = `<strong>${Object.values(marks).filter(m => m.decision).length}</strong> of ${DATA.elections.reduce((n, e) => n + e.groupings.length, 0)} marked`;
+  }, () => setStatus("Lost the connection to saved marks. Reload the page to see the latest.", true));
+})();
+</script>

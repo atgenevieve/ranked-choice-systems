@@ -1,0 +1,2543 @@
+{
+ "about": "Candidate groupings for the owner to mark. Built by data/slate_review.py.",
+ "thresholds": {
+  "min_voters": 100,
+  "min_voter_share": 0.01,
+  "min_excess_over_popularity": 0.1
+ },
+ "elections": [
+  {
+   "election": "NYC 2021 primary, DEM Borough President Kings",
+   "file": "data/nyc/ballots/2021-dem-borough-president-kings.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 13,
+   "seats": 1,
+   "voters": 289477,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Jo Anne Simon",
+      "Antonio Reynoso",
+      "Khari O. Edwards"
+     ],
+     "source": "https://citizensunion.org/voters-guide/2021-primary-election/brooklyn-borough-president-democratic-primary/",
+     "date": "2021-06",
+     "note": null,
+     "voters": 102313,
+     "observed": 0.4356,
+     "random": 0.1667,
+     "popularity": 0.3812
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Kim Council and Pearlene S. Fields",
+     "members": [
+      "Kim Council",
+      "Pearlene S. Fields"
+     ],
+     "in_slates": [],
+     "voters": 15824,
+     "observed": 0.1615,
+     "random": 0.0833,
+     "popularity": 0.0277
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Antonio Reynoso and Jo Anne Simon",
+     "members": [
+      "Antonio Reynoso",
+      "Jo Anne Simon"
+     ],
+     "in_slates": [
+      "Citizens Union"
+     ],
+     "voters": 89975,
+     "observed": 0.3929,
+     "random": 0.0833,
+     "popularity": 0.2836
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Borough President New York",
+   "file": "data/nyc/ballots/2021-dem-borough-president-new-york.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 8,
+   "seats": 1,
+   "voters": 237730,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Brad M. Hoylman",
+      "Mark D. Levine"
+     ],
+     "source": "https://citizensunion.org/voters-guide/2021-primary-election/manhattan-borough-president-democratic-party-primary-2/",
+     "date": "2021-06",
+     "note": null,
+     "voters": 85096,
+     "observed": 0.3821,
+     "random": 0.1429,
+     "popularity": 0.3722
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Lindsey C. Boylan and Kimberly R. Watkins",
+     "members": [
+      "Lindsey C. Boylan",
+      "Kimberly R. Watkins"
+     ],
+     "in_slates": [],
+     "voters": 28044,
+     "observed": 0.1947,
+     "random": 0.1429,
+     "popularity": 0.0764
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Lindsey C. Boylan and Elizabeth R. Caputo",
+     "members": [
+      "Lindsey C. Boylan",
+      "Elizabeth R. Caputo"
+     ],
+     "in_slates": [],
+     "voters": 36252,
+     "observed": 0.223,
+     "random": 0.1429,
+     "popularity": 0.1121
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Comptroller Citywide",
+   "file": "data/nyc/ballots/2021-dem-comptroller-citywide.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 11,
+   "seats": 1,
+   "voters": 868087,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Brian A. Benjamin",
+      "Corey D. Johnson",
+      "Brad Lander"
+     ],
+     "source": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-comptroller-democratic-party-primary-2/",
+     "date": "2021-06",
+     "note": null,
+     "voters": 357330,
+     "observed": 0.484,
+     "random": 0.2,
+     "popularity": 0.4774
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Brian A. Benjamin and Kevin S. Parker",
+     "members": [
+      "Brian A. Benjamin",
+      "Kevin S. Parker"
+     ],
+     "in_slates": [],
+     "voters": 81601,
+     "observed": 0.2247,
+     "random": 0.1,
+     "popularity": 0.0693
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Council Member 19th Council District",
+   "file": "data/nyc/ballots/2021-dem-council-member-19th-council-district.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 7,
+   "seats": 1,
+   "voters": 13086,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "campaign",
+     "name": "KC and Shafran",
+     "members": [
+      "Nabaraj KC",
+      "Austin I. Shafran"
+     ],
+     "source": "https://qns.com/competing-candidates-cross-endorse-in-tactic-brought-about-by-rank-choice-voting/",
+     "date": "2021-06-09",
+     "note": "Each named the other as their No. 2 choice, about two weeks before the primary.",
+     "voters": 2075,
+     "observed": 0.0463,
+     "random": 0.1667,
+     "popularity": 0.0301
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Council Member 20th Council District",
+   "file": "data/nyc/ballots/2021-dem-council-member-20th-council-district.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 9,
+   "seats": 1,
+   "voters": 10636,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Road to Justice NYC",
+     "members": [
+      "John Choe",
+      "Sandra Ung"
+     ],
+     "source": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+     "date": "2021-02-23",
+     "note": "First and second choice.",
+     "voters": 2911,
+     "observed": 0.2714,
+     "random": 0.125,
+     "popularity": 0.2238
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Hailing Chen and Dao Yin",
+     "members": [
+      "Hailing Chen",
+      "Dao Yin"
+     ],
+     "in_slates": [],
+     "voters": 1394,
+     "observed": 0.3192,
+     "random": 0.125,
+     "popularity": 0.1026
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Ellen Young and Neng Wang",
+     "members": [
+      "Ellen Young",
+      "Neng Wang"
+     ],
+     "in_slates": [],
+     "voters": 2414,
+     "observed": 0.3032,
+     "random": 0.125,
+     "popularity": 0.1689
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Neng Wang and Dao Yin",
+     "members": [
+      "Neng Wang",
+      "Dao Yin"
+     ],
+     "in_slates": [],
+     "voters": 1807,
+     "observed": 0.2418,
+     "random": 0.125,
+     "popularity": 0.1223
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Council Member 23rd Council District",
+   "file": "data/nyc/ballots/2021-dem-council-member-23rd-council-district.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 8,
+   "seats": 1,
+   "voters": 16526,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "campaign",
+     "name": "Markell and Toor",
+     "members": [
+      "Debra Markell",
+      "Harpreet S. Toor"
+     ],
+     "source": "https://qns.com/competing-candidates-cross-endorse-in-tactic-brought-about-by-rank-choice-voting/",
+     "date": "2021-06-09",
+     "note": "Asked supporters to rank the other second, about two weeks before the primary.",
+     "voters": 1959,
+     "observed": 0.0597,
+     "random": 0.1429,
+     "popularity": 0.07
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Steve Behar and Debra Markell",
+     "members": [
+      "Steve Behar",
+      "Debra Markell"
+     ],
+     "in_slates": [],
+     "voters": 2965,
+     "observed": 0.3342,
+     "random": 0.1429,
+     "popularity": 0.1476
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Linda Lee and Debra Markell",
+     "members": [
+      "Linda Lee",
+      "Debra Markell"
+     ],
+     "in_slates": [],
+     "voters": 4761,
+     "observed": 0.3606,
+     "random": 0.1429,
+     "popularity": 0.2281
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Jaslin Kaur and Harpreet S. Toor",
+     "members": [
+      "Jaslin Kaur",
+      "Harpreet S. Toor"
+     ],
+     "in_slates": [],
+     "voters": 3608,
+     "observed": 0.2156,
+     "random": 0.1429,
+     "popularity": 0.084
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Sanjeev Kumar Jindal and Harpreet S. Toor",
+     "members": [
+      "Sanjeev Kumar Jindal",
+      "Harpreet S. Toor"
+     ],
+     "in_slates": [],
+     "voters": 1609,
+     "observed": 0.184,
+     "random": 0.1429,
+     "popularity": 0.0681
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Council Member 25th Council District",
+   "file": "data/nyc/ballots/2021-dem-council-member-25th-council-district.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 9,
+   "seats": 1,
+   "voters": 14902,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Road to Justice NYC",
+     "members": [
+      "Shekar Krishnan",
+      "Carolyn Tran"
+     ],
+     "source": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+     "date": "2021-02-23",
+     "note": "First and second choice.",
+     "voters": 5120,
+     "observed": 0.4779,
+     "random": 0.125,
+     "popularity": 0.2477
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Alfonso Quiroz and Manuel F. Perez",
+     "members": [
+      "Alfonso Quiroz",
+      "Manuel F. Perez"
+     ],
+     "in_slates": [],
+     "voters": 1456,
+     "observed": 0.2843,
+     "random": 0.125,
+     "popularity": 0.0526
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Shekar Krishnan and Carolyn Tran",
+     "members": [
+      "Shekar Krishnan",
+      "Carolyn Tran"
+     ],
+     "in_slates": [
+      "Road to Justice NYC"
+     ],
+     "voters": 5120,
+     "observed": 0.4779,
+     "random": 0.125,
+     "popularity": 0.2477
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Manuel F. Perez and William H. Salgado",
+     "members": [
+      "Manuel F. Perez",
+      "William H. Salgado"
+     ],
+     "in_slates": [],
+     "voters": 569,
+     "observed": 0.1916,
+     "random": 0.125,
+     "popularity": 0.0246
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Council Member 26th Council District",
+   "file": "data/nyc/ballots/2021-dem-council-member-26th-council-district.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 16,
+   "seats": 1,
+   "voters": 17893,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Amit S. Bagga",
+      "Jesse Laymon"
+     ],
+     "source": "https://queenseagle.com/all/wfp-rolls-out-new-slate-of-queens-council-endorsements",
+     "date": "2021-02-25",
+     "note": "WFP's first ranked endorsement: Bagga first, Laymon second.",
+     "voters": 3238,
+     "observed": 0.1887,
+     "random": 0.0667,
+     "popularity": 0.0602
+    },
+    {
+     "id": "slate-1",
+     "kind": "endorsement",
+     "name": "Road to Justice NYC",
+     "members": [
+      "Amit S. Bagga",
+      "Jesse Laymon"
+     ],
+     "source": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+     "date": "2021-02-23",
+     "note": "First and second choice.",
+     "voters": 3238,
+     "observed": 0.1887,
+     "random": 0.0667,
+     "popularity": 0.0602
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Julie Won",
+      "Amit S. Bagga",
+      "Brent O'Leary"
+     ],
+     "source": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-26-democratic-party-primary-2/",
+     "date": "2021-06",
+     "note": null,
+     "voters": 6890,
+     "observed": 0.3148,
+     "random": 0.1333,
+     "popularity": 0.3505
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Badrun Khan and Sultan Al Maruf",
+     "members": [
+      "Badrun Khan",
+      "Sultan Al Maruf"
+     ],
+     "in_slates": [],
+     "voters": 1036,
+     "observed": 0.4817,
+     "random": 0.0667,
+     "popularity": 0.0271
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Julie Won and Hailie Kim",
+     "members": [
+      "Julie Won",
+      "Hailie Kim"
+     ],
+     "in_slates": [],
+     "voters": 3601,
+     "observed": 0.2891,
+     "random": 0.0667,
+     "popularity": 0.0923
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Glennis E. Gomez and Lorenzo Brea",
+     "members": [
+      "Glennis E. Gomez",
+      "Lorenzo Brea"
+     ],
+     "in_slates": [],
+     "voters": 699,
+     "observed": 0.166,
+     "random": 0.0667,
+     "popularity": 0.0262
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Amit S. Bagga and Jesse Laymon",
+     "members": [
+      "Amit S. Bagga",
+      "Jesse Laymon"
+     ],
+     "in_slates": [
+      "Working Families Party",
+      "Road to Justice NYC"
+     ],
+     "voters": 3238,
+     "observed": 0.1887,
+     "random": 0.0667,
+     "popularity": 0.0602
+    },
+    {
+     "id": "found-4",
+     "kind": "found-in-ballots",
+     "name": "Brent O'Leary and Denise M. Keehan-Smith",
+     "members": [
+      "Brent O'Leary",
+      "Denise M. Keehan-Smith"
+     ],
+     "in_slates": [],
+     "voters": 2258,
+     "observed": 0.1882,
+     "random": 0.0667,
+     "popularity": 0.0875
+    }
+   ]
+  },
+  {
+   "election": "NYC 2021 primary, DEM Mayor Citywide",
+   "file": "data/nyc/ballots/2021-dem-mayor-citywide.ballots",
+   "source": "nyc",
+   "date": "2021-06-22",
+   "candidates": 14,
+   "seats": 1,
+   "voters": 942031,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "campaign",
+     "name": "Yang and Garcia",
+     "members": [
+      "Andrew Yang",
+      "Kathryn A. Garcia"
+     ],
+     "source": "https://www.politico.com/states/new-york/albany/story/2021/06/18/an-alliance-forms-in-late-innings-of-the-new-york-mayors-race-1386653",
+     "date": "2021-06-18",
+     "note": "Joint campaigning the weekend before the June 22 primary. Yang asked his voters to rank Garcia second; Garcia campaigned with him but said she was not co-endorsing.",
+     "voters": 268802,
+     "observed": 0.2045,
+     "random": 0.0769,
+     "popularity": 0.177
+    },
+    {
+     "id": "slate-1",
+     "kind": "campaign",
+     "name": "Chang and Taylor",
+     "members": [
+      "Art Chang",
+      "Joycelyn Taylor"
+     ],
+     "source": "https://citylimits.org/2021/05/25/in-first-two-competitors-for-nyc-mayor-to-endorse-each-other/",
+     "date": "2021-05-25",
+     "note": "Cross-endorsed and asked voters to rank both.",
+     "voters": 8273,
+     "observed": 0.0476,
+     "random": 0.0769,
+     "popularity": 0.0041
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Working Families Party (April 2021 ranking, later withdrawn)",
+     "members": [
+      "Scott M. Stringer",
+      "Dianne Morales",
+      "Maya D. Wiley"
+     ],
+     "source": "https://ny1.com/nyc/all-boroughs/decision-2021/2021/04/14/stringer-gets-working-families-party-s-endorsement-in-mayor-s-race",
+     "date": "2021-04-14",
+     "note": "Stringer 1, Morales 2, Wiley 3. Replaced by the June 4 ranking; kept because it was the party's published slate for six weeks.",
+     "voters": 256966,
+     "observed": 0.3268,
+     "random": 0.1538,
+     "popularity": 0.1476
+    },
+    {
+     "id": "slate-3",
+     "kind": "media",
+     "name": "New York Daily News editorial board (media)",
+     "members": [
+      "Kathryn A. Garcia",
+      "Eric L. Adams",
+      "Raymond J. McGuire"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+     "date": "2021-06-16",
+     "note": null,
+     "voters": 422064,
+     "observed": 0.266,
+     "random": 0.1538,
+     "popularity": 0.3708
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Kathryn A. Garcia",
+      "Eric L. Adams",
+      "Scott M. Stringer"
+     ],
+     "source": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-mayor-democratic-party-primary-2/",
+     "date": "2021-06",
+     "note": null,
+     "voters": 444518,
+     "observed": 0.3067,
+     "random": 0.1538,
+     "popularity": 0.414
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "New York State Nurses Association",
+     "members": [
+      "Maya D. Wiley",
+      "Eric L. Adams"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+     "date": "2021-06-16",
+     "note": null,
+     "voters": 413290,
+     "observed": 0.2039,
+     "random": 0.0769,
+     "popularity": 0.3457
+    },
+    {
+     "id": "slate-6",
+     "kind": "endorsement",
+     "name": "UAW Region 9A",
+     "members": [
+      "Scott M. Stringer",
+      "Dianne Morales"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+     "date": "2021-06-16",
+     "note": null,
+     "voters": 68600,
+     "observed": 0.0549,
+     "random": 0.0769,
+     "popularity": 0.0388
+    },
+    {
+     "id": "slate-7",
+     "kind": "endorsement",
+     "name": "Community Voices Heard Power",
+     "members": [
+      "Maya D. Wiley",
+      "Dianne Morales"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+     "date": "2021-06-16",
+     "note": "Higher Heights for America PAC and NYC Kids PAC published the same ranking.",
+     "voters": 211553,
+     "observed": 0.2354,
+     "random": 0.0769,
+     "popularity": 0.0559
+    },
+    {
+     "id": "slate-8",
+     "kind": "endorsement",
+     "name": "Planned Parenthood of Greater NY Votes PAC",
+     "members": [
+      "Kathryn A. Garcia",
+      "Scott M. Stringer",
+      "Maya D. Wiley",
+      "Raymond J. McGuire"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+     "date": "2021-06-16",
+     "note": null,
+     "voters": 430919,
+     "observed": 0.4989,
+     "random": 0.2308,
+     "popularity": 0.3767
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Maya D. Wiley and Dianne Morales",
+     "members": [
+      "Maya D. Wiley",
+      "Dianne Morales"
+     ],
+     "in_slates": [
+      "Working Families Party (April 2021 ranking, later withdrawn)",
+      "Community Voices Heard Power"
+     ],
+     "voters": 211553,
+     "observed": 0.2354,
+     "random": 0.0769,
+     "popularity": 0.0559
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Kathryn A. Garcia and Scott M. Stringer",
+     "members": [
+      "Kathryn A. Garcia",
+      "Scott M. Stringer"
+     ],
+     "in_slates": [
+      "Citizens Union",
+      "Planned Parenthood of Greater NY Votes PAC"
+     ],
+     "voters": 219594,
+     "observed": 0.2048,
+     "random": 0.0769,
+     "popularity": 0.0971
+    }
+   ]
+  },
+  {
+   "election": "NYC 2025 primary, DEM Council Member 13th Council District",
+   "file": "data/nyc/ballots/2025-dem-council-member-13th-council-district.ballots",
+   "source": "nyc",
+   "date": "2025-06-24",
+   "candidates": 7,
+   "seats": 1,
+   "voters": 11402,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Shirley Aldebol",
+      "David A. Diaz"
+     ],
+     "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+     "date": "2025-03-13",
+     "note": "Aldebol ranked No. 1; Diaz endorsed without a rank.",
+     "voters": 3154,
+     "observed": 0.3358,
+     "random": 0.1667,
+     "popularity": 0.3042
+    }
+   ]
+  },
+  {
+   "election": "NYC 2025 primary, DEM Council Member 17th Council District",
+   "file": "data/nyc/ballots/2025-dem-council-member-17th-council-district.ballots",
+   "source": "nyc",
+   "date": "2025-06-24",
+   "candidates": 5,
+   "seats": 1,
+   "voters": 9280,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Antirson R. Ortiz",
+      "Justin E. Sanchez",
+      "Elvis L. Santana"
+     ],
+     "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+     "date": "2025-03-13",
+     "note": "Ortiz ranked No. 1; the others endorsed without a rank.",
+     "voters": 3512,
+     "observed": 0.7053,
+     "random": 0.5,
+     "popularity": 0.726
+    }
+   ]
+  },
+  {
+   "election": "NYC 2025 primary, DEM Council Member 21st Council District",
+   "file": "data/nyc/ballots/2025-dem-council-member-21st-council-district.ballots",
+   "source": "nyc",
+   "date": "2025-06-24",
+   "candidates": 5,
+   "seats": 1,
+   "voters": 7833,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Erycka Montoya",
+      "Shanel Thomas-Henry"
+     ],
+     "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+     "date": "2025-03-13",
+     "note": "Montoya ranked No. 1; Thomas-Henry endorsed without a rank. WFP also endorsed Sandro Navarro, who is not on the June ballot.",
+     "voters": 2544,
+     "observed": 0.3711,
+     "random": 0.25,
+     "popularity": 0.3912
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Erycka Montoya and Yanna M. Henriquez",
+     "members": [
+      "Erycka Montoya",
+      "Yanna M. Henriquez"
+     ],
+     "in_slates": [],
+     "voters": 1974,
+     "observed": 0.4924,
+     "random": 0.25,
+     "popularity": 0.3185
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Shanel Thomas-Henry and David Aiken",
+     "members": [
+      "Shanel Thomas-Henry",
+      "David Aiken"
+     ],
+     "in_slates": [],
+     "voters": 2085,
+     "observed": 0.483,
+     "random": 0.25,
+     "popularity": 0.3205
+    }
+   ]
+  },
+  {
+   "election": "NYC 2025 primary, DEM Council Member 2nd Council District",
+   "file": "data/nyc/ballots/2025-dem-council-member-2nd-council-district.ballots",
+   "source": "nyc",
+   "date": "2025-06-24",
+   "candidates": 6,
+   "seats": 1,
+   "voters": 30257,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Harvey D. Epstein",
+      "Sarah Batchu",
+      "Andrea Gordillo"
+     ],
+     "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+     "date": "2025-03-13",
+     "note": "Epstein ranked No. 1; Batchu and Gordillo endorsed without a rank. WFP also campaigned against Anthony Weiner.",
+     "voters": 17325,
+     "observed": 0.7779,
+     "random": 0.4,
+     "popularity": 0.7327
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Sarah Batchu and Andrea Gordillo",
+     "members": [
+      "Sarah Batchu",
+      "Andrea Gordillo"
+     ],
+     "in_slates": [
+      "Working Families Party"
+     ],
+     "voters": 9398,
+     "observed": 0.5436,
+     "random": 0.2,
+     "popularity": 0.2642
+    }
+   ]
+  },
+  {
+   "election": "NYC 2025 primary, DEM Mayor Citywide",
+   "file": "data/nyc/ballots/2025-dem-mayor-citywide.ballots",
+   "source": "nyc",
+   "date": "2025-06-24",
+   "candidates": 12,
+   "seats": 1,
+   "voters": 1071730,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "campaign",
+     "name": "Mamdani and Lander",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Brad Lander"
+     ],
+     "source": "https://ny1.com/nyc/all-boroughs/politics/2025/06/16/zohran-mamdani-michael-blake-endorse-mayoral-primary",
+     "date": "2025-06-13",
+     "note": "Cross-endorsed June 13, one day before early voting; each asked supporters to rank the other second and not to rank Cuomo.",
+     "voters": 544475,
+     "observed": 0.6551,
+     "random": 0.0909,
+     "popularity": 0.2631
+    },
+    {
+     "id": "slate-1",
+     "kind": "campaign",
+     "name": "Mamdani and Blake",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Michael Blake"
+     ],
+     "source": "https://ny1.com/nyc/all-boroughs/politics/2025/06/16/zohran-mamdani-michael-blake-endorse-mayoral-primary",
+     "date": "2025-06-16",
+     "note": "Cross-endorsed June 16, during early voting.",
+     "voters": 431852,
+     "observed": 0.0273,
+     "random": 0.0909,
+     "popularity": 0.011
+    },
+    {
+     "id": "slate-2",
+     "kind": "campaign",
+     "name": "Ramos for Cuomo (one-way)",
+     "members": [
+      "Jessica Ramos",
+      "Andrew M. Cuomo"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-06-06",
+     "note": "Ramos endorsed Cuomo as her second choice; Cuomo did not reciprocate.",
+     "voters": 213792,
+     "observed": 0.0553,
+     "random": 0.0909,
+     "popularity": 0.0113
+    },
+    {
+     "id": "slate-3",
+     "kind": "campaign",
+     "name": "Tilson for Cuomo (one-way)",
+     "members": [
+      "Whitney R. Tilson",
+      "Andrew M. Cuomo"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-06-24",
+     "note": "Tilson said during the second debate he would rank Cuomo second; not reciprocated.",
+     "voters": 218629,
+     "observed": 0.1302,
+     "random": 0.0909,
+     "popularity": 0.025
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "Working Families Party",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Brad Lander",
+      "Adrienne E. Adams",
+      "Zellnor Myrie"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-05-30",
+     "note": "Ranked at the end of May 2025. Jessica Ramos was fifth until WFP dropped her after she endorsed Cuomo (June 2025). WFP had endorsed Adams, Lander, Mamdani and Myrie unranked in March.",
+     "voters": 591446,
+     "observed": 0.8004,
+     "random": 0.2727,
+     "popularity": 0.366
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "Citizens Union",
+     "members": [
+      "Andrew M. Cuomo",
+      "Brad Lander",
+      "Zellnor Myrie"
+     ],
+     "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+     "date": "2025-06-17",
+     "note": "Endorsed unranked.",
+     "voters": 336948,
+     "observed": 0.2322,
+     "random": 0.1818,
+     "popularity": 0.2783
+    },
+    {
+     "id": "slate-6",
+     "kind": "media",
+     "name": "New York Daily News editorial board (media)",
+     "members": [
+      "Andrew M. Cuomo",
+      "Adrienne E. Adams",
+      "Brad Lander"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-06-24",
+     "note": null,
+     "voters": 364221,
+     "observed": 0.3757,
+     "random": 0.1818,
+     "popularity": 0.3345
+    },
+    {
+     "id": "slate-7",
+     "kind": "endorsement",
+     "name": "New York League of Conservation Voters",
+     "members": [
+      "Andrew M. Cuomo",
+      "Brad Lander"
+     ],
+     "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+     "date": "2025-06-17",
+     "note": "Co-endorsement, unranked.",
+     "voters": 327099,
+     "observed": 0.1483,
+     "random": 0.0909,
+     "popularity": 0.2583
+    },
+    {
+     "id": "slate-8",
+     "kind": "endorsement",
+     "name": "District Council 37",
+     "members": [
+      "Adrienne E. Adams",
+      "Zohran Kwame Mamdani",
+      "Zellnor Myrie"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-06-24",
+     "note": null,
+     "voters": 475114,
+     "observed": 0.1453,
+     "random": 0.1818,
+     "popularity": 0.1286
+    },
+    {
+     "id": "slate-9",
+     "kind": "endorsement",
+     "name": "UNITE HERE Local 100",
+     "members": [
+      "Adrienne E. Adams",
+      "Zohran Kwame Mamdani",
+      "Brad Lander",
+      "Jessica Ramos"
+     ],
+     "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+     "date": "2025-06-24",
+     "note": null,
+     "voters": 584622,
+     "observed": 0.7761,
+     "random": 0.2727,
+     "popularity": 0.3539
+    },
+    {
+     "id": "slate-10",
+     "kind": "endorsement",
+     "name": "UAW Region 9A",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Brad Lander",
+      "Zellnor Myrie",
+      "Adrienne E. Adams",
+      "Michael Blake"
+     ],
+     "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+     "date": "2025-06-17",
+     "note": "Order as given by FOX 5; City & State lists Blake and Adams both at 5 after Ramos was dropped.",
+     "voters": 595155,
+     "observed": 0.8245,
+     "random": 0.3636,
+     "popularity": 0.374
+    },
+    {
+     "id": "slate-11",
+     "kind": "endorsement",
+     "name": "Citizen Action of New York",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Adrienne E. Adams",
+      "Brad Lander",
+      "Zellnor Myrie",
+      "Michael Blake"
+     ],
+     "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+     "date": "2025-06-17",
+     "note": "Replaced Ramos with Blake in June 2025.",
+     "voters": 595155,
+     "observed": 0.8245,
+     "random": 0.3636,
+     "popularity": 0.374
+    },
+    {
+     "id": "slate-12",
+     "kind": "endorsement",
+     "name": "Alexandria Ocasio-Cortez and Nydia Velázquez",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Adrienne E. Adams",
+      "Brad Lander",
+      "Scott M. Stringer",
+      "Zellnor Myrie"
+     ],
+     "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+     "date": "2025-06-17",
+     "note": "Elected officials, not an organization; both published the same ranking.",
+     "voters": 606745,
+     "observed": 0.856,
+     "random": 0.3636,
+     "popularity": 0.398
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Zohran Kwame Mamdani and Brad Lander",
+     "members": [
+      "Zohran Kwame Mamdani",
+      "Brad Lander"
+     ],
+     "in_slates": [
+      "Mamdani and Lander",
+      "Working Families Party",
+      "UNITE HERE Local 100",
+      "UAW Region 9A",
+      "Citizen Action of New York",
+      "Alexandria Ocasio-Cortez and Nydia Velázquez"
+     ],
+     "voters": 544475,
+     "observed": 0.6551,
+     "random": 0.0909,
+     "popularity": 0.2631
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Brad Lander and Adrienne E. Adams",
+     "members": [
+      "Brad Lander",
+      "Adrienne E. Adams"
+     ],
+     "in_slates": [
+      "Working Families Party",
+      "New York Daily News editorial board (media)",
+      "UNITE HERE Local 100",
+      "UAW Region 9A",
+      "Citizen Action of New York",
+      "Alexandria Ocasio-Cortez and Nydia Velázquez"
+     ],
+     "voters": 153454,
+     "observed": 0.2206,
+     "random": 0.0909,
+     "popularity": 0.0636
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Andrew M. Cuomo and Scott M. Stringer",
+     "members": [
+      "Andrew M. Cuomo",
+      "Scott M. Stringer"
+     ],
+     "in_slates": [],
+     "voters": 226066,
+     "observed": 0.1842,
+     "random": 0.0909,
+     "popularity": 0.0491
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Brad Lander and Scott M. Stringer",
+     "members": [
+      "Brad Lander",
+      "Scott M. Stringer"
+     ],
+     "in_slates": [
+      "Alexandria Ocasio-Cortez and Nydia Velázquez"
+     ],
+     "voters": 131631,
+     "observed": 0.1596,
+     "random": 0.0909,
+     "popularity": 0.0299
+    },
+    {
+     "id": "found-4",
+     "kind": "found-in-ballots",
+     "name": "Andrew M. Cuomo and Adrienne E. Adams",
+     "members": [
+      "Andrew M. Cuomo",
+      "Adrienne E. Adams"
+     ],
+     "in_slates": [
+      "New York Daily News editorial board (media)"
+     ],
+     "voters": 247889,
+     "observed": 0.2198,
+     "random": 0.0909,
+     "popularity": 0.1113
+    }
+   ]
+  },
+  {
+   "election": "Portland, OR 2024 general, Councilor, District 1",
+   "file": "data/portland/ballots/2024-councilor-district-1.ballots",
+   "source": "portland",
+   "date": "2024-11-05",
+   "candidates": 17,
+   "seats": 3,
+   "voters": 42871,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Oregon Working Families Party",
+     "members": [
+      "Candace Avalos",
+      "Steph Routh",
+      "Timur Ender",
+      "Jamie Dunphy"
+     ],
+     "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+     "date": "2024-07-23",
+     "note": "Avalos, Routh and Ender endorsed 2024-07-23; Dunphy added in the second round, 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/).",
+     "voters": 19080,
+     "observed": 0.6285,
+     "random": 0.1875,
+     "popularity": 0.4011
+    },
+    {
+     "id": "slate-1",
+     "kind": "endorsement",
+     "name": "Northwest Oregon Labor Council",
+     "members": [
+      "Steph Routh",
+      "Candace Avalos",
+      "Jamie Dunphy"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+     "date": "2024-09-04",
+     "note": "Endorsed in late May / June 2024. The labor PAC Working for a Better Portland promoted the council's slate from October 15.",
+     "voters": 15884,
+     "observed": 0.4894,
+     "random": 0.125,
+     "popularity": 0.296
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Portland Fire Fighters Association",
+     "members": [
+      "Jamie Dunphy",
+      "Steph Routh",
+      "Terrence Hayes"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+     "date": "2024-07-25",
+     "note": null,
+     "voters": 11600,
+     "observed": 0.2722,
+     "random": 0.125,
+     "popularity": 0.222
+    },
+    {
+     "id": "slate-3",
+     "kind": "endorsement",
+     "name": "United for Portland (Spotlight)",
+     "members": [
+      "Terrence Hayes",
+      "Loretta Smith"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": "Business-backed coalition (Portland Metro Chamber is a member). Spotlight = candidates it asked voters to rank above its other Green Light picks.",
+     "voters": 7969,
+     "observed": 0.267,
+     "random": 0.0625,
+     "popularity": 0.1228
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "United for Portland (Green Light, including Spotlight)",
+     "members": [
+      "Terrence Hayes",
+      "Loretta Smith",
+      "Noah Ernst"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": null,
+     "voters": 11254,
+     "observed": 0.4046,
+     "random": 0.125,
+     "popularity": 0.2344
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "Portland Metro Chamber",
+     "members": [
+      "Loretta Smith",
+      "Terrence Hayes",
+      "Noah Ernst"
+     ],
+     "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+     "date": "2024-10",
+     "note": "Ranked 1, 2, 3; told voters to rank only these three.",
+     "voters": 11254,
+     "observed": 0.4046,
+     "random": 0.125,
+     "popularity": 0.2344
+    },
+    {
+     "id": "slate-6",
+     "kind": "endorsement",
+     "name": "Sierra Club Oregon Chapter",
+     "members": [
+      "Candace Avalos",
+      "Jamie Dunphy",
+      "Timur Ender",
+      "Steph Routh"
+     ],
+     "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+     "date": "2024-09-17",
+     "note": null,
+     "voters": 19080,
+     "observed": 0.6285,
+     "random": 0.1875,
+     "popularity": 0.4011
+    },
+    {
+     "id": "slate-7",
+     "kind": "media",
+     "name": "Willamette Week (media)",
+     "members": [
+      "Jamie Dunphy",
+      "Candace Avalos",
+      "Steph Routh",
+      "Noah Ernst",
+      "David Linn",
+      "Loretta Smith"
+     ],
+     "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-1/",
+     "date": "2024-10-16",
+     "note": "Newspaper endorsement, ranked 1 to 6; the last three described as backups.",
+     "voters": 24551,
+     "observed": 0.5343,
+     "random": 0.3125,
+     "popularity": 0.5986
+    },
+    {
+     "id": "slate-8",
+     "kind": "media",
+     "name": "Portland Mercury (media)",
+     "members": [
+      "Candace Avalos",
+      "Cayle Tern",
+      "Timur Ender"
+     ],
+     "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 11569,
+     "observed": 0.37,
+     "random": 0.125,
+     "popularity": 0.1608
+    },
+    {
+     "id": "slate-9",
+     "kind": "media",
+     "name": "The Oregonian editorial board (media)",
+     "members": [
+      "Terrence Hayes",
+      "Noah Ernst",
+      "Candace Avalos"
+     ],
+     "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-1-and-2-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+     "date": "2024-10-13",
+     "note": "Members from a secondary source (see source title). The Portland Metro Chamber page confirms that 11 of the Oregonian's 12 picks were United for Portland endorsees, the exception being in District 1, which fits Avalos.",
+     "voters": 14525,
+     "observed": 0.2061,
+     "random": 0.125,
+     "popularity": 0.2716
+    },
+    {
+     "id": "slate-10",
+     "kind": "campaign",
+     "name": "Avalos and Routh",
+     "members": [
+      "Candace Avalos",
+      "Steph Routh"
+     ],
+     "source": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/",
+     "date": "2024-10-25",
+     "note": "Held joint house parties and handed out each other's fliers.",
+     "voters": 11287,
+     "observed": 0.2593,
+     "random": 0.0625,
+     "popularity": 0.1439
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Noah Ernst and Terrence Hayes",
+     "members": [
+      "Noah Ernst",
+      "Terrence Hayes"
+     ],
+     "in_slates": [
+      "United for Portland (Green Light, including Spotlight)",
+      "Portland Metro Chamber",
+      "The Oregonian editorial board (media)"
+     ],
+     "voters": 6763,
+     "observed": 0.2888,
+     "random": 0.0625,
+     "popularity": 0.1033
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Loretta Smith and Terrence Hayes",
+     "members": [
+      "Loretta Smith",
+      "Terrence Hayes"
+     ],
+     "in_slates": [
+      "United for Portland (Spotlight)",
+      "United for Portland (Green Light, including Spotlight)",
+      "Portland Metro Chamber"
+     ],
+     "voters": 7969,
+     "observed": 0.267,
+     "random": 0.0625,
+     "popularity": 0.1228
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Candace Avalos and Cayle Tern",
+     "members": [
+      "Candace Avalos",
+      "Cayle Tern"
+     ],
+     "in_slates": [
+      "Portland Mercury (media)"
+     ],
+     "voters": 8373,
+     "observed": 0.1662,
+     "random": 0.0625,
+     "popularity": 0.0334
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Jamie Dunphy and Steph Routh",
+     "members": [
+      "Jamie Dunphy",
+      "Steph Routh"
+     ],
+     "in_slates": [
+      "Oregon Working Families Party",
+      "Northwest Oregon Labor Council",
+      "Portland Fire Fighters Association",
+      "Sierra Club Oregon Chapter",
+      "Willamette Week (media)"
+     ],
+     "voters": 8122,
+     "observed": 0.2472,
+     "random": 0.0625,
+     "popularity": 0.1147
+    },
+    {
+     "id": "found-4",
+     "kind": "found-in-ballots",
+     "name": "Candace Avalos and Steph Routh",
+     "members": [
+      "Candace Avalos",
+      "Steph Routh"
+     ],
+     "in_slates": [
+      "Oregon Working Families Party",
+      "Northwest Oregon Labor Council",
+      "Sierra Club Oregon Chapter",
+      "Willamette Week (media)",
+      "Avalos and Routh"
+     ],
+     "voters": 11287,
+     "observed": 0.2593,
+     "random": 0.0625,
+     "popularity": 0.1439
+    }
+   ]
+  },
+  {
+   "election": "Portland, OR 2024 general, Councilor, District 2",
+   "file": "data/portland/ballots/2024-councilor-district-2.ballots",
+   "source": "portland",
+   "date": "2024-11-05",
+   "candidates": 23,
+   "seats": 3,
+   "voters": 77157,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Oregon Working Families Party",
+     "members": [
+      "Nat West",
+      "Sameer Kanal",
+      "Elana Pirtle-Guiney",
+      "Jonathan Tasini"
+     ],
+     "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+     "date": "2024-07-23",
+     "note": "West endorsed 2024-07-23; Kanal, Pirtle-Guiney and Tasini added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/).",
+     "voters": 29991,
+     "observed": 0.2573,
+     "random": 0.1364,
+     "popularity": 0.3197
+    },
+    {
+     "id": "slate-1",
+     "kind": "endorsement",
+     "name": "Northwest Oregon Labor Council",
+     "members": [
+      "Jonathan Tasini",
+      "Dan Ryan",
+      "Elana Pirtle-Guiney"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+     "date": "2024-09-04",
+     "note": null,
+     "voters": 25874,
+     "observed": 0.3621,
+     "random": 0.0909,
+     "popularity": 0.2522
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Portland Fire Fighters Association",
+     "members": [
+      "Dan Ryan",
+      "Bob Simril"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+     "date": "2024-07-25",
+     "note": null,
+     "voters": 12595,
+     "observed": 0.1107,
+     "random": 0.0455,
+     "popularity": 0.0589
+    },
+    {
+     "id": "slate-3",
+     "kind": "endorsement",
+     "name": "Portland Police Association",
+     "members": [
+      "Dan Ryan",
+      "Tiffani Penson"
+     ],
+     "source": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/",
+     "date": "2024-09-10",
+     "note": "OPB names Ryan and Penson as police-union endorsees; the union never published a full list, so this may be incomplete.",
+     "voters": 16913,
+     "observed": 0.1904,
+     "random": 0.0455,
+     "popularity": 0.1341
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "United for Portland (Spotlight)",
+     "members": [
+      "Mariah Hudson",
+      "Tiffani Penson",
+      "Elana Pirtle-Guiney",
+      "Dan Ryan",
+      "Bob Simril",
+      "James Armstrong"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": "Read from the page as it stands in 2026. Willamette Week (2024-10-08) and the Rose City Reform tracker list an earlier, shorter spotlight list; Armstrong may have been added later. The group withdrew an earlier endorsement of Mike Marshall.",
+     "voters": 34533,
+     "observed": 0.5642,
+     "random": 0.2273,
+     "popularity": 0.4174
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "United for Portland (Green Light, including Spotlight)",
+     "members": [
+      "Mariah Hudson",
+      "Tiffani Penson",
+      "Elana Pirtle-Guiney",
+      "Dan Ryan",
+      "Bob Simril",
+      "James Armstrong",
+      "Michelle DePass",
+      "Marnie Glickman",
+      "Debbie Kitchin",
+      "Will Mespelt",
+      "Nat West"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": null,
+     "voters": 51657,
+     "observed": 0.7145,
+     "random": 0.4545,
+     "popularity": 0.6961
+    },
+    {
+     "id": "slate-6",
+     "kind": "endorsement",
+     "name": "Portland Metro Chamber",
+     "members": [
+      "Dan Ryan",
+      "Tiffani Penson",
+      "Mariah Hudson",
+      "Elana Pirtle-Guiney",
+      "Bob Simril"
+     ],
+     "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+     "date": "2024-10",
+     "note": "Ryan 1, Penson 2; Hudson, Pirtle-Guiney and Simril for ranks 3 to 5 in the voter's own order.",
+     "voters": 33225,
+     "observed": 0.5399,
+     "random": 0.1818,
+     "popularity": 0.3928
+    },
+    {
+     "id": "slate-7",
+     "kind": "endorsement",
+     "name": "Sierra Club Oregon Chapter",
+     "members": [
+      "Michelle DePass",
+      "Marnie Glickman",
+      "Nat West"
+     ],
+     "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+     "date": "2024-09-17",
+     "note": null,
+     "voters": 15383,
+     "observed": 0.1454,
+     "random": 0.0909,
+     "popularity": 0.1483
+    },
+    {
+     "id": "slate-8",
+     "kind": "media",
+     "name": "Willamette Week (media)",
+     "members": [
+      "Elana Pirtle-Guiney",
+      "Dan Ryan",
+      "Michelle DePass",
+      "James Armstrong",
+      "Michael (Mike) Marshall",
+      "Mariah Hudson"
+     ],
+     "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-2/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 34120,
+     "observed": 0.5009,
+     "random": 0.2273,
+     "popularity": 0.3987
+    },
+    {
+     "id": "slate-9",
+     "kind": "media",
+     "name": "Portland Mercury (media)",
+     "members": [
+      "Sameer Kanal",
+      "Michelle DePass",
+      "Jonathan Tasini"
+     ],
+     "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 19393,
+     "observed": 0.4274,
+     "random": 0.0909,
+     "popularity": 0.1772
+    },
+    {
+     "id": "slate-10",
+     "kind": "media",
+     "name": "The Oregonian editorial board (media)",
+     "members": [
+      "Dan Ryan",
+      "Tiffani Penson",
+      "Nat West"
+     ],
+     "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-1-and-2-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+     "date": "2024-10-13",
+     "note": "Members from a secondary source (see source title).",
+     "voters": 21910,
+     "observed": 0.252,
+     "random": 0.0909,
+     "popularity": 0.2278
+    },
+    {
+     "id": "slate-11",
+     "kind": "campaign",
+     "name": "Armstrong and Marshall",
+     "members": [
+      "James Armstrong",
+      "Michael (Mike) Marshall"
+     ],
+     "source": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/",
+     "date": "2024-10-25",
+     "note": "Shared campaign mailers, one candidate on each side.",
+     "voters": 2799,
+     "observed": 0.0618,
+     "random": 0.0455,
+     "popularity": 0.0206
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Sameer Kanal and Michelle DePass",
+     "members": [
+      "Sameer Kanal",
+      "Michelle DePass"
+     ],
+     "in_slates": [
+      "Portland Mercury (media)"
+     ],
+     "voters": 16201,
+     "observed": 0.3878,
+     "random": 0.0455,
+     "popularity": 0.1177
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Elana Pirtle-Guiney and Dan Ryan",
+     "members": [
+      "Elana Pirtle-Guiney",
+      "Dan Ryan"
+     ],
+     "in_slates": [
+      "Northwest Oregon Labor Council",
+      "United for Portland (Spotlight)",
+      "United for Portland (Green Light, including Spotlight)",
+      "Portland Metro Chamber",
+      "Willamette Week (media)"
+     ],
+     "voters": 22682,
+     "observed": 0.3462,
+     "random": 0.0455,
+     "popularity": 0.1885
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Chris Olson and Jennifer Park",
+     "members": [
+      "Chris Olson",
+      "Jennifer Park"
+     ],
+     "in_slates": [],
+     "voters": 2214,
+     "observed": 0.136,
+     "random": 0.0455,
+     "popularity": 0.0154
+    }
+   ]
+  },
+  {
+   "election": "Portland, OR 2024 general, Councilor, District 3",
+   "file": "data/portland/ballots/2024-councilor-district-3.ballots",
+   "source": "portland",
+   "date": "2024-11-05",
+   "candidates": 31,
+   "seats": 3,
+   "voters": 84515,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Oregon Working Families Party",
+     "members": [
+      "Tiffany Koyama Lane",
+      "Angelita Morillo",
+      "Chris Flanary"
+     ],
+     "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+     "date": "2024-07-23",
+     "note": "Koyama Lane and Morillo endorsed 2024-07-23; Flanary added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/).",
+     "voters": 32474,
+     "observed": 0.5095,
+     "random": 0.0667,
+     "popularity": 0.2632
+    },
+    {
+     "id": "slate-1",
+     "kind": "endorsement",
+     "name": "Northwest Oregon Labor Council",
+     "members": [
+      "Steve Novick",
+      "Tiffany Koyama Lane",
+      "Chris Flanary"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+     "date": "2024-09-04",
+     "note": "Willamette Week's June 30 report listed only Novick and Koyama Lane; its September 4 report and the council's own page add Flanary.",
+     "voters": 35462,
+     "observed": 0.1528,
+     "random": 0.0667,
+     "popularity": 0.2988
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Portland Fire Fighters Association",
+     "members": [
+      "Steve Novick",
+      "Jesse Cornett",
+      "Daniel DeMelo"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+     "date": "2024-07-25",
+     "note": null,
+     "voters": 23955,
+     "observed": 0.1396,
+     "random": 0.0667,
+     "popularity": 0.1256
+    },
+    {
+     "id": "slate-3",
+     "kind": "endorsement",
+     "name": "United for Portland (Spotlight)",
+     "members": [
+      "Rex Burkholder",
+      "Jesse Cornett",
+      "Daniel DeMelo",
+      "Steve Novick",
+      "Kezia Wanner"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": "In District 3 every Green Light endorsee was also a Spotlight endorsee.",
+     "voters": 32578,
+     "observed": 0.3848,
+     "random": 0.1333,
+     "popularity": 0.2948
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "Portland Metro Chamber",
+     "members": [
+      "Kezia Wanner",
+      "Steve Novick",
+      "Jesse Cornett",
+      "Rex Burkholder",
+      "Daniel DeMelo"
+     ],
+     "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+     "date": "2024-10",
+     "note": "Wanner 1, Novick 2, Cornett 3; Burkholder and DeMelo in the voter's own order; rank only these five.",
+     "voters": 32578,
+     "observed": 0.3848,
+     "random": 0.1333,
+     "popularity": 0.2948
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "Sierra Club Oregon Chapter",
+     "members": [
+      "Rex Burkholder",
+      "Tiffany Koyama Lane",
+      "Angelita Morillo"
+     ],
+     "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+     "date": "2024-09-17",
+     "note": null,
+     "voters": 34965,
+     "observed": 0.4749,
+     "random": 0.0667,
+     "popularity": 0.3094
+    },
+    {
+     "id": "slate-6",
+     "kind": "media",
+     "name": "Willamette Week (media)",
+     "members": [
+      "Steve Novick",
+      "Philippe Knab",
+      "Cristal Azul Otero",
+      "Rex Burkholder",
+      "Angelita Morillo",
+      "Jesse Cornett"
+     ],
+     "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-3/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 44956,
+     "observed": 0.5565,
+     "random": 0.1667,
+     "popularity": 0.4637
+    },
+    {
+     "id": "slate-7",
+     "kind": "media",
+     "name": "Portland Mercury (media)",
+     "members": [
+      "Angelita Morillo",
+      "Steve Novick",
+      "Tiffany Koyama Lane"
+     ],
+     "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 50205,
+     "observed": 0.5075,
+     "random": 0.0667,
+     "popularity": 0.5291
+    },
+    {
+     "id": "slate-8",
+     "kind": "media",
+     "name": "The Oregonian editorial board (media)",
+     "members": [
+      "Kezia Wanner",
+      "Steve Novick",
+      "Jesse Cornett"
+     ],
+     "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-3-and-4-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+     "date": "2024-10-13",
+     "note": "Members from a secondary source (see source title).",
+     "voters": 27489,
+     "observed": 0.2523,
+     "random": 0.0667,
+     "popularity": 0.1959
+    },
+    {
+     "id": "slate-9",
+     "kind": "campaign",
+     "name": "Koyama Lane and Morillo",
+     "members": [
+      "Tiffany Koyama Lane",
+      "Angelita Morillo"
+     ],
+     "source": "https://rosecityreform.substack.com/p/its-gonna-be-us",
+     "date": "2024-12-09",
+     "note": "Campaigned together, sent a joint mailer and asked voters to \"rank us first and second\".",
+     "voters": 31287,
+     "observed": 0.4603,
+     "random": 0.0333,
+     "popularity": 0.24
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Steve Novick and Philippe Knab",
+     "members": [
+      "Steve Novick",
+      "Philippe Knab"
+     ],
+     "in_slates": [
+      "Willamette Week (media)"
+     ],
+     "voters": 20395,
+     "observed": 0.3104,
+     "random": 0.0333,
+     "popularity": 0.0403
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Angelita Morillo and Tiffany Koyama Lane",
+     "members": [
+      "Angelita Morillo",
+      "Tiffany Koyama Lane"
+     ],
+     "in_slates": [
+      "Oregon Working Families Party",
+      "Sierra Club Oregon Chapter",
+      "Portland Mercury (media)",
+      "Koyama Lane and Morillo"
+     ],
+     "voters": 31287,
+     "observed": 0.4603,
+     "random": 0.0333,
+     "popularity": 0.24
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Kezia Wanner and Harrison Kass",
+     "members": [
+      "Kezia Wanner",
+      "Harrison Kass"
+     ],
+     "in_slates": [],
+     "voters": 7414,
+     "observed": 0.2421,
+     "random": 0.0333,
+     "popularity": 0.0451
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Philippe Knab and Cristal Azul Otero",
+     "members": [
+      "Philippe Knab",
+      "Cristal Azul Otero"
+     ],
+     "in_slates": [
+      "Willamette Week (media)"
+     ],
+     "voters": 2804,
+     "observed": 0.1369,
+     "random": 0.0333,
+     "popularity": 0.0178
+    }
+   ]
+  },
+  {
+   "election": "Portland, OR 2024 general, Councilor, District 4",
+   "file": "data/portland/ballots/2024-councilor-district-4.ballots",
+   "source": "portland",
+   "date": "2024-11-05",
+   "candidates": 31,
+   "seats": 3,
+   "voters": 76717,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Oregon Working Families Party",
+     "members": [
+      "Mitch Green",
+      "Sarah Silkie"
+     ],
+     "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+     "date": "2024-07-23",
+     "note": "Green endorsed 2024-07-23; Silkie added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/).",
+     "voters": 14122,
+     "observed": 0.1699,
+     "random": 0.0333,
+     "popularity": 0.0892
+    },
+    {
+     "id": "slate-1",
+     "kind": "endorsement",
+     "name": "Northwest Oregon Labor Council",
+     "members": [
+      "Tony Morse",
+      "Olivia Clark",
+      "Eric Zimmerman"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+     "date": "2024-09-04",
+     "note": null,
+     "voters": 27819,
+     "observed": 0.5141,
+     "random": 0.0667,
+     "popularity": 0.2226
+    },
+    {
+     "id": "slate-2",
+     "kind": "endorsement",
+     "name": "Portland Fire Fighters Association",
+     "members": [
+      "Tony Morse",
+      "Olivia Clark",
+      "Eli Arnold"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+     "date": "2024-07-25",
+     "note": null,
+     "voters": 27732,
+     "observed": 0.1838,
+     "random": 0.0667,
+     "popularity": 0.224
+    },
+    {
+     "id": "slate-3",
+     "kind": "endorsement",
+     "name": "Portland Police Association",
+     "members": [
+      "Tony Morse",
+      "Olivia Clark",
+      "Eric Zimmerman",
+      "Eli Arnold"
+     ],
+     "source": "https://www.wweek.com/news/city/2024/07/08/portland-police-union-endorsements-quietly-roll-in/",
+     "date": "2024-07-08",
+     "note": null,
+     "voters": 35295,
+     "observed": 0.6225,
+     "random": 0.1,
+     "popularity": 0.3701
+    },
+    {
+     "id": "slate-4",
+     "kind": "endorsement",
+     "name": "United for Portland (Spotlight)",
+     "members": [
+      "Eli Arnold",
+      "Olivia Clark",
+      "Ben Hufford",
+      "Tony Morse",
+      "Stanley Penkin",
+      "Eric Zimmerman"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": null,
+     "voters": 37759,
+     "observed": 0.6701,
+     "random": 0.1667,
+     "popularity": 0.421
+    },
+    {
+     "id": "slate-5",
+     "kind": "endorsement",
+     "name": "United for Portland (Green Light, including Spotlight)",
+     "members": [
+      "Eli Arnold",
+      "Olivia Clark",
+      "Ben Hufford",
+      "Tony Morse",
+      "Stanley Penkin",
+      "Eric Zimmerman",
+      "Moses Ross",
+      "Bob Weinstein"
+     ],
+     "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+     "date": "2024-10",
+     "note": null,
+     "voters": 41792,
+     "observed": 0.7104,
+     "random": 0.2333,
+     "popularity": 0.4982
+    },
+    {
+     "id": "slate-6",
+     "kind": "endorsement",
+     "name": "Portland Metro Chamber",
+     "members": [
+      "Olivia Clark",
+      "Eric Zimmerman",
+      "Eli Arnold",
+      "Tony Morse",
+      "Stanley Penkin",
+      "Ben Hufford"
+     ],
+     "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+     "date": "2024-10",
+     "note": "Clark and Zimmerman for ranks 1 or 2; Arnold and Morse for 3 or 4; Penkin and Hufford in the voter's own order.",
+     "voters": 37759,
+     "observed": 0.6701,
+     "random": 0.1667,
+     "popularity": 0.421
+    },
+    {
+     "id": "slate-7",
+     "kind": "endorsement",
+     "name": "Sierra Club Oregon Chapter",
+     "members": [
+      "Lisa Freeman",
+      "Mitch Green",
+      "Chad Lykins"
+     ],
+     "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+     "date": "2024-09-17",
+     "note": null,
+     "voters": 17842,
+     "observed": 0.4702,
+     "random": 0.0667,
+     "popularity": 0.1605
+    },
+    {
+     "id": "slate-8",
+     "kind": "media",
+     "name": "Willamette Week (media)",
+     "members": [
+      "Olivia Clark",
+      "Eric Zimmerman",
+      "Eli Arnold",
+      "Sarah Silkie",
+      "Bob Weinstein",
+      "Mitch Green"
+     ],
+     "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-4/",
+     "date": "2024-10-16",
+     "note": "Top three ranked; the last three are 'next choices' in the order listed.",
+     "voters": 51142,
+     "observed": 0.6399,
+     "random": 0.1667,
+     "popularity": 0.6459
+    },
+    {
+     "id": "slate-9",
+     "kind": "media",
+     "name": "Portland Mercury (media)",
+     "members": [
+      "Mitch Green",
+      "Chad Lykins",
+      "Sarah Silkie"
+     ],
+     "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 18455,
+     "observed": 0.425,
+     "random": 0.0667,
+     "popularity": 0.1701
+    },
+    {
+     "id": "slate-10",
+     "kind": "media",
+     "name": "The Oregonian editorial board (media)",
+     "members": [
+      "Eric Zimmerman",
+      "Olivia Clark",
+      "Eli Arnold"
+     ],
+     "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-3-and-4-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+     "date": "2024-10-13",
+     "note": "Members from a secondary source (see source title).",
+     "voters": 33472,
+     "observed": 0.5958,
+     "random": 0.0667,
+     "popularity": 0.3323
+    },
+    {
+     "id": "slate-11",
+     "kind": "campaign",
+     "name": "Clark and Zimmerman",
+     "members": [
+      "Olivia Clark",
+      "Eric Zimmerman"
+     ],
+     "source": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/",
+     "date": "2024-10-25",
+     "note": "\"Joined forces\" and encouraged voters to vote for each other.",
+     "voters": 25996,
+     "observed": 0.4922,
+     "random": 0.0333,
+     "popularity": 0.1796
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Olivia Clark and Eric Zimmerman",
+     "members": [
+      "Olivia Clark",
+      "Eric Zimmerman"
+     ],
+     "in_slates": [
+      "Northwest Oregon Labor Council",
+      "Portland Police Association",
+      "United for Portland (Spotlight)",
+      "United for Portland (Green Light, including Spotlight)",
+      "Portland Metro Chamber",
+      "Willamette Week (media)",
+      "The Oregonian editorial board (media)",
+      "Clark and Zimmerman"
+     ],
+     "voters": 25996,
+     "observed": 0.4922,
+     "random": 0.0333,
+     "popularity": 0.1796
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Mitch Green and Chad Lykins",
+     "members": [
+      "Mitch Green",
+      "Chad Lykins"
+     ],
+     "in_slates": [
+      "Sierra Club Oregon Chapter",
+      "Portland Mercury (media)"
+     ],
+     "voters": 14304,
+     "observed": 0.299,
+     "random": 0.0333,
+     "popularity": 0.0937
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Kevin Goldsmith and John J Goldsmith",
+     "members": [
+      "Kevin Goldsmith",
+      "John J Goldsmith"
+     ],
+     "in_slates": [],
+     "voters": 1446,
+     "observed": 0.157,
+     "random": 0.0333,
+     "popularity": 0.0066
+    },
+    {
+     "id": "found-3",
+     "kind": "found-in-ballots",
+     "name": "Mitch Green and Lisa Freeman",
+     "members": [
+      "Mitch Green",
+      "Lisa Freeman"
+     ],
+     "in_slates": [
+      "Sierra Club Oregon Chapter"
+     ],
+     "voters": 13509,
+     "observed": 0.2233,
+     "random": 0.0333,
+     "popularity": 0.079
+    },
+    {
+     "id": "found-4",
+     "kind": "found-in-ballots",
+     "name": "Chloe Mason and Ciatta R Thompson",
+     "members": [
+      "Chloe Mason",
+      "Ciatta R Thompson"
+     ],
+     "in_slates": [],
+     "voters": 1384,
+     "observed": 0.1517,
+     "random": 0.0333,
+     "popularity": 0.0091
+    }
+   ]
+  },
+  {
+   "election": "Portland, OR 2024 general, Mayor",
+   "file": "data/portland/ballots/2024-mayor.ballots",
+   "source": "portland",
+   "date": "2024-11-05",
+   "candidates": 21,
+   "seats": 1,
+   "voters": 309963,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "media",
+     "name": "Willamette Week (media)",
+     "members": [
+      "Keith Wilson",
+      "Carmen Rubio",
+      "Rene Gonzalez"
+     ],
+     "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-mayor/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 194498,
+     "observed": 0.5193,
+     "random": 0.1,
+     "popularity": 0.6404
+    },
+    {
+     "id": "slate-1",
+     "kind": "media",
+     "name": "Portland Mercury (media)",
+     "members": [
+      "Carmen Rubio",
+      "Keith Wilson",
+      "Liv (Viva) Osthus"
+     ],
+     "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+     "date": "2024-10-16",
+     "note": null,
+     "voters": 170792,
+     "observed": 0.5817,
+     "random": 0.1,
+     "popularity": 0.4826
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Rene Gonzalez and Mingus Mapps",
+     "members": [
+      "Rene Gonzalez",
+      "Mingus Mapps"
+     ],
+     "in_slates": [],
+     "voters": 75051,
+     "observed": 0.3636,
+     "random": 0.05,
+     "popularity": 0.1772
+    }
+   ]
+  },
+  {
+   "election": "2009 Minneapolis Park and Recreation Commissioner At-Large Election - No Write In",
+   "file": "data/preflib/ballots/minneapolis-00018-00000002-2009-minneapolis-park-and-recreation-commissioner-at-large-election-no-write-in.ballots",
+   "source": "preflib",
+   "date": "2009-11-03",
+   "candidates": 9,
+   "seats": 3,
+   "voters": 36655,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "endorsement",
+     "name": "Minneapolis DFL",
+     "members": [
+      "\"Mary Merrill Anderson\"",
+      "\"John Erwin\"",
+      "\"Tom Nordyke\""
+     ],
+     "source": "Wikipedia, \"2009 Minneapolis municipal election\", party endorsement tables, citing the Minneapolis DFL (http://www.mpls.dfl.org/endorsed-candidates), the Fifth District Green Party, and the Minneapolis City Republican Committee.",
+     "date": null,
+     "note": null,
+     "voters": 11951,
+     "observed": 0.4598,
+     "random": 0.25,
+     "popularity": 0.3211
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "\"John Erwin\" and \"Tom Nordyke\"",
+     "members": [
+      "\"John Erwin\"",
+      "\"Tom Nordyke\""
+     ],
+     "in_slates": [
+      "Minneapolis DFL"
+     ],
+     "voters": 8041,
+     "observed": 0.2686,
+     "random": 0.125,
+     "popularity": 0.1471
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "\"John Erwin\" and \"Annie Young\"",
+     "members": [
+      "\"John Erwin\"",
+      "\"Annie Young\""
+     ],
+     "in_slates": [],
+     "voters": 10148,
+     "observed": 0.3287,
+     "random": 0.125,
+     "popularity": 0.2222
+    }
+   ]
+  },
+  {
+   "election": "2010 Oakland Mayor",
+   "file": "data/preflib/ballots/oakland-00019-00000002-2010-oakland-mayor.ballots",
+   "source": "preflib",
+   "date": "2010-11-02",
+   "candidates": 11,
+   "seats": 1,
+   "voters": 118895,
+   "groupings": [
+    {
+     "id": "slate-0",
+     "kind": "campaign",
+     "name": "Quan-Kaplan second-choice pact",
+     "members": [
+      "Jean Quan",
+      "Rebecca Kaplan"
+     ],
+     "source": "SFist, 11 Nov 2010 (https://sfist.com/2010/11/11/jean_quan_is_oaklands_first_female.php): Quan's \"pact with opponent and fellow Councilwoman Rebecca Kaplan\" to tell supporters \"to list each other as second or third choices\".",
+     "date": null,
+     "note": null,
+     "voters": 49157,
+     "observed": 0.4784,
+     "random": 0.1,
+     "popularity": 0.2992
+    },
+    {
+     "id": "found-0",
+     "kind": "found-in-ballots",
+     "name": "Jean Quan and Rebecca Kaplan",
+     "members": [
+      "Jean Quan",
+      "Rebecca Kaplan"
+     ],
+     "in_slates": [
+      "Quan-Kaplan second-choice pact"
+     ],
+     "voters": 49157,
+     "observed": 0.4784,
+     "random": 0.1,
+     "popularity": 0.2992
+    },
+    {
+     "id": "found-1",
+     "kind": "found-in-ballots",
+     "name": "Greg Harland and Arnold Fields",
+     "members": [
+      "Greg Harland",
+      "Arnold Fields"
+     ],
+     "in_slates": [],
+     "voters": 1420,
+     "observed": 0.1345,
+     "random": 0.1,
+     "popularity": 0.007
+    },
+    {
+     "id": "found-2",
+     "kind": "found-in-ballots",
+     "name": "Terence Candell and Marcie Hodge",
+     "members": [
+      "Terence Candell",
+      "Marcie Hodge"
+     ],
+     "in_slates": [],
+     "voters": 4400,
+     "observed": 0.1314,
+     "random": 0.1,
+     "popularity": 0.0222
+    }
+   ]
+  }
+ ]
+}
