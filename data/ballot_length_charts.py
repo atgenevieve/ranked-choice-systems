@@ -177,6 +177,17 @@ def main():
             n = sum(r["counts"].values())
             limited.append({"name": r["name"], "group": r["group"], "limit": lim, "seats": r["seats"],
                             "candidates": r["candidates"], "fill": round(r["counts"].get(lim, 0) / n, 4), "mean": r["mean"]})
+    # Limit effect: for each limited election, the share that filled the limit against the share
+    # of comparable unlimited public elections (within 2 candidates) that ranked that many or more.
+    # Equal means the limit only cuts ballots short; higher means it pulls voters up to it.
+    unl = [r for r in rows if r["group"] in ("scotland", "public", "nyc", "portland") and uncapped(r)]
+    for e, r in zip(limited, [r for r in rows if r["max_ranks"] and r["max_ranks"] < r["candidates"]]):
+        peers = [u for u in unl if abs(u["candidates"] - r["candidates"]) <= 2]
+        if len(peers) < 5:
+            peers = sorted(unl, key=lambda u: abs(u["candidates"] - r["candidates"]))[:30]
+        shares = sorted(sum(v for k, v in u["counts"].items() if k >= r["max_ranks"]) / sum(u["counts"].values()) for u in peers)
+        e["unlimited_share"] = round(shares[len(shares) // 2], 4)
+        e["peer_candidates"] = [min(u["candidates"] for u in peers), max(u["candidates"] for u in peers)]
     # Recount real multi-seat elections with every ballot cut after rank = seats.
     cut_at_seats = {}
     for key, fname, keep in [("scotland", "scotland.jsonl", lambda r: r["seats"] >= 3),

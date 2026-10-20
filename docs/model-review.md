@@ -10,7 +10,7 @@
 
 | # | Assumption | Now | Proposal | Decision needed |
 |---|---|---|---|---|
-| 5 | Ballot length | Everyone ranks everyone | A new setting, tied to slates, that grows with seats; three variants tested side by side | **Biggest decision.** How length grows in a 50-seat election |
+| 5 | Ballot length | Everyone ranks everyone | Two settings: electorate type (public or organizational) and ballot type (no limit, limit equal to seats, other limit); limits cut ballots and can pull voters up to them | **Biggest decision.** Approve the two-setting structure; help find organizational ballots with limits |
 | 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune to overall clustering in real ballots | Replace the line? Are your slates loose (like Portland endorsements) or tight (like Scottish parties)? |
 | 3 | Candidate popularity | Lognormal, spread 1.0 | Keep the lognormal, add a separate tail of long-shot candidates | Add the tail? |
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately | Separate them? |
@@ -66,17 +66,30 @@
 
 These would give very different truncation results, so this is the decision that matters most.
 
-**Proposal:**
+**Owner's framing (October 20, 2026).** A ballot's limit or instructions aren't a separate version of voter behavior. They're a feature of the ballot, and the question is how they change behavior, for public voters and for organization members alike. Three ballot types matter: no limit, a limit equal to the number of seats (the organization's own elections), and a limit above the seats.
 
-1. Add a ballot-length setting in which each voter first ranks their own slate's candidates (in popularity order, as now), then decides at each further rank whether to keep going. That reproduces "my slate's list, then stop."
-2. Build three variants, as named options in the settings file: length grows with **candidates**, length grows with **seats**, and a **fixed target** (for instructions such as "rank at least 10").
-3. Tune each to the real data, and run every headline result under all three. Report the range across them, in line with the project rule "say what's uncertain."
-4. If your organization can share past ballots, even anonymized, use them to choose among the variants.
+**Evidence by cell:**
+
+| | No limit | Limit equal to the seats | Limit above the seats |
+|---|---|---|---|
+| **Public** | 1,189 elections (Scotland and others) | 1 election (Minneapolis Park Board 2009); Canberra and Australian Senate ballots being gathered (instruction "at least" the seats) | 81 elections (NYC, Portland, San Francisco, Oakland, and others) |
+| **Organizational** | 108 elections (union and society elections, Debian, APA) | none | none |
+
+**The limit effect, so far (public elections only):** compared with unlimited elections of similar size, a limit of 3 mostly just cuts ballots short (about as many fill it as would rank 3 or more anyway). Limits of 5 and 6 act as a target: about 2 to 5 times as many voters rank exactly that many as would rank that far with no limit. These comparisons are across places, so differences like NYC's "rank up to 5" campaign are mixed in.
+
+**Proposal (revised):**
+
+1. **Two separate settings:**
+   - **Electorate type:** public voters (tuned to Scotland) or organization members (tuned to the union and society elections). This sets each voter's natural ballot length, which grows with the number of candidates, and with seats much less.
+   - **Ballot type:** no limit, a limit equal to the seats, or any other limit, plus an optional "rank at least N" instruction.
+2. **How a voter fills a ballot:** rank their own slate's candidates first, then decide at each further rank whether to keep going, up to their natural length. A limit cuts ballots at the limit. When the limit (or instruction) sits above a voter's natural length, some voters are pulled up to it, at the rate the real data shows (none for a limit of 3, strong for 5 and 6).
+3. **Run every headline result for each combination** of electorate type and ballot type, so the report can show how a limit changes results for each kind of electorate.
+4. **Fill the empty cells with data:** Canberra and Australian Senate ballots (being gathered), and ballots from organizations whose limit equals the seats, starting with the owner's organization.
 
 **Alternatives:**
 
-- Pick one variant now. Simpler, but the answer for 50 seats would then rest on a guess.
-- Draw each voter's length from a fixed distribution, separately from the ranking. Simpler, but it loses the "rank my slate, then stop" link, which the Scottish data shows clearly.
+- Treat the limit as a simple cut, with no pull toward it. Simpler, but the NYC and Portland data show a clear pull for limits of 5 and 6.
+- Pick one electorate type now. Simpler, but the two differ by about 3 times for a large election, and nothing yet shows which one the organization's members resemble.
 
 **Your decision:**
 
