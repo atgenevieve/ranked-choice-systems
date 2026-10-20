@@ -45,9 +45,9 @@ const DECISIONS = {
   },
   "quota-rounding": {
     title: "Quota rounding and turnout",
-    status: "Needs your decision",
-    now: "Each run has one exact number of voters, counted with Scottish rules, whose quota is rounded to a whole number of votes. In elections with few votes per seat, that rounding swings the answer by 2 to 3 times as turnout changes by a few voters.",
-    proposal: "Treat turnout as a range, not a number: each simulated election draws its voter count from the range you expect, so the 95% confidence rank already covers not knowing turnout. Count each election both ways, with the whole-vote quota and with the exact quota, until we know which rules your organization uses.",
-    needed: "Two things. Which counting rules your organization uses, and in particular whether its quota is a whole number of votes (the rule book or the counting software's settings would say). And the turnout range to plan for, such as the lowest and highest turnout in recent elections.",
+    status: "Approved October 20, 2026",
+    now: "Each run had one exact number of voters, counted with Scottish rules, whose quota is rounded to a whole number of votes. In elections with few votes per seat, that rounding swings the answer by 2 to 3 times as turnout changes by a few voters.",
+    proposal: "Turnout is an expected number plus an uncertainty: each simulated election draws its own number of voters around the expected one, with a standard deviation of 10% by default, so about 2 in 3 elections land within 10% and 19 in 20 within 20%. The answer then covers not knowing turnout: \"Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks.\" The quota belongs to the voting method, not the model: Scottish STV for now, other methods later.",
+    needed: "Nothing for now. Turnout uncertainty is a slider in the model tuner. Set it to how far turnout has varied between your recent elections.",
   },
 };

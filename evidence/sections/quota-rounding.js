@@ -85,44 +85,49 @@ window.SECTIONS["quota-rounding"] = () => {
       S.points.map(s => { const r = row(s); return [r.m, `${s.after_step.v.toLocaleString()} to ${s.before_step.v.toLocaleString()}`, r.before, r.after, r.exact]; }), [1, 1, 1, 1, 1]);
   }
 
-  // ---- What to recommend: pool the elections across the turnout you can't rule out.
-  {
-    const e = E[1], pts = e.points, xs = pts.map(p => p.v);
-    const f = figure("What to recommend when turnout is uncertain",
-      "You can't know turnout to within a few voters, so a recommendation can't rest on one exact voter count. Instead, play out elections across the whole range of turnout you expect, pool them, and ask for the rank that 95% of them need. Once that range is wider than one quota step, the sawtooth averages out, and the answer barely depends on exactly where you center it. The pooled answer sits in the middle of the sawtooth, not at its peaks: the deep answers happen only in the narrow stretch just before each step, so they make up a small share of the turnouts you might get.",
-      `${e.name}. The thin line is the whole-vote quota at each exact voter count (the sawtooth above). The thick line pools every voter count within the chosen range around each point: "if turnout could be anywhere from 50 below to 50 above this, what rank do 95% of elections need?" The blue line is the exact quota, pooled the same way: much higher, so which quota your organization's rules use matters more than turnout does. Ranking deeper never hurts a voter's earlier choices under these rules, so a recommendation can safely lean high.`);
-    const pick = document.createElement("label"); pick.className = "note";
-    pick.textContent = "Turnout uncertain by: ";
-    const sel = document.createElement("select");
-    for (const [v, t] of [[25, "25 voters either way"], [50, "50 voters either way"], [75, "75 voters either way"]]) { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.append(o); }
-    sel.value = 50; pick.append(sel); f.append(pick);
+  // ---- What to recommend: each simulated election draws its own turnout around the expected one.
+  if (E.every(e => e.turnout)) {
+    const f = figure("What to recommend: cover the turnouts you expect",
+      "You can't know turnout to the voter, so the model doesn't use one exact number. Each simulated election draws its own number of voters around the expected one: with 10% uncertainty, about 2 in 3 elections land within 10% of the expected turnout, and 19 in 20 within 20%. That spans several quota steps, so the sawtooth averages out, and the answer barely depends on exactly where you center it. It reads: \"Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks.\"",
+      "The thin line is one exact voter count (the sawtooth above). The thick line is the same election with turnout spread around each expected number. The blue line is the exact quota with 10% uncertainty, for comparison: much higher, so the voting method's quota matters more than turnout does. The spread answer sits in the middle of the sawtooth, not at its peaks: the deep answers happen only in the narrow stretch just before each step, so they're a small share of the turnouts you might get. Ranking deeper never hurts a voter's earlier choices under these rules, so anyone who wants to be safe can rank further. Each point is 1,000 simulated elections.");
+    const row = document.createElement("div"); row.className = "note"; row.style.display = "flex"; row.style.flexWrap = "wrap"; row.style.gap = "8px 16px";
+    const select = (label, options, value) => {
+      const l = document.createElement("label"); l.textContent = label + " ";
+      const s = document.createElement("select");
+      for (const [v, t] of options) { const o = document.createElement("option"); o.value = v; o.textContent = t; s.append(o); }
+      s.value = value; l.append(s); row.append(l); return s;
+    };
+    const which = select("Election:", E.map((e, i) => [i, e.name]), 0);
+    const spread = select("Turnout uncertainty:", [["0.05", "5%"], ["0.1", "10% (default)"], ["0.15", "15%"]], "0.1");
+    f.append(row);
     const out = document.createElement("div"); f.append(out);
     const draw = () => {
-      const W = Number(sel.value);
+      const e = E[Number(which.value)], key = `whole_${spread.value}`, T = e.turnout;
       out.replaceChildren();
-      const centers = xs.filter(v => v - W >= xs[0] && v + W <= xs[xs.length - 1]);
-      const pooled = centers.map(c => [c, rankAt(pool(pts.filter(p => Math.abs(p.v - c) <= W), "whole"), 0.95)]);
-      const pooledExact = centers.map(c => [c, rankAt(pool(pts.filter(p => Math.abs(p.v - c) <= W), "exact"), 0.95)]);
-      const raw = pts.filter(p => p.v >= centers[0] && p.v <= centers[centers.length - 1]).map(p => [p.v, rankAt(p.whole, 0.95)]);
-      const ys = pooled.map(p => p[1]), rs = raw.map(p => p[1]);
-      const yours = pooled.find(p => p[0] === e.yours);
-      const holder = document.createElement("section"); out.append(holder);
-      const t = document.createElement("p"); t.className = "takeaway";
-      t.textContent = `Pooled over ${W} voters either way, the 95% confidence rank stays between ${Math.min(...ys)} and ${Math.max(...ys)} across the chart, where a single exact voter count gives anything from ${Math.min(...rs)} to ${Math.max(...rs)}.` +
-        (yours ? ` For ${e.yours.toLocaleString()} expected voters, give or take ${W}: rank ${yours[1]} (exact quota: ${pooledExact.find(p => p[0] === e.yours)[1]}).` : "");
-      holder.append(t);
-      legend(holder, [["line", "--ers", "Whole-vote quota, pooled over the turnout range (thick)"], ["line", "--ers", "Whole-vote quota, one exact voter count (thin)"], ["line", "--public", "Exact quota, pooled"]]);
-      const top = Math.max(...rs, ...pooledExact.map(p => p[1]));
+      const spreadLine = T.map(r => [r.v, rankAt(r[key], 0.95)]);
+      const exactLine = T.map(r => [r.v, rankAt(r["exact_0.1"], 0.95)]);
+      const raw = e.points.map(p => [p.v, rankAt(p.whole, 0.95)]);
+      const ys = spreadLine.map(p => p[1]), rs = raw.map(p => p[1]);
+      const near = T.reduce((a, r) => Math.abs(r.v - e.yours) < Math.abs(a.v - e.yours) ? r : a);
+      const holder = document.createElement("section"); holder.style.display = "grid"; holder.style.gap = "10px"; out.append(holder);
+      const pct = Math.round(Number(spread.value) * 100);
+      cards(holder, [
+        [`About ${near.v.toLocaleString()} expected voters, give or take ${pct}%`, `rank ${rankAt(near[key], 0.95)}`, `Across the turnouts you expect, 95 of 100 elections are decided within the first ${rankAt(near[key], 0.95)} ranks. Half are decided within the first ${rankAt(near[key], 0.5)}.`],
+        ["Across the chart", `${Math.min(...ys)} to ${Math.max(...ys)}`, `With turnout spread, the answer stays in this range from ${T[0].v.toLocaleString()} to ${T[T.length - 1].v.toLocaleString()} expected voters. One exact voter count gives anything from ${Math.min(...rs)} to ${Math.max(...rs)}.`],
+      ]);
+      legend(holder, [["line", "--ers", `Turnout spread by ${pct}% (thick)`], ["line", "--ers", "One exact voter count (thin)"], ["line", "--public", "Exact quota, 10% spread"]]);
+      const top = Math.max(...rs, ...ys, ...exactLine.map(p => p[1]));
       const before = draws.length;
       lineChart(holder, [
         { name: "One exact voter count", color: "--ers", width: 1.2, points: raw },
-        { name: `Pooled, ±${W} voters`, color: "--ers", width: 3.5, points: pooled },
-        { name: "Exact quota, pooled", color: "--public", width: 2, points: pooledExact },
-      ], { xMin: centers[0], xMax: centers[centers.length - 1], xStep: 50, yMax: Math.ceil(top / 10) * 10, yStep: 10, xTitle: "Expected voters (center of the range)", yTitle: "95% confidence rank",
-        fmt: v => `rank ${v}`, aria: "The 95% confidence rank pooled over a turnout range, next to single voter counts and the exact quota" });
+        { name: `Turnout spread by ${pct}%`, color: "--ers", width: 3.5, points: spreadLine },
+        { name: "Exact quota, 10% spread", color: "--public", width: 2, points: exactLine },
+      ], { xMin: e.from, xMax: e.to, xStep: e.seats + 1 > 60 ? 50 : 20, yMax: Math.ceil(top / 10) * 10, yStep: 10, xTitle: "Expected voters", yTitle: "95% confidence rank",
+        fmt: v => `rank ${v}`, aria: "The 95% confidence rank with turnout spread around each expected number, next to one exact voter count and the exact quota" });
       draws.slice(before).forEach(d => d());
     };
-    sel.addEventListener("change", draw);
+    which.addEventListener("change", draw);
+    spread.addEventListener("change", draw);
     draw();
   }
 };
