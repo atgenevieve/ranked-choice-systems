@@ -15,10 +15,11 @@ window.SECTIONS["election-size"] = () => {
     };
     const pub = fit(E.filter(e => !ORG.has(e.group))), org = fit(E.filter(e => ORG.has(e.group)));
     const perSeat = (lo, hi) => med(E.filter(e => ORG.has(e.group) && e.seats >= lo && e.seats <= hi).map(e => e.candidates / e.seats));
+    const bigEls = E.filter(e => ORG.has(e.group) && e.seats >= 5), bigN = bigEls.length, bigMax = Math.max(...bigEls.map(e => e.seats));
     const big = perSeat(5, 99), dsa = R.find(r => r.name.startsWith("Metro DC DSA"));
     const f = figure("Seats and candidates: the real data next to a 46-seat election",
       `More seats come with more candidates, but loosely: elections with the same number of seats vary a lot, so the dots scatter widely around the trend lines (which nearly overlap: public and organizational elections grow at about the same rate). Extended out to ${dsa.seats} seats, those trend lines would predict only about ${Math.round(org.f(dsa.seats))} candidates, fewer than there are seats, and far below Metro DC DSA's ${dsa.candidates}. Candidates per seat is a steadier rule. In organizational elections it falls as seats grow: about ${perSeat(1, 1).toFixed(1)} candidates per seat with one seat, ${perSeat(2, 4).toFixed(1)} with 2 to 4 seats, and ${big.toFixed(2)} with 5 or more. At ${big.toFixed(2)} per seat, a ${dsa.seats}-seat election would have about ${Math.round(big * dsa.seats)} candidates; Metro DC DSA had ${dsa.candidates}.`,
-      `Each dot is one election in this project's data; every one sits in the bottom-left corner, at most 12 seats and 34 candidates. Each trend line spans only the seats its own elections cover. The black dotted line is ${big.toFixed(2)} candidates per seat, the typical ratio in organizational elections with 5 or more seats (all of them union and society elections). The black markers are reference elections: Metro DC DSA and Western Australia from the research write-up (docs/large-elections.md), and the 2016 Tasmanian Senate count from this project's Senate data, which isn't otherwise on this chart.`);
+      `Each dot is one election in this project's data; every one sits in the bottom-left corner, at most 12 seats and 34 candidates. Each trend line spans only the seats its own elections cover. The short dotted line is ${big.toFixed(2)} candidates per seat, the typical ratio in the ${bigN} organizational elections with 5 to ${bigMax} seats (all of them union and society elections), drawn across only those seats. The black markers are reference elections: Metro DC DSA and Western Australia from the research write-up (docs/large-elections.md), and the 2016 Tasmanian Senate count from this project's Senate data, which isn't otherwise on this chart.`);
     legend(f, [["dot", "--public", "Public elections"], ["dot", "--ers", "Organizational elections"], ["dot", "--ink", "Reference elections"],
       ["line", "--public", "Trend, public elections"], ["line", "--ers", "Trend, organizational elections"], ["line", "--ink", `${big.toFixed(2)} candidates per seat`]]);
     scatter(f, {
@@ -28,7 +29,7 @@ window.SECTIONS["election-size"] = () => {
       lines: [
         { from: 1, to: pub.max, f: pub.f, color: "--public" },
         { from: 1, to: org.max, f: org.f, color: "--ers" },
-        { from: 0, to: 50, f: x => big * x, color: "--ink", dash: "2 5" },
+        { from: 5, to: bigMax, f: x => big * x, color: "--ink", dash: "2 5" },
       ],
       points: [
         ...E.map(e => ({ x: e.seats, y: e.candidates, color: ORG.has(e.group) ? "--ers" : "--public", name: e.name,
