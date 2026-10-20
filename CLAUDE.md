@@ -56,6 +56,7 @@ These are defaults, not decisions. Raise alternatives if something works better.
 - **Validation before trust.** Any new or changed counting code must match the reference implementation on shared test elections (see `engine/README.md`). Any new voting system needs hand-checked test elections with known answers.
 - **Reproduce published findings.** Before reporting new results, the simulation should reproduce what published studies found (see `docs/literature.md`). If it doesn't, find out why before going further.
 - **Real data over assumptions.** Where real ballot data can set a model setting, use it, and record the source in the model spec.
+- **The owner approves the model.** Gather real data before changing the model. Propose every new or changed assumption in `docs/model-spec.md` with its evidence, and wait for the owner's approval before building it into the engine.
 - **Say what's uncertain.** Report ranges (for example, "in 8 of 10 elections"), not single numbers alone. Flag results that depend heavily on one model setting.
 
 ## Known issues in the current engine

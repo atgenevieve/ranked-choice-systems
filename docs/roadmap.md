@@ -19,32 +19,48 @@ Each milestone ends with a check. Don't start the next one until its check passe
 
 **Done when:** the engine passes validation, truncation results exist for a small test sweep, and a hand-checked example (like the 100-voter example in `reference/README.md`) gives the expected answer at every cutoff.
 
-## Milestone 2: Improve the model
+## Milestone 2: Gather real data
 
-1. Add a **ballot length** setting: how many ranks each voter fills in, drawn from a distribution (a spread of possible values with set likelihoods) instead of everyone ranking the maximum.
-2. Make every model setting a named field in the settings file, and document each one in `docs/model-spec.md`.
-3. Add calculations that describe a generated election in terms real data can also be described in (the "calibration statistics" in `docs/model-spec.md`).
-
-**Done when:** every setting in the code appears in the model spec, and the calibration statistics can be computed for any generated election.
-
-## Milestone 3: Gather real data
+Real data comes before any change to the model, so the model is shaped by what real voters do rather than by guesses.
 
 1. Download real ranked ballots. Starting points (confirm current locations and terms of use):
    - **PrefLib** (preflib.org): a public library of real ranked ballots, used by the Cornell study.
    - **Scottish council elections:** full ballot preference data, used by the McCune studies.
    - **NYC ranked-choice primaries:** cast vote records (ballot-level data) published by the NYC Board of Elections.
    - **Cambridge, MA and Portland, OR:** cast vote records for multi-winner races.
-2. Compute the same calibration statistics for each real election.
+2. Record each source's location, date downloaded, and terms of use next to the data.
+3. Compute the calibration statistics in `docs/model-spec.md` for each real election. Calibration statistics are measurements that describe an election in a way that can be compared between real and simulated elections, such as how many candidates a typical voter ranks.
+4. Note anything in the real data that the current model can't produce, such as a pattern of ballot lengths or a way votes transfer.
 
 **Done when:** a table of calibration statistics exists for at least one real data source, ideally Scotland, since it's multi-winner STV.
 
-## Milestone 4: Build the model tuner
+## Milestone 3: Review the model assumptions with the owner
+
+This is a human review step. The owner defends the model in public, so the owner approves every assumption before it goes into the code.
+
+1. Using the real data from milestone 2, draft changes to `docs/model-spec.md`: for each assumption, the proposed setting, the real-data evidence for it, and the alternatives considered.
+2. Add any new assumptions the real data calls for, such as ballot length, and list factors still left out of the model and why.
+3. Review the draft with the owner, one assumption at a time. Record each decision, and the reason for it, in the model spec.
+
+**Done when:** the owner has approved every assumption in the model spec, and the change log records the approved version.
+
+## Milestone 4: Improve the model
+
+Build the model the owner approved in milestone 3. Don't add or change assumptions here without going back to the owner.
+
+1. Add a **ballot length** setting: how many ranks each voter fills in, drawn from a distribution (a spread of possible values with set likelihoods) instead of everyone ranking the maximum.
+2. Make every model setting a named field in the settings file, and document each one in `docs/model-spec.md`.
+3. Compute the same calibration statistics for generated elections that milestone 2 computes for real ones, using shared code where possible.
+
+**Done when:** every setting in the code appears in the approved model spec, and the calibration statistics can be computed for any generated election.
+
+## Milestone 5: Build the model tuner
 
 A local web page with a control for each model setting. For the chosen settings, it generates sample elections and shows their calibration statistics next to the real-data values, with clear labels for which are close and which are off.
 
 **Done when:** the owner can tune the model to match a real data source without editing code, and save the tuning as a named settings file.
 
-## Milestone 5: Reproduce published findings
+## Milestone 6: Reproduce published findings
 
 Using real ballots where the study did, and the tuned model where it simulated:
 
@@ -54,7 +70,7 @@ Using real ballots where the study did, and the tuned model where it simulated:
 
 **Done when:** each finding is reproduced, or any difference is explained in `docs/literature.md`.
 
-## Milestone 6: Add voting systems
+## Milestone 7: Add voting systems
 
 Each system needs hand-checked test elections before use.
 
@@ -66,17 +82,17 @@ Each system needs hand-checked test elections before use.
 
 **Done when:** each system passes its test elections, and the report has a plain-language explanation of what makes a vote "move down" under that system.
 
-## Milestone 7: Run sweeps
+## Milestone 8: Run sweeps
 
 Settings-file-driven runs across candidates, seats, voters, voting systems, and model tunings, on all cores, resumable.
 
 **Done when:** the sweeps in the report's outline are complete, with results files recording full settings and versions.
 
-## Milestone 8: Build the results explorer
+## Milestone 9: Build the results explorer
 
 A local dashboard for browsing results, comparing systems and tunings, and exporting charts for the report.
 
-## Milestone 9: Write the report
+## Milestone 10: Write the report
 
 Suggested outline:
 

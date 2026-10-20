@@ -75,7 +75,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 - **Why:** a simplification during exploration, and needed to measure how deep votes could travel.
 - **Evidence:** assumed. **Known to be unrealistic.**
 - **Sensitivity:** not yet tested, but likely high. Real voters often rank only a few candidates. A vote can't travel past a voter's last rank.
-- **Needed:** a distribution of ballot lengths, set from real data (milestone 2).
+- **Needed:** a distribution of ballot lengths, set from real data (gathered in milestone 2, approved in milestone 3, built in milestone 4).
 
 ### 6. Number of voters
 
