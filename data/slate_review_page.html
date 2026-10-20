@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a working ledger. Sticky place-and-year bar; each place-year block opens with its type rules, then its races, one row per grouping with a measured strip and a three-way mark. */
+/* Layout: a working ledger. Sticky place-and-year bar; each place-year block opens with its endorser rules, then its races, one row per grouping with a measured strip and a three-way mark. */
 :root {
   --bg: #f6f7f9;
   --surface: #ffffff;
@@ -134,8 +134,8 @@ section.election { background: var(--surface); border: 1px solid var(--rule); bo
   <p class="lede">The ballots already show that these voters ranked each other. The question is <b>why</b>, as far as anyone who knows the race can tell. Mark <b>Counts</b> when the candidates share a political grouping you'd recognize: shared politics, a coalition, a shared base or identity, of a kind that could exist in other elections. Mark <b>Doesn't count</b> when the likely reason is something else, such as neighborhood, name recognition, incumbency, or voters ranking the two front-runners. Mark <b>Unsure</b> when you can't tell. A rule of thumb: count it if you can name what the candidates have in common politically.</p>
   <ol class="steps">
     <li>Pick a place and year. Each is reviewed separately, so someone who knows that place's politics can do it.</li>
-    <li>Set a rule for each type of grouping, such as unions or candidate pacts. Every row of that type follows the rule.</li>
-    <li>Override single rows where you know better, and add a reason.</li>
+    <li>Set a rule for each endorser, such as the Working Families Party or a labor council. Every slate that endorser made in that place and year follows the rule. Pairs found only in the ballots share one default rule.</li>
+    <li>Mark candidate pacts one by one, and override any other row where you know better. Add a reason when it helps.</li>
   </ol>
   <details class="legend">
     <summary>What the numbers mean</summary>
@@ -173,7 +173,11 @@ const pct = x => (x * 100).toFixed(0) + "%";
 const safe = s => s.replace(/[^A-Za-z0-9_.~:@+-]/g, "-");
 const scopeOf = e => `${e.place} ${e.year || ""}`.trim();
 const rowKey = (e, g) => safe(e.file.split("/").pop().replace(/\.ballots$/, "") + "~" + g.id);
-const ruleKey = (scope, cat) => safe(scope + "~" + cat);
+const FOUND = "Pairs found only in ballots";
+const ruleKey = (scope, name) => safe(scope + "~" + name);
+const kindLabel = g => g.kind === "found-in-ballots" ? "Found in ballots" : g.kind === "campaign" ? "Candidate pact" : g.kind === "media" ? "Newspaper" : "Endorsement";
+// The rule a row follows: its endorser's, or the shared rule for found pairs. Pacts have none.
+const ruleName = g => g.kind === "endorsement" || g.kind === "media" ? g.name.replace(/ \(media\)$/, "") : g.kind === "found-in-ballots" ? FOUND : null;
 
 // Scopes in a stable order: by place, then year.
 const SCOPES = [...new Set(DATA.elections.map(scopeOf))].sort();
@@ -181,7 +185,8 @@ const SCOPES = [...new Set(DATA.elections.map(scopeOf))].sort();
 function effective(e, g) {
   const m = marks[rowKey(e, g)];
   if (m && m.decision) return { decision: m.decision, from: "row", by: m.by };
-  const r = rules[ruleKey(scopeOf(e), g.category)];
+  const rn = ruleName(g);
+  const r = rn && rules[ruleKey(scopeOf(e), rn)];
   if (r && r.decision) return { decision: r.decision, from: "rule", by: r.by };
   return { decision: null, from: null };
 }
@@ -231,8 +236,8 @@ function row(e, g) {
   const who = document.createElement("div"); who.className = "who";
   const name = document.createElement("div"); name.className = "gname";
   const chip = document.createElement("span");
-  chip.className = "chip" + (g.category === "Found only in ballots" ? " found" : g.category === "Candidate pact" ? " pact" : "");
-  chip.textContent = g.category;
+  chip.className = "chip" + (g.kind === "found-in-ballots" ? " found" : g.kind === "campaign" ? " pact" : "");
+  chip.textContent = kindLabel(g);
   name.append(chip, document.createTextNode(g.name.replace(/ \(media\)$/, "")));
   const mem = document.createElement("div"); mem.className = "members"; mem.textContent = g.members.join(" · ");
   who.append(name, mem);
@@ -267,10 +272,11 @@ function row(e, g) {
     saveRow(e, g, key, m.decision === v ? null : v, reason.value);
   });
   const origin = document.createElement("div"); origin.className = "origin";
-  if (eff.from === "rule") origin.textContent = `From the ${g.category.toLowerCase()} rule`;
+  if (eff.from === "rule") origin.textContent = ruleName(g) === FOUND ? "From the rule for found pairs" : `From the rule for ${ruleName(g)}`;
   else if (eff.from === "row") {
     origin.textContent = `Marked by ${byName(eff.by)} for this row. `;
-    const r = rules[ruleKey(scopeOf(e), g.category)];
+    const rn = ruleName(g);
+    const r = rn && rules[ruleKey(scopeOf(e), rn)];
     if (r && r.decision) {
       const b = document.createElement("button"); b.type = "button"; b.textContent = `Use the rule (${LABEL[r.decision]})`;
       b.disabled = !canWrite; b.addEventListener("click", () => saveRow(e, g, key, null, reason.value));
@@ -288,17 +294,17 @@ function row(e, g) {
 
 function rulesPanel(scope, elections) {
   const counts = {};
-  for (const e of elections) for (const g of e.groupings) counts[g.category] = (counts[g.category] || 0) + 1;
+  for (const e of elections) for (const g of e.groupings) { const rn = ruleName(g); if (rn) counts[rn] = (counts[rn] || 0) + 1; }
   const box = document.createElement("div"); box.className = "rules";
   const h = document.createElement("h3"); h.textContent = "Rules for " + scope;
-  const p = document.createElement("p"); p.textContent = "Each rule sets the mark for every row of that type here. Rows you mark yourself keep their own mark.";
+  const p = document.createElement("p"); p.textContent = "One rule per endorser: it sets the mark for every slate that endorser made here. Candidate pacts have no rule; mark them below. Rows you mark yourself keep their own mark.";
   box.append(h, p);
-  for (const cat of Object.keys(counts).sort()) {
+  for (const cat of Object.keys(counts).sort((a, b) => (a === FOUND) - (b === FOUND) || a.localeCompare(b))) {
     const k = ruleKey(scope, cat);
     const r = rules[k] || {};
     const line = document.createElement("div"); line.className = "rule-row";
     const n = document.createElement("span"); n.className = "rname"; n.textContent = cat;
-    const c = document.createElement("span"); c.className = "rcount"; c.textContent = `${counts[cat]} row${counts[cat] > 1 ? "s" : ""}`;
+    const c = document.createElement("span"); c.className = "rcount"; c.textContent = cat === FOUND ? `${counts[cat]} pair${counts[cat] > 1 ? "s" : ""}` : `${counts[cat]} race${counts[cat] > 1 ? "s" : ""}`;
     n.append(c);
     const ctl = markControl(r.decision, false, `Rule for ${cat} in ${scope}`, v => saveRule(scope, cat, k, r.decision === v ? null : v));
     line.append(n, ctl);
@@ -318,7 +324,7 @@ async function saveRow(e, g, key, decision, reason, quiet) {
       marks[key] = { decision, reason, by: me };
       if (!quiet) render();
       await ref.set({ place: e.place, year: e.year, election: e.election, file: e.file, grouping: g.id,
-        category: g.category, kind: g.kind, name: g.name, members: g.members,
+        rule: ruleName(g), kind: g.kind, name: g.name, members: g.members,
         decision: decision || null, reason: reason || "", by: me,
         observed: g.observed, popularity: g.popularity, updated_at: new Date().toISOString() });
     }
@@ -334,7 +340,7 @@ async function saveRule(scope, cat, key, decision) {
     else {
       rules[key] = { decision, by: me }; render();
       const [place, year] = [DATA.elections.find(e => scopeOf(e) === scope)].map(e => [e.place, e.year])[0];
-      await ref.set({ place, year, category: cat, decision, by: me, updated_at: new Date().toISOString() });
+      await ref.set({ place, year, endorser: cat, decision, by: me, updated_at: new Date().toISOString() });
     }
   } catch (err) { failed(err, () => { if (prev) rules[key] = prev; else delete rules[key]; }); }
 }

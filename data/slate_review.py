@@ -38,36 +38,6 @@ PLACES = {"nyc": "New York City", "portland": "Portland, OR", "irish": "Ireland"
           "sf": "San Francisco", "sl": "San Leandro, CA", "aspen": "Aspen, CO", "berkley": "Berkeley, CA",
           "pierce": "Pierce County, WA", "takomapark": "Takoma Park, MD"}
 
-# The type of each grouping, so the owner can set one rule per type for each
-# place and year. Endorsers not listed here fall under "Other endorsement".
-# This sorting is a first pass by name; the owner can override any row.
-CATEGORIES = [
-    ("Union", ["Labor Council", "Fire Fighters", "Police Association", "Nurses Association", "UAW",
-               "UNITE HERE", "District Council 37", "UFT", "1199", "32BJ", "Hotel Trades", "RWDSU",
-               "LaborStrong", "Central Labor Council", "DC37"]),
-    ("Party or political organization", ["Working Families", "DSA", "Democratic Socialists", "DFL",
-               "Democratic Party", "Republican", "Green Party", "Independence Party", "Citizen Action",
-               "Ocasio-Cortez"]),
-    ("Advocacy group", ["Sierra Club", "Conservation Voters", "Planned Parenthood", "Road to Justice",
-               "Community Voices Heard", "NYIC"]),
-    ("Good-government group", ["Citizens Union"]),
-    ("Business group", ["Chamber", "United for Portland"]),
-]
-
-
-def category(kind, name):
-    if kind == "campaign":
-        return "Candidate pact"
-    if kind == "media" or "(media)" in name:
-        return "Newspaper editorial board"
-    if kind == "found-in-ballots":
-        return "Found only in ballots"
-    for cat, words in CATEGORIES:
-        if any(w.lower() in name.lower() for w in words):
-            return cat
-    return "Other endorsement"
-
-
 def read_ballots(path):
     nc = ns = None
     ballots = []
@@ -128,7 +98,6 @@ def review(path):
         groups.append({
             "id": f"slate-{i}",
             "kind": kind,
-            "category": category(kind, s["name"]),
             "name": s["name"],
             "members": [names[c] for c in s["members"]],
             "source": s.get("source"),
@@ -173,7 +142,7 @@ def review(path):
             })
     found.sort(key=lambda g: g["observed"] - g["popularity"], reverse=True)
     for i, g in enumerate(found[:FOUND_PER_ELECTION]):
-        groups.append({"id": f"found-{i}", "category": category(g["kind"], g["name"]), **g})
+        groups.append({"id": f"found-{i}", **g})
     base = os.path.basename(path)
     src = os.path.basename(os.path.dirname(os.path.dirname(path)))
     place = PLACES.get(src) or PLACES.get(base.split("-")[0], base.split("-")[0])
