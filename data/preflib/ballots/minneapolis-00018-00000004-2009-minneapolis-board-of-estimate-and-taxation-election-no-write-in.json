@@ -1,0 +1,22 @@
+{
+  "source": "preflib",
+  "election": "2009 Minneapolis Board of Estimate and Taxation Election - No Write In",
+  "date": "2009",
+  "system": "unknown",
+  "candidates": [
+    "\"Carol Becker\"",
+    "\"R. Michael Martens\"",
+    "\"James Elliot Swartwood\"",
+    "\"Dewayne Townsend\"",
+    "\"David Wheeler\"",
+    "\"Phil Wilkie\"",
+    "\"Write In\""
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00018-00000004.soi",
+  "preflib_dataset": "minneapolis",
+  "notes": "PrefLib file 00018-00000004.soi (dataset 00018, 'minneapolis'). Counting rule, as far as we know: Minneapolis STV for multi-seat races. A 'Write-In' candidate stands for all write-in votes combined."
+}

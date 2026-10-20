@@ -1,0 +1,26 @@
+{
+  "source": "preflib",
+  "election": "2007 Scotland Shettleston Ward",
+  "date": "2007",
+  "system": "unknown",
+  "candidates": [
+    "Mick Eyre",
+    "Walter Hamilton",
+    "Wheatley Harris",
+    "David Jackson",
+    "Gordon Kirker",
+    "Catherine Maguire",
+    "Tom Mckeown",
+    "John F Mclaughlin",
+    "Euan Mcleod",
+    "George Ryan",
+    "Alex White"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00008-00000019.soi",
+  "preflib_dataset": "glasgow",
+  "notes": "PrefLib file 00008-00000019.soi (dataset 00008, 'glasgow'). Counting rule, as far as we know: Scottish STV, multi-winner."
+}

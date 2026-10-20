@@ -1,0 +1,25 @@
+{
+  "source": "preflib",
+  "election": "2008 San Francisco Board of Supervisors - District 1",
+  "date": "2008",
+  "system": "unknown",
+  "candidates": [
+    "Eric Mar",
+    "Alicia Wang",
+    "Jason Jungreis",
+    "Brian J. Larkin",
+    "Sue Lee",
+    "Sherman R. D'Silva",
+    "George Flamik",
+    "Fidel Chrys Gakuba",
+    "Nicholas C. Belloni",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 111,
+  "preflib_file": "00021-00000001.toi",
+  "preflib_dataset": "sf",
+  "notes": "PrefLib file 00021-00000001.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 111 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

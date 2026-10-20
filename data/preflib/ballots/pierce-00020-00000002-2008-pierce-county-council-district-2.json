@@ -1,0 +1,19 @@
+{
+  "source": "preflib",
+  "election": "2008 Pierce County Council - District 2",
+  "date": "2008",
+  "system": "unknown",
+  "candidates": [
+    "Al Rose",
+    "Carolyn Merrival",
+    "Joyce Mcdonald",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 15,
+  "preflib_file": "00020-00000002.toi",
+  "preflib_dataset": "pierce",
+  "notes": "PrefLib file 00020-00000002.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 15 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

@@ -1,0 +1,32 @@
+{
+  "source": "preflib",
+  "election": "ERS Set 29",
+  "date": null,
+  "system": "unknown",
+  "candidates": [
+    "Candidate 1",
+    "Candidate 2",
+    "Candidate 3",
+    "Candidate 4",
+    "Candidate 5",
+    "Candidate 6",
+    "Candidate 7",
+    "Candidate 8",
+    "Candidate 9",
+    "Candidate 10",
+    "Candidate 11",
+    "Candidate 12",
+    "Candidate 13",
+    "Candidate 14",
+    "Candidate 15",
+    "Candidate 16",
+    "Candidate 17"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00007-00000029.soi",
+  "preflib_dataset": "ers",
+  "notes": "PrefLib file 00007-00000029.soi (dataset 00007, 'ers'). Counting rule, as far as we know: Various rules used by the organizations; seats and rules not recorded by PrefLib. Number of seats is not recorded by PrefLib for the ERS files; set to 1, which is how Tomlinson et al. counted every PrefLib election."
+}

@@ -1,0 +1,23 @@
+{
+  "source": "preflib",
+  "election": "2008 San Francisco Board of Supervisors - District 9",
+  "date": "2008",
+  "system": "unknown",
+  "candidates": [
+    "Eva Royale",
+    "Vern Mathews",
+    "Mark Sanchez",
+    "Eric Storey",
+    "Tom Valtin",
+    "David Campos",
+    "Eric Quezada",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 242,
+  "preflib_file": "00021-00000005.toi",
+  "preflib_dataset": "sf",
+  "notes": "PrefLib file 00021-00000005.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 242 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

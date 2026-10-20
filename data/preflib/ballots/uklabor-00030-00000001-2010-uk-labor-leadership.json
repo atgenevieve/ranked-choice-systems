@@ -1,0 +1,20 @@
+{
+  "source": "preflib",
+  "election": "2010 UK Labor Leadership",
+  "date": "2010",
+  "system": "unknown",
+  "candidates": [
+    "D.Abbott",
+    "E.Balls",
+    "A.Burnhm",
+    "D.Milbnd",
+    "E.Milbnd"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00030-00000001.soi",
+  "preflib_dataset": "uklabor",
+  "notes": "PrefLib file 00030-00000001.soi (dataset 00030, 'uklabor'). Counting rule, as far as we know: Alternative vote (instant runoff) by electoral college; these are only the 266 MPs' ballots."
+}

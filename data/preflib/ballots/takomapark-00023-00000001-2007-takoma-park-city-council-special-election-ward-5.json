@@ -1,0 +1,19 @@
+{
+  "source": "preflib",
+  "election": "2007 Takoma Park City Council Special Election - Ward 5",
+  "date": "2007",
+  "system": "unknown",
+  "candidates": [
+    "Alexandra Quere Barrionuevo",
+    "Eric Hensal",
+    "Reuben Snipper",
+    "Write In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 2,
+  "preflib_file": "00023-00000001.toi",
+  "preflib_dataset": "takomapark",
+  "notes": "PrefLib file 00023-00000001.toi (dataset 00023, 'takomapark'). Counting rule, as far as we know: Instant runoff, single-winner. 2 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

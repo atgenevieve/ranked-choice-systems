@@ -1,0 +1,26 @@
+{
+  "source": "preflib",
+  "election": "2010 Oakland Mayor",
+  "date": "2010",
+  "system": "unknown",
+  "candidates": [
+    "Don Perata",
+    "Terence Candell",
+    "Greg Harland",
+    "Don Macleay",
+    "Jean Quan",
+    "Arnold Fields",
+    "Joe Tuman",
+    "Marcie Hodge",
+    "Larry Lionel 'Ll' Young Jr.",
+    "Rebecca Kaplan",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 361,
+  "preflib_file": "00019-00000002.toi",
+  "preflib_dataset": "oakland",
+  "notes": "PrefLib file 00019-00000002.toi (dataset 00019, 'oakland'). Counting rule, as far as we know: Instant runoff, single-winner. 361 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}
