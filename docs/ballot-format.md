@@ -38,7 +38,7 @@ Each `.ballots` file has a matching `.json` file with the same name:
 }
 ```
 
-`parties` and `official_winners` can be `null` when the source doesn't give them.
+`parties` and `official_winners` can be `null` when the source doesn't give them. `official_winners` lists candidate numbers, using the same numbering as the ballot file, of the candidates the official count declared elected. The engine uses these to check its counting against real results.
 
 `parties` holds only real party labels: what the ballot printed, or the candidate's official party affiliation. Use `null` for a candidate with no known party. Record where the labels came from in an optional `party_source` field (a URL or short description).
 
@@ -59,4 +59,4 @@ In nonpartisan races, and in primaries where every candidate is in the same part
 
 - `kind` is `endorsement` (an organization endorsed these candidates), `party` (party affiliation not printed on the ballot, such as voter registration in a nonpartisan race), or `campaign` (candidates who campaigned together or asked voters to rank each other).
 - A candidate can be in several slates, or none.
-- Only list a slate when a public source names its members. Put the source in `source`. `official_winners` lists candidate numbers, using the same numbering as the ballot file, of the candidates the official count declared elected. The engine uses these to check its counting against real results.
+- Only list a slate when a public source names its members. Put the source in `source`.

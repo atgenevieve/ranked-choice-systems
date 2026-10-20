@@ -8,6 +8,8 @@
  "elections": [
   {
    "election": "NYC 2021 primary, DEM Borough President Kings",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-borough-president-kings.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -18,6 +20,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Jo Anne Simon",
@@ -34,6 +37,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Kim Council and Pearlene S. Fields",
      "members": [
@@ -48,6 +52,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Antonio Reynoso and Jo Anne Simon",
      "members": [
@@ -66,6 +71,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Borough President New York",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-borough-president-new-york.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -76,6 +83,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Brad M. Hoylman",
@@ -91,6 +99,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Lindsey C. Boylan and Kimberly R. Watkins",
      "members": [
@@ -105,6 +114,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Lindsey C. Boylan and Elizabeth R. Caputo",
      "members": [
@@ -121,6 +131,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Comptroller Citywide",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-comptroller-citywide.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -131,6 +143,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Brian A. Benjamin",
@@ -147,6 +160,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Brian A. Benjamin and Kevin S. Parker",
      "members": [
@@ -163,6 +177,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Council Member 19th Council District",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-council-member-19th-council-district.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -173,6 +189,7 @@
     {
      "id": "slate-0",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "KC and Shafran",
      "members": [
       "Nabaraj KC",
@@ -190,6 +207,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Council Member 20th Council District",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-council-member-20th-council-district.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -200,6 +219,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Road to Justice NYC",
      "members": [
       "John Choe",
@@ -215,6 +235,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Hailing Chen and Dao Yin",
      "members": [
@@ -229,6 +250,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Ellen Young and Neng Wang",
      "members": [
@@ -243,6 +265,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Neng Wang and Dao Yin",
      "members": [
@@ -259,6 +282,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Council Member 23rd Council District",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-council-member-23rd-council-district.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -269,6 +294,7 @@
     {
      "id": "slate-0",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Markell and Toor",
      "members": [
       "Debra Markell",
@@ -284,6 +310,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Steve Behar and Debra Markell",
      "members": [
@@ -298,6 +325,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Linda Lee and Debra Markell",
      "members": [
@@ -312,6 +340,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Jaslin Kaur and Harpreet S. Toor",
      "members": [
@@ -326,6 +355,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Sanjeev Kumar Jindal and Harpreet S. Toor",
      "members": [
@@ -342,6 +372,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Council Member 25th Council District",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-council-member-25th-council-district.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -352,6 +384,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Road to Justice NYC",
      "members": [
       "Shekar Krishnan",
@@ -367,6 +400,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Alfonso Quiroz and Manuel F. Perez",
      "members": [
@@ -381,6 +415,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Shekar Krishnan and Carolyn Tran",
      "members": [
@@ -397,6 +432,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Manuel F. Perez and William H. Salgado",
      "members": [
@@ -413,6 +449,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Council Member 26th Council District",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-council-member-26th-council-district.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -423,6 +461,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Amit S. Bagga",
@@ -439,6 +478,7 @@
     {
      "id": "slate-1",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Road to Justice NYC",
      "members": [
       "Amit S. Bagga",
@@ -455,6 +495,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Julie Won",
@@ -471,6 +512,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Badrun Khan and Sultan Al Maruf",
      "members": [
@@ -485,6 +527,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Julie Won and Hailie Kim",
      "members": [
@@ -499,6 +542,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Glennis E. Gomez and Lorenzo Brea",
      "members": [
@@ -513,6 +557,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Amit S. Bagga and Jesse Laymon",
      "members": [
@@ -530,6 +575,7 @@
     },
     {
      "id": "found-4",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Brent O'Leary and Denise M. Keehan-Smith",
      "members": [
@@ -546,6 +592,8 @@
   },
   {
    "election": "NYC 2021 primary, DEM Mayor Citywide",
+   "place": "New York City",
+   "year": "2021",
    "file": "data/nyc/ballots/2021-dem-mayor-citywide.ballots",
    "source": "nyc",
    "date": "2021-06-22",
@@ -556,6 +604,7 @@
     {
      "id": "slate-0",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Yang and Garcia",
      "members": [
       "Andrew Yang",
@@ -572,6 +621,7 @@
     {
      "id": "slate-1",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Chang and Taylor",
      "members": [
       "Art Chang",
@@ -588,6 +638,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party (April 2021 ranking, later withdrawn)",
      "members": [
       "Scott M. Stringer",
@@ -605,6 +656,7 @@
     {
      "id": "slate-3",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "New York Daily News editorial board (media)",
      "members": [
       "Kathryn A. Garcia",
@@ -622,6 +674,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Kathryn A. Garcia",
@@ -639,6 +692,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Union",
      "name": "New York State Nurses Association",
      "members": [
       "Maya D. Wiley",
@@ -655,6 +709,7 @@
     {
      "id": "slate-6",
      "kind": "endorsement",
+     "category": "Union",
      "name": "UAW Region 9A",
      "members": [
       "Scott M. Stringer",
@@ -671,6 +726,7 @@
     {
      "id": "slate-7",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Community Voices Heard Power",
      "members": [
       "Maya D. Wiley",
@@ -687,6 +743,7 @@
     {
      "id": "slate-8",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Planned Parenthood of Greater NY Votes PAC",
      "members": [
       "Kathryn A. Garcia",
@@ -704,6 +761,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Maya D. Wiley and Dianne Morales",
      "members": [
@@ -721,6 +779,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Kathryn A. Garcia and Scott M. Stringer",
      "members": [
@@ -740,6 +799,8 @@
   },
   {
    "election": "NYC 2025 primary, DEM Council Member 13th Council District",
+   "place": "New York City",
+   "year": "2025",
    "file": "data/nyc/ballots/2025-dem-council-member-13th-council-district.ballots",
    "source": "nyc",
    "date": "2025-06-24",
@@ -750,6 +811,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Shirley Aldebol",
@@ -767,6 +829,8 @@
   },
   {
    "election": "NYC 2025 primary, DEM Council Member 17th Council District",
+   "place": "New York City",
+   "year": "2025",
    "file": "data/nyc/ballots/2025-dem-council-member-17th-council-district.ballots",
    "source": "nyc",
    "date": "2025-06-24",
@@ -777,6 +841,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Antirson R. Ortiz",
@@ -795,6 +860,8 @@
   },
   {
    "election": "NYC 2025 primary, DEM Council Member 21st Council District",
+   "place": "New York City",
+   "year": "2025",
    "file": "data/nyc/ballots/2025-dem-council-member-21st-council-district.ballots",
    "source": "nyc",
    "date": "2025-06-24",
@@ -805,6 +872,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Erycka Montoya",
@@ -820,6 +888,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Erycka Montoya and Yanna M. Henriquez",
      "members": [
@@ -834,6 +903,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Shanel Thomas-Henry and David Aiken",
      "members": [
@@ -850,6 +920,8 @@
   },
   {
    "election": "NYC 2025 primary, DEM Council Member 2nd Council District",
+   "place": "New York City",
+   "year": "2025",
    "file": "data/nyc/ballots/2025-dem-council-member-2nd-council-district.ballots",
    "source": "nyc",
    "date": "2025-06-24",
@@ -860,6 +932,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Harvey D. Epstein",
@@ -876,6 +949,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Sarah Batchu and Andrea Gordillo",
      "members": [
@@ -894,6 +968,8 @@
   },
   {
    "election": "NYC 2025 primary, DEM Mayor Citywide",
+   "place": "New York City",
+   "year": "2025",
    "file": "data/nyc/ballots/2025-dem-mayor-citywide.ballots",
    "source": "nyc",
    "date": "2025-06-24",
@@ -904,6 +980,7 @@
     {
      "id": "slate-0",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Mamdani and Lander",
      "members": [
       "Zohran Kwame Mamdani",
@@ -920,6 +997,7 @@
     {
      "id": "slate-1",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Mamdani and Blake",
      "members": [
       "Zohran Kwame Mamdani",
@@ -936,6 +1014,7 @@
     {
      "id": "slate-2",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Ramos for Cuomo (one-way)",
      "members": [
       "Jessica Ramos",
@@ -952,6 +1031,7 @@
     {
      "id": "slate-3",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Tilson for Cuomo (one-way)",
      "members": [
       "Whitney R. Tilson",
@@ -968,6 +1048,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Working Families Party",
      "members": [
       "Zohran Kwame Mamdani",
@@ -986,6 +1067,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Good-government group",
      "name": "Citizens Union",
      "members": [
       "Andrew M. Cuomo",
@@ -1003,6 +1085,7 @@
     {
      "id": "slate-6",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "New York Daily News editorial board (media)",
      "members": [
       "Andrew M. Cuomo",
@@ -1020,6 +1103,7 @@
     {
      "id": "slate-7",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "New York League of Conservation Voters",
      "members": [
       "Andrew M. Cuomo",
@@ -1036,6 +1120,7 @@
     {
      "id": "slate-8",
      "kind": "endorsement",
+     "category": "Union",
      "name": "District Council 37",
      "members": [
       "Adrienne E. Adams",
@@ -1053,6 +1138,7 @@
     {
      "id": "slate-9",
      "kind": "endorsement",
+     "category": "Union",
      "name": "UNITE HERE Local 100",
      "members": [
       "Adrienne E. Adams",
@@ -1071,6 +1157,7 @@
     {
      "id": "slate-10",
      "kind": "endorsement",
+     "category": "Union",
      "name": "UAW Region 9A",
      "members": [
       "Zohran Kwame Mamdani",
@@ -1090,6 +1177,7 @@
     {
      "id": "slate-11",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Citizen Action of New York",
      "members": [
       "Zohran Kwame Mamdani",
@@ -1109,6 +1197,7 @@
     {
      "id": "slate-12",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Alexandria Ocasio-Cortez and Nydia Velázquez",
      "members": [
       "Zohran Kwame Mamdani",
@@ -1127,6 +1216,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Zohran Kwame Mamdani and Brad Lander",
      "members": [
@@ -1148,6 +1238,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Brad Lander and Adrienne E. Adams",
      "members": [
@@ -1169,6 +1260,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Andrew M. Cuomo and Scott M. Stringer",
      "members": [
@@ -1183,6 +1275,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Brad Lander and Scott M. Stringer",
      "members": [
@@ -1199,6 +1292,7 @@
     },
     {
      "id": "found-4",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Andrew M. Cuomo and Adrienne E. Adams",
      "members": [
@@ -1217,6 +1311,8 @@
   },
   {
    "election": "Portland, OR 2024 general, Councilor, District 1",
+   "place": "Portland, OR",
+   "year": "2024",
    "file": "data/portland/ballots/2024-councilor-district-1.ballots",
    "source": "portland",
    "date": "2024-11-05",
@@ -1227,6 +1323,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Oregon Working Families Party",
      "members": [
       "Candace Avalos",
@@ -1245,6 +1342,7 @@
     {
      "id": "slate-1",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Northwest Oregon Labor Council",
      "members": [
       "Steph Routh",
@@ -1262,6 +1360,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Fire Fighters Association",
      "members": [
       "Jamie Dunphy",
@@ -1279,6 +1378,7 @@
     {
      "id": "slate-3",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Spotlight)",
      "members": [
       "Terrence Hayes",
@@ -1295,6 +1395,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Green Light, including Spotlight)",
      "members": [
       "Terrence Hayes",
@@ -1312,6 +1413,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "Portland Metro Chamber",
      "members": [
       "Loretta Smith",
@@ -1329,6 +1431,7 @@
     {
      "id": "slate-6",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Sierra Club Oregon Chapter",
      "members": [
       "Candace Avalos",
@@ -1347,6 +1450,7 @@
     {
      "id": "slate-7",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Willamette Week (media)",
      "members": [
       "Jamie Dunphy",
@@ -1367,6 +1471,7 @@
     {
      "id": "slate-8",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Portland Mercury (media)",
      "members": [
       "Candace Avalos",
@@ -1384,6 +1489,7 @@
     {
      "id": "slate-9",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "The Oregonian editorial board (media)",
      "members": [
       "Terrence Hayes",
@@ -1401,6 +1507,7 @@
     {
      "id": "slate-10",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Avalos and Routh",
      "members": [
       "Candace Avalos",
@@ -1416,6 +1523,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Noah Ernst and Terrence Hayes",
      "members": [
@@ -1434,6 +1542,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Loretta Smith and Terrence Hayes",
      "members": [
@@ -1452,6 +1561,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Candace Avalos and Cayle Tern",
      "members": [
@@ -1468,6 +1578,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Jamie Dunphy and Steph Routh",
      "members": [
@@ -1488,6 +1599,7 @@
     },
     {
      "id": "found-4",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Candace Avalos and Steph Routh",
      "members": [
@@ -1510,6 +1622,8 @@
   },
   {
    "election": "Portland, OR 2024 general, Councilor, District 2",
+   "place": "Portland, OR",
+   "year": "2024",
    "file": "data/portland/ballots/2024-councilor-district-2.ballots",
    "source": "portland",
    "date": "2024-11-05",
@@ -1520,6 +1634,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Oregon Working Families Party",
      "members": [
       "Nat West",
@@ -1538,6 +1653,7 @@
     {
      "id": "slate-1",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Northwest Oregon Labor Council",
      "members": [
       "Jonathan Tasini",
@@ -1555,6 +1671,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Fire Fighters Association",
      "members": [
       "Dan Ryan",
@@ -1571,6 +1688,7 @@
     {
      "id": "slate-3",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Police Association",
      "members": [
       "Dan Ryan",
@@ -1587,6 +1705,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Spotlight)",
      "members": [
       "Mariah Hudson",
@@ -1607,6 +1726,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Green Light, including Spotlight)",
      "members": [
       "Mariah Hudson",
@@ -1632,6 +1752,7 @@
     {
      "id": "slate-6",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "Portland Metro Chamber",
      "members": [
       "Dan Ryan",
@@ -1651,6 +1772,7 @@
     {
      "id": "slate-7",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Sierra Club Oregon Chapter",
      "members": [
       "Michelle DePass",
@@ -1668,6 +1790,7 @@
     {
      "id": "slate-8",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Willamette Week (media)",
      "members": [
       "Elana Pirtle-Guiney",
@@ -1688,6 +1811,7 @@
     {
      "id": "slate-9",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Portland Mercury (media)",
      "members": [
       "Sameer Kanal",
@@ -1705,6 +1829,7 @@
     {
      "id": "slate-10",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "The Oregonian editorial board (media)",
      "members": [
       "Dan Ryan",
@@ -1722,6 +1847,7 @@
     {
      "id": "slate-11",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Armstrong and Marshall",
      "members": [
       "James Armstrong",
@@ -1737,6 +1863,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Sameer Kanal and Michelle DePass",
      "members": [
@@ -1753,6 +1880,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Elana Pirtle-Guiney and Dan Ryan",
      "members": [
@@ -1773,6 +1901,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Chris Olson and Jennifer Park",
      "members": [
@@ -1789,6 +1918,8 @@
   },
   {
    "election": "Portland, OR 2024 general, Councilor, District 3",
+   "place": "Portland, OR",
+   "year": "2024",
    "file": "data/portland/ballots/2024-councilor-district-3.ballots",
    "source": "portland",
    "date": "2024-11-05",
@@ -1799,6 +1930,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Oregon Working Families Party",
      "members": [
       "Tiffany Koyama Lane",
@@ -1816,6 +1948,7 @@
     {
      "id": "slate-1",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Northwest Oregon Labor Council",
      "members": [
       "Steve Novick",
@@ -1833,6 +1966,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Fire Fighters Association",
      "members": [
       "Steve Novick",
@@ -1850,6 +1984,7 @@
     {
      "id": "slate-3",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Spotlight)",
      "members": [
       "Rex Burkholder",
@@ -1869,6 +2004,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "Portland Metro Chamber",
      "members": [
       "Kezia Wanner",
@@ -1888,6 +2024,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Sierra Club Oregon Chapter",
      "members": [
       "Rex Burkholder",
@@ -1905,6 +2042,7 @@
     {
      "id": "slate-6",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Willamette Week (media)",
      "members": [
       "Steve Novick",
@@ -1925,6 +2063,7 @@
     {
      "id": "slate-7",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Portland Mercury (media)",
      "members": [
       "Angelita Morillo",
@@ -1942,6 +2081,7 @@
     {
      "id": "slate-8",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "The Oregonian editorial board (media)",
      "members": [
       "Kezia Wanner",
@@ -1959,6 +2099,7 @@
     {
      "id": "slate-9",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Koyama Lane and Morillo",
      "members": [
       "Tiffany Koyama Lane",
@@ -1974,6 +2115,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Steve Novick and Philippe Knab",
      "members": [
@@ -1990,6 +2132,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Angelita Morillo and Tiffany Koyama Lane",
      "members": [
@@ -2009,6 +2152,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Kezia Wanner and Harrison Kass",
      "members": [
@@ -2023,6 +2167,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Philippe Knab and Cristal Azul Otero",
      "members": [
@@ -2041,6 +2186,8 @@
   },
   {
    "election": "Portland, OR 2024 general, Councilor, District 4",
+   "place": "Portland, OR",
+   "year": "2024",
    "file": "data/portland/ballots/2024-councilor-district-4.ballots",
    "source": "portland",
    "date": "2024-11-05",
@@ -2051,6 +2198,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Oregon Working Families Party",
      "members": [
       "Mitch Green",
@@ -2067,6 +2215,7 @@
     {
      "id": "slate-1",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Northwest Oregon Labor Council",
      "members": [
       "Tony Morse",
@@ -2084,6 +2233,7 @@
     {
      "id": "slate-2",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Fire Fighters Association",
      "members": [
       "Tony Morse",
@@ -2101,6 +2251,7 @@
     {
      "id": "slate-3",
      "kind": "endorsement",
+     "category": "Union",
      "name": "Portland Police Association",
      "members": [
       "Tony Morse",
@@ -2119,6 +2270,7 @@
     {
      "id": "slate-4",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Spotlight)",
      "members": [
       "Eli Arnold",
@@ -2139,6 +2291,7 @@
     {
      "id": "slate-5",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "United for Portland (Green Light, including Spotlight)",
      "members": [
       "Eli Arnold",
@@ -2161,6 +2314,7 @@
     {
      "id": "slate-6",
      "kind": "endorsement",
+     "category": "Business group",
      "name": "Portland Metro Chamber",
      "members": [
       "Olivia Clark",
@@ -2181,6 +2335,7 @@
     {
      "id": "slate-7",
      "kind": "endorsement",
+     "category": "Advocacy group",
      "name": "Sierra Club Oregon Chapter",
      "members": [
       "Lisa Freeman",
@@ -2198,6 +2353,7 @@
     {
      "id": "slate-8",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Willamette Week (media)",
      "members": [
       "Olivia Clark",
@@ -2218,6 +2374,7 @@
     {
      "id": "slate-9",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Portland Mercury (media)",
      "members": [
       "Mitch Green",
@@ -2235,6 +2392,7 @@
     {
      "id": "slate-10",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "The Oregonian editorial board (media)",
      "members": [
       "Eric Zimmerman",
@@ -2252,6 +2410,7 @@
     {
      "id": "slate-11",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Clark and Zimmerman",
      "members": [
       "Olivia Clark",
@@ -2267,6 +2426,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Olivia Clark and Eric Zimmerman",
      "members": [
@@ -2290,6 +2450,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Mitch Green and Chad Lykins",
      "members": [
@@ -2307,6 +2468,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Kevin Goldsmith and John J Goldsmith",
      "members": [
@@ -2321,6 +2483,7 @@
     },
     {
      "id": "found-3",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Mitch Green and Lisa Freeman",
      "members": [
@@ -2337,6 +2500,7 @@
     },
     {
      "id": "found-4",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Chloe Mason and Ciatta R Thompson",
      "members": [
@@ -2353,6 +2517,8 @@
   },
   {
    "election": "Portland, OR 2024 general, Mayor",
+   "place": "Portland, OR",
+   "year": "2024",
    "file": "data/portland/ballots/2024-mayor.ballots",
    "source": "portland",
    "date": "2024-11-05",
@@ -2363,6 +2529,7 @@
     {
      "id": "slate-0",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Willamette Week (media)",
      "members": [
       "Keith Wilson",
@@ -2380,6 +2547,7 @@
     {
      "id": "slate-1",
      "kind": "media",
+     "category": "Newspaper editorial board",
      "name": "Portland Mercury (media)",
      "members": [
       "Carmen Rubio",
@@ -2396,6 +2564,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Rene Gonzalez and Mingus Mapps",
      "members": [
@@ -2412,6 +2581,8 @@
   },
   {
    "election": "2009 Minneapolis Park and Recreation Commissioner At-Large Election - No Write In",
+   "place": "Minneapolis",
+   "year": "2009",
    "file": "data/preflib/ballots/minneapolis-00018-00000002-2009-minneapolis-park-and-recreation-commissioner-at-large-election-no-write-in.ballots",
    "source": "preflib",
    "date": "2009-11-03",
@@ -2422,6 +2593,7 @@
     {
      "id": "slate-0",
      "kind": "endorsement",
+     "category": "Party or political organization",
      "name": "Minneapolis DFL",
      "members": [
       "\"Mary Merrill Anderson\"",
@@ -2438,6 +2610,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "\"John Erwin\" and \"Tom Nordyke\"",
      "members": [
@@ -2454,6 +2627,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "\"John Erwin\" and \"Annie Young\"",
      "members": [
@@ -2470,6 +2644,8 @@
   },
   {
    "election": "2010 Oakland Mayor",
+   "place": "Oakland, CA",
+   "year": "2010",
    "file": "data/preflib/ballots/oakland-00019-00000002-2010-oakland-mayor.ballots",
    "source": "preflib",
    "date": "2010-11-02",
@@ -2480,6 +2656,7 @@
     {
      "id": "slate-0",
      "kind": "campaign",
+     "category": "Candidate pact",
      "name": "Quan-Kaplan second-choice pact",
      "members": [
       "Jean Quan",
@@ -2495,6 +2672,7 @@
     },
     {
      "id": "found-0",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Jean Quan and Rebecca Kaplan",
      "members": [
@@ -2511,6 +2689,7 @@
     },
     {
      "id": "found-1",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Greg Harland and Arnold Fields",
      "members": [
@@ -2525,6 +2704,7 @@
     },
     {
      "id": "found-2",
+     "category": "Found only in ballots",
      "kind": "found-in-ballots",
      "name": "Terence Candell and Marcie Hodge",
      "members": [

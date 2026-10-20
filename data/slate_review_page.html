@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a working ledger. Sticky filter bar, then one block per election, one row per grouping with a measured strip and a three-way mark. */
+/* Layout: a working ledger. Sticky place-and-year bar; each place-year block opens with its type rules, then its races, one row per grouping with a measured strip and a three-way mark. */
 :root {
   --bg: #f6f7f9;
   --surface: #ffffff;
@@ -43,28 +43,42 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 header.intro { padding-block: 28px 18px; display: grid; gap: 12px; }
 h1 { font-size: 28px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
-.lede { margin: 0; color: var(--muted); max-width: 68ch; }
-.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
-.how div { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; font-size: 14px; }
+.question { margin: 0; font-size: 18px; font-weight: 600; max-width: 62ch; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 70ch; }
+.lede b { color: var(--ink); }
+.steps { margin: 0; padding-left: 20px; max-width: 70ch; display: grid; gap: 4px; }
+details.legend { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 14px; }
+details.legend summary { cursor: pointer; font-weight: 600; }
+.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; font-size: 14px; }
 .how b { display: block; margin-bottom: 2px; }
 .key { display: inline-flex; align-items: center; gap: 6px; }
 .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
 .bar-filters { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--rule); }
-.bar-filters .wrap { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-block: 10px; }
-.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.bar-filters .wrap { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding-block: 10px; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
 .seg button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink); padding: 5px 10px; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--rule); }
 .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-.seg button:focus-visible, .mark button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .flabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 6px; }
 .progress { margin-left: auto; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .progress strong { color: var(--ink); }
-.status { font-size: 13px; color: var(--muted); padding-block: 8px 0; }
+.status { font-size: 13px; color: var(--muted); padding-block: 8px 0; margin: 0; }
 .status.warn { color: var(--no); }
-main { padding-block: 18px 60px; display: grid; gap: 22px; }
+main { padding-block: 18px 60px; display: grid; gap: 34px; }
+.scope { display: grid; gap: 14px; }
+.scope > h2 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+.scope > h2 span { color: var(--muted); font-weight: 500; }
+.rules { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; }
+.rules h3 { margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+.rules p { margin: 0; font-size: 13px; color: var(--muted); }
+.rule-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; padding-top: 8px; border-top: 1px solid var(--rule); }
+.rule-row .rname { font-weight: 600; }
+.rule-row .rcount { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.rule-row .rby { font-size: 12px; color: var(--muted); width: 100%; text-align: right; }
 section.election { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
-.ehead { padding: 14px 16px 10px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; border-bottom: 1px solid var(--rule); }
-.ehead h2 { font-size: 17px; margin: 0; flex: 1 1 320px; min-width: 0; text-wrap: balance; }
+.ehead { padding: 12px 16px 10px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; border-bottom: 1px solid var(--rule); }
+.ehead h4 { font-size: 16px; margin: 0; flex: 1 1 320px; min-width: 0; text-wrap: balance; }
 .emeta { font-family: var(--font-data); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 10px 18px; padding: 12px 16px; border-top: 1px solid var(--rule); align-items: start; }
 .row:first-of-type { border-top: 0; }
@@ -73,9 +87,9 @@ section.election { background: var(--surface); border: 1px solid var(--rule); bo
 .row[data-decision="unsure"] { box-shadow: inset 3px 0 0 var(--maybe); }
 .who { min-width: 0; display: grid; gap: 4px; }
 .gname { font-weight: 600; }
-.chip { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 6px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; background: var(--strip); color: var(--muted); }
-.chip.campaign { background: var(--accent-soft); color: var(--accent); }
+.chip { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 1px 6px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; background: var(--strip); color: var(--muted); white-space: nowrap; }
 .chip.found { background: var(--maybe-soft); color: var(--maybe); }
+.chip.pact { background: var(--accent-soft); color: var(--accent); }
 .members { font-size: 13px; color: var(--muted); }
 .aside { font-size: 12px; color: var(--muted); }
 .aside a { color: var(--accent); }
@@ -87,24 +101,27 @@ section.election { background: var(--surface); border: 1px solid var(--rule); bo
 .strip .tick.rnd { background: var(--muted); opacity: 0.5; width: 1px; }
 .nums { font-family: var(--font-data); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 12px; font-variant-numeric: tabular-nums; }
 .nums .o { color: var(--ink); font-weight: 500; }
-.excess { font-weight: 600; }
+.excess { font-weight: 600; font-size: 13px; }
 .excess.big { color: var(--yes); }
 .excess.small { color: var(--muted); }
 .excess.neg { color: var(--no); }
 .decide { display: grid; gap: 6px; justify-items: end; }
-.mark { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.mark { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--surface); }
 .mark button { font: inherit; font-size: 13px; border: 0; background: var(--surface); color: var(--ink); padding: 6px 10px; cursor: pointer; white-space: nowrap; }
 .mark button + button { border-left: 1px solid var(--rule); }
 .mark button[data-v="counts"][aria-pressed="true"] { background: var(--yes-soft); color: var(--yes); font-weight: 600; }
 .mark button[data-v="not"][aria-pressed="true"] { background: var(--no-soft); color: var(--no); font-weight: 600; }
 .mark button[data-v="unsure"][aria-pressed="true"] { background: var(--maybe-soft); color: var(--maybe); font-weight: 600; }
+.mark.inherited button[aria-pressed="true"] { font-weight: 500; background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, currentColor 10%, transparent) 6px 8px); }
 .mark button:disabled { cursor: default; opacity: 0.6; }
-.reason { width: 240px; max-width: 100%; font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); }
-.saved { font-size: 11px; color: var(--muted); min-height: 1em; }
+.origin { font-size: 12px; color: var(--muted); text-align: right; }
+.origin button { font: inherit; font-size: 12px; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+.reason { width: 250px; max-width: 100%; font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); }
 .empty { padding: 30px 16px; text-align: center; color: var(--muted); }
 @media (max-width: 720px) {
   .row { grid-template-columns: 1fr; }
   .decide { justify-items: start; }
+  .origin, .rule-row .rby { text-align: left; }
   .reason { width: 100%; }
   .progress { margin-left: 0; width: 100%; }
 }
@@ -113,19 +130,27 @@ section.election { background: var(--surface); border: 1px solid var(--rule); bo
 
 <header class="wrap intro">
   <h1>Slate review</h1>
-  <p class="lede">Each row is a group of candidates whose voters might rank each other. Mark whether it reflects real structure in how voters group candidates. Only groups you mark <b>Counts</b> will be used to tune the model's slate settings. The numbers show association, not cause: a pairing can come from shared politics, from the endorsement itself, or from endorsers following voters.</p>
-  <div class="how">
-    <div><b><span class="key"><span class="swatch" style="background:var(--accent)"></span>Observed</span></b>Of voters whose first choice is in the group and who ranked a second, the share whose second choice is also in the group.</div>
-    <div><b><span class="key"><span class="swatch" style="background:var(--pop)"></span>Popularity alone</span></b>What you'd see if second choices followed each candidate's first-choice share and ignored the group. The gap above this is what slate settings must explain.</div>
-    <div><b><span class="key"><span class="swatch" style="background:var(--muted);opacity:.5"></span>Random</span></b>What you'd see if second choices were spread evenly over the other candidates. Shown for reference only.</div>
-    <div><b>Found in ballots</b>Pairs whose voters rank each other far more than popularity predicts, found from the ballots whether or not any slate names them.</div>
-  </div>
+  <p class="question">Is this the kind of grouping the model's slates should stand for?</p>
+  <p class="lede">The ballots already show that these voters ranked each other. The question is <b>why</b>, as far as anyone who knows the race can tell. Mark <b>Counts</b> when the candidates share a political grouping you'd recognize: shared politics, a coalition, a shared base or identity, of a kind that could exist in other elections. Mark <b>Doesn't count</b> when the likely reason is something else, such as neighborhood, name recognition, incumbency, or voters ranking the two front-runners. Mark <b>Unsure</b> when you can't tell. A rule of thumb: count it if you can name what the candidates have in common politically.</p>
+  <ol class="steps">
+    <li>Pick a place and year. Each is reviewed separately, so someone who knows that place's politics can do it.</li>
+    <li>Set a rule for each type of grouping, such as unions or candidate pacts. Every row of that type follows the rule.</li>
+    <li>Override single rows where you know better, and add a reason.</li>
+  </ol>
+  <details class="legend">
+    <summary>What the numbers mean</summary>
+    <div class="how">
+      <div><b><span class="key"><span class="swatch" style="background:var(--accent)"></span>Observed</span></b>Of voters whose first choice is in the group and who ranked a second, the share whose second choice is also in the group.</div>
+      <div><b><span class="key"><span class="swatch" style="background:var(--pop)"></span>Popularity alone</span></b>What you'd see if second choices followed each candidate's share of first choices and ignored the group. The gap above this is what the model's slates would have to explain.</div>
+      <div><b><span class="key"><span class="swatch" style="background:var(--muted);opacity:.5"></span>Random</span></b>What you'd see if second choices were spread evenly over the other candidates. For reference only.</div>
+      <div><b>Found only in ballots</b>Pairs whose voters rank each other far more than popularity predicts, found from the ballots whether or not any slate names them.</div>
+    </div>
+  </details>
 </header>
 
 <nav class="bar-filters" aria-label="Filters">
   <div class="wrap">
-    <span><span class="flabel">Source</span><span class="seg" id="f-source"></span></span>
-    <span><span class="flabel">Kind</span><span class="seg" id="f-kind"></span></span>
+    <span><span class="flabel">Place and year</span><span class="seg" id="f-scope"></span></span>
     <span><span class="flabel">Show</span><span class="seg" id="f-status"></span></span>
     <span class="progress" id="progress"></span>
   </div>
@@ -136,17 +161,30 @@ section.election { background: var(--surface); border: 1px solid var(--rule); bo
 
 <script>
 const DATA = /*DATA*/null;
-const KINDS = { endorsement: "Endorsement", campaign: "Campaign pact", media: "Media", "found-in-ballots": "Found in ballots" };
-const SOURCES = [["all", "All"], ["nyc", "NYC"], ["portland", "Portland"], ["preflib", "PrefLib"]];
-const KIND_OPTS = [["all", "All"], ["endorsement", "Endorsement"], ["campaign", "Pact"], ["media", "Media"], ["found-in-ballots", "Found"]];
+const LABEL = { counts: "Counts", not: "Doesn't count", unsure: "Unsure" };
 const STATUS_OPTS = [["all", "All"], ["unmarked", "Unmarked"], ["counts", "Counts"], ["not", "Doesn't count"], ["unsure", "Unsure"]];
-const state = { source: "all", kind: "all", status: "all" };
-const marks = {};          // key -> {decision, reason}
-let db = null, canWrite = true;
+const state = { scope: "all", status: "all" };
+const marks = {};   // row key -> {decision, reason, by}
+const rules = {};   // rule key -> {decision, by}
+let db = null, user = null, me = null, canWrite = true;
+const names = {};
 
 const pct = x => (x * 100).toFixed(0) + "%";
-const sourceOf = e => e.file.split("/")[1];
-const keyOf = (e, g) => (e.file.split("/").pop().replace(/\.ballots$/, "") + "~" + g.id).replace(/[^A-Za-z0-9_.~:@+-]/g, "-");
+const safe = s => s.replace(/[^A-Za-z0-9_.~:@+-]/g, "-");
+const scopeOf = e => `${e.place} ${e.year || ""}`.trim();
+const rowKey = (e, g) => safe(e.file.split("/").pop().replace(/\.ballots$/, "") + "~" + g.id);
+const ruleKey = (scope, cat) => safe(scope + "~" + cat);
+
+// Scopes in a stable order: by place, then year.
+const SCOPES = [...new Set(DATA.elections.map(scopeOf))].sort();
+
+function effective(e, g) {
+  const m = marks[rowKey(e, g)];
+  if (m && m.decision) return { decision: m.decision, from: "row", by: m.by };
+  const r = rules[ruleKey(scopeOf(e), g.category)];
+  if (r && r.decision) return { decision: r.decision, from: "rule", by: r.by };
+  return { decision: null, from: null };
+}
 
 function seg(el, opts, field) {
   el.replaceChildren(...opts.map(([v, label]) => {
@@ -156,6 +194,21 @@ function seg(el, opts, field) {
     return b;
   }));
 }
+
+function markControl(current, inherited, label, onPick) {
+  const mark = document.createElement("div");
+  mark.className = "mark" + (inherited ? " inherited" : "");
+  mark.setAttribute("role", "group"); mark.setAttribute("aria-label", label);
+  for (const v of ["counts", "not", "unsure"]) {
+    const b = document.createElement("button"); b.type = "button"; b.dataset.v = v; b.textContent = LABEL[v];
+    b.setAttribute("aria-pressed", String(current === v)); b.disabled = !canWrite;
+    b.addEventListener("click", () => onPick(v));
+    mark.append(b);
+  }
+  return mark;
+}
+
+const byName = id => id && id === me ? "you" : (names[id] || "someone");
 
 function strip(g) {
   const s = document.createElement("div"); s.className = "strip";
@@ -169,22 +222,23 @@ function strip(g) {
 }
 
 function row(e, g) {
-  const key = keyOf(e, g);
+  const key = rowKey(e, g);
   const m = marks[key] || {};
+  const eff = effective(e, g);
   const el = document.createElement("div"); el.className = "row";
-  if (m.decision) el.dataset.decision = m.decision;
+  if (eff.decision) el.dataset.decision = eff.decision;
 
   const who = document.createElement("div"); who.className = "who";
   const name = document.createElement("div"); name.className = "gname";
   const chip = document.createElement("span");
-  chip.className = "chip" + (g.kind === "campaign" ? " campaign" : g.kind === "found-in-ballots" ? " found" : "");
-  chip.textContent = KINDS[g.kind] || g.kind;
+  chip.className = "chip" + (g.category === "Found only in ballots" ? " found" : g.category === "Candidate pact" ? " pact" : "");
+  chip.textContent = g.category;
   name.append(chip, document.createTextNode(g.name.replace(/ \(media\)$/, "")));
   const mem = document.createElement("div"); mem.className = "members"; mem.textContent = g.members.join(" · ");
   who.append(name, mem);
   const bits = [];
   if (g.in_slates && g.in_slates.length) bits.push("Also on: " + g.in_slates.join(", "));
-  else if (g.kind === "found-in-ballots") bits.push("No slate in our data names this pair.");
+  else if (g.kind === "found-in-ballots") bits.push("No slate in our data names this pair");
   if (g.date) bits.push("Dated " + g.date);
   if (g.note) bits.push(g.note);
   if (bits.length || g.source) {
@@ -195,54 +249,101 @@ function row(e, g) {
 
   const meas = document.createElement("div"); meas.className = "measure";
   const nums = document.createElement("div"); nums.className = "nums";
+  for (const [cls, text] of [["o", `Observed ${pct(g.observed)}`], ["", `Popularity ${pct(g.popularity)}`], ["", `Random ${pct(g.random)}`], ["", `${g.voters.toLocaleString()} voters`]]) {
+    const s = document.createElement("span"); if (cls) s.className = cls; s.textContent = text; nums.append(s);
+  }
   const ex = g.observed - g.popularity;
   const exEl = document.createElement("span");
   exEl.className = "excess " + (ex >= 0.15 ? "big" : ex >= 0 ? "small" : "neg");
-  exEl.textContent = (ex >= 0 ? "+" : "−") + Math.abs(ex * 100).toFixed(0) + " pts over popularity";
-  nums.innerHTML = `<span class="o">Observed ${pct(g.observed)}</span><span>Popularity ${pct(g.popularity)}</span><span>Random ${pct(g.random)}</span><span>${g.voters.toLocaleString()} voters</span>`;
+  exEl.textContent = (ex >= 0 ? "+" : "−") + Math.abs(ex * 100).toFixed(0) + " points over popularity";
   meas.append(strip(g), nums, exEl);
 
   const dec = document.createElement("div"); dec.className = "decide";
-  const mark = document.createElement("div"); mark.className = "mark"; mark.setAttribute("role", "group"); mark.setAttribute("aria-label", "Mark " + g.name);
-  const saved = document.createElement("div"); saved.className = "saved";
   const reason = document.createElement("input");
   reason.className = "reason"; reason.id = "r-" + key; reason.placeholder = "Reason (optional)"; reason.value = m.reason || "";
   reason.disabled = !canWrite;
-  for (const [v, label] of [["counts", "Counts"], ["not", "Doesn't count"], ["unsure", "Unsure"]]) {
-    const b = document.createElement("button"); b.type = "button"; b.dataset.v = v; b.textContent = label;
-    b.setAttribute("aria-pressed", String(m.decision === v)); b.disabled = !canWrite;
-    b.addEventListener("click", () => save(e, g, key, m.decision === v ? null : v, reason.value, saved));
-    mark.append(b);
-  }
+  const mark = markControl(eff.decision, eff.from === "rule", "Mark " + g.name, v => {
+    // Picking the value the rule already gives just pins it to this row.
+    saveRow(e, g, key, m.decision === v ? null : v, reason.value);
+  });
+  const origin = document.createElement("div"); origin.className = "origin";
+  if (eff.from === "rule") origin.textContent = `From the ${g.category.toLowerCase()} rule`;
+  else if (eff.from === "row") {
+    origin.textContent = `Marked by ${byName(eff.by)} for this row. `;
+    const r = rules[ruleKey(scopeOf(e), g.category)];
+    if (r && r.decision) {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = `Use the rule (${LABEL[r.decision]})`;
+      b.disabled = !canWrite; b.addEventListener("click", () => saveRow(e, g, key, null, reason.value));
+      origin.append(b);
+    }
+  } else origin.textContent = "Not marked";
   let t = null;
   reason.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => {
-    if ((marks[key]?.reason || "") !== reason.value) save(e, g, key, marks[key]?.decision || null, reason.value, saved, true);
+    if ((marks[key]?.reason || "") !== reason.value) saveRow(e, g, key, marks[key]?.decision || null, reason.value, true);
   }, 800); });
-  dec.append(mark, reason, saved);
+  dec.append(mark, origin, reason);
   el.append(who, meas, dec);
   return el;
 }
 
-async function save(e, g, key, decision, reason, savedEl, quiet) {
+function rulesPanel(scope, elections) {
+  const counts = {};
+  for (const e of elections) for (const g of e.groupings) counts[g.category] = (counts[g.category] || 0) + 1;
+  const box = document.createElement("div"); box.className = "rules";
+  const h = document.createElement("h3"); h.textContent = "Rules for " + scope;
+  const p = document.createElement("p"); p.textContent = "Each rule sets the mark for every row of that type here. Rows you mark yourself keep their own mark.";
+  box.append(h, p);
+  for (const cat of Object.keys(counts).sort()) {
+    const k = ruleKey(scope, cat);
+    const r = rules[k] || {};
+    const line = document.createElement("div"); line.className = "rule-row";
+    const n = document.createElement("span"); n.className = "rname"; n.textContent = cat;
+    const c = document.createElement("span"); c.className = "rcount"; c.textContent = `${counts[cat]} row${counts[cat] > 1 ? "s" : ""}`;
+    n.append(c);
+    const ctl = markControl(r.decision, false, `Rule for ${cat} in ${scope}`, v => saveRule(scope, cat, k, r.decision === v ? null : v));
+    line.append(n, ctl);
+    if (r.decision) { const by = document.createElement("span"); by.className = "rby"; by.textContent = `Set by ${byName(r.by)}`; line.append(by); }
+    box.append(line);
+  }
+  return box;
+}
+
+async function saveRow(e, g, key, decision, reason, quiet) {
   if (!db) return;
   const ref = db.collection("decisions").doc(key);
   const prev = marks[key];
   try {
     if (!decision && !reason) { delete marks[key]; if (!quiet) render(); await ref.delete(); }
     else {
-      marks[key] = { decision, reason };
+      marks[key] = { decision, reason, by: me };
       if (!quiet) render();
-      await ref.set({ election: e.election, file: e.file, grouping: g.id, kind: g.kind, name: g.name,
-        members: g.members, decision: decision || null, reason: reason || "",
+      await ref.set({ place: e.place, year: e.year, election: e.election, file: e.file, grouping: g.id,
+        category: g.category, kind: g.kind, name: g.name, members: g.members,
+        decision: decision || null, reason: reason || "", by: me,
         observed: g.observed, popularity: g.popularity, updated_at: new Date().toISOString() });
     }
-    if (savedEl && quiet) savedEl.textContent = "Reason saved";
-  } catch (err) {
-    if (prev) marks[key] = prev; else delete marks[key];
-    setStatus(err && err.code === "invalid_argument" ? "You can view these marks but not change them." : "Couldn't save that mark. Check your connection and try again.", true);
-    if (err && err.code === "invalid_argument") { canWrite = false; }
-    render();
-  }
+  } catch (err) { failed(err, () => { if (prev) marks[key] = prev; else delete marks[key]; }); }
+}
+
+async function saveRule(scope, cat, key, decision) {
+  if (!db) return;
+  const ref = db.collection("rules").doc(key);
+  const prev = rules[key];
+  try {
+    if (!decision) { delete rules[key]; render(); await ref.delete(); }
+    else {
+      rules[key] = { decision, by: me }; render();
+      const [place, year] = [DATA.elections.find(e => scopeOf(e) === scope)].map(e => [e.place, e.year])[0];
+      await ref.set({ place, year, category: cat, decision, by: me, updated_at: new Date().toISOString() });
+    }
+  } catch (err) { failed(err, () => { if (prev) rules[key] = prev; else delete rules[key]; }); }
+}
+
+function failed(err, undo) {
+  undo();
+  if (err && err.code === "invalid_argument") { canWrite = false; setStatus("You can view these marks but not change them. Ask the page's owner for Contributor access.", true); }
+  else setStatus("Couldn't save that mark. Check your connection and try again.", true);
+  render();
 }
 
 function setStatus(text, warn) {
@@ -253,52 +354,80 @@ function render() {
   const list = document.getElementById("list");
   let total = 0, done = 0, shown = 0;
   const frag = document.createDocumentFragment();
-  for (const e of DATA.elections) {
-    const rows = [];
-    for (const g of e.groupings) {
-      total++;
-      const m = marks[keyOf(e, g)];
-      if (m && m.decision) done++;
-      if (state.source !== "all" && sourceOf(e) !== state.source) continue;
-      if (state.kind !== "all" && g.kind !== state.kind) continue;
-      const st = m && m.decision ? m.decision : "unmarked";
-      if (state.status !== "all" && st !== state.status) continue;
-      rows.push(row(e, g));
+  for (const scope of SCOPES) {
+    const elections = DATA.elections.filter(e => scopeOf(e) === scope);
+    for (const e of elections) for (const g of e.groupings) { total++; if (effective(e, g).decision) done++; }
+    if (state.scope !== "all" && state.scope !== scope) continue;
+    const block = document.createElement("section"); block.className = "scope";
+    const h = document.createElement("h2");
+    const [place, year] = [elections[0].place, elections[0].year];
+    h.textContent = place + " "; const ys = document.createElement("span"); ys.textContent = year || ""; h.append(ys);
+    block.append(h, rulesPanel(scope, elections));
+    let any = false;
+    for (const e of elections) {
+      const rows = [];
+      for (const g of e.groupings) {
+        const st = effective(e, g).decision || "unmarked";
+        if (state.status !== "all" && st !== state.status) continue;
+        rows.push(row(e, g));
+      }
+      if (!rows.length) continue;
+      any = true; shown += rows.length;
+      const sec = document.createElement("section"); sec.className = "election";
+      const eh = document.createElement("div"); eh.className = "ehead";
+      const h4 = document.createElement("h4"); h4.textContent = e.election;
+      const meta = document.createElement("div"); meta.className = "emeta";
+      meta.textContent = `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.voters.toLocaleString()} voters`;
+      eh.append(h4, meta); sec.append(eh, ...rows); block.append(sec);
     }
-    if (!rows.length) continue;
-    shown += rows.length;
-    const sec = document.createElement("section"); sec.className = "election";
-    const h = document.createElement("div"); h.className = "ehead";
-    const h2 = document.createElement("h2"); h2.textContent = e.election;
-    const meta = document.createElement("div"); meta.className = "emeta";
-    meta.textContent = `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.voters.toLocaleString()} voters`;
-    h.append(h2, meta);
-    sec.append(h, ...rows);
-    frag.append(sec);
+    if (!any) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "No rows here match this filter."; block.append(p); }
+    frag.append(block);
   }
-  if (!shown) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "No groupings match these filters."; frag.append(p); }
   list.replaceChildren(frag);
-  document.getElementById("progress").innerHTML = `<strong>${done}</strong> of ${total} marked`;
+  const pr = document.getElementById("progress"); pr.replaceChildren();
+  const s = document.createElement("strong"); s.textContent = done; pr.append(s, ` of ${total} rows marked`);
 }
 
-seg(document.getElementById("f-source"), SOURCES, "source");
-seg(document.getElementById("f-kind"), KIND_OPTS, "kind");
+seg(document.getElementById("f-scope"), [["all", "All"], ...SCOPES.map(s => [s, s])], "scope");
 seg(document.getElementById("f-status"), STATUS_OPTS, "status");
 render();
+
+async function resolveNames() {
+  if (!user) return;
+  const ids = [...new Set([...Object.values(marks), ...Object.values(rules)].map(x => x.by).filter(Boolean))].filter(id => id !== me && !(id in names));
+  if (!ids.length) return;
+  try {
+    const ps = await user.profiles(ids);
+    let changed = false;
+    for (const id of ids) { const n = ps && ps[id] && ps[id].name; if (n) { names[id] = n; changed = true; } }
+    if (changed && !(document.activeElement && document.activeElement.classList.contains("reason"))) render();
+  } catch (_) {}
+}
 
 (async () => {
   try { db = await claude.use("db"); } catch (_) { db = null; }
   if (!db) { canWrite = false; setStatus("Saving isn't available in this view, so marks can't be recorded here. Open the page signed in to claude.ai.", true); render(); return; }
   try {
-    const u = await claude.use("user");
-    if (u && (await u.can("data.write")) === false) canWrite = false;
+    user = await claude.use("user");
+    if (user) { me = await user.id(); if ((await user.can("data.write")) === false) canWrite = false; }
   } catch (_) {}
+  let loaded = 0;
+  const onData = () => {
+    loaded++;
+    if (loaded >= 2) setStatus(canWrite ? "" : "You can view these marks but not change them. Ask the page's owner for Contributor access.", !canWrite);
+    if (!(document.activeElement && document.activeElement.classList.contains("reason"))) render();
+    resolveNames();
+  };
+  const lost = () => setStatus("Lost the connection to saved marks. Reload the page to see the latest.", true);
   db.collection("decisions").onSnapshot(snap => {
     for (const k of Object.keys(marks)) delete marks[k];
-    for (const d of snap.docs) { const v = d.data(); marks[d.id] = { decision: v.decision, reason: v.reason }; }
-    setStatus(canWrite ? "" : "You can view these marks but not change them.", !canWrite);
-    if (!document.activeElement || !document.activeElement.classList.contains("reason")) render();
-    else document.getElementById("progress").innerHTML = `<strong>${Object.values(marks).filter(m => m.decision).length}</strong> of ${DATA.elections.reduce((n, e) => n + e.groupings.length, 0)} marked`;
-  }, () => setStatus("Lost the connection to saved marks. Reload the page to see the latest.", true));
+    for (const d of snap.docs) { const v = d.data(); marks[d.id] = { decision: v.decision, reason: v.reason, by: v.by }; }
+    onData();
+  }, lost);
+  db.collection("rules").onSnapshot(snap => {
+    for (const k of Object.keys(rules)) delete rules[k];
+    for (const d of snap.docs) { const v = d.data(); rules[d.id] = { decision: v.decision, by: v.by }; }
+    onData();
+  }, lost);
 })();
 </script>
