@@ -307,8 +307,8 @@ function drawElection(r, c) {
   const at = level => same.findIndex(x => x >= level - 1e-9) + 1;
   const k50 = at(0.5), k80 = at(0.8), k95 = at(0.95), kAll = at(1);
   const k5 = holdsFrom(p, x => x < 0.05);
-  const kSeat = holdsFrom(mean, x => x < 1);
-  const kNone = holdsFrom(most, x => x === 0);
+  // Seats that change hands at the 50% confidence rank: how many, in the elections where the cut changes anything.
+  const pMid = p[k50 - 1] ?? 0, perChange = pMid ? (mean[k50 - 1] ?? 0) / pMid : 0;
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
   // Headline and figures.
@@ -317,7 +317,9 @@ function drawElection(r, c) {
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
     fig("95% confidence", `rank ${k95}`, `95% of elections are decided by this rank; ranking beyond this doesn't change who wins. 80% confidence needs ${k80}; 50%, ${k50}.`),
-    fig("Seats", `rank ${kSeat}`, `From this rank on, cutting ballots moves fewer than 1 of the ${seats} seats, on average. No election changes any seat from rank ${kNone}.`),
+    fig("Seats that change hands", pMid ? `about ${perChange.toFixed(1)} of ${seats}` : "none",
+      pMid ? `Before rank ${k95}, deeper ranks change few seats at a time: cut every ballot at rank ${k50}, and ${pct(pMid)} of elections change, by about ${perChange.toFixed(1)} seats each when they do (at most ${most[k50 - 1]}).`
+        : `Cut every ballot at rank ${k50}, and no election changes any seat.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
   // Chart 1: elections that come out the same.
@@ -333,18 +335,6 @@ function drawElection(r, c) {
     hlines: [{ y: 0.05, label: "5 in 100" }],
     marks: k5 <= xMax ? [{ x: k5, y: p[k5 - 1] ?? 0, label: `below 5 in 100 from rank ${k5}` }] : [],
     aria: "Share of elections where cutting ballots at each rank changes the winners",
-  });
-  // Chart 3: seats that change hands.
-  const top = Math.max(1, ...most.slice(0, xMax));
-  const step = niceStep(top);
-  chart($("chart-seats"), [
-    { points: most.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
-    { points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 },
-  ], {
-    xMin: 1, xMax, xTicks, yMax: Math.ceil(top / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-    hlines: [{ y: 1, label: "1 seat" }],
-    marks: [{ x: kSeat, y: mean[kSeat - 1] ?? 0, label: `under 1 seat from rank ${kSeat}` }, ...(kNone <= xMax && kNone !== kSeat ? [{ x: kNone, y: 0, label: `none from rank ${kNone}`, below: false }] : [])],
-    aria: "Seats that change hands when ballots are cut after each rank: average and most in any election",
   });
   const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
   setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${spread ? `about ${r.settings.election.voters.toLocaleString()} voters, give or take ${Math.round(spread * 100)}% (from ${r.voters.min.toLocaleString()} to ${r.voters.max.toLocaleString()} across these elections)` : `${r.settings.election.voters.toLocaleString()} voters`} (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
