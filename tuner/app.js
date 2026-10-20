@@ -25,6 +25,8 @@ const engine = request => new Promise(resolve => {
 const pct = v => v == null ? "–" : v > 0 && v < 0.01 ? "under 1%" : `${(v * 100).toFixed(v < 0.1 && v > 0 ? 1 : 0)}%`;
 const times = v => v == null ? "–" : `${v.toFixed(v >= 10 ? 0 : 1)}×`;
 const num1 = v => v == null ? "–" : v.toFixed(1);
+/** Small averages keep two decimals, so 0.04 doesn't print as 0.0. */
+const few = v => v == null ? "–" : v.toFixed(v > 0 && v < 0.1 ? 2 : 1);
 const num2 = v => v == null ? "–" : v.toFixed(2);
 const pts = v => v == null ? "–" : `${v >= 0 ? "+" : "−"}${Math.abs(Math.round(v * 100))} points`;
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -306,8 +308,6 @@ function drawElection(r, c) {
   t.cutoff_rank.counts.reduce((acc, n, i) => { same[i] = (acc + n) / sims; return acc + n; }, 0);
   const at = level => same.findIndex(x => x >= level - 1e-9) + 1;
   const k50 = at(0.5), k80 = at(0.8), k95 = at(0.95), kAll = at(1);
-  // Seats that change hands at the 50% confidence rank: how many, in the elections where the cut changes anything.
-  const pMid = p[k50 - 1] ?? 0, perChange = pMid ? (mean[k50 - 1] ?? 0) / pMid : 0;
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
   // Headline and figures.
@@ -316,9 +316,8 @@ function drawElection(r, c) {
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
     fig("95% confidence", `rank ${k95}`, `95% of elections are decided by this rank; ranking beyond this doesn't change who wins. 80% confidence needs ${k80}; 50%, ${k50}.`),
-    fig("Seats that change hands", pMid ? `about ${perChange.toFixed(1)} of ${seats}` : "none",
-      pMid ? `Before rank ${k95}, deeper ranks change few seats at a time: cut every ballot at rank ${k50}, and ${pct(pMid)} of elections change, by about ${perChange.toFixed(1)} seats each when they do (at most ${most[k50 - 1]}).`
-        : `Cut every ballot at rank ${k50}, and no election changes any seat.`),
+    fig("Winners who change", `${few(mean[k50 - 1] ?? 0)} of ${seats}`,
+      `If every ballot stopped at rank ${k50}, on average ${few(mean[k50 - 1] ?? 0)} of the ${seats} winners would be different (at most ${most[k50 - 1] ?? 0} in any election). At rank ${k95}: ${few(mean[k95 - 1] ?? 0)}.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
   // Chart 1: elections that come out the same.
@@ -328,20 +327,17 @@ function drawElection(r, c) {
       .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });
-  // Chart 3: seats that change hands. The average mixes elections where the cut changes
-  // nothing with those where it does, so a second line shows the seats swapped when it does.
+  // Chart 2: winners who change.
   const kNone = holdsFrom(most, x => x === 0);
-  const whenChanged = p.slice(0, xMax).map((x, i) => [i + 1, x > 0 ? mean[i] / x : null]).filter(([, y]) => y != null);
   const top = Math.max(1, ...most.slice(0, xMax));
   const step = niceStep(top);
   chart($("chart-seats"), [
     { points: most.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
-    { points: whenChanged, color: "--model", width: 2, dash: "7 4" },
     { points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 },
   ], {
     xMin: 1, xMax, xTicks, yMax: Math.ceil(top / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
     marks: kNone <= xMax ? [{ x: kNone, y: 0, label: `none from rank ${kNone}`, below: false }] : [],
-    aria: "Seats that change hands when ballots are cut after each rank: average over all elections, average when the cut changes anything, and most in any election",
+    aria: "Winners who change when every ballot stops at each rank: average across elections, and most in any one election",
   });
   const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
   setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${spread ? `about ${r.settings.election.voters.toLocaleString()} voters, give or take ${Math.round(spread * 100)}% (from ${r.voters.min.toLocaleString()} to ${r.voters.max.toLocaleString()} across these elections)` : `${r.settings.election.voters.toLocaleString()} voters`} (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
