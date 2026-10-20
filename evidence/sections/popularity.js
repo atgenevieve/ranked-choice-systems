@@ -65,24 +65,57 @@ window.SECTIONS.popularity = () => {
     });
   }
 
+  // Which popularity setting matches each type of election? The model's popularity draw alone, run
+  // on each real election's own candidates and seats at a range of settings (data/evidence_data.py).
+  const Q = DATA.quota_check, SP = ["0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "1.1", "1.2", "1.3", "1.5"];
+  // The setting at which the model matches the real median, by straight-line interpolation.
+  const fitSpread = (c, k) => {
+    const m = SP.map(sp => c.model[sp][k]), x = SP.map(Number);
+    for (let i = 0; i < x.length - 1; i++) if ((m[i] - c.real[k]) * (m[i + 1] - c.real[k]) <= 0) return x[i] + (x[i + 1] - x[i]) * (c.real[k] - m[i]) / (m[i + 1] - m[i]);
+    return c.real[k] < m[0] ? x[0] : x[x.length - 1];
+  };
+  // The model's value at any setting, by the same interpolation.
+  const modelAt = (c, k, sp) => {
+    const x = SP.map(Number); let i = 0;
+    while (i < x.length - 2 && sp > x[i + 1]) i++;
+    return c.model[SP[i]][k] + (c.model[SP[i + 1]][k] - c.model[SP[i]][k]) * (sp - x[i]) / (x[i + 1] - x[i]);
+  };
+  const fitQ = Q.map(c => fitSpread(c, "quota")), fitE = Q.map(c => fitSpread(c, "even"));
+  const r1 = v => (Math.round(v * 20) / 20).toFixed(2).replace(/0$/, "");
+  const cellIdx = name => Q.findIndex(c => c.cell === name);
+  const xfmt = v => `${(+v).toFixed(2).replace(/\.?0+$/, "")}×`;
+  const big = Q[cellIdx("Organizational, 5 to 12 seats")];
+
   {
-    // For each type of election, the popularity setting at which the model matches the real median,
-    // found by straight-line interpolation between the settings tried.
-    const Q = DATA.quota_check, SP = [0.5, 0.7, 0.85, 1.0, 1.3], KEYS = ["0.5", "0.7", "0.85", "1.0", "1.3"];
-    const fitSpread = c => {
-      const m = KEYS.map(k => c.model[k]);
-      for (let k = 0; k < SP.length - 1; k++) if ((m[k] - c.real) * (m[k + 1] - c.real) <= 0) return SP[k] + (SP[k + 1] - SP[k]) * (c.real - m[k]) / (m[k + 1] - m[k]);
-      return c.real < m[0] ? SP[0] : SP[SP.length - 1];
-    };
-    const fits = Q.map(fitSpread), q = name => Q.findIndex(c => c.cell === name);
-    const r1 = v => (Math.round(v * 20) / 20).toFixed(2).replace(/0$/, "");
-    const f = figure("Does one popularity setting explain the quota pattern?",
-      `Partly. Much of the pattern comes from the field itself: with few candidates per seat, the leader passes the quota whatever voters do. Give the model each real election's own candidates and seats, and a single setting of 0.7 matches most types of election. Two types need a more lopsided setting: single-seat public races (about ${r1(fits[q("Public, 1 seat")])}) and organizational elections with 5 or more seats (about ${r1(fits[q("Organizational, 5 to 12 seats")])}), the type closest to yours. So the proposal sets popularity by type of election.`,
-      `The top candidate's first choices as a multiple of the quota, typical (median) election of each type. The model bars use popularity alone, with no slates, run on each real election's own numbers of candidates and seats. The setting that fits each type is approximate: some groups are small (only ${Q[q("Organizational, 5 to 12 seats")].n} organizational elections have 5 or more seats), and the model is random, so these move by about 0.1 between runs.`);
-    hbars(f, Q.map((c, k) => ({ label: `${c.cell} (${c.n})`, values: [c.real, c.model["0.7"], c.model["1.0"]] })),
+    const f = figure("Which popularity setting fits each type of election",
+      `This is how the leading candidates get tuned: to the quota. Much of the quota pattern comes from the field itself: with few candidates per seat, the leader passes the quota whatever voters do. Give the model each real election's own candidates and seats, and a setting of about 0.6 to 0.7 matches most types of election. Two types need a more lopsided setting: single-seat public races (about ${r1(fitQ[cellIdx("Public, 1 seat")])}) and organizational elections with 5 or more seats (about ${r1(fitQ[cellIdx("Organizational, 5 to 12 seats")])}), the type closest to yours.`,
+      `The top candidate's first choices as a multiple of the quota, in the typical (median) election of each type. The model bars use popularity alone, with no slates. The setting that fits each type is approximate: some groups are small (only ${big.n} organizational elections have 5 or more seats), and the model is random, so these move by about 0.1 between runs. Write-in slots on US ballots aren't counted as candidates.`);
+    hbars(f, Q.map(c => ({ label: `${c.cell} (${c.n.toLocaleString()})`, values: [c.real.quota, c.model["0.7"].quota, c.model["1.0"].quota] })),
       [{ name: "Real elections", color: "--scotland" }, { name: "Model, setting 0.7", color: "--public" }, { name: "Model, setting 1.0", color: "--ers" }],
-      { max: 2.5, step: 0.5, labelW: 250, fmt: v => `${(+v).toFixed(2).replace(/\.?0+$/, "")}×`, aria: "Top candidate against the quota: real elections against the model at two settings, by type of election" });
-    tableView(f, ["Type of election", "Elections", "Real", "Setting that fits"], Q.map((c, k) => [c.cell, c.n, `${c.real.toFixed(2)}×`, `about ${r1(fits[k])}`]), [false, true, true, false]);
+      { max: 2.5, step: 0.5, labelW: 250, fmt: xfmt, aria: "Top candidate against the quota: real elections against the model at two settings, by type of election" });
+    tableView(f, ["Type of election", "Elections", "Real", "Setting that fits"], Q.map((c, k) => [c.cell, c.n, `${c.real.quota.toFixed(2)}×`, `about ${r1(fitQ[k])}`]), [false, true, true, false]);
+  }
+
+  {
+    const bk = cellIdx("Organizational, 5 to 12 seats"), gap = Math.max(...Q.map((c, k) => k === bk ? 0 : Math.abs(fitQ[k] - fitE[k])));
+    const f = figure("The quota and the even split point to the same setting",
+      `Tuning to the quota or to the even split gives nearly the same setting for most types of election: they differ by at most ${gap.toFixed(2)}, about the size of the random noise. That's because both measure the top candidate's share of first choices; they only divide it by something different (seats plus one, or the number of candidates). The exception is organizational elections with 5 or more seats (${r1(fitQ[bk])} against ${r1(fitE[bk])}), where only ${big.n} elections make both estimates rough. The quota is the one used for tuning, because it ties to what the project measures: votes beyond the quota pass to voters' next choices.`,
+      "For each type of election, the popularity setting at which the model matches the real elections, found two ways: matching the top candidate's first choices as a multiple of the quota, and as a multiple of an even split (the share every candidate would get if all were equally popular).");
+    hbars(f, Q.map((c, k) => ({ label: `${c.cell} (${c.n.toLocaleString()})`, values: [fitQ[k], fitE[k]] })),
+      [{ name: "Setting that matches the quota", color: "--public" }, { name: "Setting that matches the even split", color: "--c7" }],
+      { max: 1.2, step: 0.2, labelW: 250, fmt: v => (+v).toFixed(2).replace(/0$/, ""), aria: "Popularity setting fitted to the quota and to the even split, by type of election" });
+  }
+
+  {
+    const atFit = Q.map((c, k) => modelAt(c, "last", fitQ[k]));
+    const ratio = Q.map((c, k) => c.real.last / atFit[k]);
+    const pub = cellIdx("Public, 2 to 5 seats"), bigK = cellIdx("Organizational, 5 to 12 seats");
+    const f = figure("The bottom of the field: what the long-shot setting is for",
+      `With the leading candidates tuned to the quota, the model still makes the last candidate too strong in most types of election. In multi-seat public elections (mostly Scotland), the real last candidate gets about ${pct(ratio[pub])} of what the model gives them. The gap is smaller in organizational elections with 1 to 4 seats. In organizational elections with 5 or more seats, the model already matches, so those may need few or no long shots, though that rests on only ${big.n} elections. The long-shot setting gets tuned to close each type's gap.`,
+      `The last candidate's first choices as a multiple of an even split, in the typical (median) election of each type: 0.25× means a quarter of an even share. The model bars use each type's setting from the chart above, with popularity alone and no slates. Write-in slots on US ballots aren't counted as candidates.`);
+    hbars(f, Q.map((c, k) => ({ label: `${c.cell} (${c.n.toLocaleString()})`, values: [c.real.last, atFit[k]] })),
+      [{ name: "Real elections", color: "--scotland" }, { name: "Model, at the setting that fits the quota", color: "--public" }],
+      { max: 0.5, step: 0.1, labelW: 250, fmt: xfmt, aria: "Last candidate's first choices against an even split: real elections against the model, by type of election" });
   }
 
   {
@@ -125,7 +158,7 @@ window.SECTIONS.popularity = () => {
   }
 
   {
-    const f = figure("How much more the top candidate gets than the middle one",
+    const f = figure("Background: how much more the top candidate gets than the middle one",
       `In a typical Scottish ward, the most popular candidate gets about ${times(med(E.filter(e => e.group === "scotland").map(e => e.top_ratio)))} as many first choices as the middle candidate. Union and society elections look much the same. Single-seat US races and large fields are more lopsided: Canberra about ${times(med(E.filter(e => e.group === "act").map(e => e.top_ratio)))}, Portland about ${times(med(E.filter(e => e.group === "portland").map(e => e.top_ratio)))}.`,
       `Top candidate's first choices divided by the middle candidate's, for each election. The middle candidate is the median one: line the candidates up from most to fewest first choices, and it's the one halfway down (the 4th of 7). 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
     const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];

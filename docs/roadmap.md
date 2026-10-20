@@ -2,7 +2,7 @@
 
 Each milestone ends with a check. Don't start the next one until its check passes.
 
-**Status:** milestones 0 to 2 are done. Milestone 3 (owner review): five of six decisions approved on October 20, 2026; candidate popularity is still open. See `docs/model-review.md`.
+**Status:** milestones 0 to 2 are done. Milestone 3 (owner review): all six decisions approved on October 20, 2026; next, record them in `docs/model-spec.md`. See `docs/model-review.md`.
 
 ## Milestone 0: Set up
 

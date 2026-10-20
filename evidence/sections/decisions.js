@@ -17,10 +17,10 @@ const DECISIONS = {
   },
   popularity: {
     title: "Candidate popularity",
-    status: "Waiting on the owner",
+    status: "Approved October 20, 2026 (may change later)",
     now: "One \"popularity spread\" number sets how unequal candidates are. In a 7-candidate field, the current setting (1.0) gives the top candidate about 2.5 times an even split of first choices (real Scottish wards: about 2.1 times), and too few long-shot candidates.",
-    proposal: "Set popularity by type of election, as with ballot length: public or organizational, and 1 seat, 2 to 4 seats, or 5 or more seats. Start each type at the setting that matches its real elections: about 1.0 for single-seat public races, about 0.6 to 0.7 for most others, and about 0.9 for organizational elections with 5 or more seats (the type closest to yours, from only 18 elections). Add a separate share of long-shot candidates far below the rest. Check that the model reproduces the quota pattern and the way bigger fields get more lopsided. Report every headline result across the real range.",
-    needed: "Approve. Anything you know about how lopsided first choices are in your organization, such as past first-choice counts.",
+    proposal: "Set popularity by type of election, as with ballot length: public or organizational, and 1 seat, 2 to 4 seats, or 5 or more seats. Tune the leading candidates to the quota: start each type at the setting where the top candidate's lead over the quota matches real elections (about 0.85 for single-seat public races, 0.6 to 0.7 for most others, and about 0.8 for organizational elections with 5 or more seats). Tune a separate share of long-shot candidates to the last candidate's share of first choices. Check that the model also reproduces the even split and the way bigger fields get more lopsided. Report every headline result across the real range.",
+    needed: "Nothing for now. Anything you learn about how lopsided first choices are in your organization, such as past first-choice counts, would replace these defaults.",
   },
   "slate-sizes": {
     title: "Slate sizes",

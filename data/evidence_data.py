@@ -13,6 +13,7 @@ import json
 import math
 import os
 import random
+import statistics
 import sys
 from collections import Counter, defaultdict
 
@@ -143,13 +144,20 @@ def popularity(rows):
         fc = d["first_choice"]
         if fc.get("lognormal_spread") is None:
             continue
-        out.append({"name": d["election"], "group": g, "candidates": d["candidates"], "seats": d["seats"],
-                    "spread": r4(fc["lognormal_spread"]), "top_share": r4(fc["top_share"]),
-                    "gap_top": r4(fc.get("log_gap_top_to_median")), "gap_bottom": r4(fc.get("log_gap_median_to_bottom")),
-                    # The same gaps as plain ratios: how many times more first choices the top candidate
-                    # gets than the middle one, and the middle one than the bottom one.
-                    "top_ratio": r4(fc.get("top_to_median_ratio")),
-                    "bottom_ratio": r4(math.exp(fc["log_gap_median_to_bottom"])) if fc.get("log_gap_median_to_bottom") is not None else None})
+        # Leave out write-in slots (on US ballots): each pools every write-in vote, so it isn't a
+        # real candidate, and it would otherwise count as the last candidate.
+        names = meta.get("candidates") or []
+        shares = sorted((x for k, x in enumerate(fc["shares_by_candidate"])
+                         if k >= len(names) or "write" not in str(names[k]).lower()), reverse=True)
+        pos = [x for x in shares if x > 0]
+        mid = statistics.median(pos) if pos else None
+        out.append({"name": d["election"], "group": g, "candidates": len(shares), "seats": d["seats"],
+                    "spread": r4(fc["lognormal_spread"]), "top_share": r4(shares[0]),
+                    # Plain ratios: how many times more first choices the top candidate gets than the
+                    # middle (median) one, and the middle one than the last one with any first choices.
+                    "top_ratio": r4(shares[0] / mid) if mid else None,
+                    "bottom_ratio": r4(mid / pos[-1]) if len(pos) >= 2 else None,
+                    "last_share": r4(shares[-1])})
     model = [{"spread": s, "top": t, "bottom": b, "top_ratio": round(math.exp(t), 2)}
              for s in (0.5, 0.7, 1.0, 1.3, 1.6, 2.0) for t, b in [model_gaps(7, s)]]
     # The candidate ladder: each candidate's share of first choices, most to least popular,
@@ -196,26 +204,36 @@ QUOTA_CELLS = [
 ]
 
 
-def quota_check(elections, spreads=(0.5, 0.7, 0.85, 1.0, 1.3), draws=20, seed=5):
-    """Does one popularity setting explain the quota pattern? For each type of election, the real
-    median of the top candidate's first choices as a multiple of the quota, next to what the model's
-    popularity draw alone gives with each real election's own candidates and seats."""
+def quota_check(elections, spreads=(0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5), draws=20, seed=5):
+    """Which popularity setting matches each type of election? For each type, three real medians,
+    next to what the model's popularity draw alone gives with each real election's own candidates
+    and seats, at each setting:
+      quota: the top candidate's first choices as a multiple of the quota, 1 / (seats + 1);
+      even:  the top candidate's first choices as a multiple of an even split, 1 / candidates;
+      last:  the last candidate's first choices as a multiple of an even split."""
     rng = random.Random(seed)
+    med = lambda v: sorted(v)[len(v) // 2]
     out = []
     for name, test in QUOTA_CELLS:
         els = [e for e in elections if test(e)]
-        real = sorted(e["top_share"] * (e["seats"] + 1) for e in els)
+        real = {"quota": med([e["top_share"] * (e["seats"] + 1) for e in els]),
+                "even": med([e["top_share"] * e["candidates"] for e in els]),
+                "last": med([e["last_share"] * e["candidates"] for e in els])}
         model = {}
         for sp in spreads:
-            per = []
+            per = {"quota": [], "even": [], "last": []}
             for e in els:
-                v = []
+                v = {"quota": [], "even": [], "last": []}
                 for _ in range(draws):
                     w = [math.exp(rng.gauss(0, sp)) for _ in range(e["candidates"])]
-                    v.append(max(w) / sum(w) * (e["seats"] + 1))
-                per.append(sorted(v)[draws // 2])
-            model[str(sp)] = round(sorted(per)[len(per) // 2], 3)
-        out.append({"cell": name, "n": len(els), "real": round(real[len(real) // 2], 3), "model": model})
+                    t = sum(w)
+                    v["quota"].append(max(w) / t * (e["seats"] + 1))
+                    v["even"].append(max(w) / t * e["candidates"])
+                    v["last"].append(min(w) / t * e["candidates"])
+                for k in per:
+                    per[k].append(med(v[k]))
+            model[str(sp)] = {k: round(med(x), 3) for k, x in per.items()}
+        out.append({"cell": name, "n": len(els), "real": {k: round(x, 3) for k, x in real.items()}, "model": model})
     return out
 
 
