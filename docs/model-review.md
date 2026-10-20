@@ -1,6 +1,6 @@
 # Model review: decisions for the owner
 
-**Status:** milestone 3. All six decisions approved on October 20, 2026 (candidate popularity may change later). Nothing here is built yet. For each assumption in the voter model, this page gives what the model does now, what the real ballots show, a proposed setting, and the alternatives. You decide; each decision and its reason then go into `docs/model-spec.md`, and only then into the engine (milestone 4).
+**Status:** milestone 3, done. All six decisions approved on October 20, 2026 (candidate popularity may change later) and recorded in `docs/model-spec.md` as version 0.2. Nothing here is built yet. For each assumption in the voter model, this page gives what the model does now, what the real ballots show, a proposed setting, and the alternatives. You decide; each decision and its reason then go into `docs/model-spec.md`, and only then into the engine (milestone 4).
 
 **Evidence used:** 1,100 Scottish council elections, 168 PrefLib elections (including 87 organizational elections from the Electoral Reform Society, ERS), 126 NYC primary contests, and 6 Portland contests. That's about 18 million ballots in all. `data/README.md` describes each dataset and its weaknesses, and `docs/real-data-findings.md` has the full Scottish findings.
 

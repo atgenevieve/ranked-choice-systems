@@ -2,7 +2,7 @@
 
 Each milestone ends with a check. Don't start the next one until its check passes.
 
-**Status:** milestones 0 to 2 are done. Milestone 3 (owner review): all six decisions approved on October 20, 2026; next, record them in `docs/model-spec.md`. See `docs/model-review.md`.
+**Status:** milestones 0 to 3 are done. The owner approved model version 0.2 on October 20, 2026 (`docs/model-spec.md`, evidence in `docs/model-review.md`). Next: milestone 4, building the approved model.
 
 ## Milestone 0: Set up
 
