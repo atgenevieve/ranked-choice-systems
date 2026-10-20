@@ -109,11 +109,3 @@ svg text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; 
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; } }
 :root[data-theme="dark"] { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; }
 
-/* Small multiples: a grid of mini charts, one per example election. */
-.minis-head { margin: 6px 0 0; font-size: 14px; font-weight: 600; }
-.minis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.mini { border: 1px solid var(--grid); border-radius: 8px; padding: 8px 10px; display: grid; gap: 4px; min-width: 0; }
-.mini .cap { font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mini svg { display: block; width: 100%; }
-.mini .read { font-size: 12.5px; line-height: 1.35; }
-.mini .verdict { font-size: 12px; font-weight: 600; }

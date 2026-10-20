@@ -409,30 +409,48 @@ function ladder(f, series, opts) {
   });
 }
 
-// Small multiples of ladders: one mini bar chart per example election, bars from most to least
-// popular, with the top, middle, and last bars darker and their multiples spelled out underneath.
-// items: [{name, shares}]; opts: {heading, color, max}.
-function miniLadders(f, items, opts) {
-  const head = document.createElement("p"); head.className = "minis-head"; head.textContent = opts.heading; f.append(head);
-  const grid = document.createElement("div"); grid.className = "minis"; f.append(grid);
+// Many ladders at once: one thin line per election (each candidate's share, most to least
+// popular), in side-by-side panels on the same scale, with each panel's typical election in bold.
+// Hovering a panel highlights the nearest election and spells out its drops.
+// panels: [{name, color, items: [{name, shares}], median: [numbers]}]; opts: {yMax, yStep, xLabels, xTitle, yTitle, aria}.
+function ladderPanels(f, panels, opts) {
+  legend(f, [["line", "--ink", "Typical election (median at each position)"]]);
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const times = v => `${v.toFixed(1)}×`;
-  for (const it of items) {
-    const v = it.shares, n = v.length, m = Math.floor(n / 2), top = v[0] / v[m], bottom = v[m] / v[n - 1];
-    const box = document.createElement("div"); box.className = "mini"; grid.append(box);
-    if (it.name) { const c = document.createElement("div"); c.className = "cap"; c.textContent = it.name; c.title = it.name; box.append(c); }
-    const W = 200, H = 96, B = 14, bw = W / n;
-    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": `${it.name || "Model election"}: shares ${v.map(pct).join(", ")}` }, box);
-    el("line", { x1: 0, x2: W, y1: H - B, y2: H - B, stroke: css("--axis"), "stroke-width": 1 }, svg);
-    v.forEach((s, i) => {
-      const h = s / opts.max * (H - B - 12), key = i === 0 || i === m || i === n - 1;
-      el("rect", { x: i * bw + 3, y: H - B - h, width: bw - 6, height: Math.max(h, 1), rx: 2, fill: css(opts.color), opacity: key ? 1 : 0.3 }, svg);
-      if (key) txt(svg, i * bw + bw / 2, H - B - h - 3, pct(s), { "text-anchor": "middle", class: "val", "font-size": 10 });
-      txt(svg, i * bw + bw / 2, H - 2, i === 0 ? "Top" : i === m ? "Mid" : i === n - 1 ? "Last" : "", { "text-anchor": "middle", "font-size": 10 });
+  draws.push(() => {
+    const w = plot.clientWidth || 800, stack = w < 620, pw = stack ? w : (w - 24) / 2, PH = 300, L = 44, R = 12, T = 34, B = 34;
+    const H = stack ? panels.length * PH : PH;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
+    panels.forEach((p, k) => {
+      const ox = stack ? 0 : k * (pw + 24), oy = stack ? k * PH : 0, n = p.median.length;
+      const sx = i => ox + L + 10 + i / (n - 1) * (pw - L - R - 20), sy = v => oy + T + (1 - v / opts.yMax) * (PH - T - B);
+      txt(svg, ox + L, oy + 14, `${p.name} (${p.items.length})`, { class: "lab" });
+      for (const t of niceTicks(opts.yMax, opts.yStep)) {
+        el("line", { x1: ox + L, x2: ox + pw - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+        txt(svg, ox + L - 6, sy(t) + 4, pct(t), { "text-anchor": "end" });
+      }
+      for (let i = 0; i < n; i++) txt(svg, sx(i), oy + PH - B + 15, opts.xLabels[i], { "text-anchor": "middle" });
+      txt(svg, ox + L, oy + T - 6, opts.yTitle || "", { class: "title" });
+      txt(svg, ox + (L + pw - R) / 2, oy + PH - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
+      const pts = it => it.shares.map((v, i) => `${sx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" ");
+      for (const it of p.items) el("polyline", { points: pts(it), fill: "none", stroke: css(p.color), "stroke-width": 1.2, opacity: 0.18, "stroke-linejoin": "round" }, svg);
+      const med = p.median.map((v, i) => `${sx(i)},${sy(v)}`).join(" ");
+      el("polyline", { points: med, fill: "none", stroke: css("--surface"), "stroke-width": 7, "stroke-linejoin": "round" }, svg);
+      el("polyline", { points: med, fill: "none", stroke: css("--ink"), "stroke-width": 3, "stroke-linejoin": "round" }, svg);
+      // Hover: highlight the election whose line is nearest the pointer.
+      const hl = el("polyline", { fill: "none", stroke: css(p.color), "stroke-width": 3, visibility: "hidden", "stroke-linejoin": "round" }, svg);
+      const area = el("rect", { x: ox + L, y: oy + T, width: pw - L - R, height: PH - T - B, fill: "transparent" }, svg);
+      area.addEventListener("pointermove", e => {
+        const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * w / r.width, py = (e.clientY - r.top) * H / r.height;
+        const i = Math.max(0, Math.min(n - 1, Math.round((px - sx(0)) / (sx(1) - sx(0)))));
+        let best = p.items[0];
+        for (const it of p.items) if (Math.abs(sy(it.shares[i]) - py) < Math.abs(sy(best.shares[i]) - py)) best = it;
+        const v = best.shares, m = Math.floor(n / 2);
+        hl.setAttribute("points", pts(best)); hl.setAttribute("visibility", "visible");
+        showTip(hl, best.name || "Model election", [`Shares: ${v.map(pct).join(", ")}`, `Top is ${times(v[0] / v[m])} the middle. Middle is ${times(v[m] / v[n - 1])} the last.`]);
+      });
+      area.addEventListener("pointerleave", () => { hl.setAttribute("visibility", "hidden"); hideTip(); });
     });
-    const read = document.createElement("div"); read.className = "read";
-    read.textContent = `Top is ${times(top)} the middle. Middle is ${times(bottom)} the last.`;
-    const verdict = document.createElement("div"); verdict.className = "verdict";
-    verdict.textContent = bottom > top ? "Bigger drop at the bottom" : "Bigger drop at the top";
-    box.append(read, verdict);
-  }
+  });
 }
