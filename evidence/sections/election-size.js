@@ -4,24 +4,41 @@ window.SECTIONS["election-size"] = () => {
   const E = DATA.elections, R = DATA.reference;
   const NAMES = { scotland: "Scotland", public: "Other public elections", org: "Other organizational", ers: "Union and society (ERS)", nyc: "NYC primaries", portland: "Portland", act: "Canberra" };
   const ORG = new Set(["ers", "org"]);
+  const SHORT = { "Metro DC DSA convention delegates, 2025": "Metro DC DSA, 2025", "Western Australia Legislative Council, 2025": "Western Australia, 2025", "Australian Senate, Tasmania 2016": "Tasmanian Senate, 2016" };
   const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
   {
+    // Straight-line trend of candidates against seats (least squares), for one group of elections.
+    const fit = v => {
+      const n = v.length, mx = v.reduce((a, e) => a + e.seats, 0) / n, my = v.reduce((a, e) => a + e.candidates, 0) / n;
+      const b = v.reduce((a, e) => a + (e.seats - mx) * (e.candidates - my), 0) / v.reduce((a, e) => a + (e.seats - mx) ** 2, 0);
+      return { f: x => my + b * (x - mx), max: Math.max(...v.map(e => e.seats)) };
+    };
+    const pub = fit(E.filter(e => !ORG.has(e.group))), org = fit(E.filter(e => ORG.has(e.group)));
+    const perSeat = (lo, hi) => med(E.filter(e => ORG.has(e.group) && e.seats >= lo && e.seats <= hi).map(e => e.candidates / e.seats));
+    const big = perSeat(5, 99), dsa = R.find(r => r.name.startsWith("Metro DC DSA"));
     const f = figure("Seats and candidates: the real data next to a 46-seat election",
-      "Every election in the data sits in the corner: at most 12 seats and 34 candidates. Metro DC DSA's 46-seat delegate count, with 75 candidates, is far outside it. Results for elections that size are projections, whichever way the model is tuned.",
-      "Each dot is one election in this project's data. The black markers are reference elections: Metro DC DSA and Western Australia from the research write-up (docs/large-elections.md), and the 2016 Tasmanian Senate count from this project's Senate data, which isn't otherwise on this chart.");
-    legend(f, [["dot", "--public", "Public elections"], ["dot", "--ers", "Organizational elections"], ["dot", "--ink", "Reference elections"]]);
+      `More seats come with more candidates, but loosely: elections with the same number of seats vary a lot, so the dots scatter widely around the trend lines (which nearly overlap: public and organizational elections grow at about the same rate). Extended to ${dsa.seats} seats, the straight trend lines predict only about ${Math.round(org.f(dsa.seats))} candidates, fewer than there are seats, and far below Metro DC DSA's ${dsa.candidates}. Candidates per seat is a steadier rule. In organizational elections it falls as seats grow: about ${perSeat(1, 1).toFixed(1)} candidates per seat with one seat, ${perSeat(2, 4).toFixed(1)} with 2 to 4 seats, and ${big.toFixed(2)} with 5 or more. At ${big.toFixed(2)} per seat, a ${dsa.seats}-seat election would have about ${Math.round(big * dsa.seats)} candidates; Metro DC DSA had ${dsa.candidates}.`,
+      `Each dot is one election in this project's data; every one sits in the bottom-left corner, at most 12 seats and 34 candidates. Trend lines are solid across the seats the data covers and dashed beyond it, where they're projections. The black dotted line is ${big.toFixed(2)} candidates per seat, the typical ratio in organizational elections with 5 or more seats (all of them union and society elections). The black markers are reference elections: Metro DC DSA and Western Australia from the research write-up (docs/large-elections.md), and the 2016 Tasmanian Senate count from this project's Senate data, which isn't otherwise on this chart.`);
+    legend(f, [["dot", "--public", "Public elections"], ["dot", "--ers", "Organizational elections"], ["dot", "--ink", "Reference elections"],
+      ["line", "--public", "Trend, public elections"], ["line", "--ers", "Trend, organizational elections"], ["line", "--ink", `${big.toFixed(2)} candidates per seat`]]);
     scatter(f, {
-      aria: "Candidates against seats for every election, with large reference elections",
-      xMin: 0, xMax: 50, xTicks: [0, 10, 20, 30, 40, 50], yMax: 150, yStep: 25,
-      xTitle: "Seats", yTitle: "Candidates", lines: [],
+      aria: "Candidates against seats for every election, with trend lines and large reference elections",
+      xMin: 0, xMax: 50, xTicks: [0, 10, 20, 30, 40, 50], yMax: 150, yStep: 25, height: 380,
+      xTitle: "Seats", yTitle: "Candidates",
+      lines: [
+        { from: 1, to: pub.max, f: pub.f, color: "--public" }, { from: pub.max, to: 50, f: pub.f, color: "--public", dash: "7 6" },
+        { from: 1, to: org.max, f: org.f, color: "--ers" }, { from: org.max, to: 50, f: org.f, color: "--ers", dash: "7 6" },
+        { from: 0, to: 50, f: x => big * x, color: "--ink", dash: "2 5" },
+      ],
       points: [
         ...E.map(e => ({ x: e.seats, y: e.candidates, color: ORG.has(e.group) ? "--ers" : "--public", name: e.name,
           lines: [NAMES[e.group], `${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates · ${e.voters.toLocaleString()} voters`] })),
-        ...R.map(r => ({ x: r.seats, y: r.candidates, color: "--ink", name: r.name, label: r.name.replace(/ \(in this project's data\)/, ""),
+        ...R.map(r => ({ x: r.seats, y: r.candidates, color: "--ink", name: r.name, label: SHORT[r.name] || r.name,
           lines: [`${r.seats} seats · ${r.candidates} candidates${r.voters ? ` · ${r.voters.toLocaleString()} ballots` : ""}`] })),
       ],
     });
   }
+
   {
     const f = figure("Share of candidates who win",
       "Earlier simulations found the answer depends mostly on the share of candidates who win, once fields are large. Metro DC DSA's count elected 61% of its candidates; Scottish wards elect about half; single-seat races far less.",

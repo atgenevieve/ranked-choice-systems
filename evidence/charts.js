@@ -99,7 +99,7 @@ function scatter(f, opts) {
       for (let i = 0; i <= 60; i++) { const x = ln.from + (ln.to - ln.from) * i / 60; pts.push([sx(x), sy(ln.f(x))]); }
       const d = pts.map(p => p.join(",")).join(" ");
       el("polyline", { points: d, fill: "none", stroke: css("--surface"), "stroke-width": 6, "stroke-linecap": "round" }, svg);
-      el("polyline", { points: d, fill: "none", stroke: css(ln.color), "stroke-width": 2.5, "stroke-linecap": "round" }, svg);
+      el("polyline", { points: d, fill: "none", stroke: css(ln.color), "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": ln.dash || "" }, svg);
     }
     for (const p of opts.points) {
       if (!p.label) continue;
