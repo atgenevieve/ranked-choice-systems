@@ -32,7 +32,7 @@ ELECTIONS = [
     {"id": "metro-dc", "name": "75 candidates, 46 seats (like Metro DC DSA's 2025 delegate election)",
      "candidates": 75, "seats": 46, "from": 380, "to": 520, "step": 2, "yours": 432},
     {"id": "wide", "name": "150 candidates, 75 seats", "candidates": 150, "seats": 75,
-     "from": 500, "to": 800, "step": 5, "yours": 762},
+     "from": 480, "to": 860, "step": 5, "yours": 762},
 ]
 # Votes per seat (the whole-vote quota just after a step) for the size sweep.
 SIZE_QUOTAS = [3, 5, 7, 10, 15, 20, 30, 50, 75, 100]
