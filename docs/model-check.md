@@ -23,7 +23,7 @@ To rerun: `python3 -I data/model_check.py data/fits/model-check.json --sample 20
 
 - **The last candidate is too weak** in Scottish multi-seat wards (0.16 of an even split, model 0.07) and in organizational elections with 5 or more seats (0.24, model 0.08), the type closest to the owner's. The model spec lists an option for the owner: a share of standout candidates.
 - **Evenness of votes leaving a party in Scotland** came out at 0.78 against a real 0.85 once popularity was tuned.
-- **Canberra voters go further past their instruction** (6.7 ranks real, 5.4 model). Only 9 public elections have 5 or more seats, mostly Canberra, so that row is rough.
+- **Canberra is a comparison only.** Only 9 public elections have 5 or more seats, mostly Canberra, where every party runs a full list. The owner judged these too unusual to tune to, so that type uses the 2-to-4-seat popularity settings, and its row shows how far Canberra sits from them. Canberra voters also go further past their instruction (6.7 ranks real, 5.4 model).
 - **Organization, 1 seat** includes Debian, the American Psychological Association, and UK Labour, which the ballot-length fit doesn't use; their ballots run longer than the fit (3.6 real, 3.1 model).
 
 ## Tables
@@ -63,13 +63,13 @@ To rerun: `python3 -I data/model_check.py data/fits/model-check.json --sample 20
 
 | Statistic | Real | Model |
 |---|---|---|
-| Top candidate's first choices, as a multiple of the quota | 1.05× | 0.96× |
-| Top candidate, as a multiple of an even split | 3.57× | 2.95× |
-| Last candidate, as a multiple of an even split | 0.07× | 0.06× |
+| Top candidate's first choices, as a multiple of the quota | 1.05× | 0.95× |
+| Top candidate, as a multiple of an even split | 3.57× | 4.19× |
+| Last candidate, as a multiple of an even split | 0.07× | 0.04× |
 | Average ballot length (ranks) | 6.68 | 5.41 |
 | Share ranking every candidate | 6% | 1% |
-| Clustering above popularity | 0.57 | 0.66 |
-| Evenness of votes leaving a party or slate | 0.86 | 0.74 |
+| Clustering above popularity | 0.57 | 0.62 |
+| Evenness of votes leaving a party or slate | 0.86 | 0.71 |
 | Candidates with a running mate | 90% | 90% |
 | Their party's or slate's only candidate | 0% | 4% |
 | Candidates in no party or slate | 10% | 6% |

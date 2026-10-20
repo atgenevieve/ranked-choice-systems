@@ -227,8 +227,10 @@ fn seat_band(seats: usize) -> usize {
 /// against the quota, and long shots are added only where the last candidate would otherwise
 /// be too strong. Where the model's last candidate is too weak even with no long shots (public
 /// 2 to 4 seats, organization 5 or more), the spread still follows the quota; see the model spec.
-const POPULARITY_SPREAD: [[f64; 3]; 2] = [[1.1, 1.2, 0.5], [0.8, 0.7, 1.0]];
-const LONG_SHOT_SHARE: [[f64; 3]; 2] = [[0.1, 0.0, 0.2], [0.0, 0.0, 0.0]];
+/// Public elections with 5 or more seats use the 2-to-4-seat values: the only real ones are
+/// mostly Canberra, whose full party lists the owner judged too unusual to tune to.
+const POPULARITY_SPREAD: [[f64; 3]; 2] = [[1.1, 1.2, 1.2], [0.8, 0.7, 1.0]];
+const LONG_SHOT_SHARE: [[f64; 3]; 2] = [[0.1, 0.0, 0.0], [0.0, 0.0, 0.0]];
 /// Own-slate multipliers for "loose" and "tight" slates, checked by data/model_check.py on
 /// twins of Scottish wards: loose gives about 12 points of clustering above popularity (like
 /// Portland's endorsement slates, 10 to 15), tight about 62 (like Scottish parties, 61).

@@ -81,15 +81,15 @@
     "running_mate": 0.9032258064516129
    },
    "simulated": {
-    "clustering": 0.6583,
+    "clustering": 0.6156999999999999,
     "complete": 0.0108,
-    "even_last": 0.062,
-    "even_top": 2.9501999999999997,
-    "evenness": 0.736,
+    "even_last": 0.0372,
+    "even_top": 4.1850000000000005,
+    "evenness": 0.7057,
     "length_mean": 5.41,
     "no_slate": 0.06451612903225806,
     "only_candidate": 0.037037037037037035,
-    "quota": 0.9552,
+    "quota": 0.9456,
     "running_mate": 0.9032258064516129
    }
   },

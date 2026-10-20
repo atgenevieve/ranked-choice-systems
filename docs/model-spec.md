@@ -79,10 +79,12 @@ The drawing method in step 4 is a standard one in voting research, called the **
   |---|---|---|---|---|
   | Public, 1 seat | 1.1 | 10% | 0.88, 0.90 | 0.25, 0.22 |
   | Public, 2 to 4 seats | 1.2 | 0% | 1.33, 1.31 | 0.16, **0.07** |
-  | Public, 5 or more seats | 0.5 | 20% | 1.05, 0.96 | 0.07, 0.06 |
+  | Public, 5 or more seats | 1.2 | 0% | same as 2 to 4 seats; see below | |
   | Organization, 1 seat | 0.8 | 0% | 0.76, 0.79 | 0.31, 0.34 |
   | Organization, 2 to 4 seats | 0.7 | 0% | 1.06, 1.02 | 0.28, 0.27 |
   | Organization, 5 or more seats | 1.0 | 0% | 2.11, 2.10 | 0.24, **0.08** |
+
+  Public elections with 5 or more seats use the 2-to-4-seat values. The only real ones in the data are mostly Canberra, where every party runs a full list; the owner judged them too unusual to tune to (October 20, 2026), so they serve as a comparison only.
 
   The long-shot gap is 2 (long shots about 7 times less popular). With slates included, the spreads differ from the popularity-only estimates in milestone 3, because slates also make first choices unequal. In two types, the model's last candidate is about a third as strong as the real one, even with no long shots; see "Open questions from milestone 4".
 
