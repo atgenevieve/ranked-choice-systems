@@ -12,6 +12,7 @@ The engine's `count` command run on every real election in `data/` with ballots:
 - `portland.jsonl`: 6 Portland 2024 contests (four 3-seat council districts, mayor, and auditor).
 - `preflib.jsonl`: 168 PrefLib elections, the set studied by Tomlinson, Ugander, and Kleinberg. **Superseded by `preflib-v2.jsonl`:** this first run counted the 87 ERS elections as 1 seat and used PrefLib's padded ballots.
 - `preflib-v2.jsonl`: the same 168 elections after the metadata update: real ERS seat counts (1 to 12) and original ERS ballots from Tideman's files. Same engine commit.
+- `nyc-v2.jsonl`, `portland-v2.jsonl`: rerun after the metadata update (NYC: one more official winner; Portland: corrected write-in rule, which renumbered two candidates in Districts 3 and 4). These supersede `nyc.jsonl` and `portland.jsonl`. Same engine commit. Official winners match in 125 of 125 NYC contests and 6 of 6 Portland contests.
 - `scotland.jsonl`: 1,100 Scottish council ward elections, 2007 to 2022, including by-elections.
 
 `engine/README.md` explains the fields.

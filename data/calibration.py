@@ -283,6 +283,56 @@ def cohesion_stats(nc, ballots, parties):
     }
 
 
+def slate_stats(nc, ballots, slates):
+    """Cohesion for endorsement and campaign slates (`slates` in the metadata).
+
+    Slates can overlap, so each slate is measured on its own: among voters
+    whose first choice is on the slate and who ranked 2 or more, the share
+    whose second choice is also on the slate. The baseline is the share
+    you'd see if second choices ignored the slate: (members - 1) / (candidates - 1).
+    Only slates with 2 or more members can be cohesive. The election-level
+    summary pools every non-media slate, weighting each by its voters.
+    """
+    if not slates or nc < 2:
+        return None
+    rows = []
+    for sl in slates:
+        members = set(sl["members"])
+        if len(members) < 2:
+            continue
+        first = ranked2 = same = 0
+        for w, b in ballots:
+            if b[0] not in members:
+                continue
+            first += w
+            if len(b) >= 2:
+                ranked2 += w
+                if b[1] in members:
+                    same += w
+        rows.append({
+            "name": sl["name"],
+            "kind": sl.get("kind"),
+            "media": "(media)" in sl["name"],
+            "members": len(members),
+            "first_choice_voters": first,
+            "ranked_2_plus": ranked2,
+            "cohesion": r(same / ranked2) if ranked2 else None,
+            "random_baseline": r((len(members) - 1) / (nc - 1)),
+            "_same": same,
+        })
+    pooled = [x for x in rows if not x["media"] and x["ranked_2_plus"]]
+    n = sum(x["ranked_2_plus"] for x in pooled)
+    out = {
+        "slates_with_2_plus_members": len(rows),
+        "cohesion": r(sum(x["_same"] for x in pooled) / n) if n else None,
+        "random_baseline": r(sum(x["ranked_2_plus"] * x["random_baseline"] for x in pooled) / n) if n else None,
+        "by_slate": rows,
+    }
+    for x in rows:
+        del x["_same"]
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Statistic 4: transfer spread
 
@@ -392,6 +442,7 @@ def analyze(path):
         "first_choice": first_choice_stats(nc, ballots),
         "ballot_length": length_stats(nc, ballots, ns),
         "slate_cohesion": cohesion_stats(nc, ballots, meta.get("parties")),
+        "endorsement_slate_cohesion": slate_stats(nc, ballots, meta.get("slates")),
         "transfer_spread": transfer_stats(nc, ballots, meta.get("parties")),
     }
 
@@ -420,6 +471,8 @@ SUMMARY_ROWS = [
     ("3. Cohesion if second choices ignored party", ("slate_cohesion", "random_baseline")),
     ("3. Share of voters whose first choice has a running mate", ("slate_cohesion", "share_of_voters_first_choice_in_multi_candidate_party")),
     ("3. Of those, share ranking only that party, then stopping", ("slate_cohesion", "share_party_only_ballots")),
+    ("3b. Endorsement-slate cohesion (second choice same slate; non-media slates of 2+)", ("endorsement_slate_cohesion", "cohesion")),
+    ("3b. ... if second choices ignored the slate", ("endorsement_slate_cohesion", "random_baseline")),
     ("4. Transfer evenness (0 = all to one, 1 = even)", ("transfer_spread", "evenness_weighted_mean")),
     ("4. Share of transfer going to top recipient", ("transfer_spread", "top_recipient_share_weighted_mean")),
     ("4. Effective number of recipients", ("transfer_spread", "effective_recipients_weighted_mean")),

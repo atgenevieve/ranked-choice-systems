@@ -6,11 +6,11 @@ Real ranked ballots, one folder per source, all converted to the project's `.bal
 |---|---:|---:|---|---:|---|
 | [Scotland](scotland/README.md) | 1,100 | 5.6 million | 3 or 4 (by-elections: 1) | 1,093 | Parties, nearly all |
 | [PrefLib](preflib/README.md) | 168 | 2.7 million | 1 to 12 | 68 | Parties in 28, slates in 3 |
-| [NYC](nyc/README.md) | 126 | 8.8 million | 1 | 124 | Slates being added |
-| [Portland](portland/README.md) | 6 | 780,000 | 3 (mayor and auditor: 1) | 6 | Slates being added |
+| [NYC](nyc/README.md) | 126 | 8.8 million | 1 | 125 | Endorsement slates in 56 contests |
+| [Portland](portland/README.md) | 6 | 780,000 | 3 (mayor and auditor: 1) | 6 | Endorsement slates in 5 contests |
 | [Cambridge](cambridge/README.md) | 10 races, no ballots | – | 9 or 6 | 10 | – |
 
-**Engine check:** the engine picks the official winners in every election that has them and uses rules it can count: 1,093 Scottish wards, 124 NYC contests, 6 Portland contests, and 65 of 68 PrefLib elections. The 3 PrefLib misses used other counting rules. See `results/2026-10-20-real-data-counts/`.
+**Engine check:** the engine picks the official winners in every election that has them and uses rules it can count: 1,093 Scottish wards, 125 NYC contests, 6 Portland contests, and 65 of 68 PrefLib elections. The 3 PrefLib misses used other counting rules. See `results/2026-10-20-real-data-counts/`.
 
 **Statistics:** `calibration.py` computes the calibration statistics in `docs/model-spec.md` for any set of `.ballots` files. Each folder has a `calibration.jsonl` and a `calibration-summary.md`.
 
@@ -75,14 +75,17 @@ Real ranked ballots, one folder per source, all converted to the project's `.bal
 **Adjustments**
 - Cleanup follows the Board of Elections' rules: an overvote (two candidates at one rank) ends the ballot there, skipped ranks are passed over, a repeated candidate counts at its highest rank.
 - All write-ins combined into one candidate, as the official count does.
+- 2025 Republican Council District 47's winner taken from the Board of Elections' certified hand recount, which came after the ballot file.
+- Endorsement slates (WFP, DSA, unions, Citizens Union, editorial boards marked as media, cross-endorsement pacts) added from public sources, in a reviewable table (`slates.json`).
 - Blank ballots estimated from ballot styles (see shortcomings).
 
 **Shortcomings**
 - **Single-seat only,** and many contests are lopsided or have few candidates.
-- **No party labels,** because everyone in a primary is in the same party. Endorsement slates are being added.
-- **Blank-ballot counts are estimates,** and too low for 2023.
-- **4 contests from 2021 differ slightly** from the official first round (2 to 14 votes), cause unknown.
-- **2 contests have no official winner,** and one shows candidates only as ID numbers.
+- **No party labels,** because everyone in a primary is in the same party.
+- **Endorsement slates are uneven:** 188 slates in 56 contests, deepest for the 2021 and 2025 mayoral primaries. The 2021 council slates are a January 2021 snapshot, and several come from news trackers rather than the endorser's own page. Most council slates have one member, so they can't measure cohesion.
+- **Blank-ballot counts are estimates,** and too low for 2023 (no public source for the real figure).
+- **4 contests from 2021 differ slightly** from the official first round (2 to 14 votes). These are exactly the 4 contests that were hand-recounted or recertified after the ballot file was made, so the ballot file can't show the hand-count changes.
+- **The 2021 Republican Queens Borough President contest has no official winner** (no count was posted; the primary was reportedly canceled), and its candidates appear only as ID numbers.
 - **The 2026 primary** is posted but not yet included.
 
 ## Portland
@@ -96,11 +99,13 @@ Real ranked ballots, one folder per source, all converted to the project's `.bal
 - Cleanup follows City Code 2.08: an overvoted rank is skipped and the ballot goes on (unlike NYC). Skipped ranks are passed over.
 - Uncertified write-ins kept as one candidate; raw write-in bubble columns ignored, which brought totals closer to the official count.
 - Ballots remade by election workers kept, which matches the official count better than leaving them out.
+- A raw write-in mark at the same rank as a candidate is treated as an overvote. This makes the first round match the official count exactly in all six contests. The rule is inferred from the match, not from county documentation.
+- 55 endorsement slates added from public sources (`slates.json`): WFP, labor councils, firefighters, police union (partly), DSA, United for Portland, the Chamber, Sierra Club, three newspapers marked as media, and one "rank us together" pair per district.
 
 **Shortcomings**
-- **First-round totals are off by up to 0.1%** from the official count, cause unknown.
 - **Portland's own STV rules** differ slightly from Scottish rules (values cut to 4 decimal places, simultaneous surpluses). The engine still picks the official winners.
-- **No party labels** (all candidates nonpartisan). Endorsement slates are being added.
+- **No party labels** (all candidates nonpartisan), and no public source for party registration.
+- **Some slates are secondhand:** the Sierra Club and Oregonian lists come from a reform-group tracker, because their pages couldn't be fetched. The police union's District 2 and 3 lists may be incomplete. Several groups with only partial public lists are left out.
 - **Blank-ballot counts are estimates.**
 - **The auditor race had one candidate,** so it says nothing about ranking.
 

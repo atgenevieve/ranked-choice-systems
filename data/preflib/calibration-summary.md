@@ -26,6 +26,8 @@ Each cell: median across elections, with the 10th to 90th percentile range in br
 | 3. Cohesion if second choices ignored party | 0.17 (0.12–0.25) |
 | 3. Share of voters whose first choice has a running mate | 0.46 (0.21–0.58) |
 | 3. Of those, share ranking only that party, then stopping | 0.30 (0.16–0.37) |
+| 3b. Endorsement-slate cohesion (second choice same slate; non-media slates of 2+) | 0.47 (0.46–0.48) |
+| 3b. ... if second choices ignored the slate | 0.17 (0.12–0.24) |
 | 4. Transfer evenness (0 = all to one, 1 = even) | 0.77 (0.57–0.93) |
 | 4. Share of transfer going to top recipient | 0.42 (0.29–0.65) |
 | 4. Effective number of recipients | 3.86 (2.11–6.78) |
