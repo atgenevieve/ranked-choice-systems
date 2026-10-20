@@ -15,6 +15,7 @@
   --public: #2a78d6;
   --ers: #eb6834;
   --scotland: #1baf7a;
+  --org: #8c8b85;
   --bar: #2a78d6;
   --limit: #0d366b;
   --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -23,13 +24,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
-    --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70;
+    --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70; --org: #8f8e88;
     --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
-  --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70;
+  --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70; --org: #8f8e88;
   --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -92,7 +93,12 @@ const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS,
 const txt = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
 const pct = x => (x * 100).toFixed(0) + "%";
 const draws = [];
-const GROUP = { scotland: { name: "Scotland", v: "--scotland" }, public: { name: "Other public elections (PrefLib)", v: "--public" }, ers: { name: "Union and society elections (ERS)", v: "--ers" } };
+const GROUP = { scotland: { name: "Scotland", v: "--scotland" }, public: { name: "Other public elections", v: "--public" },
+  org: { name: "Other organizational elections", v: "--org" }, ers: { name: "Union and society elections (ERS)", v: "--ers" } };
+const GROUP_ORDER = ["scotland", "public", "org", "ers"];
+const uncapped = e => e.max_ranks == null || e.max_ranks >= e.candidates;
+const chartPts = () => DATA.elections.filter(e => GROUP_ORDER.includes(e.group) && uncapped(e));
+const groupLegend = f => legend(f, GROUP_ORDER.map(g => ["dot", GROUP[g].v, `${GROUP[g].name} (${DATA.by_group[g].n})`]));
 
 const tip = document.getElementById("tip");
 function showTip(target, title, lines) {
@@ -202,9 +208,7 @@ function scatter(f, opts) {
     const w = plot.clientWidth || 800, H = 340, L = 40, R = 16, T = 16, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria }, plot);
-    const sx = opts.logX
-      ? v => L + (Math.log(v) - Math.log(opts.xMin)) / (Math.log(opts.xMax) - Math.log(opts.xMin)) * (w - L - R)
-      : v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
+    const sx = v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
     const sy = v => T + (1 - v / opts.yMax) * (H - T - B);
     for (const t of niceTicks(opts.yMax, opts.yStep)) {
       el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
@@ -221,15 +225,17 @@ function scatter(f, opts) {
       el("line", { x1: mx, x2: mx, y1: T, y2: H - B, stroke: css("--axis"), "stroke-width": 1 }, svg);
       txt(svg, mx - 6, T + 12, opts.marker.label, { "text-anchor": "end", class: "lab" });
     }
-    for (const ln of opts.lines) {
-      const pts = [];
-      for (let i = 0; i <= 60; i++) { const x = opts.logX ? Math.exp(Math.log(ln.from) + (Math.log(ln.to) - Math.log(ln.from)) * i / 60) : ln.from + (ln.to - ln.from) * i / 60; pts.push([sx(x), sy(ln.f(x))]); }
-      el("polyline", { points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: css(ln.color), "stroke-width": 2, "stroke-linecap": "round", opacity: ln.faint ? 0.45 : 1 }, svg);
-      if (ln.label) { const [px, py] = pts[pts.length - 1]; txt(svg, px - 4, py - 8, ln.label, { "text-anchor": "end", class: "val" }); }
-    }
     for (const p of opts.points) {
       const cx = sx(p.x), cy = sy(Math.min(p.y, opts.yMax));
-      el("circle", { cx, cy, r: 4, fill: css(p.color), stroke: css("--surface"), "stroke-width": 1.5, opacity: 0.85 }, svg);
+      el("circle", { cx, cy, r: 4, fill: css(p.color), stroke: css("--surface"), "stroke-width": 1.5, opacity: 0.75 }, svg);
+    }
+    // Trend lines go on top of the dots, with a ring in the surface color so they stay visible.
+    for (const ln of opts.lines) {
+      const pts = [];
+      for (let i = 0; i <= 60; i++) { const x = ln.from + (ln.to - ln.from) * i / 60; pts.push([sx(x), sy(ln.f(x))]); }
+      const d = pts.map(p => p.join(",")).join(" ");
+      el("polyline", { points: d, fill: "none", stroke: css("--surface"), "stroke-width": 6, "stroke-linecap": "round" }, svg);
+      el("polyline", { points: d, fill: "none", stroke: css(ln.color), "stroke-width": 2.5, "stroke-linecap": "round" }, svg);
     }
     for (const p of opts.points) {
       const cx = sx(p.x), cy = sy(Math.min(p.y, opts.yMax));
@@ -240,47 +246,41 @@ function scatter(f, opts) {
 
 // ---------- 2. Ranks versus candidates ----------
 {
-  const fp = DATA.fits.public_vs_candidates, fe = DATA.fits.ers_vs_candidates;
-  const uncapped = e => e.max_ranks == null || e.max_ranks >= e.candidates;
-  const pts = DATA.elections.filter(e => ["scotland", "public", "ers"].includes(e.group) && uncapped(e));
+  const G = DATA.by_group, pts = chartPts();
+  const dbl = g => Math.round((2 ** G[g].cand.b - 1) * 100);
   const f = figure("Candidates ranked, by number of candidates",
-    `In public elections, voters rank more as the field grows, but slowly: doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks. In union and society elections, doubling the candidates adds about ${Math.round((2 ** fe.b - 1) * 100)}%.`,
-    `Each dot is one election with no limit on how many candidates voters could rank (elections with a limit are left out). Lines are fitted curves, drawn only over the range each group's data covers: public elections with no limit have 3 to ${DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && uncapped(e)).reduce((m, e) => Math.max(m, e.candidates), 0)} candidates; union and society elections, 3 to 29. Projections to a larger election are at the bottom of the page.`);
-  legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "Other public elections"], ["dot", "--ers", "Union and society elections (ERS)"]]);
+    `Every group ranks more as the field grows. In Scotland, doubling the candidates adds about ${dbl("scotland")}% more ranks; in union and society elections, about ${dbl("ers")}%.`,
+    "Each dot is one election with no limit on how many candidates voters could rank (elections with a limit are left out). Each group has its own trend line, drawn only over the range its data covers. The two smaller groups have few elections, so their lines are rough. Projections to a larger election are at the bottom of the page.");
+  groupLegend(f);
   scatter(f, {
-    aria: "Scatter of average candidates ranked against number of candidates, with fitted curves",
-    logX: false, xMin: 0, xMax: 30, xTicks: [0, 5, 10, 15, 20, 25, 30], yMax: 12, yStep: 2,
+    aria: "Scatter of average candidates ranked against number of candidates, with a trend line for each group",
+    xMin: 0, xMax: 30, xTicks: [0, 5, 10, 15, 20, 25, 30], yMax: 12, yStep: 2,
     xTitle: "Candidates in the election", yTitle: "Average candidates ranked",
-    lines: [
-      { from: 3, to: DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && uncapped(e)).reduce((m, e) => Math.max(m, e.candidates), 0), f: x => fp.a * x ** fp.b, color: "--public" },
-      { from: 3, to: 29, f: x => fe.a * x ** fe.b, color: "--ers" },
-    ],
+    lines: GROUP_ORDER.map(g => ({ from: G[g].cand.min, to: G[g].cand.max, f: x => G[g].cand.a * x ** G[g].cand.b, color: GROUP[g].v })),
     points: pts.map(e => ({ x: e.candidates, y: e.mean, color: GROUP[e.group].v, name: e.name,
-      lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
+      lines: [GROUP[e.group].name, `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
   });
   tableView(f, ["Election", "Group", "Candidates", "Seats", "Average ranked"],
     pts.map(e => [e.name, GROUP[e.group].name, e.candidates, e.seats, e.mean.toFixed(2)]), [false, false, true, true, true]);
 }
 
-// ---------- 3. Ranks versus seats (ERS) ----------
+// ---------- 3. Ranks versus seats ----------
 {
-  const fs = DATA.fits.ers_vs_seats;
-  const pts = DATA.elections.filter(e => e.group === "ers");
-  const f = figure("Union and society elections: candidates ranked, by number of seats",
-    `In these organizational elections, members rank about ${fs.b.toFixed(1)} more candidates for each extra seat.`,
-    "Each dot is one ERS election (British trade unions and similar bodies, 1987 to 1988), with 1 to 12 seats. The line is a straight-line fit over that range. More seats also meant more candidates in these elections, so seats and candidates can't be fully separated. Projections to a larger election are at the bottom of the page.");
+  const G = DATA.by_group, pts = chartPts();
+  const f = figure("Candidates ranked, by number of seats",
+    `Union and society elections cover the widest range, 1 to 12 seats, and there members rank about ${G.ers.seats.b.toFixed(1)} more candidates for each extra seat. Public elections only cover 1 to 5 seats; in Scotland, each extra seat adds about ${G.scotland.seats.b.toFixed(1)}.`,
+    "Each dot is one election with no limit on how many candidates voters could rank. Each group's line covers only its own range of seats. The other organizational elections all fill 1 seat, so they have no line. More seats also mean more candidates, so seats and candidates can't be fully separated. Projections to a larger election are at the bottom of the page.");
+  groupLegend(f);
   scatter(f, {
-    aria: "Scatter of average candidates ranked against seats in ERS elections, with a fitted line",
-    logX: false, xMin: 0, xMax: 13, xTicks: [0, 2, 4, 6, 8, 10, 12], yMax: 12, yStep: 2,
+    aria: "Scatter of average candidates ranked against number of seats, with a trend line for each group",
+    xMin: 0, xMax: 13, xTicks: [0, 2, 4, 6, 8, 10, 12], yMax: 12, yStep: 2,
     xTitle: "Seats in the election", yTitle: "Average candidates ranked",
-    lines: [
-      { from: 1, to: 12, f: x => fs.a + fs.b * x, color: "--ers" },
-    ],
-    points: pts.map(e => ({ x: e.seats, y: e.mean, color: "--ers", name: e.name,
-      lines: [`${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates`, `ranked ${e.mean.toFixed(1)} on average`] })),
+    lines: GROUP_ORDER.filter(g => G[g].seats.b != null).map(g => ({ from: G[g].seats.min, to: G[g].seats.max, f: x => G[g].seats.a + G[g].seats.b * x, color: GROUP[g].v })),
+    points: pts.map(e => ({ x: e.seats, y: e.mean, color: GROUP[e.group].v, name: e.name,
+      lines: [GROUP[e.group].name, `${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates`, `ranked ${e.mean.toFixed(1)} on average`] })),
   });
-  tableView(f, ["Election", "Seats", "Candidates", "Average ranked"],
-    pts.sort((a, b) => a.seats - b.seats).map(e => [e.name, e.seats, e.candidates, e.mean.toFixed(2)]), [false, true, true, true]);
+  tableView(f, ["Election", "Group", "Seats", "Candidates", "Average ranked"],
+    [...pts].sort((a, b) => a.seats - b.seats).map(e => [e.name, GROUP[e.group].name, e.seats, e.candidates, e.mean.toFixed(2)]), [false, false, true, true, true]);
 }
 
 // ---------- 4. Rank my party, then stop ----------
@@ -319,7 +319,7 @@ function scatter(f, opts) {
     `These are projections, not evidence. The public-election rule comes from elections of up to ${pubMax} candidates, and the union and society rules from elections of up to 29 candidates and 12 seats. 75 candidates is the size of Metro DC DSA's 46-seat delegate count.`);
   const box = document.createElement("div"); box.className = "predict";
   const cards = [
-    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, `Rule: doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks, starting from about ${(fp.a * 3 ** fp.b).toFixed(1)} ranks at 3 candidates.`],
+    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, `Rule, fitted to all public elections together (Scotland and others): doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks, starting from about ${(fp.a * 3 ** fp.b).toFixed(1)} ranks at 3 candidates.`],
     ["(b) Follows seats, like union elections", `≈ ${(fe.a * 75 ** fe.b).toFixed(0)} to ${(fs.a + 50 * fs.b).toFixed(0)}`, `Rules: doubling the candidates adds about ${Math.round((2 ** fe.b - 1) * 100)}% more ranks (gives the lower number); each extra seat adds about ${fs.b.toFixed(1)} ranks, starting from ${fs.a.toFixed(1)} (gives the higher number).`],
     ["(c) Follows the instructions", "As asked", "Where ballots have a limit, about 4 in 10 voters fill it exactly (NYC 37%, Portland 47%)."],
   ];

@@ -25,8 +25,19 @@ def meta_for(path):
 
 
 def group_of(src, file):
+    """Groups for the charts. PrefLib splits into union and society elections
+    (ERS), other organizational elections (Debian, APA, UK Labour MPs), and
+    public elections. PrefLib's Glasgow 2007 wards are also in the Scottish
+    data, so they're left out here to avoid counting them twice."""
     if src == "preflib":
-        return "ers" if "/ers-" in file else "public"
+        name = os.path.basename(file)
+        if name.startswith("ers-"):
+            return "ers"
+        if name.startswith(("debian-", "apa-", "uklabor-")):
+            return "org"
+        if name.startswith("glasgow-"):
+            return None
+        return "public"
     return src
 
 
@@ -37,6 +48,8 @@ def elections():
             d = json.loads(line)
             meta = meta_for(os.path.join(os.path.dirname(ROOT), d["file"]))
             bl = d["ballot_length"]
+            if group_of(src, d["file"]) is None:
+                continue
             out.append({
                 "group": group_of(src, d["file"]),
                 "name": d["election"],
@@ -130,7 +143,22 @@ def main():
         dists[key] = {"label": label, "shares": shares, "ballots": n, "elections": len(rs),
                       "limit": rs[0]["max_ranks"] if key in ("portland", "nyc") else None}
     stop_rows, stop_all = party_then_stop()
+    # One fit per group, over that group's own range, for the charts.
+    groups = {"scotland": [r for r in rows if r["group"] == "scotland"],
+              "public": [r for r in rows if r["group"] == "public" and uncapped(r)],
+              "org": [r for r in rows if r["group"] == "org" and uncapped(r)],
+              "ers": ers}
+    by_group = {}
+    for g, rs in groups.items():
+        ac, bc = fit_power([(r["candidates"], r["mean"]) for r in rs])
+        seats = sorted({r["seats"] for r in rs})
+        fit_s = fit_line([(r["seats"], r["mean"]) for r in rs]) if len(seats) > 1 else (None, None)
+        by_group[g] = {"cand": {"a": ac, "b": bc, "min": min(r["candidates"] for r in rs), "max": max(r["candidates"] for r in rs)},
+                       "seats": {"a": fit_s[0], "b": fit_s[1], "min": seats[0], "max": seats[-1]}, "n": len(rs)}
+        print(g, len(rs), "cand fit", round(ac, 2), round(bc, 2), "range", by_group[g]["cand"]["min"], by_group[g]["cand"]["max"],
+              "seats fit", fit_s, "seats", seats)
     out = {
+        "by_group": by_group,
         "elections": [{k: r[k] for k in ("group", "name", "candidates", "seats", "max_ranks", "voters", "mean")} for r in rows],
         "distributions": dists,
         "party_then_stop": {"by_party": stop_rows, "all": stop_all},

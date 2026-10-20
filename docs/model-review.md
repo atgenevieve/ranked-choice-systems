@@ -30,13 +30,13 @@
 
   | Candidates | Public elections | Union and society elections |
   |---|---|---|
-  | 3 to 5 | 2.7 (56%), 180 elections | 2.3 (58%), 33 elections |
-  | 6 to 8 | 3.1 (45%), 715 elections | 3.6 (51%), 17 elections |
-  | 9 to 12 | 3.4 (35%), 246 elections | 5.2 (52%), 17 elections |
-  | 13 to 20 | 3.3 (25%), 9 elections | 5.5 (37%), 17 elections |
+  | 3 to 5 | 2.6 (56%), 163 elections | 2.3 (58%), 33 elections |
+  | 6 to 8 | 3.1 (45%), 710 elections | 3.6 (51%), 17 elections |
+  | 9 to 12 | 3.4 (36%), 227 elections | 5.2 (52%), 17 elections |
+  | 13 to 20 | 3.3 (25%), 8 elections | 5.5 (37%), 17 elections |
   | 21 or more | none | 5.9 (23%), 3 elections |
 
-  Public elections with no rank limit only go up to 14 candidates. (Correction: an earlier draft of this table mixed the two groups, which made public elections look like they ranked about 5 or 6 in large fields. That came from the union and society elections.)
+  Public elections with no rank limit only go up to 14 candidates. Other organizational elections (Debian, the American Psychological Association, UK Labour MPs) are left out of both columns, and so is PrefLib's copy of Glasgow 2007, which is already in the Scottish data. (Correction: an earlier draft of this table mixed the two groups, which made public elections look like they ranked about 5 or 6 in large fields. That came from the union and society elections.)
 
 - **In organizational elections, length grows with the number of seats.** The ERS elections (British trade unions and similar bodies, 1987 to 1988):
 
