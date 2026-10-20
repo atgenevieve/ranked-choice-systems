@@ -376,12 +376,13 @@ function scatter(f, opts) {
   const C = DATA.cut_at_seats;
   const f = figure("A limit equal to the number of seats",
     "Where voters are told to rank as many as there are seats, most do exactly that. And cutting real ballots at that rank rarely changes who wins.",
-    "The first three cards are what voters did under a limit or instruction equal to the seats. The Australian and Canberra figures come from the research write-up (docs/large-elections.md), not from ballots in this project; the Canberra figure is from a search summary. The last two cards recount this project's real ballots with every ballot cut after rank = seats. That only shortens ballots; a real limit would also change how far people rank.");
+    "The first four cards are what voters did under a limit or instruction equal to the seats. Minneapolis had a maximum (\"up to 3\"); Canberra and the Senate set a minimum (\"at least\"), with no maximum. The 2016 Australian Senate figure for above-the-line party boxes comes from the research write-up (docs/large-elections.md). The last two cards recount this project's real ballots with every ballot cut after rank = seats. That only shortens ballots; a real limit would also change how far people rank.");
   const box = document.createElement("div"); box.className = "predict";
   const cards = [
     ["Minneapolis Park Board, 2009", "54%", "3 seats, 3 ranks allowed: share of ballots that ranked all 3. The only election in this project's data with a limit equal to the seats."],
     ["Australian Senate, 2016", "82%", "6 seats per state, told to number at least 6 party boxes: share who numbered exactly 6."],
-    ["Canberra (ACT), 5-seat districts", "68%", "Told to number at least 5: share who marked exactly 5. About 98% marked at least 5."],
+    ["Canberra (ACT) 2024, 5-seat electorates", "69%", "Told to number at least 5, with 24 to 34 candidates: share who numbered exactly 5. 98% numbered at least 5, against 16% ranking 5 or more in large Scottish wards with no instruction. From this project's ballots."],
+    ["Tasmania Senate 2016, below the line", "67%", "12 seats, told to number at least 12: share who numbered exactly 12. From this project's ballots."],
     ["Recount: Scottish wards", `${C.scotland.changed} of ${C.scotland.elections.toLocaleString()}`, `Wards where the winners change when ballots are cut after rank = seats (3 or 4). The cut shortens ${pct(C.scotland.ballots_cut)} of ballots.`],
     ["Recount: union and society elections", `${C.ers.changed} of ${C.ers.elections}`, `Elections with 2 or more seats where the winners change when ballots are cut after rank = seats. The cut shortens ${pct(C.ers.ballots_cut)} of ballots.`],
   ];
