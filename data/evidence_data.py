@@ -64,6 +64,7 @@ def slate_loyalty(rows):
     flows = defaultdict(Counter)
     evenness = []
     endorsement = []
+    evenness_by_party = defaultdict(list)
     for src, g, d, meta in rows:
         sc = d.get("slate_cohesion")
         if src == "scotland" and sc and sc.get("cohesion") is not None:
@@ -75,6 +76,21 @@ def slate_loyalty(rows):
             ev = d["transfer_spread"].get("cross_party_evenness_weighted_mean")
             if ev is not None:
                 evenness.append(round(ev, 4))
+        # Cross-party evenness per first-choice party, ward by ward: how evenly the second
+        # choices that leave a party spread over other parties' candidates (voter-weighted
+        # mean over that party's candidates in the ward).
+        if src == "scotland" and d["seats"] >= 3 and meta.get("parties"):
+            labels = [PARTY_ALIASES.get(p, p) for p in meta["parties"]]
+            acc = defaultdict(lambda: [0.0, 0])
+            for c in d["transfer_spread"]["by_candidate"]:
+                ev = c.get("cross_party_evenness")
+                party = labels[c["candidate"]]
+                if ev is None or party not in MAIN_PARTIES or not c["voters_with_next"]:
+                    continue
+                acc[party][0] += ev * c["voters_with_next"]
+                acc[party][1] += c["voters_with_next"]
+            for party, (tot, n) in acc.items():
+                evenness_by_party[party].append(round(tot / n, 4))
         es = d.get("endorsement_slate_cohesion")
         if es and es.get("cohesion") is not None and es.get("popularity_baseline") is not None:
             endorsement.append({"name": d["election"], "group": g, "observed": es["cohesion"],
@@ -99,6 +115,7 @@ def slate_loyalty(rows):
     return {"wards": wards, "flow_columns": [PARTY_NAMES.get(c, c) for c in cols],
             "flows": [{**m, "first": PARTY_NAMES[m["first"]]} for m in matrix],
             "cross_party_evenness": evenness, "endorsement": endorsement,
+            "evenness_by_party": {PARTY_NAMES[k]: v for k, v in evenness_by_party.items() if k in MAIN_PARTIES},
             "types": {k: v for k, v in types.items()}}
 
 

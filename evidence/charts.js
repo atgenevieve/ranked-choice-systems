@@ -316,3 +316,56 @@ function stackedBars(f, rows, series, opts = {}) {
     });
   });
 }
+
+// Smoothed distribution lines: one line per series, showing where its values fall
+// (a kernel density estimate: each value spreads a small bump of width `bw`, and the bumps add up).
+// The y value is the share of values per `per` units of x, so 0.05 means 5% of values per step.
+// series: [{name, color, values}]; hovering shows every series at that x.
+function densityLines(f, series, opts) {
+  const { min, max, bw = 0.015, per = 0.01 } = opts;
+  const N = 160, xs = Array.from({ length: N + 1 }, (_, i) => min + (max - min) * i / N);
+  const curves = series.map(s => {
+    const k = 1 / (s.values.length * bw * Math.sqrt(2 * Math.PI));
+    const ys = xs.map(x => s.values.reduce((a, v) => a + Math.exp(-0.5 * ((x - v) / bw) ** 2), 0) * k * per);
+    const sorted = [...s.values].sort((a, b) => a - b);
+    return { ...s, ys, median: sorted[Math.floor(sorted.length / 2)] };
+  });
+  legend(f, curves.map(c => ["dot", c.color, `${c.name} (median ${c.median.toFixed(2)})`]));
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  draws.push(() => {
+    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 12, T = 16, B = 38;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
+    const top = Math.max(...curves.flatMap(c => c.ys)), step = opts.yStep || (top <= 0.04 ? 0.01 : 0.02);
+    const yMax = Math.ceil(top / step) * step;
+    const sx = v => L + (v - min) / (max - min) * (w - L - R), sy = v => T + (1 - v / yMax) * (H - T - B);
+    for (const t of niceTicks(yMax, step)) {
+      el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, L - 6, sy(t) + 4, pct(t), { "text-anchor": "end" });
+    }
+    for (const t of opts.xTicks) {
+      el("line", { x1: sx(t), x2: sx(t), y1: T, y2: H - B, stroke: css("--grid"), "stroke-width": 1 }, svg);
+      txt(svg, sx(t), H - B + 15, opts.xFmt ? opts.xFmt(t) : String(t), { "text-anchor": "middle" });
+    }
+    txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
+    txt(svg, L, T - 4, opts.yTitle || "", { class: "title" });
+    for (const c of curves) {
+      const pts = xs.map((x, i) => `${sx(x).toFixed(1)},${sy(c.ys[i]).toFixed(1)}`);
+      el("polygon", { points: `${sx(min)},${sy(0)} ${pts.join(" ")} ${sx(max)},${sy(0)}`, fill: css(c.color), opacity: 0.1 }, svg);
+      el("polyline", { points: pts.join(" "), fill: "none", stroke: css(c.color), "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    }
+    // Hover: a vertical line, and every series' value at that point.
+    const guide = el("line", { y1: T, y2: H - B, stroke: css("--ink"), "stroke-width": 1, visibility: "hidden" }, svg);
+    const marker = el("circle", { r: 1, fill: "transparent" }, svg);
+    const area = el("rect", { x: L, y: T, width: w - L - R, height: H - T - B, fill: "transparent" }, svg);
+    area.addEventListener("pointermove", e => {
+      const r = svg.getBoundingClientRect(), px = e.clientX - r.left;
+      const i = Math.max(0, Math.min(N, Math.round((px - L) / (w - L - R) * N)));
+      const x = sx(xs[i]);
+      guide.setAttribute("x1", x); guide.setAttribute("x2", x); guide.setAttribute("visibility", "visible");
+      marker.setAttribute("cx", x); marker.setAttribute("cy", T + 10);
+      showTip(marker, `${opts.xTitle}: ${xs[i].toFixed(2)}`, curves.map(c => `${c.name}: ${pct(c.ys[i])}`));
+    });
+    area.addEventListener("pointerleave", () => { guide.setAttribute("visibility", "hidden"); hideTip(); });
+  });
+}

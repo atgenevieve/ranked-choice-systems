@@ -56,4 +56,16 @@ window.SECTIONS["slate-loyalty"] = () => {
     });
     stackedBars(f, rows, series, { labelW: 150, aria: "Where second choices go when they leave the first choice's party, by party" });
   }
+  {
+    const E = DATA.evenness_by_party;
+    const order = ["SNP", "Labour", "Conservative", "Liberal Democrats", "Greens"].filter(k => E[k]);
+    const colors = ["--public", "--ers", "--scotland", "--c4", "--c5"];
+    const f = figure("How evenly each party's departing votes spread",
+      "For every party, most wards score between 0.75 and 0.95: departing second choices spread across several parties. Conservative voters are the least even, leaning toward Labour and the Liberal Democrats; Labour and Liberal Democrat voters spread the most evenly.",
+      "Evenness of second choices that leave the first choice's party, ward by ward, for each party's voters. 1 means the departing second choices split perfectly evenly over every other party's candidates; lower means they lean toward fewer candidates. Each line shows how that party's wards are spread, as the share of its wards per 0.01 of evenness, smoothed. Hover to read every party at one point.");
+    densityLines(f, order.map((k, i) => ({ name: k, color: colors[i], values: E[k] })), {
+      min: 0.2, max: 1, bw: 0.015, per: 0.01, xTicks: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], xFmt: v => v.toFixed(1),
+      xTitle: "Evenness", yTitle: "Share of the party's wards, per 0.01", aria: "Distribution of cross-party evenness by party",
+    });
+  }
 };
