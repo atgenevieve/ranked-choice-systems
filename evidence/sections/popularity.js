@@ -35,16 +35,14 @@ window.SECTIONS.popularity = () => {
   }
 
   {
-    const BB = DATA.ladder_7.bottom_bigger;
-    const f = figure("Ward by ward: the bottom drop is usually bigger",
-      `The chart above shows the typical ward. This holds ward by ward too: in ${pct(BB.real_7.share)} of real Scottish wards, the drop from the middle candidate to the last is bigger than the drop from the top candidate to the middle. In the model it's a coin flip, about ${pct(BB.model["0.7"])}, at every setting. Turning the popularity setting up or down can't change this, so the model needs a separate share of long-shot candidates.`,
-      `"Bigger drop" compares multiples: the middle candidate's first choices as a multiple of the last candidate's, against the top candidate's as a multiple of the middle candidate's. Model figures use popularity alone, with no party loyalty, over 4,000 simulated 7-candidate elections at each setting.`);
-    hbars(f, [
-      { label: `Scottish wards, 7 candidates (${BB.real_7.n})`, values: [BB.real_7.share] },
-      { label: `All Scottish wards (${BB.real_all.n.toLocaleString()})`, values: [BB.real_all.share] },
-      { label: "Model, proposed setting (0.7)", values: [BB.model["0.7"]] },
-      { label: "Model, current setting (1.0)", values: [BB.model["1.0"]] },
-    ], [{ name: "Elections where the bottom drop is bigger", color: "--bar" }], { max: 1, step: 0.25, labelW: 230, aria: "Share of elections where the drop from the middle to the last candidate is bigger than from the top to the middle" });
+    const BB = DATA.ladder_7.bottom_bigger, X = DATA.ladder_7.examples;
+    const count = l => l.filter(e => { const v = e.shares; return v[3] / v[6] > v[0] / v[3]; }).length;
+    const f = figure("Ward by ward: real elections have a weak last candidate",
+      `Each small chart below is one election, with a bar for each candidate's share of first choices. Compare the last bar with the middle one. In most real wards, the last candidate is a sliver, many times smaller than the middle candidate: the field drops off a cliff at the bottom. In the model, bars shrink at a steadier pace, so the last candidate stays closer to the middle one. Across all ${BB.real_7.n} real 7-candidate wards, the drop at the bottom is the bigger one in ${pct(BB.real_7.share)} of them. In the model, it's about ${pct(BB.model["0.7"])} at every setting, so turning the popularity setting up or down can't fix this. That's why the proposal adds a separate share of long-shot candidates.`,
+      `Eight real Scottish wards with 7 candidates, and eight model elections at the proposed setting (0.7), both picked at random. The darker bars are the top, middle (4th of 7), and last candidates. A "drop" is how many times bigger one bar is than the next darker bar: "top is 2× the middle" means the top candidate got twice as many first choices as the middle one. In this sample, the bottom drop is bigger in ${count(X.real)} of 8 real wards and ${count(X.model)} of 8 model elections.`);
+    const max = Math.max(...[...X.real, ...X.model].map(e => e.shares[0]));
+    miniLadders(f, X.real, { heading: "Real Scottish wards", color: "--scotland", max });
+    miniLadders(f, X.model, { heading: "Model elections, proposed setting (0.7)", color: "--public", max });
   }
 
   {

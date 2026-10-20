@@ -408,3 +408,31 @@ function ladder(f, series, opts) {
     }
   });
 }
+
+// Small multiples of ladders: one mini bar chart per example election, bars from most to least
+// popular, with the top, middle, and last bars darker and their multiples spelled out underneath.
+// items: [{name, shares}]; opts: {heading, color, max}.
+function miniLadders(f, items, opts) {
+  const head = document.createElement("p"); head.className = "minis-head"; head.textContent = opts.heading; f.append(head);
+  const grid = document.createElement("div"); grid.className = "minis"; f.append(grid);
+  const times = v => `${v.toFixed(1)}×`;
+  for (const it of items) {
+    const v = it.shares, n = v.length, m = Math.floor(n / 2), top = v[0] / v[m], bottom = v[m] / v[n - 1];
+    const box = document.createElement("div"); box.className = "mini"; grid.append(box);
+    if (it.name) { const c = document.createElement("div"); c.className = "cap"; c.textContent = it.name; c.title = it.name; box.append(c); }
+    const W = 200, H = 96, B = 14, bw = W / n;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": `${it.name || "Model election"}: shares ${v.map(pct).join(", ")}` }, box);
+    el("line", { x1: 0, x2: W, y1: H - B, y2: H - B, stroke: css("--axis"), "stroke-width": 1 }, svg);
+    v.forEach((s, i) => {
+      const h = s / opts.max * (H - B - 12), key = i === 0 || i === m || i === n - 1;
+      el("rect", { x: i * bw + 3, y: H - B - h, width: bw - 6, height: Math.max(h, 1), rx: 2, fill: css(opts.color), opacity: key ? 1 : 0.3 }, svg);
+      if (key) txt(svg, i * bw + bw / 2, H - B - h - 3, pct(s), { "text-anchor": "middle", class: "val", "font-size": 10 });
+      txt(svg, i * bw + bw / 2, H - 2, i === 0 ? "Top" : i === m ? "Mid" : i === n - 1 ? "Last" : "", { "text-anchor": "middle", "font-size": 10 });
+    });
+    const read = document.createElement("div"); read.className = "read";
+    read.textContent = `Top is ${times(top)} the middle. Middle is ${times(bottom)} the last.`;
+    const verdict = document.createElement("div"); verdict.className = "verdict";
+    verdict.textContent = bottom > top ? "Bigger drop at the bottom" : "Bigger drop at the top";
+    box.append(read, verdict);
+  }
+}

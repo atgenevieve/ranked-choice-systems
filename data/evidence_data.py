@@ -161,9 +161,20 @@ def popularity(rows):
         "model": {str(s): quantiles_by_position(model_ladders(7, s)) for s in (0.7, 1.0)},
         # How often the drop from the middle candidate to the last is bigger than the drop from
         # the top candidate to the middle (comparing multiples: middle / last against top / middle).
+        "examples": examples_7(rows),
         "bottom_bigger": {"real_7": bottom_bigger([e for e in out if e["group"] == "scotland" and e["candidates"] == 7]),
                           "real_all": bottom_bigger([e for e in out if e["group"] == "scotland"]),
                           "model": {str(s): model_bottom_bigger(7, s) for s in (0.7, 1.0)}}}}
+
+
+def examples_7(rows, k=8, seed=11):
+    """A fixed random sample of real 7-candidate Scottish wards and of model elections
+    (proposed setting, 0.7), each as first-choice shares from most to least popular."""
+    real = sorted((d["election"], sorted(d["first_choice"]["shares_by_candidate"], reverse=True))
+                  for src, g, d, meta in rows if src == "scotland" and d["candidates"] == 7)
+    pick = random.Random(seed).sample(real, k)
+    return {"real": [{"name": n, "shares": [round(x, 4) for x in v]} for n, v in pick],
+            "model": [{"shares": [round(x, 4) for x in v]} for v in model_ladders(7, 0.7, trials=k, seed=seed)]}
 
 
 def bottom_bigger(elections):
