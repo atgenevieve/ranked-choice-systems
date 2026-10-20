@@ -130,6 +130,8 @@ window.redrawBranches = redrawBranches;
 
 /** Plays out every branch in turn; stops if the settings change while it runs. */
 window.runBranches = async (c, alive) => {
+  setText("sims-count", int(c.sims, 10, 1000).toLocaleString());
+  setText("slates-count", String(int(c.slates, 1, 12)));
   branchResults.clear();
   redrawBranches();
   for (let i = 0; i < branchList.length; i++) {
