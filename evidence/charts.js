@@ -372,10 +372,13 @@ function densityLines(f, series, opts) {
 }
 
 // Ladder: a value at each of a few ordered positions (for example, candidates from most to least
-// popular), one line per series, with an optional shaded range (lo to hi) around a series.
-// series: [{name, color, values: [{median, lo, hi}], band, dash}]; hover shows every series at a position.
+// popular), one line per series, with an optional shaded range (lo to hi) around a series, or
+// one thin line per election behind it (items: [{shares}]).
+// series: [{name, color, values: [{median, lo, hi}], band, items, itemsName, dash}]; hover shows every series at a position.
 function ladder(f, series, opts) {
-  legend(f, series.map(s => [s.band ? "dot" : "line", s.color, s.name]));
+  // A series drawn over its own thin lines takes the ink color, so it stands out from them.
+  const lc = s => s.items ? "--ink" : s.color;
+  legend(f, series.flatMap(s => s.items ? [["line", "--ink", s.name], ["line", s.color, s.itemsName]] : [[s.band ? "dot" : "line", s.color, s.name]]));
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const n = series[0].values.length;
   draws.push(() => {
@@ -390,6 +393,8 @@ function ladder(f, series, opts) {
     for (let i = 0; i < n; i++) txt(svg, sx(i), H - B + 15, opts.xLabels[i], { "text-anchor": "middle" });
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
     txt(svg, L, T - 6, opts.yTitle || "", { class: "title" });
+    for (const s of series.filter(s => s.items)) for (const it of s.items)
+      el("polyline", { points: it.shares.map((v, i) => `${sx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" "), fill: "none", stroke: css(s.color), "stroke-width": 1.2, opacity: 0.18, "stroke-linejoin": "round" }, svg);
     for (const s of series.filter(s => s.band)) {
       const up = s.values.map((v, i) => `${sx(i)},${sy(v.hi)}`), down = s.values.map((v, i) => `${sx(i)},${sy(v.lo)}`).reverse();
       el("polygon", { points: [...up, ...down].join(" "), fill: css(s.color), opacity: 0.15 }, svg);
@@ -397,8 +402,8 @@ function ladder(f, series, opts) {
     for (const s of series) {
       const d = s.values.map((v, i) => `${sx(i)},${sy(v.median)}`).join(" ");
       el("polyline", { points: d, fill: "none", stroke: css("--surface"), "stroke-width": 6, "stroke-linejoin": "round" }, svg);
-      el("polyline", { points: d, fill: "none", stroke: css(s.color), "stroke-width": s.band ? 3 : 2.5, "stroke-dasharray": s.dash || "", "stroke-linejoin": "round" }, svg);
-      s.values.forEach((v, i) => el("circle", { cx: sx(i), cy: sy(v.median), r: s.band ? 4.5 : 3.5, fill: css(s.color), stroke: css("--surface"), "stroke-width": 1.5 }, svg));
+      el("polyline", { points: d, fill: "none", stroke: css(lc(s)), "stroke-width": s.band || s.items ? 3 : 2.5, "stroke-dasharray": s.dash || "", "stroke-linejoin": "round" }, svg);
+      s.values.forEach((v, i) => el("circle", { cx: sx(i), cy: sy(v.median), r: s.band || s.items ? 4.5 : 3.5, fill: css(lc(s)), stroke: css("--surface"), "stroke-width": 1.5 }, svg));
     }
     for (let i = 0; i < n; i++) {
       const half = (sx(1) - sx(0)) / 2;
@@ -406,51 +411,5 @@ function ladder(f, series, opts) {
         series.map(s => `${s.name}: ${pct(s.values[i].median)}` + (s.band ? ` (middle half ${pct(s.values[i].lo)} to ${pct(s.values[i].hi)})` : "")),
         `${opts.xLabels[i]}: ` + series.map(s => `${s.name} ${pct(s.values[i].median)}`).join(", "));
     }
-  });
-}
-
-// Many ladders at once: one thin line per election (each candidate's share, most to least
-// popular), in side-by-side panels on the same scale, with each panel's typical election in bold.
-// Hovering a panel highlights the nearest election and spells out its drops.
-// panels: [{name, color, items: [{name, shares}], median: [numbers]}]; opts: {yMax, yStep, xLabels, xTitle, yTitle, aria}.
-function ladderPanels(f, panels, opts) {
-  legend(f, [["line", "--ink", "Typical election (median at each position)"]]);
-  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
-  const times = v => `${v.toFixed(1)}×`;
-  draws.push(() => {
-    const w = plot.clientWidth || 800, stack = w < 620, pw = stack ? w : (w - 24) / 2, PH = 300, L = 44, R = 12, T = 34, B = 34;
-    const H = stack ? panels.length * PH : PH;
-    plot.replaceChildren();
-    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
-    panels.forEach((p, k) => {
-      const ox = stack ? 0 : k * (pw + 24), oy = stack ? k * PH : 0, n = p.median.length;
-      const sx = i => ox + L + 10 + i / (n - 1) * (pw - L - R - 20), sy = v => oy + T + (1 - v / opts.yMax) * (PH - T - B);
-      txt(svg, ox + L, oy + 14, `${p.name} (${p.items.length})`, { class: "lab" });
-      for (const t of niceTicks(opts.yMax, opts.yStep)) {
-        el("line", { x1: ox + L, x2: ox + pw - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
-        txt(svg, ox + L - 6, sy(t) + 4, pct(t), { "text-anchor": "end" });
-      }
-      for (let i = 0; i < n; i++) txt(svg, sx(i), oy + PH - B + 15, opts.xLabels[i], { "text-anchor": "middle" });
-      txt(svg, ox + L, oy + T - 6, opts.yTitle || "", { class: "title" });
-      txt(svg, ox + (L + pw - R) / 2, oy + PH - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
-      const pts = it => it.shares.map((v, i) => `${sx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" ");
-      for (const it of p.items) el("polyline", { points: pts(it), fill: "none", stroke: css(p.color), "stroke-width": 1.2, opacity: 0.18, "stroke-linejoin": "round" }, svg);
-      const med = p.median.map((v, i) => `${sx(i)},${sy(v)}`).join(" ");
-      el("polyline", { points: med, fill: "none", stroke: css("--surface"), "stroke-width": 7, "stroke-linejoin": "round" }, svg);
-      el("polyline", { points: med, fill: "none", stroke: css("--ink"), "stroke-width": 3, "stroke-linejoin": "round" }, svg);
-      // Hover: highlight the election whose line is nearest the pointer.
-      const hl = el("polyline", { fill: "none", stroke: css(p.color), "stroke-width": 3, visibility: "hidden", "stroke-linejoin": "round" }, svg);
-      const area = el("rect", { x: ox + L, y: oy + T, width: pw - L - R, height: PH - T - B, fill: "transparent" }, svg);
-      area.addEventListener("pointermove", e => {
-        const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * w / r.width, py = (e.clientY - r.top) * H / r.height;
-        const i = Math.max(0, Math.min(n - 1, Math.round((px - sx(0)) / (sx(1) - sx(0)))));
-        let best = p.items[0];
-        for (const it of p.items) if (Math.abs(sy(it.shares[i]) - py) < Math.abs(sy(best.shares[i]) - py)) best = it;
-        const v = best.shares, m = Math.floor(n / 2);
-        hl.setAttribute("points", pts(best)); hl.setAttribute("visibility", "visible");
-        showTip(hl, best.name || "Model election", [`Shares: ${v.map(pct).join(", ")}`, `Top is ${times(v[0] / v[m])} the middle. Middle is ${times(v[m] / v[n - 1])} the last.`]);
-      });
-      area.addEventListener("pointerleave", () => { hl.setAttribute("visibility", "hidden"); hideTip(); });
-    });
   });
 }

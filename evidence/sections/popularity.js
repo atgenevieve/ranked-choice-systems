@@ -35,16 +35,17 @@ window.SECTIONS.popularity = () => {
   }
 
   {
-    const BB = DATA.ladder_7.bottom_bigger, A = DATA.ladder_7.all, Lad = DATA.ladder_7;
+    const A = DATA.ladder_7.all, Lad = DATA.ladder_7;
     const under = l => pct(l.filter(e => e.shares[6] < 0.03).length / l.length);
     const quarter = l => pct(l.filter(e => e.shares[6] < e.shares[3] / 4).length / l.length);
-    const f = figure("Every election at once: real fields drop off a cliff at the bottom",
-      `Each thin line is one election, tracing each candidate's share of first choices from the most popular to the least. Look at the right-hand end. In real wards, the lines dive toward zero between the middle candidate and the last: the last candidate gets under 3% of first choices in ${under(A.real)} of real wards, against ${under(A.model)} of model elections, and less than a quarter of the middle candidate's first choices in ${quarter(A.real)}, against ${quarter(A.model)}. In the model, the lines slope down more evenly and end higher. Changing the popularity setting can't fix this: it stretches or squeezes the whole line, top and bottom alike. That's why the proposal adds a separate share of long-shot candidates.`,
-      `All ${A.real.length} real Scottish wards with exactly 7 candidates, next to ${A.model.length} model elections at the proposed setting (0.7), with popularity alone and no party loyalty. The bold line is the typical election: the median share at each position. Hover a panel to pick out one election and see its drops.`);
-    ladderPanels(f, [
-      { name: "Real Scottish wards", color: "--scotland", items: A.real, median: Lad.real.map(q => q.median) },
-      { name: "Model, proposed setting (0.7)", color: "--public", items: A.model, median: Lad.model["0.7"].map(q => q.median) },
-    ], { yMax: 0.7, yStep: 0.1, xLabels: ["Top", "2nd", "3rd", "Mid", "5th", "6th", "Last"], xTitle: "Candidates, from most to least popular", yTitle: "Share of first choices", aria: "Each election's first-choice shares by candidate position, real Scottish wards beside model elections" });
+    const f = figure("Every real ward: the field drops off at the bottom",
+      `Each thin green line is one real ward, tracing each candidate's share of first choices from the most popular to the least. The black line is the typical real ward; the blue and orange lines are the model. Look at the right-hand end: real wards dive toward zero between the middle candidate and the last, while the proposed model line ends higher, and the current one starts too high. The last candidate gets under 3% of first choices in ${under(A.real)} of real wards, against ${under(A.model)} of model elections at the proposed setting, and less than a quarter of the middle candidate's first choices in ${quarter(A.real)}, against ${quarter(A.model)}. Changing the popularity setting can't fix this: it stretches or squeezes the whole line, top and bottom alike. That's why the proposal adds a separate share of long-shot candidates.`,
+      `All ${A.real.length} real Scottish wards with exactly 7 candidates. Model lines are the typical (median) election at each position, from popularity alone with no party loyalty; the model percentages come from ${A.model.length} simulated elections. Hover a position for values.`);
+    ladder(f, [
+      { name: "Typical real ward", itemsName: "Each real ward", color: "--scotland", values: Lad.real, items: A.real },
+      { name: "Model, proposed setting (0.7)", color: "--public", values: Lad.model["0.7"] },
+      { name: "Model, current setting (1.0)", color: "--ers", values: Lad.model["1.0"], dash: "6 4" },
+    ], { yMax: 0.6, yStep: 0.1, height: 380, xLabels: ["Top", "2nd", "3rd", "4th", "5th", "6th", "Last"], xTitle: "Candidates, from most to least popular", yTitle: "Share of first choices", aria: "Each real Scottish ward's first-choice shares by candidate position, with the typical real ward and the model" });
   }
 
   {
