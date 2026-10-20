@@ -2,7 +2,7 @@
 
 A method, and early findings, for measuring how much voters rank candidates together beyond what popularity alone explains, using ranked ballots. It started as part of the rank-depth project (tuning the voter model's slate settings), but it's useful on its own: for judging endorsements, slates, and candidate pacts in any ranked-choice election with published ballots.
 
-**Status:** working method, first findings, October 2026. The owner is marking which groupings reflect real political structure; see [What's next](#whats-next).
+**Status:** working method, first findings, October 2026. Every grouping found so far, with its strength, is in `results/2026-10-20-clustering-strength/table.md`.
 
 ## What it measures
 
@@ -77,7 +77,9 @@ The code is in the `atgenevieve/ranked-choice-systems` repository: `data/calibra
 
 ## What's next
 
-**For the rank-depth project:** the owner's marks decide which groupings tune the model's slate settings. Until enough are marked, the model uses a provisional range, so the project isn't blocked.
+**For the rank-depth project:** the model is tuned to overall clustering in real ballots, so it doesn't depend on marking (`docs/model-review.md`, assumption 4). Marking groupings on the review page is research for this method: it separates groupings that reflect political structure from ones that don't.
+
+**The full list of groupings,** strongest first, is in `results/2026-10-20-clustering-strength/`.
 
 **To get closer to effects, not just associations:** the data allows some designs that ballots alone don't:
 

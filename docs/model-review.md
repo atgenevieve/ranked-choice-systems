@@ -11,7 +11,7 @@
 | # | Assumption | Now | Proposal | Decision needed |
 |---|---|---|---|---|
 | 5 | Ballot length | Everyone ranks everyone | A new setting, tied to slates, that grows with seats; three variants tested side by side | **Biggest decision.** How length grows in a 50-seat election |
-| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune only to groupings the owner marks | Replace the line? Mark groupings on the review page |
+| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune to overall clustering in real ballots | Replace the line? Are your slates loose (like Portland endorsements) or tight (like Scottish parties)? |
 | 3 | Candidate popularity | Lognormal, spread 1.0 | Keep the lognormal, add a separate tail of long-shot candidates | Add the tail? |
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately | Separate them? |
 | 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | Allow candidates outside slates? |
@@ -115,7 +115,13 @@ Endorsements also differ in how many voters even knew about them, which ballots 
 - **Test whether it matters.** Run the headline results across the full plausible range of slate strength. If they hold, the causal question doesn't change the answer. If they don't, the report says so.
 - **For the organization itself,** model slates should be its real groupings (caucuses, tendencies), which the owner knows better than any endorsement list.
 
-**The review doesn't block the project (owner's decision, October 20, 2026).** Marking happens over time, with experts for each place. Until enough groupings are marked, the model uses a provisional range for slate strength, from the endorsement-slate level (about 10 to 15 points above popularity) to the party level (about 60 points above), and every headline result is run across that range. Results are updated as marks come in.
+**Revised approach: tune to the ballots as a whole (owner's decision, October 20, 2026).** For the model, the association is what matters: truncation depends on which candidates voters rank together, not why. So the model doesn't need anyone to judge which groupings are real. Instead:
+
+- Slate strength is tuned so that simulated ballots show the same overall clustering as real ones. Clustering is measured from all ballots, not by averaging labeled lists, which would count overlapping endorsements several times and overweight the pairs picked for being strongest.
+- Real data gives two reference points: **loose** clustering, like Portland's endorsement slates (about 10 to 15 points above popularity), and **tight** clustering, like Scottish parties (about 60 above).
+- **The owner's one decision:** whether the organization's slates are closer to loose or tight. Past ballots from the organization would settle it directly.
+- Every headline result is also run across the whole loose-to-tight range. If the results hold, the report says so.
+- Marking groupings on the review page is optional research for the endorsement work, not an input to the model.
 
 The method has uses beyond this project, so it's written up on its own in `docs/endorsement-cohesion.md`.
 
