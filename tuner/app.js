@@ -331,14 +331,15 @@ function drawElection(r, c) {
   const k50 = at(0.5), k80 = at(0.8), k95 = at(0.95), kAll = at(1);
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
+  // Where the average winners who change drops to 1 seat or less, and to 0.
+  const kOne = holdsFrom(mean, x => x <= 1), kZero = holdsFrom(mean, x => x === 0);
   // Headline and figures.
   const spread = r.settings.election.turnout_spread;
   setText("headline", `${spread ? "Across the turnouts you expect, 9" : "9"}5 of 100 elections are decided within the first ${k95} ranks: cut every ballot after rank ${k95}, and they elect exactly the same ${seats} people as full ballots. Half are decided within the first ${k50}.`);
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
     fig("95% confidence", `rank ${k95}`, `95% of elections are decided by this rank; ranking beyond this doesn't change who wins. 80% confidence needs ${k80}; 50%, ${k50}.`),
-    fig("Winners who change", `${few(mean[k50 - 1] ?? 0)} of ${seats}`,
-      `If every ballot stopped at rank ${k50}, on average ${few(mean[k50 - 1] ?? 0)} of the ${seats} winners would be different (at most ${most[k50 - 1] ?? 0} in any election). At rank ${k95}: ${few(mean[k95 - 1] ?? 0)}.`),
+    fig("1 seat or less", `rank ${kOne}`, `From this rank on, if every ballot stopped there, 1 or fewer of the ${seats} winners would be different, on average. 0 seats: rank ${kZero}.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
   // Chart 1: elections that come out the same.
@@ -349,7 +350,6 @@ function drawElection(r, c) {
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });
   // Chart 2: winners who change.
-  const kOne = holdsFrom(mean, x => x < 1), kZero = holdsFrom(mean, x => x === 0);
   const top = Math.max(1, ...most.slice(0, xMax));
   const step = niceStep(top);
   chart($("chart-seats"), [
