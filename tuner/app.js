@@ -316,7 +316,7 @@ function drawElection(r, c) {
   setText("headline", `${spread ? "Across the turnouts you expect, 9" : "9"}5 of 100 elections are decided within the first ${k95} ranks: cut every ballot after rank ${k95}, and they elect exactly the same ${seats} people as full ballots. Half are decided within the first ${k50}.`);
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
-    fig("95% confidence", `rank ${k95}`, `95% of elections are decided by this rank; nothing below it changes who wins. 80% confidence needs ${k80}; 50%, ${k50}.`),
+    fig("95% confidence", `rank ${k95}`, `95% of elections are decided by this rank; ranking beyond this doesn't change who wins. 80% confidence needs ${k80}; 50%, ${k50}.`),
     fig("Seats", `rank ${kSeat}`, `From this rank on, cutting ballots moves fewer than 1 of the ${seats} seats, on average. No election changes any seat from rank ${kNone}.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
