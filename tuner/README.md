@@ -13,6 +13,7 @@ The open questions from milestone 4 (standout candidates, and the pull toward a 
 ## Files
 
 - `index.html`, `app.js`: the page.
+- `branches.html`, `branches.js`: the NYC DSA branch page, published separately. It shares `app.js` (the model settings, engine calls, and charts) and plays out each branch's delegate election with its own candidates, seats, and expected ballots, which you can edit on the page.
 - `worker.js`: runs the engine off the page's main thread.
 - `stvsim.wasm`: the engine, built from `engine/src` (requests and replies are described in `engine/src/wasm.rs`).
 - `reference.json`: the real elections, built by `data/tuner_reference.py`.

@@ -1,0 +1,348 @@
+<meta charset="utf-8">
+<title>NYC DSA Branches</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a column of settings beside a column of results (stacked on phones). Every setting
+   reads the same way: name and value, what it is, the control with real elections marked on
+   it, what it does in your election, and why you'd change it. */
+:root {
+  /* A printed research report: white paper, black ink, one dark blue for the model, thin rules. */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --panel: #fafaf8;       /* the settings column, set apart like a sidebar */
+  --ink: #111111;
+  --ink-2: #4a4a4a;
+  --rule: #bdbdbd;
+  --grid: #e4e4e4;
+  --model: #1f3b73;       /* the simulated elections */
+  --model-soft: #9aabcb;
+  --real: #a3a3a3;        /* the real elections */
+  --real-ink: #555555;
+  --mark: #111111;        /* reference lines and crossing points */
+  --good: #1f3b73; --good-bg: transparent;
+  --warn: #4a4a4a; --warn-bg: transparent;
+  --bad: #111111; --bad-bg: transparent;
+  --focus: #1f3b73;
+  --font-text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
+    --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
+    --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
+  --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
+  --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+header { border-bottom: 2px solid var(--ink); padding-bottom: 14px; }
+header h1 { font-family: var(--font-text); font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+header p { margin: 6px 0 0; color: var(--ink-2); max-width: 70ch; font-family: var(--font-text); font-size: 16px; }
+.layout { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* Settings: one panel, one tab per group of settings. */
+.controls { background: var(--panel); border: 1px solid var(--rule); border-radius: 0; padding: 0 16px 16px; display: grid; gap: 14px; min-width: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px 2px; border-bottom: 1px solid var(--rule); margin: 0 -16px; padding: 8px 12px 0; }
+.tabs button { background: transparent; color: var(--ink-2); border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 6px 7px; font-size: 14px; font-weight: 600; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tabs button:hover { color: var(--ink); }
+.tabpanel { display: grid; gap: 16px; min-width: 0; }
+.tabpanel[hidden] { display: none; }
+.tabpanel > h2 { font-family: var(--font-text); font-size: 19px; font-weight: 600; margin: 0; }
+.group { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px 16px; display: grid; gap: 16px; min-width: 0; }
+.group > h2 { font-family: var(--font-text); font-size: 18px; font-weight: 600; margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--grid); }
+.setting { display: grid; gap: 6px; min-width: 0; }
+.setting + .setting { border-top: 1px dashed var(--grid); padding-top: 14px; }
+.setting-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.setting-head label, .setting-head .label { font-size: 14.5px; font-weight: 600; }
+.slider-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: start; }
+.slider-value { display: grid; gap: 3px; align-content: start; }
+.slider-value .typed { width: 5.4em; }
+.slider-row output { font-family: var(--font-ui); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; line-height: 1.3; padding-top: 1px; }
+.slider-track { display: grid; gap: 4px; min-width: 0; }
+.setting-head output { font-family: var(--font-ui); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; text-align: right; }
+.what { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.yours { margin: 0; font-size: 13.5px; }
+.yours::before { content: "In your election: "; font-weight: 600; }
+.yours:empty { display: none; }
+details.why summary { cursor: pointer; font-size: 13px; color: var(--model); width: fit-content; }
+details.why p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.inline-slider { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.pctbox { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.pctbox input { width: 4.2em; }
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label { font-size: 13.5px; font-weight: 500; }
+input[type="number"], input[type="text"], select {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 2px; padding: 6px 8px; width: 100%; min-width: 0;
+}
+input[type="number"] { font-family: var(--font-ui); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--model); margin: 0; }
+input:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+input:disabled { opacity: 0.45; }
+/* Real elections marked along a slider's scale: short values at their positions, named below. */
+.scale { display: grid; gap: 2px; }
+.scale .track { position: relative; height: 22px; margin: 0 8px; font-family: var(--font-ui); font-size: 11.5px; color: var(--real-ink); }
+.scale .tick { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; line-height: 1.1; white-space: nowrap; }
+.scale .tick::before { content: ""; width: 1px; height: 6px; background: var(--real-ink); margin-bottom: 2px; }
+.scale .tick.left { transform: translateX(-4px); justify-items: start; }
+.scale .tick.right { transform: translateX(calc(-100% + 4px)); justify-items: end; }
+.scale .key { margin: 0; font-size: 12px; color: var(--real-ink); }
+.check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.segmented { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented label { text-align: center; padding: 6px 8px; font-size: 13.5px; cursor: pointer; background: var(--surface); }
+.segmented input:checked + label { background: var(--model); color: var(--surface); font-weight: 600; }
+.segmented input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
+.hint { font-size: 12.5px; color: var(--ink-2); margin: 0; }
+
+/* Results */
+.results { display: grid; gap: 20px; min-width: 0; }
+section.panel { background: var(--surface); border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 14px 0 18px; display: grid; gap: 14px; min-width: 0; }
+section.panel > h2 { font-family: var(--font-text); font-size: 24px; font-weight: 600; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--ink-2); max-width: 72ch; font-family: var(--font-text); font-size: 15px; }
+.headline { margin: 0; font-family: var(--font-text); font-size: 20px; font-weight: 600; line-height: 1.4; max-width: 62ch; text-wrap: pretty; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.figure { border-top: 1px solid var(--ink); padding-top: 8px; display: grid; gap: 4px; align-content: start; }
+.figure .k { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); }
+.figure .n { font-family: var(--font-text); font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.figure .t { font-size: 13px; color: var(--ink-2); }
+.chartcard { display: grid; gap: 6px; min-width: 0; padding-top: 12px; border-top: 1px solid var(--grid); }
+.chartcard h3 { font-family: var(--font-text); font-size: 17px; font-weight: 600; margin: 0; }
+.chartcard .read { margin: 0; font-family: var(--font-text); font-size: 14.5px; color: var(--ink-2); max-width: 72ch; }
+.chartcard .found { margin: 0; font-family: var(--font-text); font-size: 15px; }
+.chart { width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+.chart .title { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); }
+.chart .lab { font-family: var(--font-ui); font-size: 12px; fill: var(--ink); }
+.chart .marklab { font-family: var(--font-ui); font-size: 12px; font-weight: 600; fill: var(--mark); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.status { font-size: 13px; color: var(--ink-2); min-height: 1.5em; margin: 0; }
+.status.busy::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--model); margin-right: 6px; animation: pulse 1s infinite alternate; }
+@keyframes pulse { from { opacity: 0.25; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .status.busy::before { animation: none; } }
+.error { color: var(--bad); font-weight: 600; }
+.sweep-fields { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
+.sweep-fields .field { width: 120px; }
+.sweep-fields .field.sweep-turnout { width: 220px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 14px; height: 10px; border-radius: 0; display: inline-block; }
+.swatch.line { height: 3px; }
+
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { font-size: 13px; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--ink); }
+td.n, th.n { text-align: right; font-family: var(--font-ui); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip { display: inline-block; font-size: 13px; font-weight: 600; padding: 0; white-space: nowrap; }
+.chip.close { color: var(--good); background: var(--good-bg); }
+.chip.near { color: var(--warn); background: var(--warn-bg); }
+.chip.off { color: var(--bad); background: var(--bad-bg); }
+.chip.none { color: var(--ink-2); background: var(--grid); }
+
+.save-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.save-row input { flex: 1 1 220px; }
+button { font: inherit; font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 2px; border: 1px solid var(--model); background: var(--model); color: var(--surface); cursor: pointer; }
+button.quiet { background: transparent; color: var(--model); }
+button:disabled { opacity: 0.5; cursor: default; }
+pre.toml { margin: 0; font-family: var(--font-data); font-size: 12.5px; background: var(--panel); border: 1px solid var(--rule); border-radius: 0; padding: 10px 12px; overflow-x: auto; max-height: 260px; }
+ul.saved { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.saved li { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--grid); padding-bottom: 6px; }
+ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
+/* Branch page: an editable table of branches, a summary table, and two charts per branch. */
+.branch-table { width: 100%; border-top: 0; border-bottom: 1px solid var(--rule); }
+.branch-table th, .branch-table td { padding: 4px 3px; border-bottom: 1px solid var(--grid); }
+.branch-table th { font-size: 12px; border-bottom: 1px solid var(--rule); }
+.branch-table input { padding: 4px 5px; font-size: 13px; }
+.branch-table input[type="text"] { min-width: 7em; }
+.branch-table td.num { width: 4.6em; }
+.summary td, .summary th { white-space: nowrap; }
+.summary td.k95, .summary th.k95 { font-weight: 700; }
+.branches { display: grid; gap: 22px; }
+.branch { display: grid; gap: 8px; border-top: 1px solid var(--ink); padding-top: 12px; min-width: 0; }
+.branch h3 { margin: 0; font-size: 18px; font-weight: 700; }
+.branch .meta { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.branch .says { margin: 0; font-size: 15px; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 10px 24px; }
+.pair h4 { margin: 0; font-size: 14px; font-weight: 600; }
+</style>
+<script>window.TUNER_PAGE = "branches";</script>
+
+<div class="wrap">
+  <header>
+    <h1>NYC DSA branch elections</h1>
+    <p>How many ranks matter in each branch's delegate election, from simulated elections with each branch's candidates, seats, and expected ballots. Change the model's settings in the tabs; every branch is played out again with them.</p>
+  </header>
+
+  <div class="layout">
+    <form class="controls" id="controls" autocomplete="off">
+      <div class="tabs" role="tablist" aria-label="Settings" id="tabs"></div>
+      <div class="tabpanel" role="tabpanel" data-tab="Branches">
+        <h2>Branches</h2>
+        <p class="what">Each branch's candidates, seats (delegate spots), and expected ballots. Edit any number; the results update.</p>
+        <div class="tablewrap"><table class="branch-table" id="branch-table"><thead><tr><th>Branch</th><th class="n">Candidates</th><th class="n">Seats</th><th class="n">Expected ballots</th></tr></thead><tbody></tbody></table></div>
+        <button type="button" class="quiet" id="branch-reset">Reset to the branch numbers</button>
+        <div class="setting">
+          <div class="field"><label for="turnout">Turnout range</label><div class="inline-slider"><span class="pctbox"><span aria-hidden="true">±</span><input type="number" id="turnout-n" min="0" max="30" step="1" value="10" aria-label="Turnout range, percent, give or take"><span aria-hidden="true">%</span></span><input type="range" id="turnout" class="compact" min="0" max="30" step="1" value="10" aria-label="Turnout range slider"></div></div>
+          <p class="what">Each simulated election draws its own turnout around the branch's expected ballots: about 2 in 3 land within this range, and 19 in 20 within twice it.</p>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="sims">How many times to simulate each branch</label></div>
+          <select id="sims"><option value="100">100 times</option><option value="250">250 times</option><option value="500">500 times</option><option value="1000" selected>1,000 times (about a minute for all branches)</option></select>
+        </div>
+        <!-- Used only for the settings' labels and scales; each branch sets its own numbers. -->
+        <div hidden><input type="number" id="candidates" value="105"><input type="number" id="seats" value="65"><input type="number" id="voters" value="626"><select id="cell"></select></div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" data-tab="Ballot">
+        <h2>Ballot</h2>
+        <div class="setting">
+          <div class="setting-head"><label for="wording">What the ballot tells voters</label></div>
+          <select id="wording">
+            <option value="up_to" selected>Rank up to N candidates</option>
+            <option value="at_least">Rank at least N candidates</option>
+            <option value="exactly">Rank exactly N candidates</option>
+            <option value="none">Rank as many as you like</option>
+          </select>
+          <div class="row2">
+            <div class="field"><label for="n">N</label><input type="number" id="n" min="1" value="46"></div>
+            <label class="check" for="n-seats"><input type="checkbox" id="n-seats" checked> N is the number of seats</label>
+          </div>
+          <p class="what">Your organization's ballot says "rank up to as many candidates as there are seats".</p>
+        </div>
+        <div class="setting" id="pull-setting">
+          <div class="setting-head"><label for="pull">Voters pulled up to N</label><output id="pull-v"></output></div>
+          <p class="what">Of the voters who would stop before N on their own, the share who keep going and rank exactly N because the ballot names that number.</p>
+          <label class="check" for="pull-auto"><input type="checkbox" id="pull-auto"> Use the share measured on real ballots</label>
+          <input type="range" id="pull" min="0" max="1" step="0.01" value="0.1">
+          <div class="scale" id="pull-scale"></div>
+          <p class="yours" id="pull-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>Real ballots give 23% for "rank up to N" (US city limits of 3 to 6; most fall between 14% and 36%) and 97% for "rank at least N" (Canberra). No real ballot has a limit near 46, so if your members follow the ballot's number more or less than that, try other values and see how much the results move.</p></details>
+        </div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" data-tab="Voters">
+        <h2>Voters</h2>
+        <div class="setting">
+          <div class="setting-head"><span class="label">Who is voting</span></div>
+          <div class="segmented" role="radiogroup" aria-label="Who is voting">
+            <input type="radio" name="electorate" id="el-org" value="organization" checked><label for="el-org">Organization members</label>
+            <input type="radio" name="electorate" id="el-pub" value="public"><label for="el-pub">Public voters</label>
+          </div>
+          <p class="what">Sets how many candidates voters rank on their own, before the ballot's rules. Members are fitted to 87 union and society elections and rank more as fields grow. Public voters are fitted to 1,100 Scottish council elections and rank about 3 of 7.</p>
+          <p class="yours" id="electorate-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>Nobody yet knows which your members resemble. For a 75-candidate, 46-seat election with no limit, members would rank about 29 on average and public voters about 10. Switch between them to see how much that changes how deep rankings matter.</p></details>
+        </div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" data-tab="Slates">
+        <h2>Slates</h2>
+        <div class="setting">
+          <div class="setting-head"><label for="slates">Number of slates</label><output id="slates-v"></output></div>
+          <p class="what">Slates are groups of candidates whose voters tend to rank each other: caucuses, tendencies, or parties.</p>
+          <input type="number" id="slates" min="1" max="12" value="4">
+          <p class="yours" id="slates-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>Set it to how many organized groups usually run in your elections. A typical Scottish ward has 4 to 6 parties standing. Earlier runs found the number of slates barely changed results.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="sizing">How many candidates each slate runs</label></div>
+          <select id="sizing">
+            <option value="expected_seats" selected>About as many as the seats it can expect to win</option>
+            <option value="same_as_voters">In proportion to its supporters, filling the field</option>
+          </select>
+          <p class="what">A slate backed by 30% of voters can expect about 30% of the seats. With the first choice, it runs about that many candidates, as your organization's slates do, and as Scottish parties do. With the second, slates divide the whole field between them in proportion to their supporters, so they run longer lists and few candidates are left on no slate.</p>
+          <details class="why"><summary>Why change it</summary><p>To test whether running a list sized to expected seats helps a slate, compared with running a longer list. That's one of the questions this project can answer.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="unaff">Candidates on no slate</label><output id="unaff-v"></output></div>
+          <p class="what">The smallest share of candidates who run on no slate, like independents. Candidates left over once slates have their lists also run on no slate.</p>
+          <input type="range" id="unaff" min="0" max="0.5" step="0.01" value="0.15">
+          <div class="scale" id="unaff-scale"></div>
+          <details class="why"><summary>Why change it</summary><p>If more or fewer candidates in your elections run without a slate's backing.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="loyalty">Slate loyalty</label><output id="loyalty-v"></output></div>
+          <p class="what">How much more often a voter's second choice goes to another candidate on their own slate than popularity alone would give, in percentage points. Scottish voters whose first choice has a running mate pick that running mate second about 82% of the time, where popularity alone would give 21%: 61 points of loyalty.</p>
+          <input type="range" id="loyalty" min="4" max="66" step="1" value="11">
+          <div class="scale" id="loyalty-scale"></div>
+          <p class="yours" id="loyalty-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>Set it to how tightly your slates' voters stick together. Loose, like endorsement slates, is the default; tight, like Scottish parties, is the other end. Every headline result should be checked at both ends. The scale is measured on simulated Scottish wards; your election's own figure is shown below the slider.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="evenness">How evenly votes leave a slate</label><output id="evenness-v"></output></div>
+          <p class="what">When a voter's next choice leaves their slate, how evenly those choices spread over the other slates' candidates. 1 means perfectly evenly; lower means voters of one slate favor particular other slates, like neighbors on the left or right.</p>
+          <input type="range" id="evenness" min="0.65" max="0.83" step="0.005" value="0.785">
+          <div class="scale" id="evenness-scale"></div>
+          <p class="yours" id="evenness-yours"></p>
+          <p class="hint">The slider's scale is measured on simulated Scottish wards, where real ballots give a reference. In elections shaped differently, the same setting can measure differently, so check the figure for your election.</p>
+          <details class="why"><summary>Why change it</summary><p>If your slates have strong pairings, such as two caucuses whose voters back each other, lower it. Real Scottish wards measure 0.85, slightly more even than the model can make; the model's most even setting is about 0.83.</p></details>
+        </div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" data-tab="Popularity">
+        <h2>Candidate popularity</h2>
+        <div class="setting">
+          <div class="setting-head"><label for="spread">How unequal candidates' support is</label><output id="spread-v"></output></div>
+          <p class="what">Each candidate gets a random amount of support, before slates come in. This sets how far apart those amounts are. At 0, every candidate is equally popular. At 0.7, a typical candidate is about twice as popular, or half as popular, as average; at 1.0, about 2.7 times.</p>
+          <label class="check" for="spread-auto"><input type="checkbox" id="spread-auto" checked> <span id="spread-auto-label">Use the value fitted to real elections like yours</span></label>
+          <input type="range" id="spread" min="0" max="2" step="0.05" value="1">
+          <div class="scale" id="spread-scale"></div>
+          <p class="yours" id="spread-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>This setting moved earlier results more than any other. The fitted value makes the most popular candidate's lead over the quota (the share of votes that guarantees a seat) match real elections of the same type. Raise it for elections with one or two clear favorites; lower it for elections where support is spread evenly.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="longshot">Long-shot candidates</label><output id="longshot-v"></output></div>
+          <p class="what">The share of candidates with almost no support, far behind everyone else. In most real Scottish wards, the last candidate gets under 3% of first choices.</p>
+          <label class="check" for="longshot-auto"><input type="checkbox" id="longshot-auto" checked> <span id="longshot-auto-label">Use the value fitted to real elections like yours</span></label>
+          <input type="range" id="longshot" min="0" max="0.4" step="0.01" value="0">
+          <p class="yours" id="longshot-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>Raise it if your elections have several candidates with almost no chance. Compare "Last candidate's first choices" in the comparison below: if the model's last candidates are stronger than real ones, add long shots.</p></details>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="gap">How far behind long shots are</label><output id="gap-v"></output></div>
+          <p class="what">How much less support long shots get than they otherwise would. Only matters when there are long shots.</p>
+          <input type="range" id="gap" min="-3" max="4" step="0.1" value="2">
+          <div class="scale" id="gap-scale"></div>
+          <details class="why"><summary>Why change it</summary><p>To make long shots more or less hopeless. Below 0, long shots turn into standouts, far more popular than the rest: an option still under review, which fixed the weak last candidate in large organizational elections.</p></details>
+        </div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" data-tab="Seed">
+        <h2>Random seed</h2>
+        <div class="setting">
+          <div class="setting-head"><label for="seed">Seed</label></div>
+          <input type="number" id="seed" min="1" value="1">
+          <p class="what">The starting value for the random voters. The same seed and settings always give the same results; a different seed shows how much results vary by chance.</p>
+        </div>
+      </div>
+    </form>
+
+    <div class="results">
+      <section class="panel" id="branches-panel" aria-live="polite">
+        <h2>How many ranks matter in each branch</h2>
+        <p class="lede" id="branches-lede">Each branch is played out many times with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.</p>
+        <p class="status" id="branches-status"></p>
+        <p class="what">Across the turnouts you expect, 95 of 100 elections in a branch are decided within its 95% rank: ranking beyond that doesn't change who wins. "100%" is the rank from which no simulated election changes at all. "1 seat or less" is the rank from which, if every ballot stopped there, 1 or fewer winners would be different on average.</p>
+        <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Branch</th><th class="n">Candidates</th><th class="n">Seats</th><th class="n">Ballots</th><th class="n">50%</th><th class="n">80%</th><th class="n k95">95%</th><th class="n">100%</th><th class="n">1 seat or less</th></tr></thead><tbody></tbody></table></div>
+        <div class="branches" id="branches"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="branches.js"></script>

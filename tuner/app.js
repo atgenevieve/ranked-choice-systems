@@ -5,7 +5,11 @@
 "use strict";
 
 const $ = id => document.getElementById(id);
-const STORE_KEY = "rank-depth-tuner-v2";
+// Two pages share this script: the single-election tuner (index.html) and the branch page
+// (branches.html, which sets window.TUNER_PAGE = "branches" and adds branches.js). Elements a page
+// doesn't have are skipped.
+const PAGE = window.TUNER_PAGE || "election";
+const STORE_KEY = PAGE === "branches" ? "rank-depth-branches-v1" : "rank-depth-tuner-v2";
 
 // ---------------------------------------------------------------- engine
 const worker = new Worker("worker.js");
@@ -34,7 +38,7 @@ const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent?.append(e); return e; };
 const text = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
 const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || lo)));
-const setText = (id, s) => { $(id).textContent = s; };
+const setText = (id, s) => { const e = $(id); if (e) e.textContent = s; };
 
 // ---------------------------------------------------------------- reference data
 let reference = null;  // tuner/reference.json
@@ -84,7 +88,7 @@ function readControls() {
   const c = {};
   for (const id of FIELDS) {
     const e = $(id);
-    c[id] = e.type === "checkbox" ? e.checked : e.value;
+    if (e) c[id] = e.type === "checkbox" ? e.checked : e.value;
   }
   c.electorate = document.querySelector('input[name="electorate"]:checked').value;
   return c;
@@ -92,12 +96,12 @@ function readControls() {
 
 function writeControls(c) {
   for (const id of FIELDS) {
-    if (!(id in c)) continue;
+    if (!(id in c) || !$(id)) continue;
     const e = $(id);
     if (e.type === "checkbox") e.checked = !!c[id]; else e.value = c[id];
   }
   if (c.electorate) document.querySelector(`input[name="electorate"][value="${c.electorate}"]`).checked = true;
-  for (const id of TURNOUT) $(id).value = $("turnout").value;
+  for (const id of TURNOUT) if ($(id)) $(id).value = $("turnout").value;
   syncBoxes();
 }
 
@@ -408,7 +412,7 @@ function sweepDefaults(c) {
   $("sweep-from").placeholder = String(a);
   $("sweep-to").placeholder = String(b);
 }
-for (const id of ["sweep-from", "sweep-to"]) $(id).addEventListener("input", () => sweepDefaults(readControls()));
+for (const id of ["sweep-from", "sweep-to"]) $(id)?.addEventListener("input", () => sweepDefaults(readControls()));
 
 function drawSweep(c) {
   if (!sweep || !sweep.points.length) { $("chart-voters").replaceChildren(); setText("sweep-found", ""); return; }
@@ -445,7 +449,7 @@ function drawSweep(c) {
     (sweep.spread ? "" : `With the turnout range at 0%, the dotted lines mark where the quota, the whole number of votes a candidate needs to win a seat, goes up by one vote; the answer jumps at each one. With your ${yours.toLocaleString()} voters the quota is ${q(yours)} votes; it steps up at ${below.toLocaleString()} and ${above.toLocaleString()} voters.`));
 }
 
-$("sweep-run").addEventListener("click", async () => {
+$("sweep-run")?.addEventListener("click", async () => {
   const c = readControls();
   const v = int(c.voters, 10, 50000);
   const from = int($("sweep-from").value || $("sweep-from").placeholder, 10, 50000);
@@ -568,6 +572,7 @@ let runSeq = 0;
 let timer = null;
 
 function setStatus(id, msg, busy, error) {
+  if (!$(id)) return;
   $(id).className = `status${busy ? " busy" : ""}${error ? " error" : ""}`;
   $(id).textContent = msg;
 }
@@ -579,11 +584,12 @@ async function refresh() {
   const dims = updateLabels(c);
   c = readControls(); // sliders that follow "auto" may have moved
   try { localStorage.setItem(STORE_KEY, JSON.stringify(c)); } catch { /* storage may be blocked */ }
+  const seq = ++runSeq;
+  if (PAGE === "branches") return window.runBranches(c, () => seq === runSeq);
   $("toml").textContent = toml(electionSettings(c), $("tuning-name").value.trim());
   sweepDefaults(c);
   if (sweep && sweep.key !== sweepKey(c)) { sweep = null; drawSweep(c); setText("sweep-found", "Settings changed: press Run to play out the new settings."); }
   else drawSweep(c);
-  const seq = ++runSeq;
   // Quick answers first, then the slower count of your election.
   await Promise.all([runDescribe(c, seq, dims), runCompare(c, seq)]);
   if (seq === runSeq) await runElection(c, seq);
@@ -598,12 +604,13 @@ $("controls").addEventListener("input", schedule);
 $("controls").addEventListener("change", schedule);
 $("controls").addEventListener("submit", e => e.preventDefault());
 $("cell").addEventListener("change", schedule);
-$("tuning-name").addEventListener("input", () => { $("toml").textContent = toml(electionSettings(readControls()), $("tuning-name").value.trim()); });
+$("tuning-name")?.addEventListener("input", () => { $("toml").textContent = toml(electionSettings(readControls()), $("tuning-name").value.trim()); });
 let resizeTimer = null;
 addEventListener("resize", () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     const c = readControls();
+    if (PAGE === "branches") return window.redrawBranches();
     if (lastElection) drawElection(lastElection, c);
     if (lastCompare) drawCompare(lastCompare.cell, lastCompare.reply);
     drawSweep(c);
@@ -615,7 +622,7 @@ const use = name => (window.claude?.use ? window.claude.use(name) : Promise.reso
 let db = null;
 const say = (msg, error) => setStatus("save-status", msg, false, error);
 
-$("copy").addEventListener("click", () => {
+$("copy")?.addEventListener("click", () => {
   const t = $("toml").textContent;
   navigator.clipboard.writeText(t).then(() => say("Copied. Paste it into a .toml file, or into a message to Claude."), () => {
     const r = document.createRange(); r.selectNodeContents($("toml"));
@@ -624,7 +631,7 @@ $("copy").addEventListener("click", () => {
   });
 });
 
-$("save-shared").addEventListener("click", async () => {
+$("save-shared")?.addEventListener("click", async () => {
   const name = $("tuning-name").value.trim();
   if (!name) { say("Give these settings a name first.", true); $("tuning-name").focus(); return; }
   if (!db) { say("Saving to the list works on the published page. Here, copy the settings instead.", true); return; }
@@ -666,11 +673,11 @@ function showSaved(snap) {
 
 use("db").then(d => {
   db = d;
-  if (!db) return;
+  if (!db || !$("saved")) return;
   db.collection("tunings").orderBy("saved_at", "desc").limit(100).onSnapshot(showSaved, () => { $("saved-wrap").hidden = true; });
 });
 use("downloads").then(downloads => {
-  if (!downloads) return;
+  if (!downloads || !$("download")) return;
   $("download").hidden = false;
   $("download").addEventListener("click", async () => {
     const name = $("tuning-name").value.trim() || "tuning";
@@ -727,9 +734,9 @@ function setTurnout(from) {
   const e = $(from);
   if (e.value === "") return;
   const v = int(e.value, 0, 30);
-  for (const id of TURNOUT) if (id !== from) $(id).value = v;
+  for (const id of TURNOUT) if (id !== from && $(id)) $(id).value = v;
 }
-for (const id of TURNOUT) {
+for (const id of TURNOUT.filter(id => $(id))) {
   $(id).addEventListener("input", () => { setTurnout(id); if (id.startsWith("sweep")) schedule(); });
   $(id).addEventListener("change", () => { $(id).value = $("turnout").value; });
 }
