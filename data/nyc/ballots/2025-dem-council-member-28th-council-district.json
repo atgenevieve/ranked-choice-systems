@@ -12,6 +12,18 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.uft.org/your-union/uft-resolutions/endorsement-city-council-candidates",
+      "date": "2025-05-14",
+      "note": "The UFT names 'Tyrell Hankerson'; the ballot lists 'Ty Hankerson'. Taken to be the same person (the only Hankerson running)."
+    }
+  ],
   "official_winners": [
     0
   ],

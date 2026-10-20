@@ -11,6 +11,38 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0,
+        3
+      ],
+      "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+      "date": "2025-03-13",
+      "note": "Ortiz ranked No. 1; the others endorsed without a rank."
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.uft.org/your-union/uft-resolutions/endorsement-city-council-candidates",
+      "date": "2025-05-14"
+    },
+    {
+      "name": "Bronx Democratic Party",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://politicsny.com/2025/02/24/bronx-democratic-party-announces-key-city-council-endorsements-ahead-of-june-primaries/",
+      "date": "2025-02-24"
+    }
+  ],
   "official_winners": [
     0
   ],

@@ -12,6 +12,18 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "LaborStrong2021",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    }
+  ],
   "official_winners": [
     0
   ],

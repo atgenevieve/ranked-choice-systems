@@ -11,6 +11,18 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.uft.org/your-union/uft-resolutions/endorsement-city-council-candidates",
+      "date": "2025-05-14",
+      "note": "The UFT resolution spells her name 'Lewinshoun'."
+    }
+  ],
   "official_winners": [
     0
   ],

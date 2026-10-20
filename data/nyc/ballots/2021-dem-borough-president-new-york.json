@@ -14,6 +14,46 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0
+      ],
+      "source": "https://citizensunion.org/voters-guide/2021-primary-election/manhattan-borough-president-democratic-party-primary-2/",
+      "date": "2021-06",
+      "ordered": true
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/whos-running-in-the-2021-borough-president-primaries/182772/",
+      "date": "2021-06-14"
+    },
+    {
+      "name": "32BJ SEIU",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/whos-running-in-the-2021-borough-president-primaries/182772/",
+      "date": "2021-06-14"
+    },
+    {
+      "name": "Communications Workers of America (Locals 1101, 1102, 1106, 1109)",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/whos-running-in-the-2021-borough-president-primaries/182772/",
+      "date": "2021-06-14"
+    }
+  ],
   "official_winners": [
     0
   ],

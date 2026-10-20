@@ -11,6 +11,28 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYIC Action",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    }
+  ],
   "official_winners": [
     0
   ],

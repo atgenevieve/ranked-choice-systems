@@ -14,6 +14,48 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYIC Action",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYC-DSA",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.brooklynpaper.com/dsa-city-council-endorsements-nyc-socialist",
+      "date": "2020-11-20"
+    },
+    {
+      "name": "Markell and Toor",
+      "kind": "campaign",
+      "members": [
+        3,
+        6
+      ],
+      "source": "https://qns.com/competing-candidates-cross-endorse-in-tactic-brought-about-by-rank-choice-voting/",
+      "date": "2021-06-09",
+      "note": "Asked supporters to rank the other second, about two weeks before the primary."
+    }
+  ],
   "official_winners": [
     0
   ],

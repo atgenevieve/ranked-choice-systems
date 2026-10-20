@@ -1,0 +1,2216 @@
+{
+  "about": "Endorsement slates and candidate alliances for NYC ranked-choice primaries. Reviewed by hand; add_slates.py copies them into ballots/<contest>.json as the `slates` field. Members are candidate names as the source wrote them; `aliases` maps a source spelling to the exact name in the metadata. When `ordered` is true, members are listed in the order the source asked voters to rank them. See README.md, section Slates.",
+  "sources": {
+    "gg": {
+      "url": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "title": "Gotham Gazette: New York's Activist Left and Organized Labor Begin Choosing Their Next City Council Class (endorsement lists as of late January 2021)"
+    },
+    "dsa21": {
+      "url": "https://www.brooklynpaper.com/dsa-city-council-endorsements-nyc-socialist",
+      "date": "2020-11-20",
+      "title": "Brooklyn Paper: NYC-DSA endorses six City Council candidates"
+    },
+    "wfp-q": {
+      "url": "https://queenseagle.com/all/wfp-rolls-out-new-slate-of-queens-council-endorsements",
+      "date": "2021-02-25",
+      "title": "Queens Daily Eagle: WFP rolls out new slate of Queens council endorsements"
+    },
+    "rtj": {
+      "url": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+      "date": "2021-02-23",
+      "title": "PoliticsNY: Road to Justice NYC (led by 1199SEIU, Make the Road Action and Community Voices Heard Power) ranks candidates in three Queens races"
+    },
+    "qns-cross": {
+      "url": "https://qns.com/competing-candidates-cross-endorse-in-tactic-brought-about-by-rank-choice-voting/",
+      "date": "2021-06-09",
+      "title": "QNS: Competing candidates cross-endorse in tactic brought about by rank choice voting"
+    },
+    "cu21-mayor": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-mayor-democratic-party-primary-2/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Mayor"
+    },
+    "cu21-comp": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-comptroller-democratic-party-primary-2/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Comptroller"
+    },
+    "cu21-bkbp": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/brooklyn-borough-president-democratic-primary/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Brooklyn Borough President"
+    },
+    "cu21-mbp": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/manhattan-borough-president-democratic-party-primary-2/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Manhattan Borough President"
+    },
+    "cu21-26": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-26-democratic-party-primary-2/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Council District 26"
+    },
+    "cu21-7": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-7-democratic-party-primary/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Council District 7"
+    },
+    "cu21-33": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-33-democratic-party-primary/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Council District 33"
+    },
+    "cu21-35": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-35-democratic-party-primary/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Council District 35"
+    },
+    "cu21-39": {
+      "url": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-39-democratic-party-primary-2/",
+      "date": "2021-06",
+      "title": "Citizens Union 2021 voters guide: Council District 39"
+    },
+    "cs21-mayor": {
+      "url": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "title": "City & State: The endorsements for NYC mayoral candidates (as of June 16, 2021)"
+    },
+    "bp21": {
+      "url": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18",
+      "title": "Ballotpedia News: Reviewing noteworthy endorsers' picks for New York City mayor, comptroller"
+    },
+    "cs21-bp": {
+      "url": "https://www.cityandstateny.com/politics/2021/06/whos-running-in-the-2021-borough-president-primaries/182772/",
+      "date": "2021-06-14",
+      "title": "City & State: Who's running in the 2021 borough president primaries"
+    },
+    "ny1-wfp-apr": {
+      "url": "https://ny1.com/nyc/all-boroughs/decision-2021/2021/04/14/stringer-gets-working-families-party-s-endorsement-in-mayor-s-race",
+      "date": "2021-04-14",
+      "title": "NY1: Stringer gets Working Families Party's endorsement in mayor's race"
+    },
+    "ny1-wfp-jun": {
+      "url": "https://ny1.com/nyc/all-boroughs/politics/2021/06/04/nyc-elections-2021-whos-running-maya-wiley-working-families-party-wfp-number-one-endorsement",
+      "date": "2021-06-04",
+      "title": "NY1: Working Families Party makes Maya Wiley its No. 1 choice"
+    },
+    "yang-garcia": {
+      "url": "https://www.politico.com/states/new-york/albany/story/2021/06/18/an-alliance-forms-in-late-innings-of-the-new-york-mayors-race-1386653",
+      "date": "2021-06-18",
+      "title": "Politico: An alliance forms in late innings of the New York mayor's race (also FairVote, https://fairvote.org/report/rcv-cross-endorsements-report/)"
+    },
+    "chang-taylor": {
+      "url": "https://citylimits.org/2021/05/25/in-first-two-competitors-for-nyc-mayor-to-endorse-each-other/",
+      "date": "2021-05-25",
+      "title": "City Limits: In a first, two competitors for NYC mayor to endorse each other"
+    },
+    "fox5-25": {
+      "url": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "title": "FOX 5 NY: NYC mayoral endorsements: Who is ranking who, and in which order?"
+    },
+    "cs25": {
+      "url": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24",
+      "title": "City & State: Endorsements in the 2025 New York City mayoral race (as of June 24, 2025)"
+    },
+    "ny1-cross25": {
+      "url": "https://ny1.com/nyc/all-boroughs/politics/2025/06/16/zohran-mamdani-michael-blake-endorse-mayoral-primary",
+      "date": "2025-06-16",
+      "title": "NY1: Mamdani and Michael Blake cross-endorse (also reports the June 13 Mamdani-Lander cross-endorsement)"
+    },
+    "wfp25-council": {
+      "url": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+      "date": "2025-03-13",
+      "title": "City & State: WFP announces endorsements in open NYC Council seats"
+    },
+    "uft25": {
+      "url": "https://www.uft.org/your-union/uft-resolutions/endorsement-city-council-candidates",
+      "date": "2025-05-14",
+      "title": "UFT resolution: Endorsement of City Council candidates (June 24, 2025 primary)"
+    },
+    "bxdem25": {
+      "url": "https://politicsny.com/2025/02/24/bronx-democratic-party-announces-key-city-council-endorsements-ahead-of-june-primaries/",
+      "date": "2025-02-24",
+      "title": "PoliticsNY: Bronx Democratic Party announces key City Council endorsements"
+    }
+  },
+  "contests": {
+    "2021-dem-borough-president-kings": {
+      "slates": [
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-bkbp",
+          "members": [
+            "Jo Anne Simon",
+            "Antonio Reynoso",
+            "Khari Edwards"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Antonio Reynoso"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Jo Anne Simon"
+          ]
+        },
+        {
+          "name": "District Council 37",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Khari Edwards"
+          ]
+        },
+        {
+          "name": "TWU Local 100",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Robert Cornegy Jr."
+          ]
+        }
+      ],
+      "aliases": {
+        "Khari Edwards": "Khari O. Edwards",
+        "Robert Cornegy Jr.": "Robert E. Cornegy Jr."
+      }
+    },
+    "2021-dem-borough-president-new-york": {
+      "slates": [
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-mbp",
+          "members": [
+            "Brad Hoylman",
+            "Mark Levine"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Brad Hoylman"
+          ]
+        },
+        {
+          "name": "32BJ SEIU",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Mark Levine"
+          ]
+        },
+        {
+          "name": "Communications Workers of America (Locals 1101, 1102, 1106, 1109)",
+          "kind": "endorsement",
+          "source": "cs21-bp",
+          "members": [
+            "Ben Kallos"
+          ]
+        }
+      ],
+      "aliases": {
+        "Brad Hoylman": "Brad M. Hoylman",
+        "Mark Levine": "Mark D. Levine"
+      }
+    },
+    "2021-dem-comptroller-citywide": {
+      "slates": [
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-comp",
+          "members": [
+            "Brian Benjamin",
+            "Corey Johnson",
+            "Brad Lander"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Brad Lander"
+          ]
+        },
+        {
+          "name": "New York Times editorial board (media)",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Brad Lander"
+          ]
+        },
+        {
+          "name": "New York Daily News editorial board (media)",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "David Weprin"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Corey Johnson"
+          ]
+        },
+        {
+          "name": "1199SEIU",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Corey Johnson"
+          ]
+        },
+        {
+          "name": "Hotel and Motel Trades Council",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Corey Johnson"
+          ]
+        }
+      ],
+      "aliases": {
+        "Brian Benjamin": "Brian A. Benjamin",
+        "Corey Johnson": "Corey D. Johnson",
+        "David Weprin": "David I. Weprin"
+      }
+    },
+    "2021-dem-council-member-10th-council-district": {
+      "slates": [
+        {
+          "name": "RWDSU",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Carmen De La Rosa"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Carmen De La Rosa"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Carmen De La Rosa"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Carmen De La Rosa": "Carmen N. De La Rosa"
+      }
+    },
+    "2021-dem-council-member-11th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Mino Lora"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Mino Lora"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Eric Dinowitz"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Eric Dinowitz"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-12th-council-district": {
+      "slates": [
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Kevin Riley"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-13th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Marjorie Velázquez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Marjorie Velázquez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Marjorie Velázquez": "Marjorie Velazquez"
+      }
+    },
+    "2021-dem-council-member-14th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Adolfo Abreu"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "RWDSU",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Pierina Sanchez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Pierina Sanchez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Adolfo Abreu"
+          ]
+        }
+      ],
+      "aliases": {
+        "Pierina Sanchez": "Pierina Ana Sanchez"
+      }
+    },
+    "2021-dem-council-member-15th-council-district": {
+      "slates": [
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Ischia Bravo"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Ischia Bravo"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Ischia Bravo": "Ischia J. Bravo"
+      }
+    },
+    "2021-dem-council-member-16th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Althea Stevens"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Althea Stevens"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Althea Stevens"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Althea Stevens": "Althea V. Stevens"
+      }
+    },
+    "2021-dem-council-member-18th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farías"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farias"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farías"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "RWDSU",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farias"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farias"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amanda Farias"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Amanda Farías": "Amanda Farias"
+      }
+    },
+    "2021-dem-council-member-19th-council-district": {
+      "slates": [
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Austin Shafran"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Austin Shafran"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp-q",
+          "members": [
+            "Austin Shafran"
+          ]
+        },
+        {
+          "name": "KC and Shafran",
+          "kind": "campaign",
+          "source": "qns-cross",
+          "members": [
+            "Nabaraj KC",
+            "Austin Shafran"
+          ],
+          "note": "Each named the other as their No. 2 choice, about two weeks before the primary."
+        }
+      ],
+      "aliases": {
+        "Austin Shafran": "Austin I. Shafran"
+      }
+    },
+    "2021-dem-council-member-1st-council-district": {
+      "slates": [
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jenny Low"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jenny Low"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jenny Low"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Jenny Low": "Jenny L. Low"
+      }
+    },
+    "2021-dem-council-member-20th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Sandra Ung"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Sandra Ung"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp-q",
+          "members": [
+            "John Choe"
+          ]
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "rtj",
+          "members": [
+            "John Choe",
+            "Sandra Ung"
+          ],
+          "ordered": true,
+          "note": "First and second choice."
+        }
+      ]
+    },
+    "2021-dem-council-member-21st-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Francisco Moya"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Francisco Moya"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Francisco Moya": "Francisco P. Moya"
+      }
+    },
+    "2021-dem-council-member-22nd-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Tiffany Cabán"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Tiffany Caban"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Tiffany Cabán"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "RWDSU",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Tiffany Cabán"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Tiffany Cabán"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Tiffany Cabán"
+          ]
+        }
+      ],
+      "aliases": {
+        "Tiffany Cabán": "Tiffany Caban"
+      }
+    },
+    "2021-dem-council-member-23rd-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jaslin Kaur"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Linda Lee"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Jaslin Kaur"
+          ]
+        },
+        {
+          "name": "Markell and Toor",
+          "kind": "campaign",
+          "source": "qns-cross",
+          "members": [
+            "Debra Markell",
+            "Harpreet Singh Toor"
+          ],
+          "note": "Asked supporters to rank the other second, about two weeks before the primary."
+        }
+      ],
+      "aliases": {
+        "Harpreet Singh Toor": "Harpreet S. Toor"
+      }
+    },
+    "2021-dem-council-member-24th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Moumita Ahmed"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Moumita Ahmed"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-25th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Shekar Krishnan"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Shekar Krishnan"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "rtj",
+          "members": [
+            "Shekar Krishnan",
+            "Carolyn Tran"
+          ],
+          "ordered": true,
+          "note": "First and second choice."
+        }
+      ]
+    },
+    "2021-dem-council-member-26th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp-q",
+          "members": [
+            "Amit Singh Bagga",
+            "Jesse Laymon"
+          ],
+          "ordered": true,
+          "note": "WFP's first ranked endorsement: Bagga first, Laymon second."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "rtj",
+          "members": [
+            "Amit Bagga",
+            "Jesse Laymon"
+          ],
+          "ordered": true,
+          "note": "First and second choice."
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-26",
+          "members": [
+            "Julie Won",
+            "Amit Bagga",
+            "Brent O'Leary"
+          ],
+          "ordered": true
+        }
+      ],
+      "aliases": {
+        "Amit Singh Bagga": "Amit S. Bagga",
+        "Amit Bagga": "Amit S. Bagga"
+      }
+    },
+    "2021-dem-council-member-27th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Harold Miller"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Harold Miller": "Harold C. Miller Jr."
+      }
+    },
+    "2021-dem-council-member-28th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Adrienne Adams"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Adrienne Adams"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Adrienne Adams": "Adrienne E. Adams"
+      }
+    },
+    "2021-dem-council-member-29th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Aleda Gagarin"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Lynn Schulman"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Lynn Schulman"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Aleda Gagarin": "Aleda F. Gagarin",
+        "Lynn Schulman": "Lynn C. Schulman"
+      }
+    },
+    "2021-dem-council-member-2nd-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Carlina Rivera"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Carlina Rivera"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-30th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Juan Ardila"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Juan Ardila"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Robert Holden"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Juan Ardila": "Juan D. Ardila",
+        "Robert Holden": "Robert F. Holden"
+      }
+    },
+    "2021-dem-council-member-31st-council-district": {
+      "slates": [
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Selvena Brooks-Powers"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Selvena Brooks-Powers": "Selvena N. Brooks-Powers"
+      }
+    },
+    "2021-dem-council-member-32nd-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Felicia Singh"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Felicia Singh"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-33rd-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Lincoln Restler"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Lincoln Restler"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Lincoln Restler"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-33",
+          "members": [
+            "Lincoln Restler"
+          ]
+        }
+      ]
+    },
+    "2021-dem-council-member-34th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jennifer Gutiérrez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jennifer Gutierrez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jennifer Gutierrez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jennifer Gutierrez"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Jennifer Gutiérrez"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Jennifer Gutiérrez": "Jennifer Gutierrez"
+      }
+    },
+    "2021-dem-council-member-35th-council-district": {
+      "slates": [
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Crystal Hudson"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Crystal Hudson"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Crystal Hudson"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Crystal Hudson"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Michael Hollingsworth"
+          ]
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-35",
+          "members": [
+            "Crystal Hudson"
+          ]
+        }
+      ]
+    },
+    "2021-dem-council-member-36th-council-district": {
+      "slates": [
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Henry Butler"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Henry Butler": "Henry L. Butler"
+      }
+    },
+    "2021-dem-council-member-37th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Sandy Nurse"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Darma Diaz"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Sandy Nurse"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Darma Diaz": "Darma V. Diaz"
+      }
+    },
+    "2021-dem-council-member-38th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Alexa Avilés"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Alexa Aviles"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Alexa Avilés"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Alexa Aviles"
+          ]
+        }
+      ],
+      "aliases": {
+        "Alexa Avilés": "Alexa Aviles"
+      }
+    },
+    "2021-dem-council-member-39th-council-district": {
+      "slates": [
+        {
+          "name": "NYIC Action",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Shahana Hanif"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "RWDSU",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Bridget Rein"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Bridget Rein"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Bridget Rein"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "dsa21",
+          "members": [
+            "Brandon West"
+          ]
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-39",
+          "members": [
+            "Brandon West"
+          ]
+        }
+      ],
+      "aliases": {
+        "Shahana Hanif": "Shahana K. Hanif",
+        "Bridget Rein": "Briget Rein"
+      }
+    },
+    "2021-dem-council-member-3rd-council-district": {
+      "slates": [
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Erik Bottcher"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Erik Bottcher"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Erik Bottcher"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Erik Bottcher": "Erik D. Bottcher"
+      }
+    },
+    "2021-dem-council-member-41st-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Alicka Ampry-Samuel"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Alicka Ampry-Samuel"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Alicka Ampry-Samuel": "Alicka Tani Ampry-Samuel"
+      }
+    },
+    "2021-dem-council-member-45th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Farah Louis"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Farah Louis"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Farah Louis": "Farah N. Louis"
+      }
+    },
+    "2021-dem-council-member-47th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Ari Kagan"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Ari Kagan"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-49th-council-district": {
+      "slates": [
+        {
+          "name": "Road to Justice NYC",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Amoy Barnes"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-5th-council-district": {
+      "slates": [
+        {
+          "name": "NYC Central Labor Council",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Julie Menin"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Julie Menin"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Julie Menin"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ]
+    },
+    "2021-dem-council-member-6th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Gale Brewer"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Gale Brewer"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Gale Brewer": "Gale A. Brewer"
+      }
+    },
+    "2021-dem-council-member-7th-council-district": {
+      "slates": [
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Shaun Abreu"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-7",
+          "members": [
+            "Shaun Abreu"
+          ]
+        }
+      ]
+    },
+    "2021-dem-council-member-8th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Diana Ayala"
+          ],
+          "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        },
+        {
+          "name": "LaborStrong2021",
+          "kind": "endorsement",
+          "source": "gg",
+          "members": [
+            "Diana Ayala"
+          ],
+          "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+        }
+      ],
+      "aliases": {
+        "Diana Ayala": "Diana I. Ayala"
+      }
+    },
+    "2021-dem-mayor-citywide": {
+      "slates": [
+        {
+          "name": "Yang and Garcia",
+          "kind": "campaign",
+          "source": "yang-garcia",
+          "members": [
+            "Andrew Yang",
+            "Kathryn Garcia"
+          ],
+          "note": "Joint campaigning the weekend before the June 22 primary. Yang asked his voters to rank Garcia second; Garcia campaigned with him but said she was not co-endorsing."
+        },
+        {
+          "name": "Chang and Taylor",
+          "kind": "campaign",
+          "source": "chang-taylor",
+          "members": [
+            "Art Chang",
+            "Joycelyn Taylor"
+          ],
+          "note": "Cross-endorsed and asked voters to rank both."
+        },
+        {
+          "name": "Working Families Party (final)",
+          "kind": "endorsement",
+          "source": "ny1-wfp-jun",
+          "members": [
+            "Maya Wiley"
+          ],
+          "note": "From June 4, 2021 WFP ranked Wiley first and suspended its support for Morales; it had dropped Stringer in late April."
+        },
+        {
+          "name": "Working Families Party (April 2021 ranking, later withdrawn)",
+          "kind": "endorsement",
+          "source": "ny1-wfp-apr",
+          "members": [
+            "Scott Stringer",
+            "Dianne Morales",
+            "Maya Wiley"
+          ],
+          "ordered": true,
+          "note": "Stringer 1, Morales 2, Wiley 3. Replaced by the June 4 ranking; kept because it was the party's published slate for six weeks."
+        },
+        {
+          "name": "New York Times editorial board (media)",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Kathryn Garcia"
+          ]
+        },
+        {
+          "name": "New York Daily News editorial board (media)",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Kathryn Garcia",
+            "Eric Adams",
+            "Raymond McGuire"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "cu21-mayor",
+          "members": [
+            "Kathryn Garcia",
+            "Eric Adams",
+            "Scott Stringer"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "New York State Nurses Association",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Maya Wiley",
+            "Eric Adams"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "UAW Region 9A",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Scott Stringer",
+            "Dianne Morales"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "Community Voices Heard Power",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Maya Wiley",
+            "Dianne Morales"
+          ],
+          "ordered": true,
+          "note": "Higher Heights for America PAC and NYC Kids PAC published the same ranking."
+        },
+        {
+          "name": "Planned Parenthood of Greater NY Votes PAC",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Kathryn Garcia",
+            "Scott Stringer",
+            "Maya Wiley",
+            "Raymond McGuire"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "1199SEIU",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Maya Wiley"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Scott Stringer"
+          ]
+        },
+        {
+          "name": "Hotel and Motel Trades Council",
+          "kind": "endorsement",
+          "source": "bp21",
+          "members": [
+            "Eric Adams"
+          ]
+        },
+        {
+          "name": "32BJ SEIU",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Eric Adams"
+          ]
+        },
+        {
+          "name": "District Council 37",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Eric Adams"
+          ]
+        },
+        {
+          "name": "Bronx Democratic Party",
+          "kind": "endorsement",
+          "source": "cs21-mayor",
+          "members": [
+            "Eric Adams"
+          ]
+        }
+      ],
+      "aliases": {
+        "Raymond McGuire": "Raymond J. McGuire",
+        "Kathryn Garcia": "Kathryn A. Garcia",
+        "Eric Adams": "Eric L. Adams",
+        "Maya Wiley": "Maya D. Wiley",
+        "Scott Stringer": "Scott M. Stringer"
+      }
+    },
+    "2025-dem-council-member-13th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Shirley Aldebol",
+            "David Diaz"
+          ],
+          "note": "Aldebol ranked No. 1; Diaz endorsed without a rank."
+        },
+        {
+          "name": "Bronx Democratic Party",
+          "kind": "endorsement",
+          "source": "bxdem25",
+          "members": [
+            "Shirley Aldebol"
+          ]
+        }
+      ],
+      "aliases": {
+        "David Diaz": "David A. Diaz"
+      }
+    },
+    "2025-dem-council-member-17th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Antirson Ortiz",
+            "Justin Sanchez",
+            "Elvis Santana"
+          ],
+          "note": "Ortiz ranked No. 1; the others endorsed without a rank."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Justin Sanchez"
+          ]
+        },
+        {
+          "name": "Bronx Democratic Party",
+          "kind": "endorsement",
+          "source": "bxdem25",
+          "members": [
+            "Justin Sanchez"
+          ]
+        }
+      ],
+      "aliases": {
+        "Antirson Ortiz": "Antirson R. Ortiz",
+        "Justin Sanchez": "Justin E. Sanchez",
+        "Elvis Santana": "Elvis L. Santana"
+      }
+    },
+    "2025-dem-council-member-19th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Alexander Caruso"
+          ]
+        }
+      ],
+      "aliases": {
+        "Alexander Caruso": "Alexander J. Caruso"
+      }
+    },
+    "2025-dem-council-member-1st-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Elizabeth Lewinsohn"
+          ],
+          "note": "The UFT resolution spells her name 'Lewinshoun'."
+        }
+      ]
+    },
+    "2025-dem-council-member-21st-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Erycka Montoya",
+            "Shanel Thomas-Henry"
+          ],
+          "note": "Montoya ranked No. 1; Thomas-Henry endorsed without a rank. WFP also endorsed Sandro Navarro, who is not on the June ballot."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Yanna Henriquez"
+          ]
+        }
+      ],
+      "aliases": {
+        "Yanna Henriquez": "Yanna M. Henriquez"
+      }
+    },
+    "2025-dem-council-member-28th-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Tyrell Hankerson"
+          ],
+          "note": "The UFT names 'Tyrell Hankerson'; the ballot lists 'Ty Hankerson'. Taken to be the same person (the only Hankerson running)."
+        }
+      ],
+      "aliases": {
+        "Tyrell Hankerson": "Ty Hankerson"
+      }
+    },
+    "2025-dem-council-member-2nd-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Harvey Epstein",
+            "Sarah Batchu",
+            "Andrea Gordillo"
+          ],
+          "note": "Epstein ranked No. 1; Batchu and Gordillo endorsed without a rank. WFP also campaigned against Anthony Weiner."
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Harvey Epstein"
+          ]
+        }
+      ],
+      "aliases": {
+        "Harvey Epstein": "Harvey D. Epstein"
+      }
+    },
+    "2025-dem-council-member-41st-council-district": {
+      "slates": [
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Darlene Mealy"
+          ]
+        }
+      ]
+    },
+    "2025-dem-council-member-47th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Kayla Santosuosso"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Kayla Santosuosso"
+          ]
+        }
+      ]
+    },
+    "2025-dem-council-member-4th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Vanessa Aronson"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Virginia Maloney"
+          ]
+        }
+      ]
+    },
+    "2025-dem-council-member-8th-council-district": {
+      "slates": [
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "wfp25-council",
+          "members": [
+            "Elsie Encarnacion"
+          ]
+        },
+        {
+          "name": "United Federation of Teachers",
+          "kind": "endorsement",
+          "source": "uft25",
+          "members": [
+            "Elsie Encarnacion"
+          ]
+        },
+        {
+          "name": "Bronx Democratic Party",
+          "kind": "endorsement",
+          "source": "bxdem25",
+          "members": [
+            "Elsie Encarnacion"
+          ]
+        }
+      ]
+    },
+    "2025-dem-mayor-citywide": {
+      "slates": [
+        {
+          "name": "Mamdani and Lander",
+          "kind": "campaign",
+          "source": "ny1-cross25",
+          "members": [
+            "Zohran Mamdani",
+            "Brad Lander"
+          ],
+          "date": "2025-06-13",
+          "note": "Cross-endorsed June 13, one day before early voting; each asked supporters to rank the other second and not to rank Cuomo."
+        },
+        {
+          "name": "Mamdani and Blake",
+          "kind": "campaign",
+          "source": "ny1-cross25",
+          "members": [
+            "Zohran Mamdani",
+            "Michael Blake"
+          ],
+          "date": "2025-06-16",
+          "note": "Cross-endorsed June 16, during early voting."
+        },
+        {
+          "name": "Ramos for Cuomo (one-way)",
+          "kind": "campaign",
+          "source": "cs25",
+          "members": [
+            "Jessica Ramos",
+            "Andrew Cuomo"
+          ],
+          "date": "2025-06-06",
+          "note": "Ramos endorsed Cuomo as her second choice; Cuomo did not reciprocate."
+        },
+        {
+          "name": "Tilson for Cuomo (one-way)",
+          "kind": "campaign",
+          "source": "cs25",
+          "members": [
+            "Whitney Tilson",
+            "Andrew Cuomo"
+          ],
+          "note": "Tilson said during the second debate he would rank Cuomo second; not reciprocated."
+        },
+        {
+          "name": "Working Families Party",
+          "kind": "endorsement",
+          "source": "cs25",
+          "members": [
+            "Zohran Mamdani",
+            "Brad Lander",
+            "Adrienne Adams",
+            "Zellnor Myrie"
+          ],
+          "ordered": true,
+          "date": "2025-05-30",
+          "note": "Ranked at the end of May 2025. Jessica Ramos was fifth until WFP dropped her after she endorsed Cuomo (June 2025). WFP had endorsed Adams, Lander, Mamdani and Myrie unranked in March."
+        },
+        {
+          "name": "NYC-DSA",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Zohran Mamdani"
+          ]
+        },
+        {
+          "name": "Citizens Union",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Andrew Cuomo",
+            "Brad Lander",
+            "Zellnor Myrie"
+          ],
+          "note": "Endorsed unranked."
+        },
+        {
+          "name": "New York Daily News editorial board (media)",
+          "kind": "endorsement",
+          "source": "cs25",
+          "members": [
+            "Andrew Cuomo",
+            "Adrienne Adams",
+            "Brad Lander"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "New York League of Conservation Voters",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Andrew Cuomo",
+            "Brad Lander"
+          ],
+          "note": "Co-endorsement, unranked."
+        },
+        {
+          "name": "District Council 37",
+          "kind": "endorsement",
+          "source": "cs25",
+          "members": [
+            "Adrienne Adams",
+            "Zohran Mamdani",
+            "Zellnor Myrie"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "UNITE HERE Local 100",
+          "kind": "endorsement",
+          "source": "cs25",
+          "members": [
+            "Adrienne Adams",
+            "Zohran Mamdani",
+            "Brad Lander",
+            "Jessica Ramos"
+          ],
+          "ordered": true
+        },
+        {
+          "name": "UAW Region 9A",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Zohran Mamdani",
+            "Brad Lander",
+            "Zellnor Myrie",
+            "Adrienne Adams",
+            "Michael Blake"
+          ],
+          "ordered": true,
+          "note": "Order as given by FOX 5; City & State lists Blake and Adams both at 5 after Ramos was dropped."
+        },
+        {
+          "name": "Citizen Action of New York",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Zohran Mamdani",
+            "Adrienne Adams",
+            "Brad Lander",
+            "Zellnor Myrie",
+            "Michael Blake"
+          ],
+          "ordered": true,
+          "note": "Replaced Ramos with Blake in June 2025."
+        },
+        {
+          "name": "Alexandria Ocasio-Cortez and Nydia Velázquez",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Zohran Mamdani",
+            "Adrienne Adams",
+            "Brad Lander",
+            "Scott Stringer",
+            "Zellnor Myrie"
+          ],
+          "ordered": true,
+          "note": "Elected officials, not an organization; both published the same ranking."
+        },
+        {
+          "name": "1199SEIU",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Andrew Cuomo"
+          ]
+        },
+        {
+          "name": "Hotel and Gaming Trades Council",
+          "kind": "endorsement",
+          "source": "fox5-25",
+          "members": [
+            "Andrew Cuomo"
+          ]
+        },
+        {
+          "name": "32BJ SEIU",
+          "kind": "endorsement",
+          "source": "cs25",
+          "members": [
+            "Andrew Cuomo"
+          ]
+        }
+      ],
+      "aliases": {
+        "Zohran Mamdani": "Zohran Kwame Mamdani",
+        "Andrew Cuomo": "Andrew M. Cuomo",
+        "Adrienne Adams": "Adrienne E. Adams",
+        "Whitney Tilson": "Whitney R. Tilson",
+        "Scott Stringer": "Scott M. Stringer"
+      }
+    }
+  }
+}

@@ -17,6 +17,74 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        3,
+        1,
+        0
+      ],
+      "source": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-comptroller-democratic-party-primary-2/",
+      "date": "2021-06",
+      "ordered": true
+    },
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "New York Times editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "New York Daily News editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        4
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "1199SEIU",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "Hotel and Motel Trades Council",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    }
+  ],
   "official_winners": [
     0
   ],

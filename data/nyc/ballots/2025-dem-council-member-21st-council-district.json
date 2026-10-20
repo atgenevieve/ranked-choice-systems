@@ -11,6 +11,28 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0
+      ],
+      "source": "https://cityandstateny.com/politics/2025/03/wfp-announces-endorsements-open-nyc-council-seats/403708",
+      "date": "2025-03-13",
+      "note": "Montoya ranked No. 1; Thomas-Henry endorsed without a rank. WFP also endorsed Sandro Navarro, who is not on the June ballot."
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.uft.org/your-union/uft-resolutions/endorsement-city-council-candidates",
+      "date": "2025-05-14"
+    }
+  ],
   "official_winners": [
     0
   ],
