@@ -93,7 +93,7 @@ function redrawBranches() {
     const sec = document.createElement("section"); sec.className = "branch";
     const h = document.createElement("h3"); h.textContent = b.name;
     const stats = document.createElement("div"); stats.className = "stats";
-    for (const line of [`Candidates: ${b.candidates}`, `Seats: ${seats}`, `Voters: ${Number(b.voters).toLocaleString()} (±${Math.round((r.settings.election.turnout_spread || 0) * 100)}%)`]) {
+    for (const line of [`Candidates: ${b.candidates}`, `Seats: ${seats} (${Math.round(100 * seats / b.candidates)}% win)`, `Voters: ${Number(b.voters).toLocaleString()} (±${Math.round((r.settings.election.turnout_spread || 0) * 100)}%)`]) {
       const p = document.createElement("p"); p.className = "says"; p.textContent = line; stats.append(p);
     }
     const says = document.createElement("p"); says.className = "says";
@@ -134,6 +134,7 @@ window.redrawBranches = redrawBranches;
 window.runBranches = async (c, alive) => {
   setText("sims-count", int(c.sims, 10, 1000).toLocaleString());
   setText("slates-count", String(int(c.slates, 1, 12)));
+  setText("turnout-head", String(int(c.turnout, 0, 30)));
   branchResults.clear();
   redrawBranches();
   for (let i = 0; i < branchList.length; i++) {
