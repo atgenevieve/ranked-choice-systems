@@ -151,7 +151,7 @@ function columns(f, bins, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const total = bins.reduce((a, b) => a + b.count, 0);
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 200, L = 40, R = 8, T = 16, B = 34;
+    const w = plot.clientWidth || 600, H = opts.height || 200, L = 40, R = 8, T = opts.yTitle ? 26 : 16, B = 34;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const shares = bins.map(b => b.count / total), top = Math.max(...shares);
@@ -169,6 +169,7 @@ function columns(f, bins, opts = {}) {
       hitArea(svg, { tag: "rect", attrs: { x: L + i * bw, y: T, width: bw, height: H - T - B } }, opts.title || "", [`${b.label}: ${pct(v)} (${b.count.toLocaleString()})`], `${b.label}: ${pct(v)}`);
     });
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
+    if (opts.yTitle) txt(svg, L, T - 4, opts.yTitle, { class: "title" });
   });
 }
 

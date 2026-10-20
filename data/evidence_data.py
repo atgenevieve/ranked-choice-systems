@@ -247,6 +247,11 @@ def unaffiliated(rows):
     ind_share = []
     multi = []
     us = []
+    # Every candidate in a Scottish ward is one of three kinds: a party candidate with a running
+    # mate (another candidate of the same party in the ward), a party's only candidate, or an
+    # independent (no party label).
+    kinds = Counter()
+    independents_per_ward = Counter()
     for src, g, d, meta in rows:
         if src == "scotland" and d["seats"] >= 3 and meta.get("parties"):
             labels = [PARTY_ALIASES.get(p, p) for p in meta["parties"]]
@@ -254,6 +259,10 @@ def unaffiliated(rows):
             parties_per_ward[len(set(named))] += 1
             ind_share.append(round(1 - len(named) / len(labels), 4))
             multi.append(sum(1 for p, n in Counter(named).items() if n >= 2))
+            size = Counter(named)
+            for p in labels:
+                kinds["independent" if p in NO_PARTY else "running_mate" if size[p] >= 2 else "only"] += 1
+            independents_per_ward[min(len(labels) - len(named), 4)] += 1
         if src in ("nyc", "portland") and meta.get("slates"):
             names = meta["candidates"]
             real = [i for i, nm in enumerate(names) if "write" not in nm.lower()]
@@ -264,8 +273,9 @@ def unaffiliated(rows):
                 if s.get("kind") == "endorsement" and "(media)" not in s["name"]:
                     org.update(s["members"])
             us.append({"name": d["election"], "group": src, "candidates": len(real),
-                       "unendorsed_share": round(1 - len(org & set(real)) / len(real), 4)})
-    return {"parties_per_ward": dict(sorted(parties_per_ward.items())), "independent_share": ind_share,
+                       "endorsed": len(org & set(real)), "unendorsed_share": round(1 - len(org & set(real)) / len(real), 4)})
+    return {"candidate_kinds": dict(kinds), "independents_per_ward": dict(sorted(independents_per_ward.items())),
+            "parties_per_ward": dict(sorted(parties_per_ward.items())), "independent_share": ind_share,
             "parties_with_running_mates": dict(sorted(Counter(multi).items())), "us": us}
 
 
