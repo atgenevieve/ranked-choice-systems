@@ -59,6 +59,7 @@ These are defaults, not decisions. Raise alternatives if something works better.
 - **Reproduce published findings.** Before reporting new results, the simulation should reproduce what published studies found (see `docs/literature.md`). If it doesn't, find out why before going further.
 - **Real data over assumptions.** Where real ballot data can set a model setting, use it, and record the source in the model spec.
 - **The owner approves the model.** Gather real data before changing the model. Propose every new or changed assumption in `docs/model-spec.md` with its evidence, and wait for the owner's approval before building it into the engine.
+- **Parallelize data work.** Split large data gathering across several agents (by source, or by year within a source) and have each fetch and convert files concurrently, unless a site's rate limits or bot protection call for going slowly. Never move project data through public paste or file-sharing sites.
 - **Say what's uncertain.** Report ranges (for example, "in 8 of 10 elections"), not single numbers alone. Flag results that depend heavily on one model setting.
 
 ## Known issues in the current engine
