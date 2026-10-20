@@ -203,31 +203,55 @@ function heatmap(f, rowLabels, colLabels, cells, opts = {}) {
   t.append(tb); wrap.append(t);
 }
 
-// Range strips: one row per group, a dot per value, the range as a line, the median as a tick.
-// groups: [{label, sub, values: [numbers]}]
+// Distribution rows: one row per group, a small histogram showing where its values fall
+// (taller bars where more values fall), with the median marked. Bars in each row are scaled
+// to that row's tallest bar, so rows compare by shape; counts are in the hover text.
+// groups: [{label, sub, values: [numbers], color}]; opts.bin sets the bar width in x units.
 function strips(f, groups, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  const fmt = opts.fmt || String, bin = opts.bin;
+  const binned = groups.map(g => {
+    const n = Math.round((opts.max - opts.min) / bin), counts = new Array(n).fill(0);
+    for (const v of g.values) counts[Math.min(n - 1, Math.max(0, Math.floor((v - opts.min) / bin + 1e-9)))]++;
+    const xs = [...g.values].sort((a, b) => a - b);
+    return { counts, median: xs[Math.floor(xs.length / 2)], n: xs.length };
+  });
   draws.push(() => {
-    const w = plot.clientWidth || 600, rowH = 52, L = opts.labelW || 190, R = 16, T = 6, B = 34, H = T + groups.length * rowH + B;
+    // On narrow screens each row's label sits above its bars instead of beside them.
+    const w = plot.clientWidth || 600, narrow = w < 560, rowH = narrow ? 86 : 62, L = narrow ? 8 : (opts.labelW || 190), R = narrow ? 10 : 16;
+    const T = 18, B = 34, H = T + groups.length * rowH + B;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = v => L + (v - opts.min) / (opts.max - opts.min) * (w - L - R);
-    for (const t of opts.ticks) {
-      el("line", { x1: sx(t), x2: sx(t), y1: T, y2: H - B, stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
-      txt(svg, sx(t), H - B + 15, (opts.fmt || String)(t), { "text-anchor": "middle" });
+    for (const t of narrow ? opts.ticks.filter((_, k) => k % 2 === 0) : opts.ticks) {
+      el("line", { x1: sx(t), x2: sx(t), y1: T - 12, y2: H - B, stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, sx(t), H - B + 15, fmt(t), { "text-anchor": "middle" });
     }
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
     groups.forEach((g, i) => {
-      const mid = T + i * rowH + rowH / 2, xs = [...g.values].sort((a, b) => a - b);
-      txt(svg, L - 10, mid - 2, g.label, { "text-anchor": "end", class: "lab" });
-      if (g.sub) txt(svg, L - 10, mid + 13, g.sub, { "text-anchor": "end" });
-      if (xs.length > 1) el("line", { x1: sx(xs[0]), x2: sx(xs[xs.length - 1]), y1: mid, y2: mid, stroke: css("--axis"), "stroke-width": 2, "stroke-linecap": "round" }, svg);
-      for (const v of xs) el("circle", { cx: sx(v), cy: mid, r: 4, fill: css(g.color || "--bar"), opacity: 0.6, stroke: css("--surface"), "stroke-width": 1 }, svg);
-      const med = xs[Math.floor(xs.length / 2)];
-      el("line", { x1: sx(med), x2: sx(med), y1: mid - 14, y2: mid + 14, stroke: css("--ink"), "stroke-width": 2 }, svg);
-      txt(svg, sx(med), mid - 17, (opts.fmt || String)(+med.toFixed(2)), { "text-anchor": "middle", class: "val" });
-      hitArea(svg, { tag: "rect", attrs: { x: L, y: mid - rowH / 2, width: w - L - R, height: rowH } }, g.label,
-        [`${xs.length.toLocaleString()} values`, `median ${(opts.fmt || String)(+med.toFixed(2))}`, `range ${(opts.fmt || String)(+xs[0].toFixed(2))} to ${(opts.fmt || String)(+xs[xs.length - 1].toFixed(2))}`], g.label);
+      const { counts, median, n } = binned[i], base = T + (i + 1) * rowH - 10, barMax = narrow ? rowH - 52 : rowH - 30, top = Math.max(...counts);
+      if (narrow) {
+        txt(svg, L, base - rowH + 26, g.label + (g.sub ? ` · ${g.sub}` : ""), { class: "lab" });
+      } else {
+        txt(svg, L - 10, base - 18, g.label, { "text-anchor": "end", class: "lab" });
+        if (g.sub) txt(svg, L - 10, base - 3, g.sub, { "text-anchor": "end" });
+      }
+      el("line", { x1: sx(opts.min), x2: sx(opts.max), y1: base, y2: base, stroke: css("--axis"), "stroke-width": 1 }, svg);
+      const bw = sx(opts.min + bin) - sx(opts.min);
+      counts.forEach((c, k) => {
+        const lo = opts.min + k * bin, x = sx(lo) + 1, wd = Math.max(1, bw - 2);
+        if (c) {
+          const h = Math.max(2, c / top * barMax);
+          el("rect", { x, y: base - h, width: wd, height: h, fill: css(g.color || "--bar"), rx: Math.min(2, wd / 2) }, svg);
+        }
+        const range = `${fmt(+lo.toFixed(2))} to ${fmt(+(lo + bin).toFixed(2))}`;
+        hitArea(svg, { tag: "rect", attrs: { x: sx(lo), y: base - barMax, width: bw, height: barMax } }, g.label,
+          [`${range}: ${c.toLocaleString()} of ${n.toLocaleString()} (${pct(c / n)})`], `${g.label}, ${range}: ${c}`);
+      });
+      const mx = sx(median);
+      el("line", { x1: mx, x2: mx, y1: base - barMax - 6, y2: base + 3, stroke: css("--ink"), "stroke-width": 2 }, svg);
+      const right = mx > w - R - 110;
+      txt(svg, mx + (right ? -5 : 5), base - barMax - 1, `median ${fmt(+median.toFixed(2))}`, { class: "val halo", "text-anchor": right ? "end" : "start" });
     });
   });
 }
@@ -258,4 +282,37 @@ function cards(f, items, cls) {
     box.append(d);
   }
   f.append(box);
+}
+
+// 100% stacked bars: one bar per row, split into series that add to 100%.
+// rows: [{label, sub, values: [shares]}]; series: [{name, color}]. Segments wide enough get their share printed inside.
+function stackedBars(f, rows, series, opts = {}) {
+  legend(f, series.map(s => ["dot", s.color, s.name]));
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  draws.push(() => {
+    const w = plot.clientWidth || 600, narrow = w < 560, barH = 24, rowH = narrow ? 58 : 44, L = narrow ? 8 : (opts.labelW || 200), R = 8, T = 4, H = T + rows.length * rowH + 6;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
+    const span = w - L - R;
+    rows.forEach((r, i) => {
+      const y = T + i * rowH + (narrow ? 22 : (rowH - barH) / 2);
+      if (narrow) txt(svg, L, y - 7, r.label + (r.sub ? ` · ${r.sub}` : ""), { class: "lab" });
+      else { txt(svg, L - 10, y + 11, r.label, { "text-anchor": "end", class: "lab" }); if (r.sub) txt(svg, L - 10, y + 24, r.sub, { "text-anchor": "end" }); }
+      const total = r.values.reduce((a, b) => a + b, 0);
+      let x = L;
+      r.values.forEach((v, k) => {
+        const wd = v / total * span;
+        if (wd > 0.5) {
+          el("rect", { x: x + 1, y, width: Math.max(0.5, wd - 2), height: barH, fill: css(series[k].color), rx: 2 }, svg);
+          const label = pct(v / total);
+          if (wd > label.length * 7.5 + 8) {
+            const dark = ["--c6", "--c7", "--public"].includes(series[k].color);
+            txt(svg, x + wd / 2, y + 16, label, { "text-anchor": "middle", class: "val", style: `fill:${dark ? "#fff" : "#0b0b0b"}` });
+          }
+          hitArea(svg, { tag: "rect", attrs: { x, y, width: wd, height: barH } }, r.label, [`${series[k].name}: ${label}`], `${r.label}, ${series[k].name}: ${label}`);
+        }
+        x += wd;
+      });
+    });
+  });
 }

@@ -8,12 +8,12 @@ window.SECTIONS.popularity = () => {
   {
     const f = figure("How unequal first choices are",
       `The current setting, a spread of 1.0, sits near the middle of real multi-seat elections (Scotland ${med(E.filter(e => e.group === "scotland").map(e => e.spread)).toFixed(2)}). Single-seat US races are more lopsided, because a few front-runners dominate.`,
-      "Fitted popularity spread for each election: how widely first-choice shares scatter, on a scale where doubling and halving count as equal steps. 0 means every candidate equally popular. Each dot is one election; the tick is the median. The method is in data/calibration.py.");
+      "Fitted popularity spread for each election: how widely first-choice shares scatter, on a scale where doubling and halving count as equal steps. 0 means every candidate equally popular. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row\'s tallest bar; hover for counts. The black line is the median. The method is in data/calibration.py.");
     const order = ["scotland", "act", "ers", "org", "public", "portland", "nyc"];
     strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
       const v = E.filter(e => e.group === g).map(e => e.spread);
       return { label: NAMES[g], sub: `${v.length} elections`, values: v, color: g === "scotland" ? "--scotland" : "--bar" };
-    }), { min: 0, max: 3.5, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], fmt: v => v.toFixed(1), xTitle: "Fitted popularity spread", aria: "Fitted popularity spread by group" });
+    }), { min: 0, max: 3.5, bin: 0.1, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], fmt: v => v.toFixed(1), xTitle: "Fitted popularity spread", aria: "Fitted popularity spread by group" });
   }
 
   {

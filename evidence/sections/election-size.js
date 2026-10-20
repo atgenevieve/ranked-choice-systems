@@ -25,12 +25,12 @@ window.SECTIONS["election-size"] = () => {
   {
     const f = figure("Share of candidates who win",
       "Earlier simulations found the answer depends mostly on the share of candidates who win, once fields are large. Metro DC DSA's count elected 61% of its candidates; Scottish wards elect about half; single-seat races far less.",
-      "Seats divided by candidates, for every election in the data. Each dot is one election; the tick is the median.");
+      "Seats divided by candidates, for every election in the data. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row\'s tallest bar; hover for counts. The black line is the median.");
     const order = ["scotland", "act", "ers", "org", "public", "portland", "nyc"];
     strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
       const v = E.filter(e => e.group === g).map(e => e.seats / e.candidates);
       return { label: NAMES[g], sub: `${v.length} elections`, values: v, color: ORG.has(g) ? "--ers" : "--public" };
-    }), { min: 0, max: 1, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: pct, xTitle: "Share of candidates who win", aria: "Share of candidates who win, by group" });
+    }), { min: 0, max: 1, bin: 0.05, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: pct, xTitle: "Share of candidates who win", aria: "Share of candidates who win, by group" });
   }
   {
     const f = figure("Typical size of each group", "Organizational elections are far smaller in voters, which makes each ballot count for more. With 432 ballots for 46 seats, Metro DC DSA's quota was about 10 votes.");

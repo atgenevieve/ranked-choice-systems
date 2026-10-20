@@ -103,3 +103,8 @@ td.heatcell.diag { font-weight: 700; box-shadow: inset 0 0 0 2px var(--ink); }
 table.heat { font-size: 12px; }
 table.heat th { white-space: normal; vertical-align: bottom; }
 table.heat tbody th { white-space: nowrap; }
+svg text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+/* Extra categorical colors (reference palette slots 4 to 7), for stacked bars with up to 7 groups. */
+:root { --c4: #eda100; --c5: #e87ba4; --c6: #008300; --c7: #6250d6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; } }
+:root[data-theme="dark"] { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; }
