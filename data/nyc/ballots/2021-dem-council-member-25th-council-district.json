@@ -1,0 +1,24 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 25th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Yi Andy Chen",
+    "Shekar Krishnan",
+    "Carolyn Tran",
+    "Fatima Baryab",
+    "Alfonso Quiroz",
+    "Liliana C. Melo",
+    "Manuel F. Perez",
+    "William H. Salgado",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    1
+  ],
+  "blank_ballots": 963,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24310. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 14995; with an overvote: 146; with a skipped rank: 200; with a repeated candidate: 175. Blank ballots: 870 with no marks (estimated from ballot styles), 93 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024310_1.html."
+}

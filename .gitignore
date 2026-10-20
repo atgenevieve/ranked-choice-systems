@@ -3,3 +3,4 @@ validation-run/
 __pycache__/
 .DS_Store
 .claude/worktrees/
+data/*/raw/

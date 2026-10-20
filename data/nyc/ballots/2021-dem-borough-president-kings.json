@@ -1,0 +1,28 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Borough President Kings",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Antonio Reynoso",
+    "Robert E. Cornegy Jr.",
+    "Jo Anne Simon",
+    "Mathieu Eugene",
+    "Khari O. Edwards",
+    "Kim Council",
+    "Robert Ramos Jr.",
+    "Anthony T. Jones",
+    "Trisha N. Ocona",
+    "Robert A. Elstein",
+    "Pearlene S. Fields",
+    "Lamor Miller-Whitehead",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 34245,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24336. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 290492; with an overvote: 2130; with a skipped rank: 3353; with a repeated candidate: 4315. Blank ballots: 33230 with no marks (estimated from ballot styles), 1015 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024336_1.html."
+}

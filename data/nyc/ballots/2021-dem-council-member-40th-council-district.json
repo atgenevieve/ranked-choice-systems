@@ -1,0 +1,27 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 40th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Rita C. Joseph",
+    "Josue Pierre",
+    "Kenya Handy-Hilliard",
+    "Edwin K. Raymond",
+    "Cecilia Cortez",
+    "Blake Morris",
+    "Maxi Eugene",
+    "Harriet L. Hines",
+    "John Williams",
+    "Vivia M. Morgan",
+    "Victor Jordan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2486,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24348. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 22467; with an overvote: 231; with a skipped rank: 329; with a repeated candidate: 343. Blank ballots: 2362 with no marks (estimated from ballot styles), 124 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024348_1.html."
+}

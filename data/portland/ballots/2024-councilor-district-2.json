@@ -1,0 +1,40 @@
+{
+  "source": "portland",
+  "election": "Portland, OR 2024 general, Councilor, District 2",
+  "date": "2024-11-05",
+  "system": "portland-stv",
+  "candidates": [
+    "Elana Pirtle-Guiney",
+    "Dan Ryan",
+    "Sameer Kanal",
+    "Tiffani Penson",
+    "Michelle DePass",
+    "Nat West",
+    "Marnie Glickman",
+    "Jonathan Tasini",
+    "Bob Simril",
+    "Mariah Hudson",
+    "Michael (Mike) Marshall",
+    "James Armstrong",
+    "Chris Olson",
+    "Debbie Kitchin",
+    "Jennifer Park",
+    "Nabil Zaghloul",
+    "Will Mespelt",
+    "Laura Streib",
+    "Reuben Berlin",
+    "Liz Taylor",
+    "Sam Sachs",
+    "Antonio Jamal PettyJohnBlue",
+    "Uncertified Write In"
+  ],
+  "parties": null,
+  "official_winners": [
+    2,
+    1,
+    0
+  ],
+  "blank_ballots": 10916,
+  "max_ranks": 6,
+  "notes": "Multnomah County cast vote record cvr-councilor-district-2.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 988; with a skipped rank: 1029; with a repeated candidate: 632; remade ballots: 3598. Blank: 10441 with no marks (estimated from precinct styles), 475 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-2.json (Multnomah County Elections, certified December 2, 2024). Our first-choice totals differ from the official first round by 26 votes in all; see checks.json."
+}

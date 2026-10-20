@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 23rd Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Linda Lee",
+    "Steve Behar",
+    "Rubaiya Rahman",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 56,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 26013. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 6623; with an overvote: 74; with a skipped rank: 256; with a repeated candidate: 271. Blank ballots: 0 with no marks (estimated from ballot styles), 56 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026013_1.html."
+}

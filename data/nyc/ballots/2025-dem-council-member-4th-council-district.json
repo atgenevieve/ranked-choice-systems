@@ -1,0 +1,22 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 4th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Virginia Maloney",
+    "Vanessa Aronson",
+    "Rachel J. Storch",
+    "Benjamin D. Wetzler",
+    "Faith A. Bondy",
+    "Lukas Florczak",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 4563,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26921. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 29723; with an overvote: 287; with a skipped rank: 130; with a repeated candidate: 230. Blank ballots: 4446 with no marks (estimated from ballot styles), 117 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026921_1.html."
+}

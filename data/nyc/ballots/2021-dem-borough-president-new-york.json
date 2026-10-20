@@ -1,0 +1,23 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Borough President New York",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Mark D. Levine",
+    "Brad M. Hoylman",
+    "Ben Kallos",
+    "Lindsey C. Boylan",
+    "Elizabeth R. Caputo",
+    "Guillermo A. Perez",
+    "Kimberly R. Watkins",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 29782,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24307. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 238165; with an overvote: 1161; with a skipped rank: 2144; with a repeated candidate: 2278. Blank ballots: 29347 with no marks (estimated from ballot styles), 435 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024307_1.html."
+}

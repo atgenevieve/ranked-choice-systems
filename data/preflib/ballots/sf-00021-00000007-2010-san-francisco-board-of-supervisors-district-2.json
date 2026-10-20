@@ -1,0 +1,22 @@
+{
+  "source": "preflib",
+  "election": "2010 San Francisco Board of Supervisors - District 2",
+  "date": "2010",
+  "system": "unknown",
+  "candidates": [
+    "Janet Reilly",
+    "Vilma B. Guinto Peoro",
+    "Barbara Berwick",
+    "Mark Farrell",
+    "Abraham Simmons",
+    "Kat Anderson",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 80,
+  "preflib_file": "00021-00000007.toi",
+  "preflib_dataset": "sf",
+  "notes": "PrefLib file 00021-00000007.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 80 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

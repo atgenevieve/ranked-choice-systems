@@ -1,0 +1,20 @@
+{
+  "source": "preflib",
+  "election": "Debian 2003 Leader",
+  "date": "2003",
+  "system": "unknown",
+  "candidates": [
+    "Moshe Zadka",
+    "Bdale Garbee",
+    "Branden Robinson",
+    "Martin Michlmayr",
+    "None Of The Above"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00002-00000002.soi",
+  "preflib_dataset": "debian",
+  "notes": "PrefLib file 00002-00000002.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner."
+}

@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 17th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Justin E. Sanchez",
+    "Antirson R. Ortiz",
+    "Freddy Perez Jr.",
+    "Elvis L. Santana",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1140,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26938. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 9328; with an overvote: 87; with a skipped rank: 380; with a repeated candidate: 215. Blank ballots: 1092 with no marks (estimated from ballot styles), 48 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026938_1.html."
+}

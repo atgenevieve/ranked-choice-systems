@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Comptroller Citywide",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Mark D. Levine",
+    "Justin Brannan",
+    "Ismael Malave Perez",
+    "Kevin S. Parker",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 112864,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26914. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 967856; with an overvote: 4905; with a skipped rank: 21630; with a repeated candidate: 16505. Blank ballots: 110732 with no marks (estimated from ballot styles), 2132 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026914_1.html."
+}

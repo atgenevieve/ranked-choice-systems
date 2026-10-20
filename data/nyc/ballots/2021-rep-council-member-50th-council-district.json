@@ -1,0 +1,21 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, REP Council Member 50th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Marko Kepi",
+    "David M. Carr",
+    "Sam T. Pirozzolo",
+    "Kathleen Sforza",
+    "Jordan Hafizi",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    1
+  ],
+  "blank_ballots": 245,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24367. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 8607; with an overvote: 58; with a skipped rank: 58; with a repeated candidate: 227. Blank ballots: 215 with no marks (estimated from ballot styles), 30 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 24367_1.html. First-choice totals differ from the official first round for 5 candidates; see 2021-checks.json."
+}

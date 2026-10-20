@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, REP Council Member 20th Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Yu-Ching James Pai",
+    "Dany Chen",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 25934. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 1465; with an overvote: 3; with a skipped rank: 12; with a repeated candidate: 28. Blank ballots: 0 with no marks (estimated from ballot styles), 2 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 025934_1.html."
+}

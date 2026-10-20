@@ -1,0 +1,21 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 36th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Chi A. Osse",
+    "Henry L. Butler",
+    "Tahirah A. Moore",
+    "Robert Waterman",
+    "Reginald Swiney",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2370,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24379. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 23315; with an overvote: 169; with a skipped rank: 390; with a repeated candidate: 539. Blank ballots: 2295 with no marks (estimated from ballot styles), 75 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024379_1.html."
+}

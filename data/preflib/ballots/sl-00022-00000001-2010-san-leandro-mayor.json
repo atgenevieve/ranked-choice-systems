@@ -1,0 +1,22 @@
+{
+  "source": "preflib",
+  "election": "2010 San Leandro Mayor",
+  "date": "2010",
+  "system": "unknown",
+  "candidates": [
+    "Stephen H. Cassidy",
+    "Joyce Rutledge Starosciak",
+    "Anthony B. 'Tony' Santos",
+    "John R. Palau",
+    "Sara M. Mestas",
+    "Write-In",
+    "Lou Filipovich"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 47,
+  "preflib_file": "00022-00000001.toi",
+  "preflib_dataset": "sl",
+  "notes": "PrefLib file 00022-00000001.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 47 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

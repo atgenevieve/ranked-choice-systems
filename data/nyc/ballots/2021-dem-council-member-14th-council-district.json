@@ -1,0 +1,22 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 14th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Pierina Ana Sanchez",
+    "Yudelka Tapia",
+    "Adolfo Abreu",
+    "Haile Rivera",
+    "Fernando A. Aquino",
+    "Socrates S. Solano",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1378,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24327. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 9548; with an overvote: 308; with a skipped rank: 331; with a repeated candidate: 239. Blank ballots: 1215 with no marks (estimated from ballot styles), 163 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024327_1.html."
+}

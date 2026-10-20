@@ -1,0 +1,28 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 7th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Shaun Abreu",
+    "Marti Gould Allen-Cummings",
+    "Maria Ordonez",
+    "Daniel M. Cohen",
+    "Stacy R. Lynch",
+    "Luis Tejada",
+    "Keith L. Harris",
+    "Corey Ortega",
+    "Miguel Estrella",
+    "Carmen R. Quinones",
+    "Raymond Sanchez Jr.",
+    "Lena Melendez",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2659,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24318. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 23300; with an overvote: 197; with a skipped rank: 261; with a repeated candidate: 266. Blank ballots: 2548 with no marks (estimated from ballot styles), 111 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024318_1.html."
+}

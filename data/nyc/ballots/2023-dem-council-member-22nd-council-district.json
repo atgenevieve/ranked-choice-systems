@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 22nd Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Tiffany L. Caban",
+    "Charles A. Castro",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 13,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 26015. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 6268; with an overvote: 15; with a skipped rank: 142; with a repeated candidate: 227. Blank ballots: 0 with no marks (estimated from ballot styles), 13 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026015_1.html."
+}

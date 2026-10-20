@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Borough President New York",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Brad Hoylman-Sigal",
+    "Keith Powers",
+    "Calvin D. Sun",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 49108,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26918. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 271966; with an overvote: 817; with a skipped rank: 2447; with a repeated candidate: 2460. Blank ballots: 48664 with no marks (estimated from ballot styles), 444 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026918_1.html."
+}

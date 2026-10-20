@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Borough President Kings",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Antonio Reynoso",
+    "Khari O. Edwards",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 49405,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26913. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 334705; with an overvote: 497; with a skipped rank: 3042; with a repeated candidate: 4782. Blank ballots: 49010 with no marks (estimated from ballot styles), 395 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026913_1.html."
+}

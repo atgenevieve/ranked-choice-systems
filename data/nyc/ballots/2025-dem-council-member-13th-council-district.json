@@ -1,0 +1,22 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 13th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Shirley Aldebol",
+    "Jacqueline J. Torres",
+    "David A. Diaz",
+    "John Perez",
+    "Joel Rivera",
+    "Theona S. Reets-Dupont",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1601,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26988. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 11440; with an overvote: 139; with a skipped rank: 189; with a repeated candidate: 192. Blank ballots: 1563 with no marks (estimated from ballot styles), 38 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026988_1.html."
+}

@@ -1,0 +1,27 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Mayor Citywide",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Zohran Kwame Mamdani",
+    "Andrew M. Cuomo",
+    "Brad Lander",
+    "Adrienne E. Adams",
+    "Scott M. Stringer",
+    "Zellnor Myrie",
+    "Whitney R. Tilson",
+    "Michael Blake",
+    "Jessica Ramos",
+    "Paperboy Love Prince",
+    "Selma K. Bartholomew",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 6858,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26916. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 1077230; with an overvote: 9837; with a skipped rank: 11227; with a repeated candidate: 21952. Blank ballots: 1358 with no marks (estimated from ballot styles), 5500 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026916_1.html."
+}

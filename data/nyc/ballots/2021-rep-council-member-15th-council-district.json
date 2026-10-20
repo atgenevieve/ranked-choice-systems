@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, REP Council Member 15th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Ariel Rivera-Diaz",
+    "Aramis Ocasio",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 23,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24524. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 163; with an overvote: 4; with a skipped rank: 6; with a repeated candidate: 11. Blank ballots: 19 with no marks (estimated from ballot styles), 4 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024524_1.html."
+}

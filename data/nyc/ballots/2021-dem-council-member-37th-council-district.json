@@ -1,0 +1,22 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 37th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Sandy Nurse",
+    "Darma V. Diaz",
+    "Misba Abdin",
+    "Heriberto Mateo",
+    "Rick Echevarria",
+    "Christopher Durosinmi",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1236,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24389. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 10915; with an overvote: 108; with a skipped rank: 213; with a repeated candidate: 272. Blank ballots: 1195 with no marks (estimated from ballot styles), 41 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024389_1.html."
+}

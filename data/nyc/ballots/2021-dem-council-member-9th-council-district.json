@@ -1,0 +1,29 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 9th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Bill Perkins",
+    "Kristin Richardson Jordan",
+    "Athena Moore",
+    "Cordell Cleare",
+    "Mario Rosser",
+    "William A. Allen",
+    "Keith Taylor",
+    "Joshua Albert Clennon",
+    "Ruth L. McDaniels",
+    "Billy Council",
+    "Pierre A. Gooding",
+    "Sheba T. Simpson-Amsterdam",
+    "Bernadette McNear",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    1
+  ],
+  "blank_ballots": 2470,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24347. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 25773; with an overvote: 264; with a skipped rank: 303; with a repeated candidate: 391. Blank ballots: 2323 with no marks (estimated from ballot styles), 147 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 24347_1.html. First-choice totals differ from the official first round for 12 candidates; see 2021-checks.json."
+}

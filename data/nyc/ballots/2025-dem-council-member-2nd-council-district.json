@@ -1,0 +1,21 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 2nd Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Harvey D. Epstein",
+    "Sarah Batchu",
+    "Andrea Gordillo",
+    "Anthony D. Weiner",
+    "Allie Ryan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 4328,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26922. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 30369; with an overvote: 227; with a skipped rank: 221; with a repeated candidate: 228. Blank ballots: 4216 with no marks (estimated from ballot styles), 112 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026922_1.html."
+}

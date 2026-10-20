@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 12th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Kevin C. Riley",
+    "Andy King",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1288,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26928. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 18180; with an overvote: 62; with a skipped rank: 363; with a repeated candidate: 410. Blank ballots: 1232 with no marks (estimated from ballot styles), 56 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026928_1.html."
+}

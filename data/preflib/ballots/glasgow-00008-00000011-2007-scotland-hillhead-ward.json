@@ -1,0 +1,25 @@
+{
+  "source": "preflib",
+  "election": "2007 Scotland Hillhead Ward",
+  "date": "2007",
+  "system": "unknown",
+  "candidates": [
+    "John Anderson",
+    "Neil Craig",
+    "Kenneth Elder",
+    "Anthea Irwin",
+    "Abdul A Khan",
+    "Akhter Khan",
+    "Hanzala Malik",
+    "Martin Rhodes",
+    "George A Roberts",
+    "Martha Ferguson Wardrop"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 0,
+  "preflib_file": "00008-00000011.soi",
+  "preflib_dataset": "glasgow",
+  "notes": "PrefLib file 00008-00000011.soi (dataset 00008, 'glasgow'). Counting rule, as far as we know: Scottish STV, multi-winner."
+}

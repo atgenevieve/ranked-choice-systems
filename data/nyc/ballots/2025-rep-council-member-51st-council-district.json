@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, REP Council Member 51st Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Frank Morano",
+    "Griffin T. Fossella",
+    "John K. Buthorn",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 29,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26937. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 4070; with an overvote: 33; with a skipped rank: 87; with a repeated candidate: 100. Blank ballots: 7 with no marks (estimated from ballot styles), 22 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026937_1.html."
+}

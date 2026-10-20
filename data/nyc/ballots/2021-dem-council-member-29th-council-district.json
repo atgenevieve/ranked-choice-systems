@@ -1,0 +1,25 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 29th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Lynn C. Schulman",
+    "Aleda F. Gagarin",
+    "David Aronov",
+    "Donghui Zang",
+    "Avi Cyperstein",
+    "Edwin K. Wong",
+    "Douglas J. Shapiro",
+    "Eliseo Dorion Labayen",
+    "Sheryl Ann Fetik",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1172,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24324. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 17185; with an overvote: 116; with a skipped rank: 113; with a repeated candidate: 167. Blank ballots: 1109 with no marks (estimated from ballot styles), 63 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024324_1.html."
+}

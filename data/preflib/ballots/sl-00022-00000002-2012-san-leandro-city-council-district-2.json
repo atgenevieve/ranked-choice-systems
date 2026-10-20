@@ -1,0 +1,19 @@
+{
+  "source": "preflib",
+  "election": "2012 San Leandro City Council - District 2",
+  "date": "2012",
+  "system": "unknown",
+  "candidates": [
+    "Dan Dillman",
+    "Morgan Mack-Rose",
+    "Ursula Reed",
+    "Write-In"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 39,
+  "preflib_file": "00022-00000002.toi",
+  "preflib_dataset": "sl",
+  "notes": "PrefLib file 00022-00000002.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 39 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

@@ -1,0 +1,25 @@
+{
+  "source": "preflib",
+  "election": "2008 San Francisco Board of Supervisors - District 11",
+  "date": "2008",
+  "system": "unknown",
+  "candidates": [
+    "Julio Ramos",
+    "Ahsha Safai",
+    "Myrna Lim",
+    "Eli M. Horn",
+    "John Avalos",
+    "Mary Goodnature",
+    "Randy Knox",
+    "Adrian Bermudez",
+    "Write-In",
+    "A. Jackson Matteson"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 0,
+  "tied_ballots_dropped": 186,
+  "preflib_file": "00021-00000002.toi",
+  "preflib_dataset": "sf",
+  "notes": "PrefLib file 00021-00000002.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 186 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+}

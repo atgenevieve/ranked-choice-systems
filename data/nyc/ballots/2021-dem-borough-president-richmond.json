@@ -1,0 +1,21 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Borough President Richmond",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Mark S. Murphy",
+    "Lorraine A. Honor",
+    "Cesar A. Vargas",
+    "Brandon P. Stradford",
+    "Radhakrishna Mohan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2907,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24458. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 28507; with an overvote: 208; with a skipped rank: 419; with a repeated candidate: 702. Blank ballots: 2832 with no marks (estimated from ballot styles), 75 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024458_1.html."
+}

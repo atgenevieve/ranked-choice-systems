@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Public Advocate Citywide",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Jumaane D. Williams",
+    "Anthony L. Herbert",
+    "Theo Bruce Chino Tavarez",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 134371,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24408. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 820879; with an overvote: 3791; with a skipped rank: 17558; with a repeated candidate: 15948. Blank ballots: 132214 with no marks (estimated from ballot styles), 2157 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024408_1.html."
+}
