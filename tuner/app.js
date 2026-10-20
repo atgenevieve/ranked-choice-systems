@@ -304,17 +304,17 @@ function drawElection(r, c) {
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
   // Headline and figures.
-  setText("headline", `Keep the first ${k95} ranks of every ballot, and 95 of 100 simulated elections (95% confidence) elect exactly the same ${seats} people as full ballots. Half of elections need only ${k50}.`);
+  setText("headline", `Keep the first ${k95} ranks of every ballot, and 95 of 100 simulated elections (95% confidence) elect exactly the same ${seats} people as full ballots. At 50% confidence, only ${k50}.`);
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
-    fig("95% confidence", `rank ${k95}`, `In 95 of 100 simulated elections, cutting ballots after this rank, or after any deeper rank, elects the same people as full ballots. 8 in 10 need ${k80}; every election, ${kAll}.`),
+    fig("95% confidence", `rank ${k95}`, `In 95 of 100 simulated elections, cutting ballots after this rank, or after any deeper rank, elects the same people as full ballots. 80% confidence needs ${k80}; every election, ${kAll}.`),
     fig("Seats", `rank ${kSeat}`, `From this rank on, cutting ballots moves fewer than 1 of the ${seats} seats, on average. No election changes any seat from rank ${kNone}.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
   // Chart 1: elections that come out the same.
   chart($("chart-same"), [{ points: same.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
     xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-    marks: [{ x: k50, y: same[k50 - 1], label: `half: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `8 in 10: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }]
+    marks: [{ x: k50, y: same[k50 - 1], label: `50%: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `80%: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }]
       .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });
