@@ -122,7 +122,8 @@ function hbars(f, rows, series, opts = {}) {
   if (series.length > 1) legend(f, series.map(s => ["dot", s.color, s.name]));
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 600, barH = 14, gap = 3, rowH = series.length * (barH + gap) + 14, L = opts.labelW || 150, R = 52, T = 4, B = 24;
+    // On narrow screens each row's label sits above its bars instead of beside them.
+    const w = plot.clientWidth || 600, narrow = w < 560, barH = 14, gap = 3, lab = narrow ? 18 : 0, rowH = series.length * (barH + gap) + 14 + lab, L = narrow ? 8 : (opts.labelW || 150), R = 52, T = 4, B = 24;
     const H = T + rows.length * rowH + B, max = opts.max || 1;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
@@ -132,8 +133,9 @@ function hbars(f, rows, series, opts = {}) {
       txt(svg, sx(t), H - B + 15, (opts.fmt || pct)(t), { "text-anchor": "middle" });
     }
     rows.forEach((r, i) => {
-      const y0 = T + i * rowH + 7;
-      txt(svg, L - 10, y0 + (series.length * (barH + gap)) / 2 + 4, r.label, { "text-anchor": "end", class: "lab" });
+      const y0 = T + i * rowH + 7 + lab;
+      if (narrow) txt(svg, L, y0 - 6, r.label, { class: "lab" });
+      else txt(svg, L - 10, y0 + (series.length * (barH + gap)) / 2 + 4, r.label, { "text-anchor": "end", class: "lab" });
       r.values.forEach((v, k) => {
         const y = y0 + k * (barH + gap), x1 = sx(Math.max(0, v)), rr = Math.min(4, Math.max(0, x1 - sx(0)));
         el("path", { d: `M${sx(0)},${y} H${x1 - rr} Q${x1},${y} ${x1},${y + rr} V${y + barH - rr} Q${x1},${y + barH} ${x1 - rr},${y + barH} H${sx(0)} Z`, fill: css(series[k].color) }, svg);

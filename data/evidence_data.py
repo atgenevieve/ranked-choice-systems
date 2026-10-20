@@ -156,7 +156,7 @@ def popularity(rows):
     # in Scottish wards with exactly 7 candidates, next to what the model gives.
     ladders = [sorted(d["first_choice"]["shares_by_candidate"], reverse=True)
                for src, g, d, meta in rows if src == "scotland" and d["candidates"] == 7]
-    return {"elections": out, "model_7": model, "ladder_7": {
+    return {"elections": out, "model_7": model, "quota_check": quota_check(out), "ladder_7": {
         "wards": len(ladders), "real": quantiles_by_position(ladders),
         "model": {str(s): quantiles_by_position(model_ladders(7, s)) for s in (0.7, 1.0)},
         # How often the drop from the middle candidate to the last is bigger than the drop from
@@ -185,6 +185,38 @@ def model_bottom_bigger(n, spread):
     ladders = model_ladders(n, spread)
     mid = lambda l: (l[(n - 1) // 2] * l[n // 2]) ** 0.5
     return round(sum(mid(l) / l[-1] > l[0] / mid(l) for l in ladders) / len(ladders), 4)
+
+
+QUOTA_CELLS = [
+    ("Public, 1 seat", lambda e: e["group"] in ("scotland", "public", "nyc", "portland") and e["seats"] == 1),
+    ("Public, 2 to 5 seats", lambda e: e["group"] in ("scotland", "public", "portland", "act") and e["seats"] > 1),
+    ("Organizational, 1 seat", lambda e: e["group"] in ("ers", "org") and e["seats"] == 1),
+    ("Organizational, 2 to 4 seats", lambda e: e["group"] in ("ers", "org") and 1 < e["seats"] < 5),
+    ("Organizational, 5 to 12 seats", lambda e: e["group"] in ("ers", "org") and e["seats"] >= 5),
+]
+
+
+def quota_check(elections, spreads=(0.5, 0.7, 0.85, 1.0, 1.3), draws=20, seed=5):
+    """Does one popularity setting explain the quota pattern? For each type of election, the real
+    median of the top candidate's first choices as a multiple of the quota, next to what the model's
+    popularity draw alone gives with each real election's own candidates and seats."""
+    rng = random.Random(seed)
+    out = []
+    for name, test in QUOTA_CELLS:
+        els = [e for e in elections if test(e)]
+        real = sorted(e["top_share"] * (e["seats"] + 1) for e in els)
+        model = {}
+        for sp in spreads:
+            per = []
+            for e in els:
+                v = []
+                for _ in range(draws):
+                    w = [math.exp(rng.gauss(0, sp)) for _ in range(e["candidates"])]
+                    v.append(max(w) / sum(w) * (e["seats"] + 1))
+                per.append(sorted(v)[draws // 2])
+            model[str(sp)] = round(sorted(per)[len(per) // 2], 3)
+        out.append({"cell": name, "n": len(els), "real": round(real[len(real) // 2], 3), "model": model})
+    return out
 
 
 def quantiles_by_position(ladders):

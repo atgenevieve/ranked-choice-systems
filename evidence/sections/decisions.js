@@ -19,8 +19,8 @@ const DECISIONS = {
     title: "Candidate popularity",
     status: "Waiting on the owner",
     now: "One \"popularity spread\" number sets how unequal candidates are. In a 7-candidate field, the current setting (1.0) gives the top candidate about 2.5 times an even split of first choices (real Scottish wards: about 2.1 times), and too few long-shot candidates.",
-    proposal: "Tune the leading candidates so the top one gets about 2 times an even split of first choices, as in a typical Scottish ward or union election (a spread of about 0.7). Add a separate share of long-shot candidates far below the rest: in most real wards, the last candidate gets under 3% of first choices. Report every headline result across the real range, from about 1.5 to 3 times an even split.",
-    needed: "Approve. Anything you know about how lopsided first choices are in your organization.",
+    proposal: "Set popularity by type of election, as with ballot length: public or organizational, and 1 seat, 2 to 4 seats, or 5 or more seats. Start each type at the setting that matches its real elections: about 1.0 for single-seat public races, about 0.6 to 0.7 for most others, and about 0.9 for organizational elections with 5 or more seats (the type closest to yours, from only 18 elections). Add a separate share of long-shot candidates far below the rest. Check that the model reproduces the quota pattern and the way bigger fields get more lopsided. Report every headline result across the real range.",
+    needed: "Approve. Anything you know about how lopsided first choices are in your organization, such as past first-choice counts.",
   },
   "slate-sizes": {
     title: "Slate sizes",

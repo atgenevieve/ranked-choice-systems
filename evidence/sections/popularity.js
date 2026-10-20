@@ -66,6 +66,26 @@ window.SECTIONS.popularity = () => {
   }
 
   {
+    // For each type of election, the popularity setting at which the model matches the real median,
+    // found by straight-line interpolation between the settings tried.
+    const Q = DATA.quota_check, SP = [0.5, 0.7, 0.85, 1.0, 1.3], KEYS = ["0.5", "0.7", "0.85", "1.0", "1.3"];
+    const fitSpread = c => {
+      const m = KEYS.map(k => c.model[k]);
+      for (let k = 0; k < SP.length - 1; k++) if ((m[k] - c.real) * (m[k + 1] - c.real) <= 0) return SP[k] + (SP[k + 1] - SP[k]) * (c.real - m[k]) / (m[k + 1] - m[k]);
+      return c.real < m[0] ? SP[0] : SP[SP.length - 1];
+    };
+    const fits = Q.map(fitSpread), q = name => Q.findIndex(c => c.cell === name);
+    const r1 = v => (Math.round(v * 20) / 20).toFixed(2).replace(/0$/, "");
+    const f = figure("Does one popularity setting explain the quota pattern?",
+      `Partly. Much of the pattern comes from the field itself: with few candidates per seat, the leader passes the quota whatever voters do. Give the model each real election's own candidates and seats, and a single setting of 0.7 matches most types of election. Two types need a more lopsided setting: single-seat public races (about ${r1(fits[q("Public, 1 seat")])}) and organizational elections with 5 or more seats (about ${r1(fits[q("Organizational, 5 to 12 seats")])}), the type closest to yours. So the proposal sets popularity by type of election.`,
+      `The top candidate's first choices as a multiple of the quota, typical (median) election of each type. The model bars use popularity alone, with no slates, run on each real election's own numbers of candidates and seats. The setting that fits each type is approximate: some groups are small (only ${Q[q("Organizational, 5 to 12 seats")].n} organizational elections have 5 or more seats), and the model is random, so these move by about 0.1 between runs.`);
+    hbars(f, Q.map((c, k) => ({ label: `${c.cell} (${c.n})`, values: [c.real, c.model["0.7"], c.model["1.0"]] })),
+      [{ name: "Real elections", color: "--scotland" }, { name: "Model, setting 0.7", color: "--public" }, { name: "Model, setting 1.0", color: "--ers" }],
+      { max: 2.5, step: 0.5, labelW: 250, fmt: v => `${(+v).toFixed(2).replace(/\.?0+$/, "")}×`, aria: "Top candidate against the quota: real elections against the model at two settings, by type of election" });
+    tableView(f, ["Type of election", "Elections", "Real", "Setting that fits"], Q.map((c, k) => [c.cell, c.n, `${c.real.toFixed(2)}×`, `about ${r1(fits[k])}`]), [false, true, true, false]);
+  }
+
+  {
     const Lad = DATA.ladder_7, ord = ["Top", "2nd", "3rd", "4th", "5th", "6th", "Last"];
     const P = Lad.model["0.7"], C = Lad.model["1.0"], R = Lad.real;
     const f = figure("The typical ward, candidate by candidate",

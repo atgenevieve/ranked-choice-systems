@@ -14,7 +14,7 @@
 |---|---|---|---|---|
 | 5 | Ballot length | Everyone ranks everyone | Two settings: electorate type (public or organizational) and ballot type (no limit, limit equal to seats, other limit); limits cut ballots and can pull voters up to them | **Approved.** Still open: your ballot's exact wording |
 | 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune to overall clustering in real ballots | **Approved.** Still open: loose or tight; test both |
-| 3 | Candidate popularity | Lognormal, spread 1.0 | Top candidate about 2 times an even split (spread about 0.7), plus a separate share of long-shot candidates | **Open.** Approve? |
+| 3 | Candidate popularity | Lognormal, spread 1.0 | Set by type of election (public or organizational; 1, 2 to 4, or 5 or more seats), plus a separate share of long-shot candidates | **Open.** Approve? |
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately; slates sized to the seats they expect to win | **Approved** |
 | 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | **Approved** |
 | 6 | Number of voters | 10 per candidate, at least 1,000 | Set from your organization's real numbers; lower the minimum | **Approved.** Numbers to come |
@@ -181,7 +181,10 @@ Keep an optional table of closeness between slates for later, if real data from 
 - **The model's current setting (spread 1.0) makes the leader too strong:** about 2.5 times an even split in a 7-candidate field. A spread of about 0.7 gives 2.0 times, matching real wards.
 - **But real fields have a weaker bottom than the model can make.** In 63% of 7-candidate Scottish wards, the last candidate gets under 3% of first choices; at a spread of 0.7, only 17% of model elections do. No single spread fits both ends: making the bottom weaker also makes the leader stronger.
 
-**Proposal:** keep the lognormal for the leading candidates, with a spread of about 0.7, so the top candidate gets about 2 times an even split. Add a second setting: the **share of long-shot candidates**, whose popularity comes from a much lower range. Tune both to Scotland, ERS, and Portland. Because this setting matters most, report every headline result across the real range, from about 1.5 to 3 times an even split.
+- **The quota pattern differs by type of election, and only partly because of the field.** The quota is the share of first choices that guarantees a seat. With few candidates per seat, the leader passes it whatever voters do. Given each real election's own candidates and seats, one setting of 0.6 to 0.7 matches most types of election. Two types are more lopsided: single-seat public races (they fit a setting of about 1.0) and organizational elections with 5 or more seats (about 0.9, from only 18 elections). These fitted settings move by about 0.1 between runs.
+- **Bigger fields are more lopsided** in every group: in Scotland, the top candidate gets about 1.6 times the middle candidate's first choices with 2 to 4 candidates, and about 5.2 times with 11 to 13.
+
+**Proposal (revised October 20, 2026, at the owner's suggestion):** set popularity by type of election, as with ballot length: public or organizational, and 1 seat, 2 to 4 seats, or 5 or more seats. Start each type at the setting that matches its real elections: about 1.0 for single-seat public races, about 0.6 to 0.7 for most others, and about 0.9 for organizational elections with 5 or more seats. Add a second setting, the **share of long-shot candidates**, whose popularity comes from a much lower range. In milestone 4, check that the model reproduces three things: the quota pattern by type, the weak last candidate, and the way bigger fields get more lopsided. Because this setting matters most, report every headline result across the real range, from about 1.5 to 3 times an even split.
 
 **Alternatives:**
 
