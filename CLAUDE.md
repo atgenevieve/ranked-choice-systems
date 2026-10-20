@@ -51,6 +51,7 @@ These are defaults, not decisions. Raise alternatives if something works better.
 - Settings files in TOML or JSON. Results as JSON Lines (one result per line).
 - Charts with a standard JavaScript charting library.
 - **Charts use linear scales, never log scales** (owner's preference).
+- **No colored accent stripes** on the side of boxes, cards, or rows (owner's preference). Use a plain border, or nothing.
 
 ## Rules for this project
 

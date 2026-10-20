@@ -82,7 +82,7 @@ td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-nume
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
 .loading { color: var(--muted); padding-block: 20px; }
 /* Decision summary on each tab and the overview. */
-.decision { background: var(--surface); border: 1px solid var(--grid); border-left: 3px solid var(--public); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; }
+.decision { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; }
 .decision h2 { font-size: 18px; margin: 0; }
 .decision dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 14px; }
 .decision dt { font-weight: 600; color: var(--ink-2); }
