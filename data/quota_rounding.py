@@ -8,7 +8,11 @@ the smallest rank at which cutting every ballot, and cutting at any deeper rank,
 people as full ballots. The page turns these into the 95%, 80%, and 50% confidence ranks.
 
 Three sweeps:
-- "elections": two organizational elections, voter by voter (in steps) across several quota steps.
+- "elections": two organizational elections, voter by voter (in steps) across several quota steps,
+  each with one exact number of voters.
+- "turnout": the same two elections at a range of expected turnouts, with each simulated election
+  drawing its own number of voters (the engine's `turnout_spread`: 5%, 10%, and 15%), so the
+  answer covers not knowing turnout.
 - "size": one election shape at a growing number of voters, sampled just before and just after
   a quota step, to show where rounding stops mattering.
 
@@ -34,11 +38,14 @@ ELECTIONS = [
     {"id": "wide", "name": "150 candidates, 75 seats", "candidates": 150, "seats": 75,
      "from": 480, "to": 860, "step": 5, "yours": 762},
 ]
+# Turnout uncertainty (standard deviation, as a share of expected voters), and expected turnouts.
+SPREADS = [0.05, 0.1, 0.15]
+TURNOUT_STEP = {"metro-dc": 10, "wide": 20}
 # Votes per seat (the whole-vote quota just after a step) for the size sweep.
 SIZE_QUOTAS = [3, 5, 7, 10, 15, 20, 30, 50, 75, 100]
 
 
-def settings(c, seats, voters, quota):
+def settings(c, seats, voters, quota, spread=0.0):
     return f"""[run]
 name = "quota-rounding"
 seed = {SEED}
@@ -52,6 +59,7 @@ quota = "{quota}"
 candidates = {c}
 seats = [{seats}]
 voters = {voters}
+turnout_spread = {spread}
 ranks = {c}
 
 [electorate]
@@ -66,10 +74,10 @@ version = "0.2"
 """
 
 
-def run(c, seats, voters, quota, folder):
+def run(c, seats, voters, quota, folder, spread=0.0):
     path = os.path.join(folder, "s.toml")
     with open(path, "w") as f:
-        f.write(settings(c, seats, voters, quota))
+        f.write(settings(c, seats, voters, quota, spread))
     out = subprocess.run([BIN, "run", path], capture_output=True, text=True, check=True).stdout
     r = json.loads(out.strip().splitlines()[-1])
     counts = r["truncation"]["cutoff_rank"]["counts"]
@@ -98,7 +106,15 @@ def main():
             if e["yours"] not in [p["v"] for p in pts]:
                 pts.append(point(e["candidates"], e["seats"], e["yours"], folder)[0])
                 pts.sort(key=lambda p: p["v"])
-            out["elections"].append({**e, "points": pts})
+            turnout = []
+            for v in range(e["from"], e["to"] + 1, TURNOUT_STEP[e["id"]]):
+                row = {"v": v}
+                for spread in SPREADS:
+                    row[f"whole_{spread}"] = run(e["candidates"], e["seats"], v, "whole", folder, spread)[0]
+                row["exact_0.1"] = run(e["candidates"], e["seats"], v, "exact", folder, 0.1)[0]
+                print(f"turnout: {e['id']}, {v} expected voters", file=sys.stderr, flush=True)
+                turnout.append(row)
+            out["elections"].append({**e, "points": pts, "turnout": turnout})
             out["engine"] = engine
         # Size: the Metro DC shape, just after a quota step (quota rounded up by almost a whole
         # vote) and just before the next one (quota almost exact).

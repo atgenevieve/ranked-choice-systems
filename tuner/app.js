@@ -75,7 +75,7 @@ function cellLike(c) {
 }
 
 // ---------------------------------------------------------------- controls
-const FIELDS = ["candidates", "seats", "voters", "sims", "seed", "wording", "n", "n-seats", "pull-auto", "pull", "slates", "sizing", "unaff",
+const FIELDS = ["candidates", "seats", "voters", "turnout", "sims", "seed", "wording", "n", "n-seats", "pull-auto", "pull", "slates", "sizing", "unaff",
   "loyalty", "evenness", "spread-auto", "spread", "longshot-auto", "longshot", "gap", "cell"];
 
 function readControls() {
@@ -121,7 +121,7 @@ function electionSettings(c) {
   if (!c["pull-auto"] && (c.wording === "up_to" || c.wording === "at_least")) ballot.pull = Number(c.pull);
   return {
     run: { name: "tuner", seed: int(c.seed, 1, 1e9), sims: int(c.sims, 10, 1000), truncation: true, curve_ranks: 0 },
-    election: { candidates: cand, seats: [seats], voters: int(c.voters, 10, 50000), ranks: cand },
+    election: { candidates: cand, seats: [seats], voters: int(c.voters, 10, 50000), turnout_spread: int(c.turnout, 0, 30) / 100, ranks: cand },
     electorate: { type: c.electorate },
     ballot,
     model: modelSettings(c),
@@ -176,6 +176,12 @@ function updateLabels(c) {
   if (c["n-seats"]) $("n").value = seats;
   $("n").disabled = c["n-seats"] || c.wording === "none";
   $("n-seats").disabled = c.wording === "none";
+  // Turnout.
+  {
+    const v = int(c.voters, 10, 50000), t = int(c.turnout, 0, 30) / 100;
+    setText("turnout-v", `${Math.round(t * 100)}%`);
+    setText("turnout-yours", t ? `about 2 in 3 elections have ${Math.round(v * (1 - t)).toLocaleString()} to ${Math.round(v * (1 + t)).toLocaleString()} voters, and 19 in 20 have ${Math.round(v * (1 - 2 * t)).toLocaleString()} to ${Math.round(v * (1 + 2 * t)).toLocaleString()}.` : `every election has exactly ${v.toLocaleString()} voters.`);
+  }
   // Pull toward N.
   const pulls = c.wording === "up_to" || c.wording === "at_least";
   $("pull-setting").hidden = !pulls;
@@ -304,7 +310,8 @@ function drawElection(r, c) {
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
   // Headline and figures.
-  setText("headline", `Keep the first ${k95} ranks of every ballot, and 95 of 100 simulated elections (95% confidence) elect exactly the same ${seats} people as full ballots. At 50% confidence, only ${k50}.`);
+  const spread = r.settings.election.turnout_spread;
+  setText("headline", `${spread ? "Across the turnouts you expect, 9" : "9"}5 of 100 elections are decided within the first ${k95} ranks: cut every ballot after rank ${k95}, and they elect exactly the same ${seats} people as full ballots. Half are decided within the first ${k50}.`);
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
     fig("95% confidence", `rank ${k95}`, `In 95 of 100 simulated elections, cutting ballots after this rank, or after any deeper rank, elects the same people as full ballots. 80% confidence needs ${k80}; every election, ${kAll}.`),
@@ -338,7 +345,7 @@ function drawElection(r, c) {
     aria: "Seats that change hands when ballots are cut after each rank: average and most in any election",
   });
   const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
-  setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${r.settings.election.voters} voters (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
+  setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${spread ? `about ${r.settings.election.voters.toLocaleString()} voters, give or take ${Math.round(spread * 100)}% (from ${r.voters.min.toLocaleString()} to ${r.voters.max.toLocaleString()} across these elections)` : `${r.settings.election.voters.toLocaleString()} voters`} (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
 }
 
 async function runElection(c, seq) {
@@ -417,7 +424,8 @@ function drawSweep(c) {
     (overlap ? "Every point's band overlaps every other's, so these differences could all be chance. " :
       "Some bands don't overlap, so not all of the change is chance. ") +
     `${steps.length && steps.length <= 40 ? "The dotted lines" : "Every " + per + " voters"} mark where the quota, the whole number of votes a candidate needs to win a seat, goes up by one vote. ` +
-    `Under Scottish rules the rank tends to be highest just before a step and drop sharply at it, so voter counts a few apart can give very different answers. ` +
+    (sweep.spread ? `Each point spreads turnout by ${Math.round(sweep.spread * 100)}%, which smooths out the jumps at these steps; set turnout uncertainty to 0% to see them. ` :
+      `With turnout fixed, the rank tends to be highest just before a step and drop sharply at it, so voter counts a few apart can give very different answers. `) +
     `With your ${yours.toLocaleString()} voters the quota is ${q(yours)} votes; it steps up at ${below.toLocaleString()} and ${above.toLocaleString()} voters.`);
 }
 
@@ -435,7 +443,7 @@ $("sweep-run").addEventListener("click", async () => {
   list.sort((x, y) => x - y);
   if (list.length > 100) { setStatus("sweep-status", `That's ${list.length} points. Use a larger interval or a narrower range: at most 100 points.`, false, true); return; }
   const key = sweepKey(c), sims = int(c.sims, 10, 1000);
-  sweep = { key, points: [], sims, seats: electionSettings(c).election.seats[0] };
+  sweep = { key, points: [], sims, seats: electionSettings(c).election.seats[0], spread: electionSettings(c).election.turnout_spread };
   $("sweep-run").disabled = true;
   drawSweep(c);
   for (let i = 0; i < list.length; i++) {

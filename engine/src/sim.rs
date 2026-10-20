@@ -3,6 +3,7 @@
 
 use crate::count::{analyze, Options, Truncation};
 use crate::model;
+use crate::rng::Rng;
 use crate::settings::Settings;
 use serde_json::{json, Value};
 use std::sync::atomic::{AtomicUsize, Ordering as AO};
@@ -28,6 +29,7 @@ struct Totals {
     seats_changed: Vec<u64>,
     seats_changed_max: Vec<u32>,
     cutoffs: Vec<usize>,
+    voters: Vec<usize>,
     exhausted_votes: f64,
     exhausted_ballots: f64,
 }
@@ -64,6 +66,7 @@ impl Totals {
             *a = (*a).max(b);
         }
         self.cutoffs.extend(o.cutoffs);
+        self.voters.extend(o.voters);
         self.exhausted_votes += o.exhausted_votes;
         self.exhausted_ballots += o.exhausted_ballots;
     }
@@ -94,11 +97,23 @@ pub fn election_seed(seed: u64, c: usize, seats: usize, i: usize) -> u64 {
 }
 
 
+/// The number of voters in one simulated election: `v` when `spread` is 0; otherwise drawn
+/// from a bell curve centered on `v` with standard deviation `spread` × `v`, cut off at 3
+/// standard deviations, and at least 2.
+pub fn draw_voters(v: usize, spread: f64, es: u64) -> usize {
+    if spread <= 0.0 {
+        return v;
+    }
+    let g = Rng::new(es ^ 0x7475_726E_6F75_7421).gauss().clamp(-3.0, 3.0);
+    ((v as f64 * (1.0 + spread * g)).round() as usize).max(2)
+}
+
 /// Simulates `s.run.sims` elections with the given number of seats and summarizes them as one
 /// line of results (see engine/README.md). `threads` above 1 splits the work across cores.
 pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
     let c = s.election.candidates;
     let v = s.election.voters.unwrap();
+    let spread = s.election.turnout_spread.unwrap_or(0.0);
     let len = s.election.ranks;
     let sims = s.run.sims;
     let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
@@ -114,7 +129,9 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
                         break;
                     }
                     let es = election_seed(s.run.seed, c, seats, i);
-                    let b = model::generate(c, seats, v, len, &s.electorate, &s.ballot, &s.model, es).ballots;
+                    let voters = draw_voters(v, spread, es);
+                    local.voters.push(voters);
+                    let b = model::generate(c, seats, voters, len, &s.electorate, &s.ballot, &s.model, es).ballots;
                     let a = analyze(&b, seats, Options { lot_seed: es ^ 0x5851F42D4C957F2D, ..opt }, trunc);
                     for d in 0..len {
                         local.reach_sum[d] += a.reach_pct[d];
@@ -175,6 +192,14 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
         "model_version": s.model.version,
         "settings": s,
         "seats": seats,
+        "voters": {
+            "mean": (t.voters.iter().sum::<usize>() as f64 / n * 10.0).round() / 10.0,
+            "min": t.voters.iter().min(),
+            "p10": quantile(&mut t.voters, 0.1),
+            "p50": quantile(&mut t.voters, 0.5),
+            "p90": quantile(&mut t.voters, 0.9),
+            "max": t.voters.iter().max(),
+        },
         "reach": reach,
         "exhaustion": {
             "votes_pct_mean": t.exhausted_votes / n,
@@ -213,4 +238,24 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
         });
     }
     line
+}
+
+#[cfg(test)]
+mod tests {
+    use super::draw_voters;
+
+    #[test]
+    fn turnout_draw() {
+        // No spread: always the expected number.
+        assert!((0..50).all(|i| draw_voters(432, 0.0, i) == 432));
+        // A 10% spread: repeatable, centered on the expected number, within 3 standard
+        // deviations, and about two-thirds of draws within 1.
+        let d: Vec<usize> = (0..4000).map(|i| draw_voters(432, 0.1, i * 7919)).collect();
+        assert_eq!(d[17], draw_voters(432, 0.1, 17 * 7919));
+        let mean = d.iter().sum::<usize>() as f64 / d.len() as f64;
+        assert!((mean - 432.0).abs() < 3.0, "mean {mean}");
+        assert!(d.iter().all(|&x| (302..=562).contains(&x)));
+        let within = d.iter().filter(|&&x| (389..=475).contains(&x)).count() as f64 / d.len() as f64;
+        assert!((0.64..0.72).contains(&within), "within one standard deviation: {within}");
+    }
 }

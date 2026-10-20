@@ -170,7 +170,14 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         <div class="row3">
           <div class="field"><label for="candidates">Candidates</label><input type="number" id="candidates" min="2" max="300" value="75"></div>
           <div class="field"><label for="seats">Seats</label><input type="number" id="seats" min="1" max="200" value="46"></div>
-          <div class="field"><label for="voters">Voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
+          <div class="field"><label for="voters">Expected voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><label for="turnout">Turnout uncertainty</label><output id="turnout-v"></output></div>
+          <p class="what">Give or take this much, as a share of expected voters. Each simulated election draws its own turnout: about 2 in 3 land within this much of the expected number, and 19 in 20 within twice this much. Set it to 0 to play out one exact number of voters.</p>
+          <input type="range" id="turnout" min="0" max="30" step="1" value="10">
+          <p class="yours" id="turnout-yours"></p>
+          <details class="why"><summary>Why change it</summary><p>You can't know turnout to the voter, and under Scottish rules a few voters can change the answer a lot: the quota (the votes needed to win a seat) is a whole number of votes, so the answer rises and drops with every step in it. Spreading turnout across the range you expect gives one steady answer. Set it to how far turnout has varied between your recent elections. 10% is the default.</p></details>
         </div>
         <div class="setting">
           <div class="setting-head"><label for="sims">How many times to simulate it</label></div>
@@ -327,7 +334,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
         <div class="chartcard">
           <h3>Does the number of voters change the answer?</h3>
-          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95%, 80%, and 50% confidence ranks for each. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. To see how much the answer swings, try a narrow range that crosses a dotted line, such as 47 voters either side of yours, with an interval of 5 voters or less.</p>
+          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95%, 80%, and 50% confidence ranks for each. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. Each point uses your turnout uncertainty, so the points are expected voters. To see the raw swing at each quota step, set "Turnout uncertainty" to 0% and try a narrow range that crosses a dotted line, with an interval of 5 voters or less.</p>
           <div class="sweep-fields">
             <div class="field"><label for="sweep-from">Fewest voters</label><input type="number" id="sweep-from" min="10" max="50000"></div>
             <div class="field"><label for="sweep-to">Most voters</label><input type="number" id="sweep-to" min="10" max="50000"></div>

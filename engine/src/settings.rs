@@ -56,6 +56,10 @@ pub struct Election {
     /// Ballots per election. Default: 10 per candidate, at least 100 (model version 0.2) or
     /// at least 1,000 (version 0.1).
     pub voters: Option<usize>,
+    /// How uncertain turnout is, as a share of `voters`: each simulated election draws its
+    /// number of voters from a bell curve centered on `voters`, with this standard deviation
+    /// (cut off at 3 standard deviations). Default: 0.1 (model version 0.2) or 0 (version 0.1).
+    pub turnout_spread: Option<f64>,
     /// Ballot length cap.
     #[serde(default = "hundred")]
     pub ranks: usize,
@@ -83,6 +87,10 @@ impl Settings {
         self.model.check()?;
         let floor = if self.model.version == "0.1" { 1000 } else { 100 };
         self.election.voters.get_or_insert((10 * self.election.candidates).max(floor));
+        let spread = *self.election.turnout_spread.get_or_insert(if self.model.version == "0.1" { 0.0 } else { 0.1 });
+        if !(0.0..=0.3).contains(&spread) {
+            return Err(format!("election.turnout_spread must be from 0 to 0.3, not {spread}"));
+        }
         self.election.ranks = self.election.ranks.min(self.election.candidates);
         if self.run.threads == 0 {
             self.run.threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1);
