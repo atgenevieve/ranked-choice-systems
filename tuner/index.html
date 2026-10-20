@@ -327,11 +327,11 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
         <div class="chartcard">
           <h3>Does the number of voters change the answer?</h3>
-          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95% confidence rank for each. The shaded band is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point (a few seconds each at 1,000 runs), so it starts only when you ask. To see how much the answer swings, try a narrow range that crosses a dotted line, such as 47 voters either side of yours, with 20 or more points.</p>
+          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95% confidence rank for each. The shaded band is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. To see how much the answer swings, try a narrow range that crosses a dotted line, such as 47 voters either side of yours, with an interval of 5 voters or less.</p>
           <div class="sweep-fields">
             <div class="field"><label for="sweep-from">Fewest voters</label><input type="number" id="sweep-from" min="10" max="50000"></div>
             <div class="field"><label for="sweep-to">Most voters</label><input type="number" id="sweep-to" min="10" max="50000"></div>
-            <div class="field"><label for="sweep-points">Points</label><input type="number" id="sweep-points" min="2" max="40" value="10"></div>
+            <div class="field"><label for="sweep-step">Interval (voters)</label><input type="number" id="sweep-step" min="1" max="50000"></div>
             <button type="button" id="sweep-run">Run</button>
           </div>
           <p class="status" id="sweep-status"></p>

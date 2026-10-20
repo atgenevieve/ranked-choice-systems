@@ -373,11 +373,17 @@ function k95Range(counts, n) {
 /** Everything but voters, so the sweep can tell when other settings change under it. */
 const sweepKey = c => JSON.stringify({ ...electionSettings(c), election: { ...electionSettings(c).election, voters: 0 } });
 
+/** A round interval that gives about 10 points from a to b. */
+const sweepStep = (a, b) => Math.max(1, Math.round(niceStep((b - a) * 5 / 9)));
+
 function sweepDefaults(c) {
   const v = int(c.voters, 10, 50000);
-  $("sweep-from").placeholder = String(Math.max(10, Math.round(v / 2)));
-  $("sweep-to").placeholder = String(Math.min(50000, v * 2));
+  const a = Math.max(10, Math.round(v / 2)), b = Math.min(50000, v * 2);
+  $("sweep-from").placeholder = String(a);
+  $("sweep-to").placeholder = String(b);
+  $("sweep-step").placeholder = String(sweepStep(int($("sweep-from").value || a, 10, 50000), int($("sweep-to").value || b, 10, 50000)));
 }
+for (const id of ["sweep-from", "sweep-to"]) $(id).addEventListener("input", () => sweepDefaults(readControls()));
 
 function drawSweep(c) {
   if (!sweep || !sweep.points.length) { $("chart-voters").replaceChildren(); setText("sweep-found", ""); return; }
@@ -416,9 +422,14 @@ $("sweep-run").addEventListener("click", async () => {
   const v = int(c.voters, 10, 50000);
   const from = int($("sweep-from").value || $("sweep-from").placeholder, 10, 50000);
   const to = int($("sweep-to").value || $("sweep-to").placeholder, 10, 50000);
-  const n = int($("sweep-points").value, 2, 40);
   const [a, b] = from <= to ? [from, to] : [to, from];
-  const list = [...new Set([...Array.from({ length: n }, (_, i) => Math.round(a + (b - a) * i / (n - 1))), ...(v >= a && v <= b ? [v] : [])])].sort((x, y) => x - y);
+  const step = int($("sweep-step").value || sweepStep(a, b), 1, 50000);
+  const list = [];
+  for (let x = a; x < b; x += step) list.push(x);
+  list.push(b);
+  if (v >= a && v <= b && !list.includes(v)) list.push(v);
+  list.sort((x, y) => x - y);
+  if (list.length > 100) { setStatus("sweep-status", `That's ${list.length} points. Use a larger interval or a narrower range: at most 100 points.`, false, true); return; }
   const key = sweepKey(c), sims = int(c.sims, 10, 1000);
   sweep = { key, points: [], sims, seats: electionSettings(c).election.seats[0] };
   $("sweep-run").disabled = true;
