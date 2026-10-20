@@ -11,27 +11,32 @@ window.SECTIONS.popularity = () => {
   const model = s => M.find(m => m.spread === s).top_ratio;
 
   {
-    const f = figure("How much more the top candidate gets than the middle one",
-      `In a typical Scottish ward, the most popular candidate gets about ${times(med(E.filter(e => e.group === "scotland").map(e => e.top_ratio)))} as many first choices as the middle candidate. Union and society elections look much the same. Single-seat US races and large fields are more lopsided: Canberra about ${times(med(E.filter(e => e.group === "act").map(e => e.top_ratio)))}, Portland about ${times(med(E.filter(e => e.group === "portland").map(e => e.top_ratio)))}.`,
-      `Top candidate's first choices divided by the middle candidate's, for each election. The middle candidate is the median one: line the candidates up from most to fewest first choices, and it's the one halfway down (the 4th of 7). 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
-    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
-    strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
-      const all = E.filter(e => e.group === g).map(e => e.top_ratio), v = all.map(x => Math.min(x, 15.99));
-      return { label: NAMES[g], sub: `${v.length} elections`, values: v, median: med(all), color: g === "scotland" ? "--scotland" : "--bar" };
-    }), { min: 0, max: 16, bin: 0.5, ticks: [0, 2, 4, 6, 8, 10, 12, 14, 16], fmt: v => `${v}×`, xTitle: "Top candidate's first choices, as a multiple of the middle candidate's", aria: "Top candidate against middle candidate, by group" });
-  }
-
-  {
-    const even = e => e.top_share * e.candidates, M7 = DATA.ladder_7.model;
-    const g = k => med(E.filter(e => e.group === k).map(even));
-    const f = figure("How far the top candidate is above an even split",
-      `If every candidate were equally popular, each would get the same share of first choices: with 7 candidates, 1 in 7 (about 14%). In a typical Scottish ward, the top candidate gets about ${g("scotland").toFixed(1)} times that even share, and union and society elections look the same (${g("ers").toFixed(1)}×). NYC primaries are a little more lopsided (${g("nyc").toFixed(1)}×). Canberra (${g("act").toFixed(1)}×) and Portland (${g("portland").toFixed(1)}×) are higher mainly because they have long candidate lists, which make the even share tiny. The model gives about ${(M7["0.7"][0].median * 7).toFixed(1)}× at the proposed setting and ${(M7["1.0"][0].median * 7).toFixed(1)}× at the current one, in a 7-candidate field.`,
-      "The top candidate's share of first choices divided by the even share (1 ÷ number of candidates), for each election. 1× means the top candidate got exactly an even share; 2× means twice as much. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts.");
-    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
-    strips(f, order.filter(k => E.some(e => e.group === k)).map(k => {
-      const v = E.filter(e => e.group === k).map(even);
-      return { label: NAMES[k], sub: `${v.length} elections`, values: v, color: k === "scotland" ? "--scotland" : "--bar" };
-    }), { min: 0, max: 8, bin: 0.25, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8], mark: 1, fmt: v => `${v}×`, xTitle: "Top candidate's share, as a multiple of an even split", aria: "Top candidate's share as a multiple of an even split, by group" });
+    const quotas = e => e.top_share * (e.seats + 1);
+    const ROWS = [
+      ["Scotland, 1 seat", e => e.group === "scotland" && e.seats === 1],
+      ["Scotland, 2 to 5 seats", e => e.group === "scotland" && e.seats > 1],
+      ["Union and society (ERS), 1 seat", e => e.group === "ers" && e.seats === 1],
+      ["Union and society (ERS), 2 to 4 seats", e => e.group === "ers" && e.seats > 1 && e.seats < 5],
+      ["Union and society (ERS), 5 to 12 seats", e => e.group === "ers" && e.seats >= 5],
+      ["Other organizational, 1 seat", e => e.group === "org"],
+      ["Other public elections, 1 seat", e => e.group === "public" && e.seats === 1],
+      ["Other public elections, 2 to 5 seats", e => e.group === "public" && e.seats > 1],
+      ["NYC primaries, 1 seat", e => e.group === "nyc"],
+      ["Portland, 1 seat", e => e.group === "portland" && e.seats === 1],
+      ["Portland, 3 seats", e => e.group === "portland" && e.seats > 1],
+      ["Canberra, 5 seats", e => e.group === "act"],
+    ].map(([label, test]) => ({ label, els: E.filter(test) })).filter(r => r.els.length);
+    const reach = r => pct(r.els.filter(e => quotas(e) >= 1).length / r.els.length);
+    const row = l => ROWS.find(r => r.label === l);
+    const f = figure("The top candidate's first choices, measured against the quota",
+      `With one seat, the top candidate rarely has enough first choices to win outright: ${reach(row("Scotland, 1 seat"))} of Scottish by-elections, ${reach(row("NYC primaries, 1 seat"))} of NYC primaries. With several seats, it depends on how crowded the field is. When there are about 2 candidates or fewer per seat, the leader almost always passes the quota: ${reach(row("Scotland, 2 to 5 seats"))} of Scottish wards and ${reach(row("Union and society (ERS), 5 to 12 seats"))} of union and society elections with 5 or more seats, often by 2 to 3 times. In crowded fields, first choices split further and the leader often falls short: Canberra (about 6 candidates per seat) and Portland's 3-seat races (about 9). Votes beyond the quota (the surplus) pass to voters' next choices. Metro DC DSA's 75 candidates for 46 seats is 1.6 candidates per seat, like the larger union and society elections, so expect leaders well past the quota. Only ${row("Union and society (ERS), 5 to 12 seats").els.length} elections here have 5 or more seats, so this is a projection.`,
+      "The quota is the share of first choices that guarantees a seat: 1 ÷ (seats + 1). That's 50% with one seat, 25% with three, and about 2% with 50. 1× (the heavier line) means the top candidate has exactly the quota; 2× means twice what they need. Elections above 4× are counted in the last bar. Each row is scaled to its own tallest bar; hover for counts.");
+    strips(f, ROWS.map(r => {
+      const all = r.els.map(quotas);
+      return { label: r.label, sub: `${all.length} election${all.length > 1 ? "s" : ""}`, values: all.map(v => Math.min(v, 3.99)), median: med(all),
+        color: r.label.startsWith("Scotland") ? "--scotland" : "--bar" };
+    }), { min: 0, max: 4, bin: 0.1, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4], mark: 1, fmt: v => `${v}×`, labelW: 260,
+      xTitle: "Top candidate's first choices, as a multiple of the quota", aria: "Top candidate's first choices as a multiple of the quota, by group and number of seats" });
   }
 
   {
@@ -61,6 +66,30 @@ window.SECTIONS.popularity = () => {
   }
 
   {
+    const even = e => e.top_share * e.candidates, M7 = DATA.ladder_7.model;
+    const g = k => med(E.filter(e => e.group === k).map(even));
+    const f = figure("How far the top candidate is above an even split",
+      `If every candidate were equally popular, each would get the same share of first choices: with 7 candidates, 1 in 7 (about 14%). In a typical Scottish ward, the top candidate gets about ${g("scotland").toFixed(1)} times that even share, and union and society elections look the same (${g("ers").toFixed(1)}×). NYC primaries are a little more lopsided (${g("nyc").toFixed(1)}×). Canberra (${g("act").toFixed(1)}×) and Portland (${g("portland").toFixed(1)}×) are higher mainly because they have long candidate lists, which make the even share tiny. The model gives about ${(M7["0.7"][0].median * 7).toFixed(1)}× at the proposed setting and ${(M7["1.0"][0].median * 7).toFixed(1)}× at the current one, in a 7-candidate field.`,
+      "The top candidate's share of first choices divided by the even share (1 ÷ number of candidates), for each election. 1× means the top candidate got exactly an even share; 2× means twice as much. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts.");
+    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
+    strips(f, order.filter(k => E.some(e => e.group === k)).map(k => {
+      const v = E.filter(e => e.group === k).map(even);
+      return { label: NAMES[k], sub: `${v.length} elections`, values: v, color: k === "scotland" ? "--scotland" : "--bar" };
+    }), { min: 0, max: 8, bin: 0.25, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8], mark: 1, fmt: v => `${v}×`, xTitle: "Top candidate's share, as a multiple of an even split", aria: "Top candidate's share as a multiple of an even split, by group" });
+  }
+
+  {
+    const f = figure("How much more the top candidate gets than the middle one",
+      `In a typical Scottish ward, the most popular candidate gets about ${times(med(E.filter(e => e.group === "scotland").map(e => e.top_ratio)))} as many first choices as the middle candidate. Union and society elections look much the same. Single-seat US races and large fields are more lopsided: Canberra about ${times(med(E.filter(e => e.group === "act").map(e => e.top_ratio)))}, Portland about ${times(med(E.filter(e => e.group === "portland").map(e => e.top_ratio)))}.`,
+      `Top candidate's first choices divided by the middle candidate's, for each election. The middle candidate is the median one: line the candidates up from most to fewest first choices, and it's the one halfway down (the 4th of 7). 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
+    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
+    strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
+      const all = E.filter(e => e.group === g).map(e => e.top_ratio), v = all.map(x => Math.min(x, 15.99));
+      return { label: NAMES[g], sub: `${v.length} elections`, values: v, median: med(all), color: g === "scotland" ? "--scotland" : "--bar" };
+    }), { min: 0, max: 16, bin: 0.5, ticks: [0, 2, 4, 6, 8, 10, 12, 14, 16], fmt: v => `${v}×`, xTitle: "Top candidate's first choices, as a multiple of the middle candidate's", aria: "Top candidate against middle candidate, by group" });
+  }
+
+  {
     const capY = 20, over = E.filter(e => e.top_ratio > capY).length;
     const f = figure("By number of candidates",
       "Bigger fields tend to be more lopsided: with more long-shot candidates, the middle candidate is weaker, so the top candidate is further ahead of it.",
@@ -74,34 +103,5 @@ window.SECTIONS.popularity = () => {
       points: E.map(e => ({ x: e.candidates, y: e.top_ratio, color: color(e.group), name: e.name,
         lines: [NAMES[e.group], `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `top candidate ${times(e.top_ratio)} the middle one · top share ${pct(e.top_share)}`] })),
     });
-  }
-
-  {
-    const quotas = e => e.top_share * (e.seats + 1);
-    const ROWS = [
-      ["Scotland, 1 seat", e => e.group === "scotland" && e.seats === 1],
-      ["Scotland, 2 to 5 seats", e => e.group === "scotland" && e.seats > 1],
-      ["Union and society (ERS), 1 seat", e => e.group === "ers" && e.seats === 1],
-      ["Union and society (ERS), 2 to 4 seats", e => e.group === "ers" && e.seats > 1 && e.seats < 5],
-      ["Union and society (ERS), 5 to 12 seats", e => e.group === "ers" && e.seats >= 5],
-      ["Other organizational, 1 seat", e => e.group === "org"],
-      ["Other public elections, 1 seat", e => e.group === "public" && e.seats === 1],
-      ["Other public elections, 2 to 5 seats", e => e.group === "public" && e.seats > 1],
-      ["NYC primaries, 1 seat", e => e.group === "nyc"],
-      ["Portland, 1 seat", e => e.group === "portland" && e.seats === 1],
-      ["Portland, 3 seats", e => e.group === "portland" && e.seats > 1],
-      ["Canberra, 5 seats", e => e.group === "act"],
-    ].map(([label, test]) => ({ label, els: E.filter(test) })).filter(r => r.els.length);
-    const reach = r => pct(r.els.filter(e => quotas(e) >= 1).length / r.els.length);
-    const row = l => ROWS.find(r => r.label === l);
-    const f = figure("The top candidate's first choices, measured against the quota",
-      `With one seat, the top candidate rarely has enough first choices to win outright: ${reach(row("Scotland, 1 seat"))} of Scottish by-elections, ${reach(row("NYC primaries, 1 seat"))} of NYC primaries. With several seats, it depends on how crowded the field is. When there are about 2 candidates or fewer per seat, the leader almost always passes the quota: ${reach(row("Scotland, 2 to 5 seats"))} of Scottish wards and ${reach(row("Union and society (ERS), 5 to 12 seats"))} of union and society elections with 5 or more seats, often by 2 to 3 times. In crowded fields, first choices split further and the leader often falls short: Canberra (about 6 candidates per seat) and Portland's 3-seat races (about 9). Votes beyond the quota (the surplus) pass to voters' next choices. An election with 75 candidates for 50 seats has 1.5 candidates per seat, like the larger union and society elections, so expect leaders well past the quota. Only ${row("Union and society (ERS), 5 to 12 seats").els.length} elections here have 5 or more seats, so this is a projection.`,
-      "The quota is the share of first choices that guarantees a seat: 1 ÷ (seats + 1). That's 50% with one seat, 25% with three, and about 2% with 50. 1× (the heavier line) means the top candidate has exactly the quota; 2× means twice what they need. Elections above 4× are counted in the last bar. Each row is scaled to its own tallest bar; hover for counts.");
-    strips(f, ROWS.map(r => {
-      const all = r.els.map(quotas);
-      return { label: r.label, sub: `${all.length} election${all.length > 1 ? "s" : ""}`, values: all.map(v => Math.min(v, 3.99)), median: med(all),
-        color: r.label.startsWith("Scotland") ? "--scotland" : "--bar" };
-    }), { min: 0, max: 4, bin: 0.1, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4], mark: 1, fmt: v => `${v}×`, labelW: 260,
-      xTitle: "Top candidate's first choices, as a multiple of the quota", aria: "Top candidate's first choices as a multiple of the quota, by group and number of seats" });
   }
 };
