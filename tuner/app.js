@@ -219,7 +219,7 @@ function updateLabels(c) {
 }
 
 // ---------------------------------------------------------------- charts
-/** A chart on linear scales. series: [{points: [[x, y]], color, width, dots}];
+/** A chart on linear scales. series: [{points: [[x, y]], color, width, dots, dash}];
  *  opts: {xMin, xMax, xTicks, yMax, yStep, yFmt, xTitle, hlines: [{y, label}],
  *  marks: [{x, y, label}], vlines: [x] (faint dotted), bars: [{x, y}] and bands: [{points: [[x, low, high]], color}]
  *  (both drawn behind the lines)}. */
@@ -254,7 +254,7 @@ function chart(box, series, opts) {
   for (const s of series) {
     const p = s.points.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" ");
     el("polyline", { points: p, fill: "none", stroke: css("--surface"), "stroke-width": (s.width || 2.5) + 3, "stroke-linejoin": "round" }, svg);
-    el("polyline", { points: p, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round" }, svg);
+    el("polyline", { points: p, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round", ...(s.dash ? { "stroke-dasharray": s.dash } : {}) }, svg);
     if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 2.6, fill: css(s.color) }, svg);
   }
   // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label.
@@ -368,7 +368,7 @@ function rankAt(counts, n, j) {
 }
 function k95Range(counts, n) {
   const sd = 1.645 * Math.sqrt(n * 0.95 * 0.05);
-  return { k: rankAt(counts, n, 0.95 * n), lo: rankAt(counts, n, Math.max(1, Math.floor(0.95 * n - sd))), hi: rankAt(counts, n, Math.min(n, Math.ceil(0.95 * n + sd))) };
+  return { k: rankAt(counts, n, 0.95 * n), k80: rankAt(counts, n, 0.8 * n), k50: rankAt(counts, n, 0.5 * n), lo: rankAt(counts, n, Math.max(1, Math.floor(0.95 * n - sd))), hi: rankAt(counts, n, Math.min(n, Math.ceil(0.95 * n + sd))) };
 }
 /** Everything but voters, so the sweep can tell when other settings change under it. */
 const sweepKey = c => JSON.stringify({ ...electionSettings(c), election: { ...electionSettings(c).election, voters: 0 } });
@@ -397,7 +397,11 @@ function drawSweep(c) {
   // The quota (whole votes needed to win a seat) goes up by one vote at every multiple of seats + 1.
   const per = sweep.seats + 1, steps = [];
   for (let x = Math.ceil(xMin / per) * per; x <= xMax; x += per) steps.push(x);
-  chart($("chart-voters"), [{ points: pts.map(p => [p.v, p.k]), color: "--model", dots: true }], {
+  chart($("chart-voters"), [
+    { points: pts.map(p => [p.v, p.k50]), color: "--model", width: 1.6, dash: "2 3" },
+    { points: pts.map(p => [p.v, p.k80]), color: "--model", width: 1.8, dash: "7 4" },
+    { points: pts.map(p => [p.v, p.k]), color: "--model", dots: true },
+  ], {
     xMin, xMax, xTicks, yMax: Math.ceil(top / step) * step || 1, yStep: step, yFmt: v => String(Math.round(v)), xTitle: "Voters",
     xLabel: x => x.toLocaleString(),
     vlines: steps.length <= 40 ? steps : [],

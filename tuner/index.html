@@ -327,7 +327,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
         <div class="chartcard">
           <h3>Does the number of voters change the answer?</h3>
-          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95% confidence rank for each. The shaded band is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. To see how much the answer swings, try a narrow range that crosses a dotted line, such as 47 voters either side of yours, with an interval of 5 voters or less.</p>
+          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95%, 80%, and 50% confidence ranks for each. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. To see how much the answer swings, try a narrow range that crosses a dotted line, such as 47 voters either side of yours, with an interval of 5 voters or less.</p>
           <div class="sweep-fields">
             <div class="field"><label for="sweep-from">Fewest voters</label><input type="number" id="sweep-from" min="10" max="50000"></div>
             <div class="field"><label for="sweep-to">Most voters</label><input type="number" id="sweep-to" min="10" max="50000"></div>
@@ -335,7 +335,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
             <button type="button" id="sweep-run">Run</button>
           </div>
           <p class="status" id="sweep-status"></p>
-          <div class="legend"><span><i class="swatch line" style="background:var(--model)"></i>95% confidence rank</span><span><i class="swatch" style="background:var(--model-soft)"></i>Range chance could give</span></div>
+          <div class="legend"><span><i class="swatch line" style="background:var(--model)"></i>95% confidence rank</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.8" stroke-dasharray="7 4"/></svg>80%</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.6" stroke-dasharray="2 3"/></svg>50%</span><span><i class="swatch" style="background:var(--model-soft)"></i>Range chance could give</span></div>
           <div class="chart" id="chart-voters"></div>
           <p class="found" id="sweep-found"></p>
         </div>
