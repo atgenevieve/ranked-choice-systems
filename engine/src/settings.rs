@@ -1,6 +1,6 @@
 //! Settings files for simulation runs. See `engine/settings/` for examples.
 
-use crate::count::{Rules, SurplusOrder};
+use crate::count::{Quota, Rules, SurplusOrder};
 use crate::model::{BallotRules, Electorate, SlateParams};
 use serde::{Deserialize, Serialize};
 
@@ -36,6 +36,9 @@ pub struct Run {
     pub rules: Rules,
     #[serde(default)]
     pub surplus_order: SurplusOrder,
+    /// `whole` (Scottish rules) or `exact` (no rounding).
+    #[serde(default)]
+    pub quota: Quota,
     /// Whether to measure truncation as well as reach.
     #[serde(default = "yes")]
     pub truncation: bool,

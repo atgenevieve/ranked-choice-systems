@@ -101,7 +101,7 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
     let v = s.election.voters.unwrap();
     let len = s.election.ranks;
     let sims = s.run.sims;
-    let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, lot_seed: 0 };
+    let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
     let trunc = if s.run.truncation { Truncation::Winners } else { Truncation::Off };
     let show = if s.run.curve_ranks == 0 { len } else { s.run.curve_ranks.min(len) };
     let next = AtomicUsize::new(0);

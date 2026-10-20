@@ -34,6 +34,7 @@ All settings live in a settings file in TOML, a simple text format of `name = va
 | `run.threads` | Processor cores to use. 0 means all | 0 |
 | `run.rules` | `scottish`, or `reference` (validation only; see below) | `scottish` |
 | `run.surplus_order` | `largest` (largest surplus first, as Scottish rules require), or `election` (order of election; validation only) | `largest` |
+| `run.quota` | `whole` (Scottish rules: a whole number of votes), or `exact` (no rounding; see below) | `whole` |
 | `run.truncation` | Whether to measure truncation as well as reach | `true` |
 | `run.curve_ranks` | How many ranks of each curve to write. 0 means all | 0 |
 | `election.candidates` | Number of candidates | required |
@@ -103,7 +104,7 @@ target/release/stvsim count data/scotland/ballots/*.ballots
 
 This reads files in the format in `docs/ballot-format.md` and writes one line of JSON per election: the winners, the order candidates were elected and excluded, the reach curve, exhaustion, and truncation (`changed`, `winners_at`, and `seats_changed` for each cutoff rank, and `cutoff_rank`). If a metadata file lists the officially declared winners, `matches_official` says whether the engine agrees.
 
-Options: `--rules scottish|reference`, `--surplus-order largest|election`, `--seed N` (the seed for decisions by lot), and `--no-truncation`.
+Options: `--rules scottish|reference`, `--surplus-order largest|election`, `--quota whole|exact`, `--seed N` (the seed for decisions by lot), and `--no-truncation`.
 
 ## Counting rules
 
@@ -122,6 +123,10 @@ A **stage** is one transfer: of a surplus, or of an excluded candidate's ballots
 **Interpretation for ties among three or more candidates.** The rules describe two candidates. With three or more, the engine compares them two at a time by the rule above, which puts them in a consistent order. When candidates' totals all differ at the same earlier stage, this gives the same answer as reading the rule literally.
 
 The rule for manual counts that elects a leading candidate early (rule 53(1A)) is left out. It ends the count sooner but never changes who wins.
+
+### Exact quota
+
+`quota = "exact"` replaces the whole-vote quota with ballots ÷ (seats + 1), not rounded: a candidate is elected on any total above it (in practice, 0.00001 votes above it, the smallest step the count uses). Everything else follows Scottish rules. It isn't a voting system anyone uses as such; it shows how much the rounding of the quota alone changes results. With few votes per seat, the rounding changes how deep rankings matter by up to 2 times, in a sawtooth as the number of voters grows (see the quota-rounding tab of the model evidence page, `evidence/`). The test `exact_quota_is_not_rounded` is a hand-checked election where the two quotas elect different people.
 
 ### Reference rules
 

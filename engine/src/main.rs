@@ -8,13 +8,13 @@
 
 use serde_json::{json, Value};
 use std::io::Write;
-use stvsim::count::{analyze, Options, Rules, SurplusOrder, Truncation};
+use stvsim::count::{analyze, Options, Quota, Rules, SurplusOrder, Truncation};
 use stvsim::sim::{election_seed, engine_info, simulate};
 use stvsim::{ballots, model, settings};
 
 fn usage() -> ! {
     eprintln!(
-        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
+        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
     );
     std::process::exit(2)
 }
@@ -34,7 +34,7 @@ fn main() {
 // ---------------------------------------------------------------- count real ballots
 
 fn count_files(args: &[String]) {
-    let mut opt = Options { rules: Rules::Scottish, surplus: SurplusOrder::Largest, lot_seed: 1 };
+    let mut opt = Options { rules: Rules::Scottish, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 };
     let mut trunc = Truncation::Winners;
     let mut files = Vec::new();
     let mut i = 0;
@@ -45,6 +45,14 @@ fn count_files(args: &[String]) {
                 opt.rules = match val() {
                     "scottish" => Rules::Scottish,
                     "reference" => Rules::Reference,
+                    _ => usage(),
+                };
+                i += 1;
+            }
+            "--quota" => {
+                opt.quota = match val() {
+                    "whole" => Quota::Whole,
+                    "exact" => Quota::Exact,
                     _ => usage(),
                 };
                 i += 1;

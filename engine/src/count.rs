@@ -35,10 +35,24 @@ pub enum SurplusOrder {
     Election,
 }
 
+/// How the quota is set from the number of ballots.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum Quota {
+    /// Ballots ÷ (seats + 1), any fraction dropped, plus 1: a whole number of votes, as
+    /// Scottish rules require.
+    #[default]
+    Whole,
+    /// Ballots ÷ (seats + 1) with no rounding: a candidate is elected on any total above it
+    /// (in practice, 0.00001 votes above it, the smallest step the count uses).
+    Exact,
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct Options {
     pub rules: Rules,
     pub surplus: SurplusOrder,
+    pub quota: Quota,
     /// Seed for decisions by lot.
     pub lot_seed: u64,
 }
@@ -58,9 +72,14 @@ pub trait Num: Copy + PartialEq + std::fmt::Debug {
     fn is_zero(self) -> bool;
     fn order(a: Self, b: Self) -> Ordering;
     fn to_votes(self) -> f64;
+    /// A value given in whole units of 0.00001 votes.
+    fn from_units(x: u64) -> Self;
 }
 
 impl Num for f64 {
+    fn from_units(x: u64) -> Self {
+        x as f64 / FIXED_UNIT as f64
+    }
     fn votes(n: u64) -> Self {
         n as f64
     }
@@ -99,6 +118,9 @@ pub struct Fixed(pub u64);
 pub const FIXED_UNIT: u64 = 100_000;
 
 impl Num for Fixed {
+    fn from_units(x: u64) -> Self {
+        Fixed(x)
+    }
     fn votes(n: u64) -> Self {
         Fixed(n * FIXED_UNIT)
     }
@@ -227,7 +249,10 @@ impl<'a, N: Num> Counter<'a, N> {
             opt,
             seats,
             limit: len,
-            quota: N::votes(v / (seats as u64 + 1) + 1),
+            quota: match opt.quota {
+                Quota::Whole => N::votes(v / (seats as u64 + 1) + 1),
+                Quota::Exact => N::from_units(v * FIXED_UNIT / (seats as u64 + 1) + 1),
+            },
             st: vec![HOPEFUL; c],
             tot: vec![N::votes(0); c],
             ver: vec![0; c],
@@ -665,7 +690,7 @@ mod tests {
     }
 
     fn opt(rules: Rules) -> Options {
-        Options { rules, surplus: SurplusOrder::Largest, lot_seed: 1 }
+        Options { rules, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 }
     }
 
     /// The hand-checked example in reference/README.md.
@@ -701,6 +726,29 @@ mod tests {
         let mut r = Counter::<f64>::new(&b, 2, opt(Rules::Reference), &[], true);
         r.run();
         assert!((r.tot[1] - (1.0 + 6.0 * 5.0 / 9.0)).abs() < 1e-12);
+    }
+
+    /// 4 voters, 2 seats: three rank C then A, one ranks B, A, C.
+    /// Whole quota: 4 ÷ 3 = 1.33, fraction dropped, plus 1 = 2. C is elected with 3; the
+    /// surplus of 1 moves on at 1/3, cut to 0.33333, so A gets 0.99999. B has 1, so A is
+    /// excluded and B wins the last seat.
+    /// Exact quota: 1.33333..., so elected at 1.33334. C's surplus of 1.66666 moves on at
+    /// 0.55555, so A gets 1.66665, reaches the quota, and wins.
+    #[test]
+    fn exact_quota_is_not_rounded() {
+        let b = ballots(3, &[(3, &[2, 0]), (1, &[1, 0, 2])]);
+        let whole = analyze(&b, 2, opt(Rules::Scottish), Truncation::Off);
+        assert_eq!(whole.winners, vec![1, 2]);
+        assert_eq!(whole.excluded_order, vec![0]);
+        let lot = vec![0; 3];
+        let o = Options { quota: Quota::Exact, ..opt(Rules::Scottish) };
+        let mut c = Counter::<Fixed>::new(&b, 2, o, &lot, true);
+        assert_eq!(c.quota, Fixed(133_334));
+        c.run();
+        assert_eq!(c.tot[0], Fixed(3 * 55_555));
+        let exact = analyze(&b, 2, o, Truncation::Off);
+        assert_eq!(exact.winners, vec![0, 2]);
+        assert!(exact.excluded_order.is_empty());
     }
 
     /// First preferences: A 8, B 4, C 3, D 1. Quota 9.
@@ -756,8 +804,8 @@ mod tests {
         for (p, c, v, seed) in [(&v01, 8, 200, 1), (&v01, 15, 300, 2), (&v01, 30, 600, 3), (&v01, 40, 400, 4), (&v02, 8, 200, 5), (&v02, 15, 300, 6), (&v02, 30, 600, 7)] {
             let b = generate(c, 3, v, c, &Electorate::default(), &BallotRules::default(), p, seed).ballots;
             for seats in [1, 2, 3, c / 3, c / 2, c - 2] {
-                for rules in [Rules::Scottish, Rules::Reference] {
-                    let o = opt(rules);
+                for (rules, quota) in [(Rules::Scottish, Quota::Whole), (Rules::Scottish, Quota::Exact), (Rules::Reference, Quota::Whole)] {
+                    let o = Options { quota, ..opt(rules) };
                     let a = analyze(&b, seats, o, Truncation::Winners);
                     let f = analyze(&b, seats, o, Truncation::Changes);
                     assert_eq!(a.changed, f.changed);
