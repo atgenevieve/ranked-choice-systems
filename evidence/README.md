@@ -1,6 +1,6 @@
 # Model evidence page
 
-The published page for the milestone 3 model review: one tab per decision about the voter model, with the evidence from real ballots. Published at https://claude.ai/artifact (see the link in `docs/model-review.md`).
+The published page for the milestone 3 model review: one tab per decision about the voter model, with the evidence from real ballots. Published at https://claude.ai/artifact/TpQZK1zPMreHsvqn7dkFX9.
 
 ## Files
 

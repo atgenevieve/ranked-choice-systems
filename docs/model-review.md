@@ -4,6 +4,8 @@
 
 **Evidence used:** 1,100 Scottish council elections, 168 PrefLib elections (including 87 organizational elections from the Electoral Reform Society, ERS), 126 NYC primary contests, and 6 Portland contests. That's about 18 million ballots in all. `data/README.md` describes each dataset and its weaknesses, and `docs/real-data-findings.md` has the full Scottish findings.
 
+**Evidence page:** https://claude.ai/artifact/TpQZK1zPMreHsvqn7dkFX9, one tab per decision (source in `evidence/`).
+
 **How to read the numbers.** "3.1 (2.7 to 3.5)" means a typical election has 3.1, and 8 in 10 elections fall between 2.7 and 3.5.
 
 ## Summary of decisions
