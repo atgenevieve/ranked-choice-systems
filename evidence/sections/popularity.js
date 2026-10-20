@@ -35,6 +35,19 @@ window.SECTIONS.popularity = () => {
   }
 
   {
+    const BB = DATA.ladder_7.bottom_bigger;
+    const f = figure("Ward by ward: the bottom drop is usually bigger",
+      `The chart above shows the typical ward. This holds ward by ward too: in ${pct(BB.real_7.share)} of real Scottish wards, the drop from the middle candidate to the last is bigger than the drop from the top candidate to the middle. In the model it's a coin flip, about ${pct(BB.model["0.7"])}, at every setting. Turning the popularity setting up or down can't change this, so the model needs a separate share of long-shot candidates.`,
+      `"Bigger drop" compares multiples: the middle candidate's first choices as a multiple of the last candidate's, against the top candidate's as a multiple of the middle candidate's. Model figures use popularity alone, with no party loyalty, over 4,000 simulated 7-candidate elections at each setting.`);
+    hbars(f, [
+      { label: `Scottish wards, 7 candidates (${BB.real_7.n})`, values: [BB.real_7.share] },
+      { label: `All Scottish wards (${BB.real_all.n.toLocaleString()})`, values: [BB.real_all.share] },
+      { label: "Model, proposed setting (0.7)", values: [BB.model["0.7"]] },
+      { label: "Model, current setting (1.0)", values: [BB.model["1.0"]] },
+    ], [{ name: "Elections where the bottom drop is bigger", color: "--bar" }], { max: 1, step: 0.25, labelW: 230, aria: "Share of elections where the drop from the middle to the last candidate is bigger than from the top to the middle" });
+  }
+
+  {
     const capY = 20, over = E.filter(e => e.top_ratio > capY).length;
     const f = figure("By number of candidates",
       "Bigger fields tend to be more lopsided: with more long-shot candidates, the middle candidate is weaker, so the top candidate is further ahead of it.",
@@ -51,14 +64,31 @@ window.SECTIONS.popularity = () => {
   }
 
   {
-    const share = g => med(E.filter(e => e.group === g).map(e => e.top_share));
-    const f = figure("The top candidate's share of first choices",
-      `In a typical Scottish ward, the most popular candidate gets about ${pct(share("scotland"))} of first choices; in union and society elections, about ${pct(share("ers"))}. Single-seat races concentrate support more: about ${pct(share("nyc"))} in NYC primaries. This share depends on how many candidates are running and how many seats there are, so it compares groups less fairly than the multiple above.`,
-      "Share of each election's first choices going to its most popular candidate. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts.");
-    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
-    strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
-      const v = E.filter(e => e.group === g).map(e => e.top_share);
-      return { label: NAMES[g], sub: `${v.length} elections`, values: v, color: g === "scotland" ? "--scotland" : "--bar" };
-    }), { min: 0, max: 1, bin: 0.025, ticks: [0, 0.2, 0.4, 0.6, 0.8, 1], fmt: v => pct(v), xTitle: "Top candidate's share of first choices", aria: "Top candidate's share of first choices, by group" });
+    const quotas = e => e.top_share * (e.seats + 1);
+    const ROWS = [
+      ["Scotland, 1 seat", e => e.group === "scotland" && e.seats === 1],
+      ["Scotland, 2 to 5 seats", e => e.group === "scotland" && e.seats > 1],
+      ["Union and society (ERS), 1 seat", e => e.group === "ers" && e.seats === 1],
+      ["Union and society (ERS), 2 to 4 seats", e => e.group === "ers" && e.seats > 1 && e.seats < 5],
+      ["Union and society (ERS), 5 to 12 seats", e => e.group === "ers" && e.seats >= 5],
+      ["Other organizational, 1 seat", e => e.group === "org"],
+      ["Other public elections, 1 seat", e => e.group === "public" && e.seats === 1],
+      ["Other public elections, 2 to 5 seats", e => e.group === "public" && e.seats > 1],
+      ["NYC primaries, 1 seat", e => e.group === "nyc"],
+      ["Portland, 1 seat", e => e.group === "portland" && e.seats === 1],
+      ["Portland, 3 seats", e => e.group === "portland" && e.seats > 1],
+      ["Canberra, 5 seats", e => e.group === "act"],
+    ].map(([label, test]) => ({ label, els: E.filter(test) })).filter(r => r.els.length);
+    const reach = r => pct(r.els.filter(e => quotas(e) >= 1).length / r.els.length);
+    const row = l => ROWS.find(r => r.label === l);
+    const f = figure("The top candidate's first choices, measured against the quota",
+      `With one seat, the top candidate rarely has enough first choices to win outright: ${reach(row("Scotland, 1 seat"))} of Scottish by-elections, ${reach(row("NYC primaries, 1 seat"))} of NYC primaries. With several seats, it depends on how crowded the field is. When there are about 2 candidates or fewer per seat, the leader almost always passes the quota: ${reach(row("Scotland, 2 to 5 seats"))} of Scottish wards and ${reach(row("Union and society (ERS), 5 to 12 seats"))} of union and society elections with 5 or more seats, often by 2 to 3 times. In crowded fields, first choices split further and the leader often falls short: Canberra (about 6 candidates per seat) and Portland's 3-seat races (about 9). Votes beyond the quota (the surplus) pass to voters' next choices. An election with 75 candidates for 50 seats has 1.5 candidates per seat, like the larger union and society elections, so expect leaders well past the quota. Only ${row("Union and society (ERS), 5 to 12 seats").els.length} elections here have 5 or more seats, so this is a projection.`,
+      "The quota is the share of first choices that guarantees a seat: 1 ÷ (seats + 1). That's 50% with one seat, 25% with three, and about 2% with 50. 1× (the heavier line) means the top candidate has exactly the quota; 2× means twice what they need. Elections above 4× are counted in the last bar. Each row is scaled to its own tallest bar; hover for counts.");
+    strips(f, ROWS.map(r => {
+      const all = r.els.map(quotas);
+      return { label: r.label, sub: `${all.length} election${all.length > 1 ? "s" : ""}`, values: all.map(v => Math.min(v, 3.99)), median: med(all),
+        color: r.label.startsWith("Scotland") ? "--scotland" : "--bar" };
+    }), { min: 0, max: 4, bin: 0.1, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4], mark: 1, fmt: v => `${v}×`, labelW: 260,
+      xTitle: "Top candidate's first choices, as a multiple of the quota", aria: "Top candidate's first choices as a multiple of the quota, by group and number of seats" });
   }
 };

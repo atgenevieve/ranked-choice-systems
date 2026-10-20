@@ -158,7 +158,23 @@ def popularity(rows):
                for src, g, d, meta in rows if src == "scotland" and d["candidates"] == 7]
     return {"elections": out, "model_7": model, "ladder_7": {
         "wards": len(ladders), "real": quantiles_by_position(ladders),
-        "model": {str(s): quantiles_by_position(model_ladders(7, s)) for s in (0.7, 1.0)}}}
+        "model": {str(s): quantiles_by_position(model_ladders(7, s)) for s in (0.7, 1.0)},
+        # How often the drop from the middle candidate to the last is bigger than the drop from
+        # the top candidate to the middle (comparing multiples: middle / last against top / middle).
+        "bottom_bigger": {"real_7": bottom_bigger([e for e in out if e["group"] == "scotland" and e["candidates"] == 7]),
+                          "real_all": bottom_bigger([e for e in out if e["group"] == "scotland"]),
+                          "model": {str(s): model_bottom_bigger(7, s) for s in (0.7, 1.0)}}}}
+
+
+def bottom_bigger(elections):
+    e = [x for x in elections if x["bottom_ratio"] is not None and x["top_ratio"] is not None]
+    return {"share": round(sum(x["bottom_ratio"] > x["top_ratio"] for x in e) / len(e), 4), "n": len(e)}
+
+
+def model_bottom_bigger(n, spread):
+    ladders = model_ladders(n, spread)
+    mid = lambda l: (l[(n - 1) // 2] * l[n // 2]) ** 0.5
+    return round(sum(mid(l) / l[-1] > l[0] / mid(l) for l in ladders) / len(ladders), 4)
 
 
 def quantiles_by_position(ladders):

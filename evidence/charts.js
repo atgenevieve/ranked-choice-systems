@@ -207,7 +207,7 @@ function heatmap(f, rowLabels, colLabels, cells, opts = {}) {
 // (taller bars where more values fall), with the median marked. Bars in each row are scaled
 // to that row's tallest bar, so rows compare by shape; counts are in the hover text.
 // groups: [{label, sub, values: [numbers], color, median}]; median overrides the computed one
-// (for values capped at the chart edge). opts.bin sets the bar width in x units.
+// (for values capped at the chart edge). opts.mark draws a heavier line at one x value. opts.bin sets the bar width in x units.
 function strips(f, groups, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const fmt = opts.fmt || String, bin = opts.bin;
@@ -225,7 +225,7 @@ function strips(f, groups, opts = {}) {
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = v => L + (v - opts.min) / (opts.max - opts.min) * (w - L - R);
     for (const t of narrow ? opts.ticks.filter((_, k) => k % 2 === 0) : opts.ticks) {
-      el("line", { x1: sx(t), x2: sx(t), y1: T - 12, y2: H - B, stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      el("line", { x1: sx(t), x2: sx(t), y1: T - 12, y2: H - B, stroke: css(t === 0 || t === opts.mark ? "--axis" : "--grid"), "stroke-width": t === opts.mark ? 2 : 1 }, svg);
       txt(svg, sx(t), H - B + 15, fmt(t), { "text-anchor": "middle" });
     }
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
