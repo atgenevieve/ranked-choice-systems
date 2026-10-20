@@ -115,6 +115,10 @@ Endorsements also differ in how many voters even knew about them, which ballots 
 - **Test whether it matters.** Run the headline results across the full plausible range of slate strength. If they hold, the causal question doesn't change the answer. If they don't, the report says so.
 - **For the organization itself,** model slates should be its real groupings (caucuses, tendencies), which the owner knows better than any endorsement list.
 
+**The review doesn't block the project (owner's decision, October 20, 2026).** Marking happens over time, with experts for each place. Until enough groupings are marked, the model uses a provisional range for slate strength, from the endorsement-slate level (about 10 to 15 points above popularity) to the party level (about 60 points above), and every headline result is run across that range. Results are updated as marks come in.
+
+The method has uses beyond this project, so it's written up on its own in `docs/endorsement-cohesion.md`.
+
 The review page is at https://claude.ai/artifact/3UBqtyAtQWBAPLH9LUQDGy. Its data comes from `data/slate_review.py` (output `data/slate-review.json`; page template `data/slate_review_page.html`). Marks are read back and recorded in the repository before any are used.
 
 **Proposal:** replace the line with two settings:
