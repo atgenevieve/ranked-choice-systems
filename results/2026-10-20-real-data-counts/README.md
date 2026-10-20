@@ -10,14 +10,15 @@ The engine's `count` command run on every real election in `data/` with ballots:
 
 - `nyc.jsonl`: 126 NYC primary contests, 2021, 2023, and 2025.
 - `portland.jsonl`: 6 Portland 2024 contests (four 3-seat council districts, mayor, and auditor).
-- `preflib.jsonl`: 168 PrefLib elections, the set studied by Tomlinson, Ugander, and Kleinberg.
+- `preflib.jsonl`: 168 PrefLib elections, the set studied by Tomlinson, Ugander, and Kleinberg. **Superseded by `preflib-v2.jsonl`:** this first run counted the 87 ERS elections as 1 seat and used PrefLib's padded ballots.
+- `preflib-v2.jsonl`: the same 168 elections after the metadata update: real ERS seat counts (1 to 12) and original ERS ballots from Tideman's files. Same engine commit.
 - `scotland.jsonl`: 1,100 Scottish council ward elections, 2007 to 2022, including by-elections.
 
 `engine/README.md` explains the fields.
 
 ## Check against official results
 
-The engine picked the officially declared winners in **all 1,223 elections that have them**: 1,093 Scottish wards, 124 NYC contests, and 6 Portland contests. Scottish wards are the strongest check, because they use the same Scottish rules the engine follows, with multiple seats and surplus transfers. PrefLib has no official winners yet.
+The engine picked the officially declared winners in **all 1,223 elections that have them**: 1,093 Scottish wards, 124 NYC contests, and 6 Portland contests. Scottish wards are the strongest check, because they use the same Scottish rules the engine follows, with multiple seats and surplus transfers. PrefLib: the engine picks the official winner in 65 of the 68 elections that have one (`preflib-v2.jsonl`). The 3 misses are expected, because those elections used different rules: Aspen's 2009 council race used Aspen's own two-seat rules, and Debian's 2003 and 2006 leader votes used a Condorcet method (head-to-head comparisons).
 
 Two Scottish elections have disputed official winners and are left out of the check: Falkirk 2017 Ward 6 (Democracy Club and Wikipedia disagree) and the Glasgow 2021 Partick East–Kelvindale by-election (Democracy Club names the SNP candidate, but the engine and the Scotland agent's separate count both elect Labour's Jill Brown). The councils' own declarations would settle them.
 
@@ -29,13 +30,13 @@ How many elections had a cutoff rank above 1, meaning cutting ballots after rank
 |---|---|---|---|---|
 | NYC | 126 | 123 | 3 | 4 |
 | Portland | 6 | 5 | 1 (District 4, 3 seats, 31 candidates) | 3 |
-| PrefLib | 168 | 135 | 33 | 14 |
+| PrefLib (v2) | 168 | 130 | 38 | 14 |
 | Scotland | 1,100 | 810 | 290 | 7 |
 
 Cautions:
 
 - **Most NYC contests are lopsided or uncontested,** so the first-choice leader wins and cutoff rank 1 is common.
-- **87 PrefLib elections are Electoral Reform Society (ERS) elections with an unknown number of seats,** counted here as 1 seat. Their truncation results are not meaningful until the real seat counts are found. Several of the deepest cutoffs (14, 9, 8, 6) are ERS elections.
+- **The 87 PrefLib ERS elections** are organizational elections with 1 to 12 seats. They hold the deepest PrefLib cutoffs (14, 9, 7, 6).
 - These numbers feed milestone 6 (reproducing published findings), not the report.
 
 ## Exhaustion in Scotland, and an open question
