@@ -1,0 +1,28 @@
+# Smoke test for model version 0.2: an election like Metro DC DSA's 2025 delegate count
+# (75 candidates, 46 seats, 432 voters), organization members, a ballot that says "up to N"
+# with N equal to the seats, and the model's default loose slates. A test of the engine, not
+# a finding.
+
+[run]
+name = "smoke-org-46"
+seed = 1
+sims = 200
+threads = 0
+truncation = true
+curve_ranks = 50
+
+[election]
+candidates = 75
+seats = [46]
+voters = 432
+ranks = 75
+
+[electorate]
+type = "organization"
+
+[ballot]
+wording = "up_to"
+n = "seats"
+
+[model]
+version = "0.2"

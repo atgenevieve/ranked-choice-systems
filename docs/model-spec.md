@@ -1,6 +1,6 @@
 # Voter model specification
 
-**Status:** version 0.2, approved by the owner on October 20, 2026 (milestone 3). Not built yet: the engine still runs version 0.1, described under "Built now" in each assumption. Milestone 4 builds version 0.2. Candidate popularity is approved for now and may change later.
+**Status:** version 0.2, approved by the owner on October 20, 2026 (milestone 3), and built in the engine (milestone 4). Its settings are fitted to real ballots, and `docs/model-check.md` compares simulated and real elections. Settings can still ask for version 0.1, the exploratory model, so earlier runs can be repeated; "Version 0.1" in each assumption describes it. Candidate popularity is approved for now and may change later; two open questions from milestone 4 are listed at the end.
 
 A **model** is the set of assumptions the simulation makes about how voters fill in their ballots. The simulation can only be as realistic as these assumptions. This document lists each one so it can be explained, questioned, and checked against real data. The evidence behind each decision is in `docs/model-review.md`, with charts on the evidence page (https://claude.ai/artifact/TpQZK1zPMreHsvqn7dkFX9, source in `evidence/`).
 
@@ -8,12 +8,12 @@ Each assumption lists:
 
 - **What it means** in plain language.
 - **Approved setting:** what version 0.2 does, and why.
-- **Built now:** what the engine does today (version 0.1).
+- **Version 0.1:** what the exploratory model did.
 - **Evidence:** one of *assumed* (chosen by judgment), *tested* (sensitivity measured), or *calibrated* (set from real data), with the data used.
 - **Sensitivity:** how much changing it moved the results, where known.
-- **Checks:** what the built model must reproduce before anyone trusts it (milestone 4).
+- **Fitted values and checks:** the values fitted to real ballots in milestone 4, and how simulated elections compare with real ones (`docs/model-check.md`).
 
-Setting names in the settings file are proposals until milestone 4 builds them.
+Settings are named as in the settings file (`engine/README.md`).
 
 ## How a simulated election is built
 
@@ -34,19 +34,20 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **What it means:** how many groups voters and candidates split into, and how many candidates belong to none.
 - **Approved setting:** 4 slates by default (`model.slates`), plus a share of candidates who belong to no slate and get no loyalty boost from anyone, about 15% by default (`model.unaffiliated_share`).
 - **Why:** a typical Scottish ward has 4 to 6 parties standing, and about 1 in 6 candidates is an independent. Earlier runs found the number of slates barely changed results.
-- **Built now:** 4 slates; every candidate belongs to one.
+- **Version 0.1:** 4 slates; every candidate belongs to one.
 - **Evidence:** calibrated (Scotland, 1,065 wards with 3 or more seats; NYC and Portland endorsements as a check). Tested for the number of slates.
 - **Sensitivity:** low for the number of slates (1, 2, 8, and 16 slates gave results within one rank at 1,000 candidates). Not yet tested for the unaffiliated share.
-- **Checks:** in Scotland, 47% of candidates are their party's only candidate in the ward and 17% are independents, so about 64% have no running mate. With slates sized to their expected seats (assumption 2), small slates field one candidate. The built model must give a share of candidates with no running mate close to Scotland's.
+- **Fitted values and checks:** in Scotland, 33% of candidates in a typical ward have a running mate, 46% are their party's only candidate, and 14% are independents. Simulated twins of Scottish wards give 40%, 29%, and 20%: close on running mates, with somewhat fewer single-candidate parties and more candidates in no slate. Voters with no home slate default to 0.6 times the share of candidates in no slate, as in Scotland (`model.unaffiliated_voter_share`).
 
 ### 2. Slate sizes
 
 - **What it means:** what share of voters, and what share of candidates, belongs to each slate.
 - **Approved setting:** set a slate's share of candidates separately from its share of voters. By default, each slate runs about as many candidates as the seats its support could win, not a full list (`model.slate_candidates = "expected_seats"`).
 - **Why:** the owner's organization works this way: slates run lists in proportion to the votes they expect, because they believe that helps them. Scottish parties do the same: the SNP has 33% of first choices but 23% of candidates, while independents have 10% of first choices and 17% of candidates.
-- **Built now:** each slate gets a random weight between 0.5 and 1.5, and voters and candidates use the same weights.
+- **Version 0.1:** each slate gets a random weight between 0.5 and 1.5, and voters and candidates use the same weights.
 - **Evidence:** calibrated (Scotland), and the owner's knowledge of the organization.
 - **Sensitivity:** not yet tested.
+- **Rule as built:** a slate with share *x* of all voters runs *x* × (seats + 1) candidates, rounded up, and at least one; candidates left over belong to no slate. For a 46-seat, 75-candidate election with 4 slates, that leaves about a third of candidates in no slate.
 - **Question to test (milestone 8):** is a slate sized to its expected seats actually better for the slate than a full list? The simulator can run the same election both ways.
 
 ### 3. Candidate popularity
@@ -60,7 +61,7 @@ The drawing method in step 4 is a standard one in voting research, called the **
   - Tuning to the quota or to the **even split** (the share every candidate would get if all were equally popular) gives nearly the same spread, because both measure the top candidate's share. The quota is used because votes beyond it pass to voters' next choices, which is part of what this project measures.
   - One spread can't produce real fields: real elections have a weak last candidate together with a leader who isn't that dominant. With the leaders tuned, the model's last candidate is about twice as strong as the real one in multi-seat public elections. Hence the separate long-shot share.
   - Write-in slots on US ballots aren't counted as candidates: each pools every write-in vote.
-- **Built now:** one spread of 1.0 (`model.popularity_spread`) for every election.
+- **Version 0.1:** one spread of 1.0 (`model.popularity_spread`) for every election.
 - **Evidence:** calibrated (Scotland, 1,100 elections; union and society elections from the Electoral Reform Society, 87; other organizational, 21; NYC, Portland, Canberra, and other public elections). Only 18 organizational elections have 5 or more seats, so the setting closest to the owner's elections is the least certain. Fitted spreads move by about 0.1 between runs.
 - **Sensitivity:** **high. This is the most important setting.** At 1,000 candidates:
 
@@ -72,7 +73,18 @@ The drawing method in step 4 is a standard one in voting research, called the **
   | 2.0 | rank 17 | rank 33 |
 
   (Rank where reach drops below 5 in 100 votes.) Report every headline result across the real range, from about 1.5 to 3 times an even split.
-- **Checks:** for each type of election, the built model must reproduce the top candidate's lead over the quota, the last candidate's share, the even split, and the way bigger fields get more lopsided (in Scotland, the top candidate gets about 1.6 times the middle candidate's first choices with 2 to 4 candidates, and about 5.2 times with 11 to 13).
+- **Fitted values and checks:** tuned on simulated twins of real elections, with slates included (`data/model_check.py`, `data/fits/popularity-tuning.json`):
+
+  | Type of election | Spread | Long-shot share | Top candidate vs quota (real, model) | Last candidate vs even split (real, model) |
+  |---|---|---|---|---|
+  | Public, 1 seat | 1.1 | 10% | 0.88, 0.90 | 0.25, 0.22 |
+  | Public, 2 to 4 seats | 1.2 | 0% | 1.33, 1.31 | 0.16, **0.07** |
+  | Public, 5 or more seats | 0.5 | 20% | 1.05, 0.96 | 0.07, 0.06 |
+  | Organization, 1 seat | 0.8 | 0% | 0.76, 0.79 | 0.31, 0.34 |
+  | Organization, 2 to 4 seats | 0.7 | 0% | 1.06, 1.02 | 0.28, 0.27 |
+  | Organization, 5 or more seats | 1.0 | 0% | 2.11, 2.10 | 0.24, **0.08** |
+
+  The long-shot gap is 2 (long shots about 7 times less popular). With slates included, the spreads differ from the popularity-only estimates in milestone 3, because slates also make first choices unequal. In two types, the model's last candidate is about a third as strong as the real one, even with no long shots; see "Open questions from milestone 4".
 
 ### 4. Slate loyalty
 
@@ -83,11 +95,11 @@ The drawing method in step 4 is a standard one in voting research, called the **
 
   Both are tuned so simulated ballots show the same overall clustering as real ballots, measured from all ballots, not from labeled lists. Two reference points: **loose**, like Portland's endorsement slates (about 10 to 15 points above popularity alone), and **tight**, like Scottish parties (about 60 points above).
 - **Why:** Scottish party loyalty is very strong (84% of voters whose first choice has a running mate rank one second, against 21% from popularity alone), yet votes that leave a party spread widely (evenness 0.85, where 1 is perfectly even). A line of slates, where loyalty falls with each step, can't produce both. The model needs patterns, not causes: truncation depends on which candidates voters rank together, not why, so the report makes no claims about what endorsements or slates do.
-- **Built now:** one loyalty number, 0.15 (`model.slate_loyalty`); slates sit in a line, and a slate two steps away gets 0.15 × 0.15 of the weight.
+- **Version 0.1:** one loyalty number, 0.15 (`model.slate_loyalty`); slates sit in a line, and a slate two steps away gets 0.15 × 0.15 of the weight.
 - **Evidence:** calibrated (Scotland; NYC and Portland endorsement slates). Tested for the built version.
 - **Sensitivity:** low for the built version (0 to 1 gave results within one rank). Not yet tested for the approved version.
 - **Adjustable in the tuner (milestone 5):** a slider from loose to tight, so the owner can explore it rather than decide it in advance. Default: loose. Every headline result is still run at both ends, and across the range between.
-- **Checks:** the built model must reproduce the clustering above popularity and the evenness of the spread at both reference points.
+- **Fitted values and checks:** on simulated twins of Scottish wards, a multiplier of 4 gives about 12 points of clustering above popularity ("loose") and 100 gives about 62 ("tight"; real Scottish wards: 61). A spread of 1.2 for `model.other_slate_spread` gives an evenness of 0.84, as in real wards, at the milestone 3 popularity settings; with the tuned popularity settings it comes out at 0.78.
 
 ### 5. Ballot length
 
@@ -96,16 +108,27 @@ The drawing method in step 4 is a standard one in voting research, called the **
   - **Electorate type** (`electorate.type`): **public** voters, tuned to Scotland, or **organization** members, tuned to the union and society elections. This sets each voter's natural ballot length, which grows with the number of candidates and much less with seats.
   - **Ballot rules** (`ballot.max_ranks`, `ballot.min_instruction`): a maximum (none, equal to the seats, or another number), and an optional "rank at least N" instruction.
 
-  A voter ranks their own slate's candidates first, then decides at each further rank whether to keep going, up to their natural length. A maximum cuts ballots at the limit. When a maximum or an instruction sits above a voter's natural length, some voters are pulled up to it, at the rate the real data shows: none for a limit of 3, strong for 5 and 6, and very strong for an instruction equal to the seats.
+  A voter ranks their own slate's candidates first, then decides at each further rank whether to keep going, up to their natural length. A maximum cuts ballots at the limit. When a maximum or an instruction sits above a voter's natural length, some voters are pulled up to it, at the rate the real data shows (see the fitted values below).
 - **Why:**
   - Most voters rank a few candidates, and few rank everyone: in Scotland the typical voter ranks 3 of about 7 candidates.
   - Union and society members rank more as fields grow (about 6 of 10 to 15 candidates with 5 to 9 seats). For a 50-seat, 75-candidate election, the public rule projects about 9 ranks and the union rule about 26, so the type of electorate matters most.
   - The owner's framing: a limit or instruction is a feature of the ballot that changes behavior, for public voters and members alike. An instruction equal to the seats is a strong anchor: in Canberra, told to number 5, 98% numbered at least 5 and 69% exactly 5.
-- **Built now:** everyone fills in every rank up to the cap (`election.ranks`, default 100). Known to be unrealistic.
+- **Version 0.1:** everyone fills in every rank up to the cap (`election.ranks`, default 100). Known to be unrealistic.
 - **Evidence:** calibrated (Scotland; union and society elections; NYC, Portland, San Francisco, Oakland, Minneapolis; Canberra 2024; Australian Senate, Tasmania 2016).
 - **Sensitivity:** not yet tested, but likely high. A vote can't travel past a voter's last rank.
 - **Adjustable in the tuner (milestone 5):** the ballot wording ("up to N", "at least N", or "exactly N") and N. Default: up to N, with N equal to the seats, as on the owner's organization's ballot. Still missing: organizational ballots with a limit to tune against. No dataset has a limit near 50.
-- **Checks:** the built model must reproduce the distribution of ballot lengths for each electorate type, and the share of voters who fill a limit or instruction.
+- **Fitted values and checks** (`data/fit_length.py`, `data/fits/ballot-length.json`): a voter's natural length is 1 plus a Conway–Maxwell–Poisson count: like a Poisson count, with one more setting, "bunching", that lets lengths cluster tightly (above 1) or spread out (below 1). Its rate is scale × candidates^a × seats^b. Separately, a share of voters rank every candidate, which fades as fields grow.
+
+  | | Scale | Candidates power *a* | Seats power *b* | Bunching | Share ranking everyone, 4 candidates | Fade per extra candidate |
+  |---|---|---|---|---|---|---|
+  | Public (1,100 Scottish elections) | 0.46 | 0.60 | 0.36 | 1.44 (bunched) | 17% | 0.14 |
+  | Organization (87 ERS elections) | 0.67 | 0.21 | 0.31 | 0.51 (spread out) | 26% | 0.06 |
+
+  These reproduce the typical length by number of candidates and seats within about 0.1 to 0.3 ranks, and the share ranking everyone. For 75 candidates and 46 seats they project about 10 ranks for public voters and 29 for organization members, close to milestone 3's projections (about 9 and 26).
+
+  **Pull toward the ballot's number:** about 23% of voters whose natural length is below an "up to N" limit rank exactly N (the middle half of 82 US elections: 14% to 36%), for limits of 3, 5, and 6 alike. Milestone 3 read the data as "no pull at 3"; fitted properly, the pull is similar for every limit. For "at least N", 97% of those below N are pulled up to it (Canberra 2024). For "exactly N", everyone ranks N.
+
+  Simulated twins match the average length within 0.1 to 0.3 ranks in most types of election, and the share who fill a limit (33% against 37%). Two gaps: Canberra voters go further past their instruction (6.7 ranks against the model's 5.4), and small organizational elections run 0.6 ranks short.
 
 ### 6. Election size: candidates, seats, and voters
 
@@ -114,9 +137,10 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **Why:**
   - Candidates per seat falls as seats grow, then levels off: in organizational elections, about 5 with one seat, 2.5 with 2 to 4 seats, and 1.67 with 5 to 12. Metro DC DSA's 46-seat election had 1.63. A 46-seat election should have roughly 1.5 to 2 candidates per seat.
   - In organizational elections, the number of voters shows almost no link to seats or candidates. Organizational electorates are small: Metro DC DSA had 432 ballots, about 9 voters per seat.
-- **Built now:** 10 voters per candidate, at least 1,000 (`election.voters`); candidates and seats set per run.
+- **Version 0.1:** 10 voters per candidate, at least 1,000 (`election.voters`); candidates and seats set per run.
 - **Evidence:** calibrated (all real data; Metro DC DSA from `docs/large-elections.md`). Every election in the data has at most 12 seats, so 46-seat results are projections.
 - **Sensitivity:** low for voters at 3, 10, and 30 per candidate. Not yet tested at a few hundred voters, where single ballots matter more.
+- **As built:** the default number of voters is 10 per candidate, at least 100 (version 0.1 keeps its old minimum of 1,000). Any number can be set.
 - **Adjustable in the tuner (milestone 5):** candidates, seats, and voters. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters), until the owner's organization's numbers replace it.
 
 ## Factors the model leaves out
@@ -141,7 +165,15 @@ To check the model against real elections, describe both in the same terms. All 
 5. **Candidates and slates:** candidates per seat, the share with no running mate, and the share in no slate. Checks **election size** and **slates** (assumptions 1, 2, and 6).
 6. **Exhaustion:** what share of ballots and voting weight run out of names by the final round. Directly comparable with McCune and Naber's Scottish results.
 
+## Open questions from milestone 4
+
+These need the owner's decision before the model changes.
+
+1. **The last candidate is too weak in two types of election:** Scottish multi-seat wards and organizational elections with 5 or more seats (the type closest to the owner's). With slates included, matching the top candidate against the quota leaves the last candidate with about a third of its real share. The approved long-shot setting can only weaken the bottom further, so it can't fix this. A tested option: a share of **standout candidates** far above the rest, the mirror image of long shots, with a lower spread for everyone else. For organizational elections with 5 or more seats, 10% standouts about 4.5 times as popular as the rest, with a spread of 0.5, gives 2.41 times the quota (real 2.11) and a last candidate at 0.225 of an even split (real 0.235). It doesn't fix Scottish wards, where the weak bottom comes from tight parties.
+2. **The pull toward a limit** is about 23% for limits of 3, 5, and 6 alike, not none at 3 as milestone 3 described.
+
 ## Change log
 
 - **0.1:** first written description of the exploratory model.
 - **0.2 (October 20, 2026):** the owner approved six decisions from the milestone 3 review (`docs/model-review.md`): candidates outside slates; slate sizes set by expected seats; popularity set by type of election, tuned to the quota, with a separate long-shot share; two slate-loyalty settings with no line; ballot length from electorate type and ballot rules; election size from the organization's real numbers, with a lower voter minimum. Not built yet (milestone 4).
+- **0.2, built (October 20, 2026):** milestone 4 built version 0.2 in the engine and fitted its settings: ballot length (a Conway–Maxwell–Poisson count plus a fading share who rank everyone, in place of the unspecified distribution), the pull toward a limit (about 23% for every limit), slate strength (loose 4, tight 100) and spread to other slates (1.2), and popularity by type of election. Version 0.1 stays available for repeating earlier runs.

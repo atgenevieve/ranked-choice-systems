@@ -65,11 +65,11 @@ These are defaults, not decisions. Raise alternatives if something works better.
 
 ## Known issues in the current engine
 
-Fixed in milestone 1: Scottish rounding (5 decimal places), Scottish tie-breaking (look back, then lot), and truncation. See `engine/README.md` for the counting rules as built.
+Fixed in milestone 1: Scottish rounding (5 decimal places), Scottish tie-breaking (look back, then lot), and truncation. Fixed in milestone 4: every simulated voter ranking every candidate (model version 0.2 draws ballot lengths fitted to real ballots). See `engine/README.md` for the counting rules as built.
 
 Still open:
 
-- **Everyone ranks to the maximum.** Every simulated voter fills every rank up to the ballot cap (default 100). Real voters stop early. This needs a ballot-length setting in the model, set from real data and approved by the owner (milestones 2 to 4).
+- **Model version 0.2 gaps** (milestone 4, `docs/model-check.md`): the last candidate is too weak in Scottish multi-seat wards and organizational elections with 5 or more seats. An option (standout candidates) is waiting on the owner.
 - **One voting system.** Only Scottish STV (milestone 7).
 
 ## What's been learned so far
@@ -90,6 +90,7 @@ All of this was measured with **reach**. Truncation results will differ, and the
 - `docs/roadmap.md`: milestones, in order, with how to tell each is done.
 - `docs/model-spec.md`: the voter model, assumption by assumption.
 - `evidence/`: the model evidence page (one tab per model decision), and how to rebuild its data.
+- `docs/model-check.md`: how simulated elections compare with real ones (milestone 4).
 - `docs/model-review.md`: the milestone 3 review: what real data shows for each model assumption, with proposals and decisions.
 - `docs/real-data-findings.md`: detailed findings from real ballots.
 - `docs/endorsement-cohesion.md`: a reusable method for measuring how voters follow endorsements, slates, and pacts on ranked ballots, with early findings. Keep it usable outside this project.

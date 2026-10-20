@@ -38,13 +38,34 @@ All settings live in a settings file in TOML, a simple text format of `name = va
 | `run.curve_ranks` | How many ranks of each curve to write. 0 means all | 0 |
 | `election.candidates` | Number of candidates | required |
 | `election.seats` | Seat counts to test, as a list such as `[1, 3, 10]` | required |
-| `election.voters` | Ballots per election | 10 × candidates, at least 1,000 |
-| `election.ranks` | Ballot length cap | 100 |
-| `model.slates` | Number of slates (see model spec) | 4 |
-| `model.slate_loyalty` | Slate loyalty (see model spec) | 0.15 |
-| `model.popularity_spread` | Popularity spread (see model spec) | 1.0 |
+| `election.voters` | Ballots per election | 10 × candidates, at least 100 (at least 1,000 for model version 0.1) |
+| `election.ranks` | The most ranks any ballot can hold | 100 |
+| `electorate.type` | `public` (tuned to Scotland) or `organization` (tuned to union and society elections). Sets how far voters naturally rank | `public` |
+| `electorate.length_scale`, `length_candidates_power`, `length_seats_power`, `length_bunching`, `length_complete_share`, `length_complete_fade` | Overrides for the natural ballot length | fitted for the electorate type |
+| `ballot.wording` | `none`, `up_to` (a maximum), `at_least` (an instruction), or `exactly` | `none` |
+| `ballot.n` | The number in the wording: a number, or `"seats"` | `"seats"` |
+| `ballot.pull` | Override for the share of voters below N who are pulled up to N | fitted for the wording |
+| `model.version` | `"0.2"` (approved October 20, 2026) or `"0.1"` (exploratory, for repeating earlier runs) | `"0.2"` |
+| `model.slates` | Number of slates | 4 |
+| `model.unaffiliated_share` | Share of candidates in no slate (at least) | 0.15 |
+| `model.unaffiliated_voter_share` | Share of voters with no home slate | 0.6 × share of candidates in no slate |
+| `model.slate_candidates` | `expected_seats` (each slate runs about as many candidates as the seats it could win) or `same_as_voters` | `expected_seats` |
+| `model.popularity_spread` | Popularity spread, or `"auto"` for the fitted value for the type of election | `"auto"` |
+| `model.long_shot_share` | Share of long-shot candidates, or `"auto"` | `"auto"` |
+| `model.long_shot_gap` | How far below the rest long shots sit (2 is about 7 times less popular) | 2.0 |
+| `model.slate_strength` | `"loose"`, `"tight"`, or a multiplier on own-slate candidates | `"loose"` |
+| `model.other_slate_spread` | How unevenly votes that leave a slate spread over other slates (0 = evenly) | 1.2 |
+| `model.slate_loyalty` | Version 0.1 only: loyalty along a line of slates | 0.15 |
 
-`docs/model-spec.md` explains each `model` setting.
+`docs/model-spec.md` explains each setting and its evidence. Settings files written before model version 0.2 don't name a version; add `version = "0.1"` under `[model]` to repeat them, as in `settings/test-truncation.toml`.
+
+## Write simulated elections as ballot files
+
+```
+target/release/stvsim generate settings/my-run.toml folder/
+```
+
+This writes every simulated election (`run.sims` for each seat count) to the folder as a `.ballots` file and a `.json` metadata file, in the format of `docs/ballot-format.md`, so the scripts that measure real ballots can measure simulated ones the same way. Slates are written as parties ("Slate 1", ...), and candidates in no slate as `null`. The metadata also records the full settings, the seed, the engine version, and the model version. `data/model_check.py` uses this to compare the model with real elections (`docs/model-check.md`).
 
 ### Output
 

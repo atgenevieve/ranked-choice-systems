@@ -2,6 +2,7 @@
 //!
 //! `stvsim run <settings.toml>` simulates elections and measures reach and truncation.
 //! `stvsim count <file.ballots>...` counts real or test ballots.
+//! `stvsim generate <settings.toml> <folder>` writes simulated elections as ballot files.
 //! See `engine/README.md`.
 
 mod ballots;
@@ -28,7 +29,7 @@ fn engine_info() -> Value {
 
 fn usage() -> ! {
     eprintln!(
-        "usage:\n  stvsim run <settings.toml>\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
+        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
     );
     std::process::exit(2)
 }
@@ -38,6 +39,7 @@ fn main() {
     match args.first().map(String::as_str) {
         Some("run") if args.len() == 2 => run(&args[1]),
         Some("count") => count_files(&args[1..]),
+        Some("generate") if args.len() == 3 => generate(&args[1], &args[2]),
         Some("version") => println!("{}", engine_info()),
         _ => usage(),
     }
@@ -201,11 +203,90 @@ fn round4(v: &[f64]) -> Vec<f64> {
     v.iter().map(|x| (x * 1e4).round() / 1e4).collect()
 }
 
-fn run(path: &str) {
-    let s = settings::Settings::load(path).unwrap_or_else(|e| {
+/// The random seed for simulated election `i` with `c` candidates and `seats` seats.
+fn election_seed(seed: u64, c: usize, seats: usize, i: usize) -> u64 {
+    seed ^ (c as u64).wrapping_mul(0x9E3779B97F4A7C15) ^ (seats as u64).wrapping_mul(0xC2B2AE3D27D4EB4F) ^ (i as u64).wrapping_mul(0x165667B19E3779F9)
+}
+
+fn load_settings(path: &str) -> settings::Settings {
+    settings::Settings::load(path).unwrap_or_else(|e| {
         eprintln!("{e}");
         std::process::exit(1)
+    })
+}
+
+// ---------------------------------------------------------------- write simulated elections
+
+/// Writes each simulated election (every seat count, `run.sims` each) to `folder` as a
+/// `.ballots` file and a `.json` metadata file, in the format of docs/ballot-format.md, so the
+/// same scripts can measure simulated and real elections. Slates are written as parties
+/// ("Slate 1", ...), and candidates in no slate get `null`.
+fn generate(path: &str, folder: &str) {
+    let s = load_settings(path);
+    let c = s.election.candidates;
+    let v = s.election.voters.unwrap();
+    std::fs::create_dir_all(folder).unwrap_or_else(|e| {
+        eprintln!("{folder}: {e}");
+        std::process::exit(1)
     });
+    for &seats in s.election.seats.iter() {
+        if seats == 0 || seats > c {
+            eprintln!("skipping {seats} seats: must be between 1 and the number of candidates");
+            continue;
+        }
+        for i in 0..s.run.sims {
+            let es = election_seed(s.run.seed, c, seats, i);
+            let g = model::generate(c, seats, v, s.election.ranks, &s.electorate, &s.ballot, &s.model, es);
+            // Count identical ballots once, in first-seen order, so files stay small.
+            let mut counts: std::collections::HashMap<&[u32], usize> = std::collections::HashMap::new();
+            let mut order: Vec<&[u32]> = Vec::new();
+            for row in 0..g.ballots.rows() {
+                let b = g.ballots.row(row);
+                let b = &b[..b.iter().position(|&x| x == ballots::NONE).unwrap_or(b.len())];
+                let n = counts.entry(b).or_insert(0);
+                if *n == 0 {
+                    order.push(b);
+                }
+                *n += 1;
+            }
+            let mut text = format!("candidates {c}\nseats {seats}\n");
+            for b in order {
+                text.push_str(&counts[b].to_string());
+                for x in b {
+                    text.push(' ');
+                    text.push_str(&x.to_string());
+                }
+                text.push('\n');
+            }
+            let stem = format!("{folder}/{}-c{c}-s{seats}-{i:04}", s.run.name);
+            let meta = json!({
+                "source": "simulated",
+                "election": format!("{} (simulated), {c} candidates, {seats} seats, number {i}", s.run.name),
+                "system": "scottish-stv",
+                "candidates": (0..c).map(|k| format!("Candidate {}", k + 1)).collect::<Vec<_>>(),
+                "parties": g.slate_of.iter().map(|x| x.map(|k| format!("Slate {}", k + 1))).collect::<Vec<_>>(),
+                "long_shots": g.long_shot,
+                "official_winners": Value::Null,
+                "max_ranks": s.ballot.max_ranks(seats),
+                "min_ranks_instructed": s.ballot.min_ranks(seats),
+                "electorate": s.electorate.kind,
+                "seed": es,
+                "engine": engine_info(),
+                "model_version": s.model.version,
+                "settings": s,
+            });
+            let write = |p: String, t: String| std::fs::write(&p, t).unwrap_or_else(|e| {
+                eprintln!("{p}: {e}");
+                std::process::exit(1)
+            });
+            write(format!("{stem}.ballots"), text);
+            write(format!("{stem}.json"), serde_json::to_string_pretty(&meta).unwrap() + "\n");
+        }
+    }
+}
+
+fn run(path: &str) {
+    let s = load_settings(path);
     let c = s.election.candidates;
     let v = s.election.voters.unwrap();
     let len = s.election.ranks;
@@ -231,11 +312,8 @@ fn run(path: &str) {
                         if i >= sims {
                             break;
                         }
-                        let es = s.run.seed
-                            ^ (c as u64).wrapping_mul(0x9E3779B97F4A7C15)
-                            ^ (seats as u64).wrapping_mul(0xC2B2AE3D27D4EB4F)
-                            ^ (i as u64).wrapping_mul(0x165667B19E3779F9);
-                        let b = model::slate_electorate(c, v, len, &s.model, es);
+                        let es = election_seed(s.run.seed, c, seats, i);
+                        let b = model::generate(c, seats, v, len, &s.electorate, &s.ballot, &s.model, es).ballots;
                         let a = analyze(&b, seats, Options { lot_seed: es ^ 0x5851F42D4C957F2D, ..opt }, trunc);
                         for d in 0..len {
                             local.reach_sum[d] += a.reach_pct[d];
@@ -286,7 +364,7 @@ fn run(path: &str) {
         reach.insert("curve".into(), json!(round4(&avg[..show])));
         let mut line = json!({
             "engine": engine_info(),
-            "model_version": model::MODEL_VERSION,
+            "model_version": s.model.version,
             "settings": s,
             "seats": seats,
             "secs": (t0.elapsed().as_secs_f64() * 100.0).round() / 100.0,

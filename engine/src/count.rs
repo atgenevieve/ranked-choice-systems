@@ -653,7 +653,7 @@ fn analyze_with<N: Num>(bal: &Ballots, seats: usize, opt: Options, trunc: Trunca
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::{slate_electorate, SlateParams};
+    use crate::model::{generate, Auto, BallotRules, Electorate, SlateParams};
 
     fn ballots(c: usize, rows: &[(u64, &[u32])]) -> Ballots {
         let len = rows.iter().map(|r| r.1.len()).max().unwrap();
@@ -750,9 +750,11 @@ mod tests {
     /// must agree with recounting from scratch at every cutoff.
     #[test]
     fn truncation_shortcut_matches_recount() {
-        let p = SlateParams::default();
-        for (c, v, seed) in [(8, 200, 1), (15, 300, 2), (30, 600, 3), (40, 400, 4)] {
-            let b = slate_electorate(c, v, c, &p, seed);
+        // Version 0.1 fills every rank; version 0.2 gives voters ballots of different lengths.
+        let v01 = SlateParams { version: "0.1".into(), popularity_spread: Auto::Value(1.0), ..SlateParams::default() };
+        let v02 = SlateParams::default();
+        for (p, c, v, seed) in [(&v01, 8, 200, 1), (&v01, 15, 300, 2), (&v01, 30, 600, 3), (&v01, 40, 400, 4), (&v02, 8, 200, 5), (&v02, 15, 300, 6), (&v02, 30, 600, 7)] {
+            let b = generate(c, 3, v, c, &Electorate::default(), &BallotRules::default(), p, seed).ballots;
             for seats in [1, 2, 3, c / 3, c / 2, c - 2] {
                 for rules in [Rules::Scottish, Rules::Reference] {
                     let o = opt(rules);

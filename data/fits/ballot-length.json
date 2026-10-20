@@ -1,0 +1,225 @@
+{
+ "method": "A voter's natural ballot length is 1 plus a Conway-Maxwell-Poisson count, capped at the number\nof candidates. That count is like a Poisson count, with one more setting, \"bunching\", that lets\nlengths cluster more tightly around their typical value (above 1) or spread out more (below 1).\nIts rate is",
+ "fits": {
+  "public": {
+   "elections": 1100,
+   "scale": 0.4641,
+   "candidates_power": 0.595,
+   "seats_power": 0.3589,
+   "bunching": 1.4403,
+   "complete_share_at_4": 0.1736,
+   "complete_fade": 0.1442,
+   "projected_mean_75_candidates_46_seats": 9.91,
+   "mean_log_likelihood": -1.6414,
+   "check": {
+    "mean": {
+     "real": 3.0919,
+     "model": 3.0921
+    },
+    "share_1": {
+     "real": 0.1483,
+     "model": 0.1397
+    },
+    "share_2": {
+     "real": 0.2634,
+     "model": 0.3079
+    },
+    "share_3": {
+     "real": 0.328,
+     "model": 0.2603
+    },
+    "share_4_to_5": {
+     "real": 0.1541,
+     "model": 0.1909
+    },
+    "share_complete": {
+     "real": 0.1195,
+     "model": 0.1196
+    }
+   },
+   "by_candidates": {
+    "13 or more": {
+     "elections": 7,
+     "real_mean": 3.32,
+     "model_mean": 3.67
+    },
+    "2 to 4": {
+     "elections": 42,
+     "real_mean": 2.38,
+     "model_mean": 2.43
+    },
+    "5 to 8": {
+     "elections": 827,
+     "real_mean": 3.04,
+     "model_mean": 3.03
+    },
+    "9 to 12": {
+     "elections": 224,
+     "real_mean": 3.41,
+     "model_mean": 3.42
+    }
+   },
+   "by_seats": {
+    "1": {
+     "elections": 30,
+     "real_mean": 2.45,
+     "model_mean": 2.52
+    },
+    "2 to 4": {
+     "elections": 1067,
+     "real_mean": 3.11,
+     "model_mean": 3.11
+    },
+    "5 to 8": {
+     "elections": 3,
+     "real_mean": 3.53,
+     "model_mean": 3.61
+    }
+   }
+  },
+  "organization": {
+   "elections": 87,
+   "scale": 0.6749,
+   "candidates_power": 0.2063,
+   "seats_power": 0.3113,
+   "bunching": 0.5109,
+   "complete_share_at_4": 0.2648,
+   "complete_fade": 0.061,
+   "projected_mean_75_candidates_46_seats": 28.95,
+   "mean_log_likelihood": -1.5792,
+   "check": {
+    "mean": {
+     "real": 4.4695,
+     "model": 4.3995
+    },
+    "share_1": {
+     "real": 0.1364,
+     "model": 0.1349
+    },
+    "share_2": {
+     "real": 0.1184,
+     "model": 0.1609
+    },
+    "share_3": {
+     "real": 0.2066,
+     "model": 0.1815
+    },
+    "share_4_to_5": {
+     "real": 0.2881,
+     "model": 0.2713
+    },
+    "share_complete": {
+     "real": 0.3826,
+     "model": 0.3035
+    }
+   },
+   "by_candidates": {
+    "13 or more": {
+     "elections": 20,
+     "real_mean": 6.3,
+     "model_mean": 6.27
+    },
+    "2 to 4": {
+     "elections": 25,
+     "real_mean": 2.88,
+     "model_mean": 2.68
+    },
+    "5 to 8": {
+     "elections": 25,
+     "real_mean": 3.9,
+     "model_mean": 3.82
+    },
+    "9 to 12": {
+     "elections": 17,
+     "real_mean": 5.49,
+     "model_mean": 5.57
+    }
+   },
+   "by_seats": {
+    "1": {
+     "elections": 20,
+     "real_mean": 2.95,
+     "model_mean": 2.86
+    },
+    "2 to 4": {
+     "elections": 49,
+     "real_mean": 4.26,
+     "model_mean": 4.16
+    },
+    "5 to 8": {
+     "elections": 11,
+     "real_mean": 6.08,
+     "model_mean": 6.13
+    },
+    "9 to 12": {
+     "elections": 7,
+     "real_mean": 7.74,
+     "model_mean": 7.74
+    }
+   }
+  }
+ },
+ "pull_up_to": {
+  "3": {
+   "elections": 31,
+   "median_pull": 0.2762,
+   "median_filled": 0.6042,
+   "median_natural": 0.3864
+  },
+  "5": {
+   "elections": 46,
+   "median_pull": 0.195,
+   "median_filled": 0.288,
+   "median_natural": 0.1157
+  },
+  "6": {
+   "elections": 5,
+   "median_pull": 0.3604,
+   "median_filled": 0.4627,
+   "median_natural": 0.1085
+  }
+ },
+ "pull_up_to_all": {
+  "elections": 82,
+  "median_pull": 0.2265,
+  "middle_half": [
+   0.1412,
+   0.3604
+  ]
+ },
+ "pull_at_least": {
+  "elections": [
+   {
+    "election": "ACT Legislative Assembly 2024, Brindabella",
+    "reached": 0.9842,
+    "natural": 0.3715,
+    "pull": 0.9749
+   },
+   {
+    "election": "ACT Legislative Assembly 2024, Ginninderra",
+    "reached": 0.9752,
+    "natural": 0.4851,
+    "pull": 0.9519
+   },
+   {
+    "election": "ACT Legislative Assembly 2024, Kurrajong",
+    "reached": 0.9909,
+    "natural": 0.4965,
+    "pull": 0.982
+   },
+   {
+    "election": "ACT Legislative Assembly 2024, Murrumbidgee",
+    "reached": 0.9843,
+    "natural": 0.4114,
+    "pull": 0.9734
+   },
+   {
+    "election": "ACT Legislative Assembly 2024, Yerrabi",
+    "reached": 0.976,
+    "natural": 0.4615,
+    "pull": 0.9555
+   }
+  ],
+  "median_pull": 0.9734
+ }
+}
