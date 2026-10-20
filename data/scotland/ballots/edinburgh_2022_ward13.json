@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2022, Ward 13 - Leith",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Chas Booth",
+  "Katrina Faccenda",
+  "Jacqueline Mary Isseri",
+  "Andy Mackenzie",
+  "Euan Mcglynn",
+  "Adam Mcvey",
+  "Teresa Perchard",
+  "Robin Thomas Rea"
+ ],
+ "parties": [
+  "Gr",
+  "Lab",
+  "SFP",
+  "Ind",
+  "API",
+  "SNP",
+  "Con",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/edinburgh_2022_ward13.blt",
+ "council": "City of Edinburgh",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 8442,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.edinburgh.leith.2022-05-05/"
+}

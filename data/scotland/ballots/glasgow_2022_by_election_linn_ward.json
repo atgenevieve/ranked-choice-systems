@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2022, Ward 1 Linn (by-election)",
+ "date": "2022-11-17",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jen Bell",
+  "John Carson",
+  "Kirsty Fraser",
+  "Christopher Ho",
+  "Chris Lang-Tait",
+  "George Willis Macdougall",
+  "Joe McCauley",
+  "Di McMillan",
+  "Pauline Sutherland"
+ ],
+ "parties": [
+  "Gr",
+  "Lab",
+  "API",
+  "UKIP",
+  "SNP",
+  "Soc",
+  "LD",
+  "FA",
+  "Con"
+ ],
+ "official_winners": [
+  1
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/glasgow_2022_by_election_linn_ward.blt",
+ "council": "Glasgow City",
+ "year": 2022,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 5132,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.linn.by.2022-11-17/"
+}

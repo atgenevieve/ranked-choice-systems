@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 15 - Blantyre",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Maureen Chalmers",
+  "Alan Henderson Fraser",
+  "Ashley Hubbard",
+  "Michael Mcglynn",
+  "Gerry Mcmahon",
+  "Mo Razzaq",
+  "Stephen Reid",
+  "Bert Thomson"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Sol",
+  "SNP",
+  "Soc",
+  "Lab",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2017_ward15.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5362,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.blantyre.2017-05-04/"
+}

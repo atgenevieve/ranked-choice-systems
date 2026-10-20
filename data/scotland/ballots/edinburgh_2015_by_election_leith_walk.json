@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2015, Leith Walk Ward (by-election)",
+ "date": null,
+ "system": "scottish-stv",
+ "candidates": [
+  "Marion Donaldson",
+  "Mo Hussain",
+  "Tom Laird",
+  "Alan Gordon Melville",
+  "Gordon Murdie",
+  "Susan Jane Rae",
+  "Natalie Reid",
+  "John Lewis Ritchie",
+  "John Ferguson Scott",
+  "Bruce William Whitehead"
+ ],
+ "parties": [
+  "Lab",
+  "LD",
+  "Libtn",
+  "UKIP",
+  "Con",
+  "Gr",
+  "Soc",
+  "SNP",
+  "Ind",
+  "Left Unity"
+ ],
+ "official_winners": null,
+ "blank_ballots": 0,
+ "notes": "Official winners not found in any source.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/edinburgh_2015_by_election_leith_walk.blt",
+ "council": "City of Edinburgh",
+ "year": 2015,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 2,
+ "ballots_counted": 6324,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": null,
+ "official_winners_url": null
+}

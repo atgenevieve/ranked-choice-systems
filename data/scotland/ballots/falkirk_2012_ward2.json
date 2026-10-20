@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2012, Grangemouth",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Balfour",
+  "Allyson Black",
+  "Andrew Cowie",
+  "Amanda Nicol",
+  "Joan Paterson",
+  "David Sharp",
+  "Robert Spears",
+  "Jim Waugh"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "SNP",
+  "Con",
+  "Lab",
+  "Ind",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Falkirk Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/falkirk_2012_ward2.blt",
+ "council": "Falkirk",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4867,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Falkirk_Council_election"
+}

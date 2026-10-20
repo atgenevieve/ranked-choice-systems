@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Stirling 2012, Dunblane and Bridge of Allan Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gary Airnes",
+  "Callum Campbell",
+  "Graham Houston",
+  "Mike Robbins",
+  "Mark Ruskell",
+  "Ian Smith"
+ ],
+ "parties": [
+  "LD",
+  "Con",
+  "SNP",
+  "Lab",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Stirling Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/stirling_2012_ward3.blt",
+ "council": "Stirling",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5471,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Stirling_Council_election"
+}

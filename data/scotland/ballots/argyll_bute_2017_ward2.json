@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Argyll and Bute 2017, Kintyre and the Islands",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Robin Currie",
+  "Anne Horn",
+  "Michael Kelly",
+  "John Mcalpine",
+  "Alastair Redman",
+  "Ed Tyler"
+ ],
+ "parties": [
+  "LD",
+  "SNP",
+  "Lab",
+  "Ind",
+  "Con",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/argyll_bute_2017_ward2.blt",
+ "council": "Argyll and Bute",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 2800,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.argyll-and-bute.kintyre-and-the-islands.2017-05-04/"
+}

@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2022, Ward 12 - East Garioch",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Drew Cullinane",
+  "Rosanna Dobbin",
+  "Jim Gifford",
+  "Dominic Lonchay",
+  "Trevor Booth Mason",
+  "Glen Reid"
+ ],
+ "parties": [
+  "Ind",
+  "Lab",
+  "Ind",
+  "Con",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/aberdeenshire_2022_ward12.blt",
+ "council": "Aberdeenshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4215,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.east-garioch.2022-05-05/"
+}

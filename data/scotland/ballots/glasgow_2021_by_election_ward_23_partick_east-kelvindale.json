@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2021, Ward 23 Partick East-Kelvindale (by-election)",
+ "date": "2021-03-18",
+ "system": "scottish-stv",
+ "candidates": [
+  "Blair Anderson",
+  "Naveed Asghar",
+  "Abdul Bostani",
+  "Jill Brown",
+  "Tahir Jameel",
+  "Donald Mackay"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "SNP",
+  "Lab",
+  "LD",
+  "UKIP"
+ ],
+ "official_winners": null,
+ "blank_ballots": 0,
+ "notes": "Official winners withheld: Democracy Club marks Abdul Bostani (SNP) elected, but a quick count of these ballots elects Jill Brown (Labour). Either the Democracy Club flag or the ballot data is wrong. Not yet checked against Glasgow City Council's declaration.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/glasgow_2021_by_election_ward_23_partick_east-kelvindale.blt",
+ "council": "Glasgow City",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 6496,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": null,
+ "official_winners_url": null
+}

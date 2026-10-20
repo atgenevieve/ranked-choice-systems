@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2022, Ward 3 - West End",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ted Booth",
+  "Bill Campbell",
+  "Michael Crichton",
+  "Nadia El-Nakla",
+  "Donald Hay",
+  "Annie Jenkins",
+  "Brooke Labagh",
+  "Fraser Macpherson",
+  "Richard Mccready"
+ ],
+ "parties": [
+  "Gr",
+  "SNP",
+  "LD",
+  "SNP",
+  "Con",
+  "API",
+  "ISP",
+  "LD",
+  "LabCo"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2022_ward3.blt",
+ "council": "Dundee City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5732,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.west-end.2022-05-05/"
+}

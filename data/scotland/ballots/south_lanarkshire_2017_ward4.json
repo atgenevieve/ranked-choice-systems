@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 4 - Clydesdale South",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kaitey Blair",
+  "Craig Dalzell",
+  "George Greenshields",
+  "Mark Horsham",
+  "Janice Mackay",
+  "Colin Mcgavigan",
+  "Danny Meikle",
+  "Sandra Mills",
+  "Gordon Muir"
+ ],
+ "parties": [
+  "LD",
+  "Gr",
+  "Lab",
+  "SNP",
+  "UKIP",
+  "Con",
+  "Ind",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/south_lanarkshire_2017_ward4.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5452,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.clydesdale-south.2017-05-04/"
+}

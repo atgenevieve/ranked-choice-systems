@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2012, Broxburn, Uphall and Winchburgh",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Tony Boyle",
+  "Diane Calder",
+  "Janet Campbell",
+  "Alex Davidson",
+  "Ellen Glass",
+  "Jack Thompson"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "SNP",
+  "Lab",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 West Lothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/west_lothian_2012_ward2.blt",
+ "council": "West Lothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5499,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_West_Lothian_Council_election"
+}

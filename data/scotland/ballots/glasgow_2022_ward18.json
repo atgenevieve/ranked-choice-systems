@@ -1,0 +1,50 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2022, Ward 18 East Centre",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Declan Blench",
+  "Annette Christie",
+  "Matt Dobson",
+  "Faten Hameed",
+  "Ann Jenkins",
+  "Ruth Lindsay",
+  "William Mclachlan",
+  "Tony Osy",
+  "Kilian Riley",
+  "Hannah Smith",
+  "Kieran J Turner"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "TUSC",
+  "Con",
+  "Lab",
+  "LD",
+  "Ind",
+  "API",
+  "SNP",
+  "Gr",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4,
+  10
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/glasgow_2022_ward18.blt",
+ "council": "Glasgow City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6957,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.east-centre.2022-05-05/"
+}

@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2017, The Ferry",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Pol Stanley Clementsmith",
+  "Kevin Malcolm Cordell",
+  "Craig Duncan",
+  "Paul Johnson",
+  "Angela Lyall",
+  "Vari Mcdonald",
+  "Derek Scott",
+  "Philip Scott",
+  "Calum David Alexander Walker"
+ ],
+ "parties": [
+  "Gr",
+  "SNP",
+  "LD",
+  "TUSC",
+  "Lab",
+  "SNP",
+  "Con",
+  "Con",
+  "UKIP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  6,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2017_ward8.blt",
+ "council": "Dundee City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 8975,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.the-ferry.2017-05-04/"
+}

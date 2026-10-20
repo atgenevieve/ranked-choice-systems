@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Wick and East Caithness",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Raymond Bremner",
+  "Bill Fernie",
+  "Andrew Jarvie",
+  "Neil Macdonald",
+  "A.I. Willie Mackay",
+  "Jan Mcewan"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "Con",
+  "Lab",
+  "Ind",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/highland_2022_wick_and_east_caithness.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4180,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.wick-and-east-caithness.2022-05-05/"
+}

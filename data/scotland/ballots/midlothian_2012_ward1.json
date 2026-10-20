@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Penicuik",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gary Christopher Bell",
+  "Sandy Forrest",
+  "Adam Montgomery",
+  "Derek George Rosie",
+  "Sheila Thacker",
+  "Joe Wallace"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "Lab",
+  "SNP",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Source ward name 'Penicui' is damaged; corrected by hand. Source name 'Gary Bel' is cut short; replaced with Wikipedia's 'Gary Christopher Bell'. Source name 'Sandy Forres' is cut short; replaced with Wikipedia's 'Sandy Forrest'. Source name 'Adam Montgomer' is cut short; replaced with Wikipedia's 'Adam Montgomery'. Source name 'Derek Rosi' is cut short; replaced with Wikipedia's 'Derek George Rosie'. Source name 'Sheila Thacke' is cut short; replaced with Wikipedia's 'Sheila Thacker'. Source name 'Joe Wallac' is cut short; replaced with Wikipedia's 'Joe Wallace'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/midlothian_2012_ward1.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4769,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

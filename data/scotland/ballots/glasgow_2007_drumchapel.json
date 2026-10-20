@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2007, Drum chapel",
+ "date": "2007-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Paul Carey",
+  "Eileen Margaret Cartner Duke",
+  "Mike Dyer",
+  "Jonathan Findlay",
+  "Bobby Howie",
+  "Bill Kidd",
+  "Alan Lee",
+  "Susan Mccourt",
+  "Esther Nixon",
+  "Steven Purcell"
+ ],
+ "parties": [
+  "Lab",
+  "Gr",
+  "Soc",
+  "Lab",
+  "SU",
+  "SNP",
+  "LD",
+  "Con",
+  "Sol",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  3,
+  5,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2007 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/glasgow_2007_drumchapel.blt",
+ "council": "Glasgow City",
+ "year": 2007,
+ "by_election": false,
+ "group": "2007 council elections",
+ "seats": 4,
+ "ballots_counted": 8680,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2007_Glasgow_City_Council_election"
+}

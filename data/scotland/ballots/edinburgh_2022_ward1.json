@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2022, Ward 1 - Almond",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Annemarie Baillie",
+  "Andrew Brough",
+  "Stewart Geddes",
+  "Fred Hessler",
+  "James Hill",
+  "Kevin Lang",
+  "Norrie Work",
+  "Louise Young",
+  "Lewis James Younie"
+ ],
+ "parties": [
+  "WPB",
+  "Gr",
+  "SFP",
+  "Lab",
+  "Con",
+  "LD",
+  "SNP",
+  "LD",
+  "LD"
+ ],
+ "official_winners": [
+  5,
+  6,
+  7,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/edinburgh_2022_ward1.blt",
+ "council": "City of Edinburgh",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 13909,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.edinburgh.almond.2022-05-05/"
+}

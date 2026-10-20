@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2017, Ward 4 - Highland",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ian Campbell",
+  "Kirsty Gowans",
+  "Xander Mcdade",
+  "Mary Mcdougall",
+  "Kenneth Robertson Spittal",
+  "Mike Williamson"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "Ind",
+  "Gr",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/perth_kinross_2017_ward4.blt",
+ "council": "Perth and Kinross",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4241,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.highland.2017-05-04/"
+}

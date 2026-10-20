@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Fife 2012, Howe Of Fife And Tay Coast Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Andy Heer",
+  "Donald Lothian",
+  "David Macdiarmid",
+  "Iain Miles",
+  "Colin Reid",
+  "Neil Stoddart",
+  "Harry Wills"
+ ],
+ "parties": [
+  "Con",
+  "LD",
+  "SNP",
+  "Lab",
+  "SNP",
+  "Gr",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Fife Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/fife_2012_ward17.blt",
+ "council": "Fife",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4755,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Fife_Council_election"
+}

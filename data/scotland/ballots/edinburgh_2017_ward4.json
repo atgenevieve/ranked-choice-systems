@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2017, Ward 4 - Forth",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Eleanor Bird",
+  "Jim Campbell",
+  "Cammy Day",
+  "George Gordon",
+  "Gillian Mackay",
+  "Heather Pugh",
+  "Nicola Ross",
+  "Tim Wight"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Lab",
+  "SNP",
+  "Gr",
+  "Lab",
+  "Ind",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/edinburgh_2017_ward4.blt",
+ "council": "City of Edinburgh",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 10399,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.city-of-edinburgh.forth.2017-05-04/"
+}

@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "East Lothian 2022, Ward 2 - Preston Seton and Gosford",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Paul Brown",
+  "Lachlan Bruce",
+  "Neil Gilbert",
+  "Ben Morse",
+  "Tim Porteus",
+  "Brooke Ritchie",
+  "Janis Wilson",
+  "Colin Yorkston"
+ ],
+ "parties": [
+  "API",
+  "Con",
+  "SNP",
+  "LD",
+  "Gr",
+  "Lab",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  1,
+  2,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/east_lothian_2022_ward2.blt",
+ "council": "East Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6421,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-lothian.preston-seton-and-gosford.2022-05-05/"
+}

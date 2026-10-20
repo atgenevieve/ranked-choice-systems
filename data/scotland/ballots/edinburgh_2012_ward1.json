@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2012, Almond Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Moira Dunworth",
+  "Billy Fitzpatrick",
+  "Otto Inglis",
+  "John Longstaff",
+  "Lindsay Paterson",
+  "Alastair Gordon Shields",
+  "Norman James Work"
+ ],
+ "parties": [
+  "Gr",
+  "Lab",
+  "UKIP",
+  "Ind",
+  "Con",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  4,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 City of Edinburgh Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/edinburgh_2012_ward1.blt",
+ "council": "City of Edinburgh",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 8362,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_City_of_Edinburgh_Council_election"
+}

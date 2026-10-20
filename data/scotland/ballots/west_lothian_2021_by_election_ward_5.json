@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2021, Ward 5 - East Livingston and East Calder (by-election)",
+ "date": "2021-08-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Neal Drummond",
+  "Hans Edgington",
+  "John Hannah",
+  "Danny Logue",
+  "David Philip",
+  "Thomas George Ullathorne"
+ ],
+ "parties": [
+  "Gr",
+  "LD",
+  "ISP",
+  "Lab",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/west_lothian_2021_by_election_ward_5.blt",
+ "council": "West Lothian",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 4445,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-lothian.east-livingston-and-east-calder.by.2021-08-05/"
+}

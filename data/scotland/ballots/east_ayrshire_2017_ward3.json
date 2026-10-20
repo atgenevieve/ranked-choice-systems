@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "East Ayrshire 2017, Kilmarnock West and Crosshouse",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Elizabeth Anne Brown",
+  "Tom Cook",
+  "Stef Johnstone",
+  "Lillian Jones",
+  "Iain Linton",
+  "Douglas Reid"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "Libtn",
+  "Lab",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/east_ayrshire_2017_ward3.blt",
+ "council": "East Ayrshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5721,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-ayrshire.kilmarnock-west-and-crosshouse.2017-05-04/"
+}

@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Dumfries and Galloway 2012, Mid and Upper Nithsdale Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jim Dempster",
+  "Gill Dykes",
+  "Elly Hurren",
+  "John Syme",
+  "Douglas Watters",
+  "Andrew Wood"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "Con",
+  "Lab",
+  "UKIP",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Dumfries and Galloway Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/dumgal_2012_ward8.blt",
+ "council": "Dumfries and Galloway",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4349,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Dumfries_and_Galloway_Council_election"
+}

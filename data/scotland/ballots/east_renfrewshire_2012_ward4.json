@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "East Renfrewshire 2012, Netherlee Stamperland and Williamwood Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Irene Anderson",
+  "Gordon Cochrane",
+  "Gordon Alexander Mccaskill",
+  "Mary Montague",
+  "Ralph Robertson"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Con",
+  "Lab",
+  "Ind"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 East Renfrewshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/east_renfrewshire_2012_ward4.blt",
+ "council": "East Renfrewshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 5130,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_East_Renfrewshire_Council_election"
+}

@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "South Ayrshire 2022, Ward 4 - Ayr East",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Chic Brodie",
+  "Andrew Bryden",
+  "Chris Cullen",
+  "Ian Douglas",
+  "Deirdre Kennedy",
+  "Mary Kilpatrick",
+  "Alan Lamont",
+  "Brian Mcginley",
+  "David John Ramsay"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "SNP",
+  "SNP",
+  "LD",
+  "Con",
+  "Con",
+  "Lab",
+  "Ind"
+ ],
+ "official_winners": [
+  2,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/south_ayrshire_2022_ward4.blt",
+ "council": "South Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4936,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-ayrshire.ayr-east.2022-05-05/"
+}

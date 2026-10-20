@@ -1,0 +1,49 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2012, Ward 2 Newlands-Auldburn",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ruth Black",
+  "Chris Creighton",
+  "Stephen Curran",
+  "Colin Deans",
+  "Josephine U Docherty",
+  "Emma Gillan",
+  "Shoaib Gul",
+  "Diane Harvey",
+  "Robert Mcelroy",
+  "Michael O'Donnell",
+  "Ben Thomson"
+ ],
+ "parties": [
+  "Glasgow First",
+  "Ind",
+  "Lab",
+  "Ind",
+  "SNP",
+  "Lab",
+  "SNP",
+  "TUSC",
+  "Con",
+  "LD",
+  "Gr"
+ ],
+ "official_winners": [
+  2,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/glasgow_2012_ward2.blt",
+ "council": "Glasgow City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 6722,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Glasgow_City_Council_election"
+}

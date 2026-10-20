@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2017, Coldside",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Mohammed Asif",
+  "Mark Flynn",
+  "Kristopher James Hall",
+  "Conor Andrew Marshall",
+  "Christopher John Mcintyre",
+  "George Mcirvine",
+  "Anne Rendall",
+  "Wayne Frank Scott",
+  "Duncan Shaw",
+  "Helen Wright"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "LD",
+  "Gr",
+  "LD",
+  "Lab",
+  "SNP",
+  "TUSC",
+  "Con",
+  "Lab"
+ ],
+ "official_winners": [
+  1,
+  5,
+  6,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/dundee_2017_ward4.blt",
+ "council": "Dundee City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5622,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.coldside.2017-05-04/"
+}

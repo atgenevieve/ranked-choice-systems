@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 10 - Kirkcaldy North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Michael Collie",
+  "Craig Dempsey",
+  "Gerald Haddrell",
+  "James Leslie",
+  "Carol Lindsay",
+  "David Ross",
+  "Ryan Smart",
+  "Sally Walsh"
+ ],
+ "parties": [
+  "Gr",
+  "API",
+  "UKIP",
+  "Con",
+  "SNP",
+  "Lab",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/fife_2022_ward10.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5169,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.kirkcaldy-north.2022-05-05/"
+}

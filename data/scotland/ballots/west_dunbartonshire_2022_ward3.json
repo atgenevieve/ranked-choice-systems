@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "West Dunbartonshire 2022, Ward 3 - Dumbarton",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Karen Conaghan",
+  "Gurpreet Singh Johal",
+  "David Mcbride",
+  "Lynda Mcewan",
+  "Andrew Joseph Muir",
+  "Chris Pollock",
+  "Jonathan Rainey",
+  "Brian Walker",
+  "Kelly Wilson"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Lab",
+  "TUSC",
+  "SFP",
+  "SNP",
+  "Libtn",
+  "Con",
+  "Sov"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/west_dunbartonshire_2022_ward3.blt",
+ "council": "West Dunbartonshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6524,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-dunbartonshire.dumbarton.2022-05-05/"
+}

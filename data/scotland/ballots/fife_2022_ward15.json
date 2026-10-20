@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 15 - Glenrothes Central & Thornton",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jim Bryce",
+  "Heather Gulline",
+  "Jane Lawrence Kerr",
+  "Derek James Noble",
+  "Morven Jane Ovenstone-Jones",
+  "Steve Saunders",
+  "Ross Vettraino",
+  "Daniel Wilson"
+ ],
+ "parties": [
+  "API",
+  "Con",
+  "LD",
+  "Lab",
+  "Gr",
+  "SFP",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  3,
+  6,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/fife_2022_ward15.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4652,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.glenrothes-central-and-thornton.2022-05-05/"
+}

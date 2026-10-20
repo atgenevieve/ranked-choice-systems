@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Angus 2017, Forfar and District",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Glen Barclay",
+  "Colin Brown",
+  "Braden Davy",
+  "Lynne Devine",
+  "Ed Mcadam",
+  "Ian Mclaren",
+  "Glennis Middleton",
+  "Ian Whyte"
+ ],
+ "parties": [
+  "LD",
+  "Ind",
+  "Con",
+  "SNP",
+  "Lab",
+  "Ind",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/angus_2017_ward3.blt",
+ "council": "Angus",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5523,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.angus.forfar-and-district.2017-05-04/"
+}

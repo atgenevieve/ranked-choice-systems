@@ -1,0 +1,33 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2021, Ward 7 - Falkirk South (by-election)",
+ "date": "2021-10-14",
+ "system": "scottish-stv",
+ "candidates": [
+  "Stuart Duffin",
+  "James Marshall",
+  "Sarah Patrick",
+  "Emma Lindsey Russell"
+ ],
+ "parties": [
+  "Gr",
+  "Lab",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/falkirk_2021_by_election_south.blt",
+ "council": "Falkirk",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 4313,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.falkirk-south.by.2021-10-14/"
+}

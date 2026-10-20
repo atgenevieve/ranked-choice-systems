@@ -1,0 +1,53 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2012, Ward 9 Calton",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gary Barton",
+  "Alexander Belic",
+  "Martin Lewis Clark",
+  "Scott Gillespie",
+  "Gordon Kirker",
+  "Yvonne Kucuk",
+  "Duncan Miller",
+  "Thomas Rannachan",
+  "George Redmond",
+  "Andy Reid",
+  "Murdo Ritchie",
+  "Harvey Sussock",
+  "Alison Thewliss"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "BP",
+  "Con",
+  "SU",
+  "Lab",
+  "Glasgow First",
+  "Ind",
+  "Lab",
+  "Gr",
+  "Soc",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  5,
+  8,
+  12
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/13_cands/glasgow_2012_ward9.blt",
+ "council": "Glasgow City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4556,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Glasgow_City_Council_election"
+}

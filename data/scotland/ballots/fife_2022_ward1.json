@@ -1,0 +1,47 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 1 - West Fife & Coastal Villages",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jo Cockburn",
+  "Graeme James Downie",
+  "William Gavin",
+  "Martin James Keatings",
+  "Craig Mccutcheon",
+  "Jacqueline Mckenna",
+  "Danny Smith",
+  "Sam Steele",
+  "Katie Margaret Strang",
+  "Conner Young"
+ ],
+ "parties": [
+  "LD",
+  "Lab",
+  "API",
+  "Ind",
+  "Gr",
+  "Lab",
+  "SFP",
+  "SNP",
+  "SNP",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  7,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/fife_2022_ward1.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5963,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.west-fife-and-coastal-villages.2022-05-05/"
+}

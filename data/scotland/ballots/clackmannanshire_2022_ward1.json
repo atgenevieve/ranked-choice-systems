@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Clackmannanshire 2022, Ward 1 Clackmannanshire West",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Phil Fairlie",
+  "Darren Lee",
+  "Graham John Lindsay",
+  "Mark Mcluckie",
+  "Laura Quin",
+  "Cara Quinn",
+  "Daniel Rooney"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "SNP",
+  "Lab",
+  "LD",
+  "Gr",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/clackmannanshire_2022_ward1.blt",
+ "council": "Clackmannanshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 3643,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.clackmannanshire.clackmannanshire-west.2022-05-05/"
+}

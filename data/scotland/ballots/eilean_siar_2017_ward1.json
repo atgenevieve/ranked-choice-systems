@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Comhairle nan Eilean Siar 2017, Barraigh, Bhatarsaigh, Eirisgeigh agus Uibhist a Deas",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Blaney",
+  "Ronald Joseph Mackinnon",
+  "Gerry Macleod",
+  "Calum Macmillan",
+  "Iain Archie Macneil",
+  "Donald Manford",
+  "Donnie Steele",
+  "Paul Francis Steele"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "SNP",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  3,
+  4,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/eilean_siar_2017_ward1.blt",
+ "council": "Comhairle nan Eilean Siar",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 1387,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.eilean-siar.barraigh-bhatarsaigh-eirisgeigh-agus-uibhist-a-deas.2017-05-04/"
+}

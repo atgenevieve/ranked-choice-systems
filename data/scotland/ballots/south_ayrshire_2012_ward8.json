@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "South Ayrshire 2012, Ward 8 - Girvan and South Carrick",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alec Clark",
+  "Ian Fitzsimmons",
+  "John Mcdowall",
+  "Alec Oattes"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 South Ayrshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/south_ayrshire_2012_ward8.blt",
+ "council": "South Ayrshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 3396,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_South_Ayrshire_Council_election"
+}

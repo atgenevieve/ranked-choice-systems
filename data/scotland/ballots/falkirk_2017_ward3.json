@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2017, Ward 3 - Denny and Banknock",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jim Blackwood",
+  "Cheryl Brind",
+  "Fiona Elizabeth Collie",
+  "Paul Garner",
+  "Khalid Hamid",
+  "Nigel Harris",
+  "Brian Mccabe",
+  "Sean Mellon",
+  "Anne Montgomery",
+  "Alexander John Waddell"
+ ],
+ "parties": [
+  "Lab",
+  "Gr",
+  "SNP",
+  "SNP",
+  "Lab",
+  "Con",
+  "Ind",
+  "Sol",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/falkirk_2017_ward3.blt",
+ "council": "Falkirk",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 6321,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.denny-and-banknock.2017-05-04/"
+}

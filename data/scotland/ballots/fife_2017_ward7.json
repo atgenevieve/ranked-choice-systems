@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Fife 2017, Ward 7 - Cowdenbeath",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alistair Bain",
+  "Ann Bain",
+  "Alex Campbell",
+  "Angela Dixon",
+  "Gary Guichan",
+  "Elizabeth Riches",
+  "Darren Watt"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "Lab",
+  "Gr",
+  "Lab",
+  "LD",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Democracy Club lists 3 elected for 4 seats in local.fife.cowdenbeath.2017-05-04; not used. Winners from Wikipedia page '2017 Fife Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/fife_2017_ward7.blt",
+ "council": "Fife",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 6573,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2017_Fife_Council_election"
+}

@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 3 - Clydesdale East",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alex Allison",
+  "Bev Gauld",
+  "Mark Gordon",
+  "George Hannah",
+  "Eric Holford",
+  "Ian Mcallan",
+  "Andrew Jackson Mccallum",
+  "Janet Moxley"
+ ],
+ "parties": [
+  "Con",
+  "Ind",
+  "LD",
+  "Lab",
+  "Con",
+  "SNP",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2017_ward3.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5431,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.clydesdale-east.2017-05-04/"
+}

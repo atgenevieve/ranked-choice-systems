@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 13 - Glenrothes West & Kinglassie",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Altany Steel Andrew Craik",
+  "David Croll",
+  "Julie Christina Ford",
+  "Ian Robertson",
+  "Keith William Smith",
+  "Craig Walker"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "SNP",
+  "Ind",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/fife_2022_ward13.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4588,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.glenrothes-west-and-kinglassie.2022-05-05/"
+}

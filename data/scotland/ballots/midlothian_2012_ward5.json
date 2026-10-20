@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Midlothian Eas0",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Lisa Beattie",
+  "Paul Bertram",
+  "Peter Boyes",
+  "Peter de Vink",
+  "Bob Goupillot",
+  "Katie Moffat",
+  "Richard Thomson"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "Lab",
+  "Ind",
+  "TUSC",
+  "Lab",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Source name 'Lisa Beatti' is cut short; replaced with Wikipedia's 'Lisa Beattie'. Source name 'Paul Bertra' is cut short; replaced with Wikipedia's 'Paul Bertram'. Source name 'Peter Boye' is cut short; replaced with Wikipedia's 'Peter Boyes'. Source name 'Peter De Vin' is cut short; replaced with Wikipedia's 'Peter de Vink'. Source name 'Bob Goupillo' is cut short; replaced with Wikipedia's 'Bob Goupillot'. Source name 'Katie Moffa' is cut short; replaced with Wikipedia's 'Katie Moffat'. Source name 'Richard Thomso' is cut short; replaced with Wikipedia's 'Richard Thomson'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/midlothian_2012_ward5.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4147,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2022, Ward 1 - Banff and District",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Stewart Adams",
+  "Ia In R On Al D Mc La Chlan Cameron",
+  "John Cox",
+  "Sandy Leslie",
+  "James Andrew Low",
+  "Glen Reynolds",
+  "Mike Roy",
+  "Neil Woodward"
+ ],
+ "parties": [
+  "Con",
+  "API",
+  "Ind",
+  "LD",
+  "Lab",
+  "SNP",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Source ward name 'Wa rd 1 - B an ff a nd District' is damaged; corrected by hand. Source name 'St Ew Ar T Ad Am S' is garbled; replaced with Democracy Club's 'Stewart Adams'. Source name 'Jo Hn B Ar Cl Ay C Ox' is garbled; replaced with Democracy Club's 'John Cox'. Source name 'Sa Nd Y Le Sl Ie' is garbled; replaced with Democracy Club's 'Sandy Leslie'. Source name 'Ja Me S An Dr Ew L Ow' is garbled; replaced with Democracy Club's 'James Andrew Low'. Source name 'Gl En D Av Id R Ey No Lds' is garbled; replaced with Democracy Club's 'Glen Reynolds'. Source name 'Mi Ke R Oy' is garbled; replaced with Democracy Club's 'Mike Roy'. Source name 'Ne Il W Oo Dw Ar D' is garbled; replaced with Democracy Club's 'Neil Woodward'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/aberdeenshire_2022_ward1.blt",
+ "council": "Aberdeenshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3968,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.banff-and-district.2022-05-05/"
+}

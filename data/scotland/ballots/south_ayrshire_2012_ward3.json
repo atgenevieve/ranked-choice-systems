@@ -1,0 +1,38 @@
+{
+ "source": "scotland",
+ "election": "South Ayrshire 2012, Ward 3 - Ayr North",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Douglas Campbell",
+  "Ian Cavana",
+  "John Hampton",
+  "Rita Miller",
+  "Tom Slider"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Con",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 South Ayrshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/south_ayrshire_2012_ward3.blt",
+ "council": "South Ayrshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4358,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_South_Ayrshire_Council_election"
+}

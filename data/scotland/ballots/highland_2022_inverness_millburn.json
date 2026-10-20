@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Inverness Millburn",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ian Brown",
+  "David Gregg",
+  "Isabelle Mackenzie",
+  "Lewis Whyte"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Con",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/highland_2022_inverness_millburn.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3508,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.inverness-millburn.2022-05-05/"
+}

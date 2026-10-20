@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Tain and Easter Ross",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Derek Louden",
+  "Veronica Morrison",
+  "Sarah Rawlings",
+  "Alasdair Rhind",
+  "Fiona Robertson"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "LD",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/highland_2022_tain_and_easter_ross.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3434,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.tain-and-easter-ross.2022-05-05/"
+}

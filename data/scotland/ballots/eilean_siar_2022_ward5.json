@@ -1,0 +1,34 @@
+{
+ "source": "scotland",
+ "election": "Comhairle nan Eilean Siar 2022, Ward 5 Sgìre nan Loch",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Annie Macdonald",
+  "Robert Mackenzie",
+  "Angus Morrison",
+  "Norman Smith"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/eilean_siar_2022_ward5.blt",
+ "council": "Comhairle nan Eilean Siar",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 2,
+ "ballots_counted": 851,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.na-h-eileanan-an-iar.sgire-nan-loch.2022-05-05/"
+}

@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "South Ayrshire 2022, Ward 7 - Maybole North Carrick and Coylton",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Iain Campbell",
+  "Brian Connolly",
+  "William James Grant",
+  "Laura Mcewan",
+  "Stephen Ralph",
+  "Nicola Saxton"
+ ],
+ "parties": [
+  "Con",
+  "Ind",
+  "SNP",
+  "Con",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/south_ayrshire_2022_ward7.blt",
+ "council": "South Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4282,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-ayrshire.maybole-north-carrick-and-coylton.2022-05-05/"
+}

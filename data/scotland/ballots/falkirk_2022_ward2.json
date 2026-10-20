@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2022, Ward 2 - Grangemouth",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Balfour",
+  "Marc Bozza",
+  "Mandy Bryson",
+  "John Haston",
+  "Stuart Martin",
+  "Alan Nimmo",
+  "Robert Spears",
+  "Rhys Stenhouse"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "Con",
+  "SNP",
+  "UKIP",
+  "Lab",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/falkirk_2022_ward2.blt",
+ "council": "Falkirk",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5043,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.grangemouth.2022-05-05/"
+}

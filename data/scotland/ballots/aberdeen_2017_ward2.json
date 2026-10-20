@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2017, Bridge of Don Ward",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alison Alphonse",
+  "Karen Farquhar",
+  "Brett Hunt",
+  "James Edmund Rodgerson Irving-Lewis",
+  "Simon Mclean",
+  "John Michael Reynolds",
+  "George Saunders",
+  "Sandy Stuart",
+  "Willie Young"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Con",
+  "Sol",
+  "Ind",
+  "Ind",
+  "Ind",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/aberdeen_2017_ward2.blt",
+ "council": "Aberdeen City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 7236,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.bridge-of-don.2017-05-04/"
+}

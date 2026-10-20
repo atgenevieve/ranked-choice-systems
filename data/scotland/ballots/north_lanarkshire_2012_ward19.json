@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "North Lanarkshire 2012, Ward 19 Murdostoun",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alan Clinch",
+  "Lyall Duff",
+  "Cindy Mackenzie",
+  "Robert Mckendrick",
+  "Nicky Shevlin",
+  "John Taggart"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Con",
+  "Ind",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 North Lanarkshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/north_lanarkshire_2012_ward19.blt",
+ "council": "North Lanarkshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5459,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_North_Lanarkshire_Council_election"
+}

@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Shetland Islands 2017, Ward 1 - North Isles",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Lynsay Anne Cunningham",
+  "Cecil Hughson",
+  "Alec George Priest",
+  "Duncan Simpson",
+  "Ryan James Andrew Thomson"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "Candidate 'Duncan Simpson' is listed as 'Duncan Anderson' by Democracy Club (matched as the only unmatched name).",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/shetland_2017_ward1.blt",
+ "council": "Shetland Islands",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 1413,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.shetland-islands.north-isles.2017-05-04/"
+}

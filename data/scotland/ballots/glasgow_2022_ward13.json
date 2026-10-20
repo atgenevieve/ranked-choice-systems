@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2022, Ward 13 Garscadden-Scotstounhill",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Bill Butler",
+  "Chris Cunningham",
+  "John Hamelink",
+  "Malcolm Mitchell",
+  "Steven Morrison",
+  "Eva Clark Murray",
+  "Rosemary Ugbah",
+  "Hugh Grenville Waterfield"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Gr",
+  "SNP",
+  "Con",
+  "Lab",
+  "SNP",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/glasgow_2022_ward13.blt",
+ "council": "Glasgow City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 8629,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.garscaddenscotstounhill.2022-05-05/"
+}

@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Culloden and Ardersier",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Steven Calvert",
+  "Glynis Campbell-Sinclair",
+  "Mya Chemonges-Murzynowska",
+  "Morven Reid",
+  "Mel Robertson",
+  "Trish Robertson",
+  "Mary Scanlon"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "API",
+  "Ind",
+  "Ind",
+  "LD",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2022_culloden.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4100,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.culloden-and-ardersier.2022-05-05/"
+}

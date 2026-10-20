@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2017, Ward 6 - Falkirk North",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Alexander",
+  "Robert Bissett",
+  "Wendy Chandrachud",
+  "Dennis Goldie",
+  "Cecil Meiklejohn",
+  "Debra Pickering"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Con",
+  "Lab",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": null,
+ "blank_ballots": 0,
+ "notes": "Wikipedia (2017 Falkirk Council election) gives different winners [0, 1, 3, 4]; Democracy Club used. Official winners withheld: Democracy Club and Wikipedia name different winners (Democracy Club: Wendy Chandrachud; Wikipedia: Robert Bissett, for the fourth seat). Not yet checked against Falkirk Council's declaration.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/falkirk_2017_ward6.blt",
+ "council": "Falkirk",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 6492,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": null,
+ "official_winners_url": null
+}

@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Moray 2012, Elgin City South Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "James Scott Allan",
+  "John Andrew Divers",
+  "Graham Leadbitter",
+  "John Sharp"
+ ],
+ "parties": [
+  "Con",
+  "Lab",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Moray Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/moray_2012_ward7.blt",
+ "council": "Moray",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 2856,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Moray_Council_election"
+}

@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Argyll and Bute 2012, OBAN NORTH AND LORN WARD",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "George Doyle",
+  "Louise Anne Glen-Lee",
+  "Iain Angus Macdonald",
+  "Duncan Macintyre",
+  "Neil Mackay",
+  "Wilma Mcintosh",
+  "Donald Melville",
+  "Gwyneth Neal",
+  "Elaine Robertson",
+  "Roy Rutherford"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "SNP",
+  "LD",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Argyll and Bute Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/argyll_bute_2012_ward5.blt",
+ "council": "Argyll and Bute",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 3631,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Argyll_and_Bute_Council_election"
+}

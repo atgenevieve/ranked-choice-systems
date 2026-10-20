@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Bonnyrig0",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jack Aitchison",
+  "Ian Baxter",
+  "Bob Constable",
+  "Emma Cummings",
+  "Derek Milligan",
+  "Louie Lorraine Milliken",
+  "Thomas Munro"
+ ],
+ "parties": [
+  "Ind",
+  "Gr",
+  "SNP",
+  "Con",
+  "Lab",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "Source name 'Jack Aitchiso' is cut short; replaced with Wikipedia's 'Jack Aitchison'. Source name 'Ian Baxte' is cut short; replaced with Wikipedia's 'Ian Baxter'. Source name 'Bob Constabl' is cut short; replaced with Wikipedia's 'Bob Constable'. Source name 'Emma Cumming' is cut short; replaced with Wikipedia's 'Emma Cummings'. Source name 'Derek Milliga' is cut short; replaced with Wikipedia's 'Derek Milligan'. Source name 'Louie Millike' is cut short; replaced with Wikipedia's 'Louie Lorraine Milliken'. Source name 'Thomas Munr' is cut short; replaced with Wikipedia's 'Thomas Munro'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/midlothian_2012_ward2.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 5132,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

@@ -1,0 +1,47 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2019, Ward 12 - Leith Walk (by-election)",
+ "date": "2019-04-11",
+ "system": "scottish-stv",
+ "candidates": [
+  "Steven Alexander",
+  "Jack Caldwell",
+  "Nick Gardner",
+  "Kevin Illingworth",
+  "David Don Jacobsen",
+  "Tom Laird",
+  "Dan McCroskrie",
+  "Rob Munn",
+  "John Ferguson Scott",
+  "Lorna Slater",
+  "Paul Mitchell Stirling"
+ ],
+ "parties": [
+  "UKIP",
+  "LD",
+  "Lab",
+  "Ind",
+  "Lab",
+  "Libtn",
+  "Con",
+  "SNP",
+  "Ind",
+  "Gr",
+  "FBM"
+ ],
+ "official_winners": [
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/edinburgh_2019_by_election_leith_walk.blt",
+ "council": "City of Edinburgh",
+ "year": 2019,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 7267,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.edinburgh.leith-walk.by.2019-04-11/"
+}

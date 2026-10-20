@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "West Dunbartonshire 2017, Lomond",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jonathan Mccoll",
+  "Sally Page",
+  "Chris Pollock",
+  "George Rice",
+  "Louise Robertson",
+  "Martin Rooney",
+  "Hazel Sorrell"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "SNP",
+  "Ind",
+  "WDuns",
+  "Lab",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/west_dunbartonshire_2017_ward1.blt",
+ "council": "West Dunbartonshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4365,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-dunbartonshire.lomond.2017-05-04/"
+}

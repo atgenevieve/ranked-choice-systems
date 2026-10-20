@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2017, Ward 6 - Corstorphine/Murrayfield",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Scott Douglas",
+  "Gillian Gloyer",
+  "Kate Nevens",
+  "James Nisbet",
+  "Frank Ross",
+  "John Ferguson Scott",
+  "June Whitelaw"
+ ],
+ "parties": [
+  "Con",
+  "LD",
+  "Gr",
+  "UKIP",
+  "SNP",
+  "Ind",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/edinburgh_2017_ward6.blt",
+ "council": "City of Edinburgh",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 11429,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.city-of-edinburgh.corstorphinemurrayfield.2017-05-04/"
+}

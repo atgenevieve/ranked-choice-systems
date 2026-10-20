@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2017, Ward 5 - Bonnybridge and Larbert",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Billy Buchanan",
+  "Tom Coleman",
+  "Linda Gow",
+  "David Grant",
+  "Janine Danielle Rennie",
+  "David George Robertson"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Lab",
+  "Con",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/falkirk_2017_ward5.blt",
+ "council": "Falkirk",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5628,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.bonnybridge-and-larbert.2017-05-04/"
+}

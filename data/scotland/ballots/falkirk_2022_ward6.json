@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2022, Ward 6 - Falkirk North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Zohaib Arshad",
+  "Robert Bissett",
+  "James Bundy",
+  "Robbie Burgess",
+  "Judith Mclaughlin",
+  "Cecil Meiklejohn",
+  "Iain Sinclair"
+ ],
+ "parties": [
+  "API",
+  "Lab",
+  "Con",
+  "Lab",
+  "Gr",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/falkirk_2022_ward6.blt",
+ "council": "Falkirk",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6456,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.falkirk-north.2022-05-05/"
+}

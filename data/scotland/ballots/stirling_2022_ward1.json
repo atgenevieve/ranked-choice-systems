@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Stirling 2022, Ward 1 - Trossachs and Teith",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Martin Earl",
+  "Wendy Faulkner",
+  "Josh Hamilton",
+  "Dolores Hughes",
+  "Gene Maxwell",
+  "Galen Milne",
+  "John Watson",
+  "Elaine Watterson"
+ ],
+ "parties": [
+  "Con",
+  "Gr",
+  "Lab",
+  "SFP",
+  "SNP",
+  "LD",
+  "SNP",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/stirling_2022_ward1.blt",
+ "council": "Stirling",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5372,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.stirling.trossachs-and-teith.2022-05-05/"
+}

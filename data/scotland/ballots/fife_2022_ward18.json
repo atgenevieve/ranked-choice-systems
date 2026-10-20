@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 18 - St. Andrews",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Al Clark",
+  "Fergus Ramsay Cook",
+  "Rosalind Garton",
+  "Robin Lawson",
+  "Jane Ann Liston",
+  "Ann Verner"
+ ],
+ "parties": [
+  "LD",
+  "Gr",
+  "Lab",
+  "Con",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/fife_2022_ward18.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5048,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.st-andrews.2022-05-05/"
+}

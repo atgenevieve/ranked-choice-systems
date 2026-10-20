@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Dumfries and Galloway 2022, Ward 1 - Stranraer and the Rhins",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Peter Richard Barlow",
+  "Ben Dashper",
+  "Andrew Giusti",
+  "Chrissie Hill",
+  "John Mccutcheon",
+  "Willie Scobie",
+  "Tommy Sloan"
+ ],
+ "parties": [
+  "Gr",
+  "SNP",
+  "Con",
+  "Con",
+  "Lab",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/dumgal_2022_ward1.blt",
+ "council": "Dumfries and Galloway",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4618,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dumfries-and-galloway.stranraer-and-the-rhins.2022-05-05/"
+}

@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "East Renfrewshire 2022, Ward 3 ‐ Giffnock and Thornliebank",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "George Gebbie",
+  "Colm Merrick",
+  "Mary Montague",
+  "Alice Roy",
+  "Karen Sharkey",
+  "Allan Steele",
+  "Gordon Wallace"
+ ],
+ "parties": [
+  "API",
+  "SNP",
+  "Lab",
+  "Ind",
+  "Gr",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/east_renfrewshire_2022_ward3.blt",
+ "council": "East Renfrewshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 7233,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-renfrewshire.giffnock-and-thornliebank.2022-05-05/"
+}

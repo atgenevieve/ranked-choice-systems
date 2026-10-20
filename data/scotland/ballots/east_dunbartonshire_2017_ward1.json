@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "East Dunbartonshire 2017, Milngavie",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jim Gibbons",
+  "Jim Goodall",
+  "Maureen Henry",
+  "Gordon Hugh Macleod Masterton",
+  "Graeme Mcginnigle",
+  "Kate Waddell"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Lab",
+  "Gr",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/east_dunbartonshire_2017_ward1.blt",
+ "council": "East Dunbartonshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 6144,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-dunbartonshire.milngavie.2017-05-04/"
+}

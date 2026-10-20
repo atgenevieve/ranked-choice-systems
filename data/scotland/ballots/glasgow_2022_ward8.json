@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2022, Ward 8 Southside Central",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alexander Belic",
+  "Kamran Butt",
+  "Paul Robert Donnelly",
+  "Jamie Dyer",
+  "Elaine Gallagher",
+  "Sam Glasgow-Jackson",
+  "Mhairi Hunter",
+  "Tariq Parvez",
+  "James Scanlon",
+  "Soryia Siddique"
+ ],
+ "parties": [
+  "SNP",
+  "API",
+  "Soc",
+  "Ind",
+  "Gr",
+  "LD",
+  "SNP",
+  "Con",
+  "Lab",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  4,
+  8,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/glasgow_2022_ward8.blt",
+ "council": "Glasgow City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 7717,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.southside-central.2022-05-05/"
+}

@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2020, Ward 9 Ellon and District (by-election)",
+ "date": "2020-10-15",
+ "system": "scottish-stv",
+ "candidates": [
+  "John David Bennett",
+  "John Paul Crawley",
+  "Peter Alexander Kennedy",
+  "Trevor Booth Mason",
+  "Louise McAllister"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "Gr",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/aberdeenshire_2020_by_election_ellon_and_district.blt",
+ "council": "Aberdeenshire",
+ "year": 2020,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3972,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.ellon-and-district.by.2020-10-15/"
+}

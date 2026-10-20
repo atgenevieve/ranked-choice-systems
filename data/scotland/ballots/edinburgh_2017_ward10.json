@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2017, Ward 10 - Morningside",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Nick Cook",
+  "Sandy Howat",
+  "Chris Land",
+  "Melanie Main",
+  "Neil Ross",
+  "Mandy Watt"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "Con",
+  "Gr",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/edinburgh_2017_ward10.blt",
+ "council": "City of Edinburgh",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 13579,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.city-of-edinburgh.morningside.2017-05-04/"
+}

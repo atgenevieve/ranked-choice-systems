@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "East Lothian 2019, Ward 5 - Haddington and Lammermuir (by-election)",
+ "date": "2019-05-09",
+ "system": "scottish-stv",
+ "candidates": [
+  "Neal Black",
+  "Stuart Crawford",
+  "Lorraine Glass",
+  "Craig Hoy",
+  "David Sisson"
+ ],
+ "parties": [
+  "Lab",
+  "LD",
+  "SNP",
+  "Con",
+  "UKIP"
+ ],
+ "official_winners": [
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/east_lothian_2019_by_election_ward5_haddington.blt",
+ "council": "East Lothian",
+ "year": 2019,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 6319,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-lothian.haddington-and-lammermuir.by.2019-05-09/"
+}

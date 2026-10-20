@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Dumfries and Galloway 2017, Castle Douglas and Crocketford",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Iain Howie",
+  "David James",
+  "Lucy Mckie",
+  "George Prentice",
+  "Paul John Taylorson",
+  "John Lachlan Young"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "Lab",
+  "Ind",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/dumgal_2017_ward4.blt",
+ "council": "Dumfries and Galloway",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 3761,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dumfries-and-galloway.castle-douglas-and-crocketford.2017-05-04/"
+}

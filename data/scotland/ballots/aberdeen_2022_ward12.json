@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2022, Torry-Ferryhill Ward",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Brian Allan",
+  "Christian Allard",
+  "Paul Dawson",
+  "Lee Fairfull",
+  "Esme Houston",
+  "Oren Katz",
+  "Michael Kusznir",
+  "Gregor Mcabery",
+  "Simon Mclean",
+  "Simon Peter Watson"
+ ],
+ "parties": [
+  "API",
+  "SNP",
+  "Ind",
+  "SNP",
+  "Gr",
+  "Libtn",
+  "Con",
+  "LD",
+  "Ind",
+  "Lab"
+ ],
+ "official_winners": [
+  1,
+  3,
+  6,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/aberdeen_2022_ward12.blt",
+ "council": "Aberdeen City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4997,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.torryferryhill.2022-05-05/"
+}

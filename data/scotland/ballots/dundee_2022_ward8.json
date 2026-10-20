@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2022, Ward 8 - The Ferry",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Thomas Byrne",
+  "Kevin Cordell",
+  "Craig Duncan",
+  "Qaiser Habib",
+  "Mark Parsons",
+  "Derek Scott",
+  "Philip Scott",
+  "Pete Shears",
+  "Carole Smith"
+ ],
+ "parties": [
+  "API",
+  "SNP",
+  "LD",
+  "SNP",
+  "Gr",
+  "Con",
+  "Con",
+  "Lab",
+  "SFP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2022_ward8.blt",
+ "council": "Dundee City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 8979,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.the-ferry.2022-05-05/"
+}

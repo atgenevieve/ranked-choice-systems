@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2007, Partick",
+ "date": "2007-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "George Aytoun Atkinson",
+  "Stuart Clay",
+  "Aileen Colleran",
+  "Irene Graham",
+  "Andrew Gray",
+  "Christopher Mason",
+  "Kenny Mclean",
+  "Jimmy Ross",
+  "Richard Alan Sullivan"
+ ],
+ "parties": [
+  "SU",
+  "Gr",
+  "Lab",
+  "Lab",
+  "Soc",
+  "LD",
+  "SNP",
+  "Sol",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2007 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/glasgow_2007_partick.blt",
+ "council": "Glasgow City",
+ "year": 2007,
+ "by_election": false,
+ "group": "2007 council elections",
+ "seats": 4,
+ "ballots_counted": 12744,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2007_Glasgow_City_Council_election"
+}

@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 14 - Cambuslang East",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Robert Bell",
+  "Walter Mcfarlane Brogan",
+  "Amy Lee Fraioli",
+  "Alistair Fulton",
+  "Marie Gallagher",
+  "Muhammad Khuzaima",
+  "Jamie Logan",
+  "Katy Loudon"
+ ],
+ "parties": [
+  "LD",
+  "Lab",
+  "Lab",
+  "SNP",
+  "Gr",
+  "API",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2022_ward14.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5104,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.cambuslang-east.2022-05-05/"
+}

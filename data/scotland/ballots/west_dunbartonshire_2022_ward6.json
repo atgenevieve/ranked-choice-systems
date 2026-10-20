@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "West Dunbartonshire 2022, Ward 6 - Clydebank Waterfront",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Brian Michael Lally",
+  "Daniel Lennie",
+  "James Mcelhill",
+  "June Mckay",
+  "Holly Moscrop",
+  "Lauren Oxley",
+  "Jacob Toland"
+ ],
+ "parties": [
+  "SFP",
+  "Lab",
+  "SNP",
+  "Lab",
+  "Con",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/west_dunbartonshire_2022_ward6.blt",
+ "council": "West Dunbartonshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4696,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-dunbartonshire.clydebank-waterfront.2022-05-05/"
+}

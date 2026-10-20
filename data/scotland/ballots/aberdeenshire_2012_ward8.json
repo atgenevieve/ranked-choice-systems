@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2012, Mid Formartine Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Braden Davy",
+  "Jim Gifford",
+  "Jeff Goodhall",
+  "Allan Hendry",
+  "Paul Johnston",
+  "John Kevin Loveday",
+  "Cryle Shand"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "Ind",
+  "SNP",
+  "Ind",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  3,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeenshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeenshire_2012_ward8.blt",
+ "council": "Aberdeenshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4441,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeenshire_Council_election"
+}

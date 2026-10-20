@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Highland 2017, Ward 12 - Aird and Loch Ness",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Chris Ballance",
+  "Helen Carmichael",
+  "George Cruickshank",
+  "Margaret Davidson",
+  "Jean Davis",
+  "Matt Friess",
+  "Emma Knox"
+ ],
+ "parties": [
+  "Gr",
+  "Ind",
+  "Con",
+  "Ind",
+  "LD",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2017_ward12.blt",
+ "council": "Highland",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5059,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.aird-and-loch-ness.2017-05-04/"
+}

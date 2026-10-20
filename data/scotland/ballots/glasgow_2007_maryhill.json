@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2007, Maryhill",
+ "date": "2007-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alex Dingwall",
+  "John Lawson",
+  "Mary Paris",
+  "Brian Clifford Pope",
+  "Mohammed Razaq",
+  "Daryl L Tayar",
+  "Paul Wilcox",
+  "Robert Winter"
+ ],
+ "parties": [
+  "SNP",
+  "Soc",
+  "LD",
+  "Con",
+  "Lab",
+  "Gr",
+  "Sol",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2007 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/glasgow_2007_maryhill.blt",
+ "council": "Glasgow City",
+ "year": 2007,
+ "by_election": false,
+ "group": "2007 council elections",
+ "seats": 4,
+ "ballots_counted": 9901,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2007_Glasgow_City_Council_election"
+}

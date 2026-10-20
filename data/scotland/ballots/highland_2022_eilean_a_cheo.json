@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Eilean a' Cheò",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jack Clark",
+  "John Finlayson",
+  "Donald Macdonald",
+  "Hector Macleod",
+  "Drew Millar",
+  "Calum Munro",
+  "Peter Ó Donnghaile",
+  "Ruraidh Stewart",
+  "Fay Thomson"
+ ],
+ "parties": [
+  "LD",
+  "Ind",
+  "Ind",
+  "API",
+  "SNP",
+  "Ind",
+  "Lab",
+  "Con",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  4,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/highland_2022_eilean_a_cheo.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4515,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.eilean-a-cheo.2022-05-05/"
+}

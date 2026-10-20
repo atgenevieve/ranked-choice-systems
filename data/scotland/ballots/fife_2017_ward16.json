@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Fife 2017, Ward 16 - Howe Of Fife & Tay Coast",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jane Freer",
+  "Rosie Grant",
+  "Andy Heer",
+  "Violeta Ilendo",
+  "Donald Lothian",
+  "David Macdiarmid",
+  "Joshua Osborne"
+ ],
+ "parties": [
+  "Ind",
+  "Gr",
+  "Con",
+  "SNP",
+  "LD",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  2,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/fife_2017_ward16.blt",
+ "council": "Fife",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5939,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.howe-of-fife-and-tay-coast.2017-05-04/"
+}

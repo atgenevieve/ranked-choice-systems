@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2021, Ward 12 - East Garioch (by-election)",
+ "date": "2021-06-17",
+ "system": "scottish-stv",
+ "candidates": [
+  "Andy Brown",
+  "David Keating",
+  "Trevor Booth Mason",
+  "Jamie Ogilvie",
+  "Dan Ritchie"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "LD",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  1
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/aberdeenshire_2021_by_election_east_garioch.blt",
+ "council": "Aberdeenshire",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2725,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.east-garioch.by.2021-06-17/"
+}

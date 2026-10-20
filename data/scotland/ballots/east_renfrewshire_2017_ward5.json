@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "East Renfrewshire 2017, Newton Mearns South and Eaglesham",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Caroline Bamforth",
+  "Bev Brown",
+  "Barbara Grant",
+  "Ian Mcalpine",
+  "Jim Mclean",
+  "Gerry Mcveigh",
+  "Alan Rennie",
+  "Jim Swift"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "Con",
+  "Lab",
+  "Con",
+  "UKIP",
+  "LD",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/east_renfrewshire_2017_ward5.blt",
+ "council": "East Renfrewshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 9773,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-renfrewshire.newton-mearns-south-and-eaglesham.2017-05-04/"
+}

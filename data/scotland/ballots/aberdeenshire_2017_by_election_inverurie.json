@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2017, Ward 11 - Inverurie and District (by-election)",
+ "date": "2017-10-12",
+ "system": "scottish-stv",
+ "candidates": [
+  "Lesley Berry",
+  "Scott James Bremner",
+  "Sarah Flavell",
+  "Elaine Mitchell",
+  "Craig Stewart"
+ ],
+ "parties": [
+  "Con",
+  "LD",
+  "Lab",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": [
+  0
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/aberdeenshire_2017_by_election_inverurie.blt",
+ "council": "Aberdeenshire",
+ "year": 2017,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3445,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.inverurie-and-district.by.2017-10-12/"
+}

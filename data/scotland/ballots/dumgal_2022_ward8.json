@@ -1,0 +1,38 @@
+{
+ "source": "scotland",
+ "election": "Dumfries and Galloway 2022, Ward 8 - Lochar",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Linda Dorward",
+  "Ivor Hyslop",
+  "Maureen Johnstone",
+  "Tracey Little",
+  "Sandy Rogerson"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "Con",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/dumgal_2022_ward8.blt",
+ "council": "Dumfries and Galloway",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5326,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dumfries-and-galloway.lochar.2022-05-05/"
+}

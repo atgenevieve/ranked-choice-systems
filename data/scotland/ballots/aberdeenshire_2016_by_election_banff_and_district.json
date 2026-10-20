@@ -1,0 +1,29 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2016, Banff and District Ward (by-election)",
+ "date": null,
+ "system": "scottish-stv",
+ "candidates": [
+  "Alistair Mason",
+  "Glen Reynolds",
+  "Iain Taylor"
+ ],
+ "parties": [
+  null,
+  null,
+  null
+ ],
+ "official_winners": null,
+ "blank_ballots": 0,
+ "notes": "Some party descriptions were blank. Official winners not found in any source.",
+ "raw_file": "raw/scot-elex/blt_files/3_cands/aberdeenshire_2016_by_election_banff_and_district.blt",
+ "council": "Aberdeenshire",
+ "year": 2016,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2658,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": null,
+ "official_winners_url": null
+}

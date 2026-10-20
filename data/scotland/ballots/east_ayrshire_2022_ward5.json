@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "East Ayrshire 2022, Ward 5 - Kilmarnock South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Robin Bawa",
+  "Peter Mabon",
+  "Clare Maitland",
+  "Stewart John Mclintock",
+  "Jim Todd",
+  "Keyrin James Von-Döring"
+ ],
+ "parties": [
+  "Con",
+  "Lab",
+  "SNP",
+  "API",
+  "SNP",
+  "Libtn"
+ ],
+ "official_winners": [
+  1,
+  2,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/east_ayrshire_2022_ward5.blt",
+ "council": "East Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3036,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-ayrshire.kilmarnock-south.2022-05-05/"
+}

@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 11 - Rutherglen South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Robert Brown",
+  "Margaret Cowie",
+  "Alexandra Herdman",
+  "Carol Nugent",
+  "Michael O'Hara",
+  "Spencer Hugh Pryor",
+  "Emma Jane Nicola Smith"
+ ],
+ "parties": [
+  "LD",
+  "LabCo",
+  "Con",
+  "SNP",
+  "SFP",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/south_lanarkshire_2022_ward11.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5729,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.rutherglen-south.2022-05-05/"
+}

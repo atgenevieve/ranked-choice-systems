@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Scottish Borders 2012, Hawick and Hermitage Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Bill Cumming",
+  "Kevin Ferguson",
+  "Frank Little",
+  "Davie Paterson",
+  "Ron Smith",
+  "Tommy Stevenson",
+  "George Turnbull"
+ ],
+ "parties": [
+  "Lab",
+  "Gr",
+  "Borders",
+  "Ind",
+  "LD",
+  "SNP",
+  "Con"
+ ],
+ "official_winners": [
+  3,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Scottish Borders Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/sc_borders_2012_ward11.blt",
+ "council": "Scottish Borders",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 2898,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Scottish_Borders_Council_election"
+}

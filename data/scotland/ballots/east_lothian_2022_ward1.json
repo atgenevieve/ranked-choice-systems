@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "East Lothian 2022, Ward 1 - Musselburgh",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ruaridh Bennett",
+  "Susan Butts",
+  "Stephen Carter",
+  "Cher Cassini",
+  "Andy Forrest",
+  "Michelle Graham",
+  "Katie Mackie",
+  "Shona Mcintosh",
+  "Iain Whyte"
+ ],
+ "parties": [
+  "Lab",
+  "LD",
+  "SFP",
+  "SNP",
+  "Lab",
+  "API",
+  "Con",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/east_lothian_2022_ward1.blt",
+ "council": "East Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 7356,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-lothian.musselburgh.2022-05-05/"
+}

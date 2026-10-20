@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Highland 2012, Badenoch and Strathspey Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jaci Douglas",
+  "Les Durance",
+  "Ross Scott Durance",
+  "David Fallows",
+  "Bill Lobban",
+  "Gregor Rimell",
+  "Kieran James Turner"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "UKIP",
+  "SNP",
+  "SNP",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Highland Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2012_ward21.blt",
+ "council": "Highland",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4385,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Highland_Council_election"
+}

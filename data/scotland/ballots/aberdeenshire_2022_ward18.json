@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2022, Ward 18 - Stonehaven and Lower Deeside",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Wendy Agnew",
+  "Dawn Black",
+  "Raymond James Christie",
+  "Sarah Dickinson",
+  "Dennis Robertson",
+  "Rachel Katherine Shanks",
+  "Ma Simpson",
+  "Alan Turner"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "Lab",
+  "LD",
+  "SNP",
+  "Gr",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/aberdeenshire_2022_ward18.blt",
+ "council": "Aberdeenshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5559,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.stonehaven-and-lower-deeside.2022-05-05/"
+}

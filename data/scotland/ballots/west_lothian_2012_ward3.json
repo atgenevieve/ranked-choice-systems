@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2012, Livingston North",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alison Adamson",
+  "Robert De Bold",
+  "Caron Marianne Howden",
+  "Claire Lynch",
+  "Anne Mcmillan",
+  "Andrew Miller",
+  "Angela Moohan",
+  "Annmargaret Watson"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "LD",
+  "Ind",
+  "Lab",
+  "SNP",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  4,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 West Lothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/west_lothian_2012_ward3.blt",
+ "council": "West Lothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 6131,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_West_Lothian_Council_election"
+}

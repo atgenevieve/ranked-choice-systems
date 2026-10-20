@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Fife 2022, Ward 14 - Glenrothes North Leslie & Markinch",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Beare",
+  "Frances Jean Bennie",
+  "George Thomas Carratt",
+  "Bryce Goodall",
+  "Peter Gulline",
+  "Afifa Khanam",
+  "Lynn Mowatt",
+  "Jan Wincott"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "SFP",
+  "Gr",
+  "Con",
+  "Lab",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  4,
+  6,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/fife_2022_ward14.blt",
+ "council": "Fife",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6255,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.glenrothes-north-leslie-and-markinch.2022-05-05/"
+}

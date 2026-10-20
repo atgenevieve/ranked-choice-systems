@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Fife 2012, St Andrews Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Benjamin Bridgman",
+  "Murdo Macdonald",
+  "Keith Mccartney",
+  "Frances Melville",
+  "Dorothea Morrison",
+  "Henry Paul",
+  "Bill Sangster",
+  "Brian Thomson",
+  "Robin Waterston"
+ ],
+ "parties": [
+  "Gr",
+  "Ind",
+  "SNP",
+  "LD",
+  "Con",
+  "Ind",
+  "LD",
+  "Lab",
+  "LD"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Fife Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/fife_2012_ward19.blt",
+ "council": "Fife",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4411,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Fife_Council_election"
+}
