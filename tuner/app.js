@@ -221,7 +221,8 @@ function updateLabels(c) {
 // ---------------------------------------------------------------- charts
 /** A chart on linear scales. series: [{points: [[x, y]], color, width, dots}];
  *  opts: {xMin, xMax, xTicks, yMax, yStep, yFmt, xTitle, hlines: [{y, label}],
- *  marks: [{x, y, label}], bars: [{x, y}] (drawn behind the lines)}. */
+ *  marks: [{x, y, label}], vlines: [x] (faint dotted), bars: [{x, y}] and bands: [{points: [[x, low, high]], color}]
+ *  (both drawn behind the lines)}. */
 function chart(box, series, opts) {
   box.replaceChildren();
   const w = Math.max(280, box.clientWidth || 600), H = 250, L = 46, R = 14, T = 16, B = 38;
@@ -240,6 +241,11 @@ function chart(box, series, opts) {
       const h = sy(0) - sy(b.y);
       if (h > 0) el("rect", { x: sx(b.x) - bw / 2, y: sy(b.y), width: bw, height: h, rx: 1.5, fill: css("--real") }, svg);
     }
+  }
+  for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: sy(0), stroke: css("--ink-2"), "stroke-width": 1, "stroke-dasharray": "2 3", opacity: 0.6 }, svg);
+  for (const b of opts.bands || []) {
+    const edge = [...b.points.map(([x, , hi]) => [x, hi]), ...b.points.map(([x, lo]) => [x, lo]).reverse()];
+    el("polygon", { points: edge.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" "), fill: css(b.color), opacity: 0.55 }, svg);
   }
   for (const h of opts.hlines || []) {
     el("line", { x1: L, x2: w - R, y1: sy(h.y), y2: sy(h.y), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "5 4", opacity: 0.7 }, svg);
@@ -298,18 +304,17 @@ function drawElection(r, c) {
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
   const xTicks = rankTicks(xMax);
   // Headline and figures.
-  setText("headline", `Keep the first ${k95} ranks of every ballot, and 19 in 20 simulated elections elect exactly the same ${seats} people as full ballots. Half of elections need only ${k50}.`);
+  setText("headline", `Keep the first ${k95} ranks of every ballot, and 95 of 100 simulated elections (95% confidence) elect exactly the same ${seats} people as full ballots. Half of elections need only ${k50}.`);
   const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
   $("figures").replaceChildren(
-    fig("19 in 20 elections", `rank ${k95}`, `Cut ballots after this rank or any deeper rank, and 95% of elections come out the same. 8 in 10 need ${k80}; every election, ${kAll}.`),
-    fig("One cut, 5 in 100", `rank ${k5}`, `From this rank on, cutting ballots at any single rank changes the winners in fewer than 5 of 100 elections.`),
+    fig("95% confidence", `rank ${k95}`, `In 95 of 100 simulated elections, cutting ballots after this rank, or after any deeper rank, elects the same people as full ballots. 8 in 10 need ${k80}; every election, ${kAll}.`),
     fig("Seats", `rank ${kSeat}`, `From this rank on, cutting ballots moves fewer than 1 of the ${seats} seats, on average. No election changes any seat from rank ${kNone}.`),
     fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
   );
   // Chart 1: elections that come out the same.
   chart($("chart-same"), [{ points: same.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
     xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-    marks: [{ x: k50, y: same[k50 - 1], label: `half: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `8 in 10: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `19 in 20: rank ${k95}`, below: true }]
+    marks: [{ x: k50, y: same[k50 - 1], label: `half: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `8 in 10: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }]
       .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });
@@ -348,6 +353,89 @@ async function runElection(c, seq) {
   setStatus("election-status", "");
   drawElection(lastElection, c);
 }
+
+// ---------------------------------------------------------------- voters sweep
+// Your election at a range of voter counts: the 95% confidence rank at each, with the range chance
+// alone could give. With n simulated elections, the 95th-percentile cutoff rank is the order
+// statistic at 0.95n; a 90% range for it runs between the order statistics 1.645 standard
+// deviations (sqrt(n * 0.95 * 0.05)) either side.
+let sweep = null;  // {key, points: [{v, k, lo, hi}], voters, sims}
+
+function rankAt(counts, n, j) {
+  let acc = 0;
+  for (let i = 0; i < counts.length; i++) { acc += counts[i]; if (acc >= j - 1e-9) return i + 1; }
+  return counts.length;
+}
+function k95Range(counts, n) {
+  const sd = 1.645 * Math.sqrt(n * 0.95 * 0.05);
+  return { k: rankAt(counts, n, 0.95 * n), lo: rankAt(counts, n, Math.max(1, Math.floor(0.95 * n - sd))), hi: rankAt(counts, n, Math.min(n, Math.ceil(0.95 * n + sd))) };
+}
+/** Everything but voters, so the sweep can tell when other settings change under it. */
+const sweepKey = c => JSON.stringify({ ...electionSettings(c), election: { ...electionSettings(c).election, voters: 0 } });
+
+function sweepDefaults(c) {
+  const v = int(c.voters, 10, 50000);
+  $("sweep-from").placeholder = String(Math.max(10, Math.round(v / 2)));
+  $("sweep-to").placeholder = String(Math.min(50000, v * 2));
+}
+
+function drawSweep(c) {
+  if (!sweep || !sweep.points.length) { $("chart-voters").replaceChildren(); setText("sweep-found", ""); return; }
+  const pts = sweep.points.slice().sort((a, b) => a.v - b.v);
+  const xMin = pts[0].v, xMax = Math.max(pts[pts.length - 1].v, xMin + 1);
+  const top = Math.max(...pts.map(p => p.hi)), step = niceStep(top);
+  const xStep = niceStep(xMax - xMin), xTicks = [];
+  for (let x = Math.ceil(xMin / xStep) * xStep; x <= xMax; x += xStep) xTicks.push(x);
+  const yours = int(c.voters, 10, 50000);
+  const mine = pts.find(p => p.v === yours);
+  // The quota (whole votes needed to win a seat) goes up by one vote at every multiple of seats + 1.
+  const per = sweep.seats + 1, steps = [];
+  for (let x = Math.ceil(xMin / per) * per; x <= xMax; x += per) steps.push(x);
+  chart($("chart-voters"), [{ points: pts.map(p => [p.v, p.k]), color: "--model", dots: true }], {
+    xMin, xMax, xTicks, yMax: Math.ceil(top / step) * step || 1, yStep: step, yFmt: v => String(Math.round(v)), xTitle: "Voters",
+    xLabel: x => x.toLocaleString(),
+    vlines: steps.length <= 40 ? steps : [],
+    bands: pts.length > 1 ? [{ points: pts.map(p => [p.v, p.lo, p.hi]), color: "--model-soft" }] : [],
+    marks: mine ? [{ x: mine.v, y: mine.k, label: `your ${mine.v} voters: rank ${mine.k}` }] : [],
+    aria: "The 95% confidence rank, at each number of voters",
+  });
+  const ks = pts.map(p => p.k), lo = Math.min(...ks), hi = Math.max(...ks);
+  const overlap = Math.max(...pts.map(p => p.lo)) <= Math.min(...pts.map(p => p.hi));
+  const q = v => Math.floor(v / per) + 1;
+  const below = Math.floor(yours / per) * per, above = below + per;
+  setText("sweep-found", `${pts.length} voter counts from ${xMin.toLocaleString()} to ${xMax.toLocaleString()}, ${sweep.sims.toLocaleString()} simulated elections each: the rank runs from ${lo} to ${hi}. ` +
+    (overlap ? "Every point's band overlaps every other's, so these differences could all be chance. " :
+      "Some bands don't overlap, so not all of the change is chance. ") +
+    `${steps.length && steps.length <= 40 ? "The dotted lines" : "Every " + per + " voters"} mark where the quota, the whole number of votes a candidate needs to win a seat, goes up by one vote. ` +
+    `Under Scottish rules the rank tends to be highest just before a step and drop sharply at it, so voter counts a few apart can give very different answers. ` +
+    `With your ${yours.toLocaleString()} voters the quota is ${q(yours)} votes; it steps up at ${below.toLocaleString()} and ${above.toLocaleString()} voters.`);
+}
+
+$("sweep-run").addEventListener("click", async () => {
+  const c = readControls();
+  const v = int(c.voters, 10, 50000);
+  const from = int($("sweep-from").value || $("sweep-from").placeholder, 10, 50000);
+  const to = int($("sweep-to").value || $("sweep-to").placeholder, 10, 50000);
+  const n = int($("sweep-points").value, 2, 40);
+  const [a, b] = from <= to ? [from, to] : [to, from];
+  const list = [...new Set([...Array.from({ length: n }, (_, i) => Math.round(a + (b - a) * i / (n - 1))), ...(v >= a && v <= b ? [v] : [])])].sort((x, y) => x - y);
+  const key = sweepKey(c), sims = int(c.sims, 10, 1000);
+  sweep = { key, points: [], sims, seats: electionSettings(c).election.seats[0] };
+  $("sweep-run").disabled = true;
+  drawSweep(c);
+  for (let i = 0; i < list.length; i++) {
+    if (sweepKey(readControls()) !== key) { setStatus("sweep-status", "Settings changed, so the run stopped. Press Run again.", false, true); break; }
+    setStatus("sweep-status", `Playing out your election with ${list[i].toLocaleString()} voters (${i + 1} of ${list.length})…`, true);
+    const s = electionSettings(c);
+    s.election.voters = list[i];
+    const reply = await engine({ task: "election", settings: s });
+    if (reply.error || !reply.results?.length) { setStatus("sweep-status", `The engine refused these settings: ${reply.error || "no results"}`, false, true); break; }
+    sweep.points.push({ v: list[i], ...k95Range(reply.results[0].truncation.cutoff_rank.counts, sims) });
+    drawSweep(readControls());
+    if (i === list.length - 1) setStatus("sweep-status", "");
+  }
+  $("sweep-run").disabled = false;
+});
 
 // ---------------------------------------------------------------- what each setting does
 async function runDescribe(c, seq, dims) {
@@ -453,6 +541,9 @@ async function refresh() {
   c = readControls(); // sliders that follow "auto" may have moved
   try { localStorage.setItem(STORE_KEY, JSON.stringify(c)); } catch { /* storage may be blocked */ }
   $("toml").textContent = toml(electionSettings(c), $("tuning-name").value.trim());
+  sweepDefaults(c);
+  if (sweep && sweep.key !== sweepKey(c)) { sweep = null; drawSweep(c); setText("sweep-found", "Settings changed: press Run to play out the new settings."); }
+  else drawSweep(c);
   const seq = ++runSeq;
   // Quick answers first, then the slower count of your election.
   await Promise.all([runDescribe(c, seq, dims), runCompare(c, seq)]);
@@ -476,6 +567,7 @@ addEventListener("resize", () => {
     const c = readControls();
     if (lastElection) drawElection(lastElection, c);
     if (lastCompare) drawCompare(lastCompare.cell, lastCompare.reply);
+    drawSweep(c);
   }, 150);
 });
 
