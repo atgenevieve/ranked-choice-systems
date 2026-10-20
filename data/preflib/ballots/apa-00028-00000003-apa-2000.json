@@ -16,5 +16,13 @@
   "tied_ballots_dropped": 0,
   "preflib_file": "00028-00000003.soi",
   "preflib_dataset": "apa",
-  "notes": "PrefLib file 00028-00000003.soi (dataset 00028, 'apa'). Counting rule, as far as we know: Hare (instant runoff), single-winner."
+  "notes": "PrefLib file 00028-00000003.soi (dataset 00028, 'apa'). Counting rule, as far as we know: Hare (instant runoff), single-winner.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": null,
+    "date": "Year from the PrefLib title; exact date unknown.",
+    "max_ranks": "APA ballots let voters rank all 5 candidates."
+  },
+  "label_notes": "Candidates are anonymized in PrefLib, so the official winner cannot be matched to a candidate number."
 }

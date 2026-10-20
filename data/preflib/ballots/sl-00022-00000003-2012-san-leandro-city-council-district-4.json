@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2012 San Leandro City Council - District 4",
-  "date": "2012",
+  "date": "2012-11-06",
   "system": "unknown",
   "candidates": [
     "Chris Crow",
@@ -11,10 +11,19 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    3
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 60,
   "preflib_file": "00022-00000003.toi",
   "preflib_dataset": "sl",
-  "notes": "PrefLib file 00022-00000003.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 60 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00022-00000003.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 60 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "City of San Leandro, resolution declaring the results of the November 6, 2012 election, consent item 8F, 3 Dec 2012 (https://weblink.sanleandro.org/PublicWeblink8/0/edoc/341431/8F%20Consent%202012%201203.pdf).",
+    "date": "City of San Leandro, resolution declaring the results of the November 6, 2012 election, consent item 8F, 3 Dec 2012 (https://weblink.sanleandro.org/PublicWeblink8/0/edoc/341431/8F%20Consent%202012%201203.pdf).",
+    "max_ranks": "Alameda County and San Francisco ranked-choice ballots allowed 3 rankings (every ballot in the file has 3 or fewer ranks)."
+  }
 }

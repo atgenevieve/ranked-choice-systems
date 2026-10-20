@@ -72,6 +72,8 @@ RULES = {
     "apa": "Hare (instant runoff), single-winner.",
     "uklabor": "Alternative vote (instant runoff) by electoral college; these are only the 266 MPs' ballots.",
 }
+# ers_tideman.py later replaces the ERS files' ballots, seats, and notes with
+# Tideman's originals (PrefLib lacks seats and padded some ballots).
 SEATS_NOTE = ("Number of seats is not recorded by PrefLib for the ERS files; "
               "set to 1, which is how Tomlinson et al. counted every PrefLib election.")
 

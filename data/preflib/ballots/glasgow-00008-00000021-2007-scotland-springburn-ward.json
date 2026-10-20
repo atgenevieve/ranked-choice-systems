@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2007 Scotland Springburn Ward",
-  "date": "2007",
+  "date": "2007-05-03",
   "system": "unknown",
   "candidates": [
     "Margaret Bean",
@@ -15,11 +15,35 @@
     "John H Stuart",
     "James Todd"
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    "Scottish Socialist",
+    "Solidarity",
+    "Conservative",
+    "SNP",
+    "Scottish Green",
+    "Scottish Unionist",
+    "BNP",
+    "Labour",
+    "Liberal Democrats",
+    "Labour"
+  ],
+  "official_winners": [
+    3,
+    7,
+    9
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00008-00000021.soi",
   "preflib_dataset": "glasgow",
-  "notes": "PrefLib file 00008-00000021.soi (dataset 00008, 'glasgow'). Counting rule, as far as we know: Scottish STV, multi-winner."
+  "notes": "PrefLib file 00008-00000021.soi (dataset 00008, 'glasgow'). Counting rule, as far as we know: Scottish STV, multi-winner.",
+  "seats": 3,
+  "party_source": "Wikipedia, '2007 Glasgow City Council election', ward results (cites Andrew Teale, Local Election Results 3rd May 2007, http://www.andrewteale.me.uk/pdf/2007-scotland.pdf, and Glasgow City Council candidate lists). Independents are null.",
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Wikipedia ward results (elected candidates in bold), agreeing in every ward with the 'Elected' list on Denis Mollison's page https://www.macs.hw.ac.uk/~denis/stv_elections/SC2007/Glasgow/index.html",
+    "date": "Scottish local elections, 3 May 2007.",
+    "max_ranks": "Scottish STV lets voters rank every candidate."
+  },
+  "label_notes": "Ward: Springburn. "
 }

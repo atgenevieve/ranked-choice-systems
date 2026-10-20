@@ -14,9 +14,12 @@
   ],
   "parties": null,
   "official_winners": null,
-  "blank_ballots": 0,
+  "blank_ballots": 1,
   "tied_ballots_dropped": 0,
   "preflib_file": "00007-00000048.soi",
   "preflib_dataset": "ers",
-  "notes": "PrefLib file 00007-00000048.soi (dataset 00007, 'ers'). Counting rule, as far as we know: Various rules used by the organizations; seats and rules not recorded by PrefLib. Number of seats is not recorded by PrefLib for the ERS files; set to 1, which is how Tomlinson et al. counted every PrefLib election."
+  "notes": "PrefLib file 00007-00000048.soi (dataset 00007, 'ers'). Ballots and seat count (2) taken from Tideman's original file A63.HIL (https://rangevoting.org/TidemanData.html), which holds the same ballots: PrefLib had added the last candidate to the 44 ballots that ranked all but one, and this file restores their original length. 1 blank ballots in the original are left out and counted in blank_ballots. Counting rule unknown: Tideman describes these as British organizations, mostly trade unions, using STV or instant runoff.",
+  "seats": 2,
+  "max_ranks": null,
+  "tideman_file": "A63.HIL"
 }

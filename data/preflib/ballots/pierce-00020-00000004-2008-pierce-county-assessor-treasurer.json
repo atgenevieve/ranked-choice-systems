@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2008 Pierce County Assessor - Treasurer",
-  "date": "2008",
+  "date": "2008-11-04",
   "system": "unknown",
   "candidates": [
     "Dale Washam",
@@ -13,10 +13,20 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    0
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 327,
   "preflib_file": "00020-00000004.toi",
   "preflib_dataset": "pierce",
-  "notes": "PrefLib file 00020-00000004.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 327 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00020-00000004.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 327 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Pierce County RCV results table, Contest: County Assessor - Treasurer (https://piercecountywa.gov/DocumentCenter/View/6979/summary), read through search-engine extracts; Washam held the office afterwards (county recall petition, 2011).",
+    "date": "Pierce County, November 4, 2008 General Election.",
+    "max_ranks": "Pierce County used a 3-rank ballot for its 2008 and 2009 ranked-choice races (county sample ballot; every ballot in the file has 3 or fewer ranks)."
+  },
+  "label_notes": "The official results extract lists this contest's candidates as 'NP' (no party preference shown), so parties is null."
 }

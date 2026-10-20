@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2007 Takoma Park City Council Special Election - Ward 5",
-  "date": "2007",
+  "date": "2007-01-30",
   "system": "unknown",
   "candidates": [
     "Alexandra Quere Barrionuevo",
@@ -10,10 +10,19 @@
     "Write In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    2
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 2,
   "preflib_file": "00023-00000001.toi",
   "preflib_dataset": "takomapark",
-  "notes": "PrefLib file 00023-00000001.toi (dataset 00023, 'takomapark'). Counting rule, as far as we know: Instant runoff, single-winner. 2 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00023-00000001.toi (dataset 00023, 'takomapark'). Counting rule, as far as we know: Instant runoff, single-winner. 2 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "City of Takoma Park newsletter, 1 Apr 2012 (https://documents.takomaparkmd.gov/news/newsletter/2012/20120401-takoma-park-city-newsletter.pdf): Snipper was elected in the 2007 Ward 5 special election.",
+    "date": "FairVote, \"Takoma Park Unveils New Voting Method\" (29 Jan 2007): Ward 5 vacancy election on Tuesday, January 30.",
+    "max_ranks": "Ballots in the file rank up to all 3 named candidates."
+  }
 }

@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2002 Dublin North",
-  "date": "2002",
+  "date": "2002-05-17",
   "system": "unknown",
   "candidates": [
     "Cathal Boland F.G.",
@@ -17,11 +17,38 @@
     "David Henry Walshe C.C. Csp",
     "G.V. Wright F.F."
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    "Fine Gael",
+    "Socialist Party",
+    "Sinn Féin",
+    "Fianna Fáil",
+    null,
+    "Fianna Fáil",
+    "Fine Gael",
+    null,
+    "Labour",
+    "Green Party",
+    "Christian Solidarity Party",
+    "Fianna Fáil"
+  ],
+  "official_winners": [
+    3,
+    8,
+    9,
+    11
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00001-00000001.soi",
   "preflib_dataset": "irish",
-  "notes": "PrefLib file 00001-00000001.soi (dataset 00001, 'irish'). Counting rule, as far as we know: Irish STV (Dail), multi-winner."
+  "notes": "PrefLib file 00001-00000001.soi (dataset 00001, 'irish'). Counting rule, as far as we know: Irish STV (Dail), multi-winner.",
+  "seats": 4,
+  "party_source": "Party abbreviations in PrefLib's candidate names (as printed on the ballot paper), checked candidate by candidate against the 2002 results on Wikipedia's constituency pages (https://en.wikipedia.org/wiki/Dublin_North_(Dáil_constituency)). 'Non-P' (non-party) candidates are null.",
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Wikipedia, Dublin North (Dáil constituency), 2002 result; Denis Mollison's STV data page https://www.macs.hw.ac.uk/~denis/stv_elections/other/Eire2002/Dublin_North/index.html",
+    "date": "Polling day of the 2002 Irish general election (https://en.wikipedia.org/wiki/2002_Irish_general_election).",
+    "max_ranks": "Irish STV lets voters rank every candidate."
+  },
+  "label_notes": "Ciarán Goulding appears on Wikipedia as 'Ind. Health Alliance' but PrefLib's ballot label is 'Non-P', so null."
 }

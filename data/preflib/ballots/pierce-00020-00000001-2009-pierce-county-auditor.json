@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2009 Pierce County Auditor",
-  "date": "2009",
+  "date": "2009-11-03",
   "system": "unknown",
   "candidates": [
     "Jan Shabro",
@@ -10,10 +10,20 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    1
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 64,
   "preflib_file": "00020-00000001.toi",
   "preflib_dataset": "pierce",
-  "notes": "PrefLib file 00020-00000001.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 64 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00020-00000001.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 64 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Pierce County \"Ranked Choice Voting Results Table, Contest: Pierce County Auditor\" (https://piercecountywa.gov/DocumentCenter/View/6991/summary), read through search-engine extracts because the county site blocks automated access; Tacoma Daily Index, \"Anderson sworn in as Pierce County Auditor\".",
+    "date": "Pierce County, November 3, 2009 General Election.",
+    "max_ranks": "Pierce County used a 3-rank ballot for its 2008 and 2009 ranked-choice races (county sample ballot; every ballot in the file has 3 or fewer ranks)."
+  },
+  "label_notes": "Special election for the one year left in the term. All three candidates appeared as nonpartisan, so parties is null."
 }

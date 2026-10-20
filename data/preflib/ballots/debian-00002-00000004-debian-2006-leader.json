@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "Debian 2006 Leader",
-  "date": "2006",
+  "date": "2006-04-08",
   "system": "unknown",
   "candidates": [
     "Jeroen van Wolffelaar",
@@ -14,10 +14,20 @@
     "None of the Above"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    3
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00002-00000004.soi",
   "preflib_dataset": "debian",
-  "notes": "PrefLib file 00002-00000004.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner."
+  "notes": "PrefLib file 00002-00000004.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Debian vote page https://www.debian.org/vote/2006/vote_002 (\"The winner of the election is ...\" / \"The winners\").",
+    "date": "Last day of the voting period on https://www.debian.org/vote/2006/vote_002.",
+    "max_ranks": "Debian ballots let voters rank every option."
+  },
+  "label_notes": "Official winner under Debian's Condorcet (Schwartz sequential dropping) rule, not instant runoff."
 }

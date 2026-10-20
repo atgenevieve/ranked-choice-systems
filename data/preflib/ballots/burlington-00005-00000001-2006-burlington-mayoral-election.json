@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2006 Burlington Mayoral Election",
-  "date": "2006",
+  "date": "2006-03-07",
   "system": "unknown",
   "candidates": [
     "Louie The Cowman Beaudin",
@@ -11,11 +11,29 @@
     "Loyal Ploof",
     "Write-Ins"
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    null,
+    "Republican",
+    "Progressive",
+    "Democratic",
+    "Green",
+    null
+  ],
+  "official_winners": [
+    2
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 32,
   "preflib_file": "00005-00000001.toi",
   "preflib_dataset": "burlington",
-  "notes": "PrefLib file 00005-00000001.toi (dataset 00005, 'burlington'). Counting rule, as far as we know: Instant runoff, single-winner. 32 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00005-00000001.toi (dataset 00005, 'burlington'). Counting rule, as far as we know: Instant runoff, single-winner. 32 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "party_source": "Wikipedia, \"2006 Burlington, Vermont mayoral election\", results table. Independents are null.",
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Wikipedia, \"2006 Burlington, Vermont mayoral election\" (cites the city's ChoicePlus round reports).",
+    "date": "Wikipedia election infobox.",
+    "max_ranks": "Unknown; ballots in the file rank up to 5 of the 5 named candidates."
+  },
+  "label_notes": "Louie 'The Cowman' Beaudin ran as an independent."
 }

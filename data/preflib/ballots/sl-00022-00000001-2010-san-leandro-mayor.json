@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2010 San Leandro Mayor",
-  "date": "2010",
+  "date": "2010-11-02",
   "system": "unknown",
   "candidates": [
     "Stephen H. Cassidy",
@@ -13,10 +13,19 @@
     "Lou Filipovich"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    0
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 47,
   "preflib_file": "00022-00000001.toi",
   "preflib_dataset": "sl",
-  "notes": "PrefLib file 00022-00000001.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 47 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00022-00000001.toi (dataset 00022, 'sl'). Counting rule, as far as we know: Instant runoff, single-winner. 47 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "City of San Leandro council agendas list \"Mayor Stephen H. Cassidy\" from 2011 (https://weblink.sanleandro.org/).",
+    "date": "California general election.",
+    "max_ranks": "Alameda County and San Francisco ranked-choice ballots allowed 3 rankings (every ballot in the file has 3 or fewer ranks)."
+  }
 }

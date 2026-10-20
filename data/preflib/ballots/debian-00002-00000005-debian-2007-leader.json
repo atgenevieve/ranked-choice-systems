@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "Debian 2007 Leader",
-  "date": "2007",
+  "date": "2007-04-07",
   "system": "unknown",
   "candidates": [
     "Wouter Verhelst",
@@ -15,10 +15,20 @@
     "None Of The Above"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    3
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00002-00000005.soi",
   "preflib_dataset": "debian",
-  "notes": "PrefLib file 00002-00000005.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner."
+  "notes": "PrefLib file 00002-00000005.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Debian vote page https://www.debian.org/vote/2007/vote_001 (\"The winner of the election is ...\" / \"The winners\").",
+    "date": "Last day of the voting period on https://www.debian.org/vote/2007/vote_001.",
+    "max_ranks": "Debian ballots let voters rank every option."
+  },
+  "label_notes": "Official winner under Debian's Condorcet (Schwartz sequential dropping) rule, not instant runoff."
 }

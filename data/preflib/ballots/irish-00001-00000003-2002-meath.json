@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2002 Meath",
-  "date": "2002",
+  "date": "2002-05-17",
   "system": "unknown",
   "candidates": [
     "Johnny Brady F.F.",
@@ -19,11 +19,40 @@
     "Mary Wallace F.F.",
     "Peter Ward Lab"
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    "Fianna Fáil",
+    "Fine Gael",
+    null,
+    "Fianna Fáil",
+    "Fine Gael",
+    "Fine Gael",
+    null,
+    null,
+    null,
+    "Green Party",
+    "Christian Solidarity Party",
+    "Sinn Féin",
+    "Fianna Fáil",
+    "Labour"
+  ],
+  "official_winners": [
+    0,
+    1,
+    3,
+    4,
+    12
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00001-00000003.soi",
   "preflib_dataset": "irish",
-  "notes": "PrefLib file 00001-00000003.soi (dataset 00001, 'irish'). Counting rule, as far as we know: Irish STV (Dail), multi-winner."
+  "notes": "PrefLib file 00001-00000003.soi (dataset 00001, 'irish'). Counting rule, as far as we know: Irish STV (Dail), multi-winner.",
+  "seats": 5,
+  "party_source": "Party abbreviations in PrefLib's candidate names (as printed on the ballot paper), checked candidate by candidate against the 2002 results on Wikipedia's constituency pages (https://en.wikipedia.org/wiki/Meath_(Dáil_constituency)). 'Non-P' (non-party) candidates are null.",
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Wikipedia, Meath (Dáil constituency), 2002 result.",
+    "date": "Polling day of the 2002 Irish general election (https://en.wikipedia.org/wiki/2002_Irish_general_election).",
+    "max_ranks": "Irish STV lets voters rank every candidate."
+  }
 }
