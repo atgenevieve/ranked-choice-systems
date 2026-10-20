@@ -28,6 +28,13 @@ struct Totals {
     changed: Vec<usize>,
     seats_changed: Vec<u64>,
     seats_changed_max: Vec<u32>,
+    /// Rank worth: for each rank k, the winners that rank decides in one election, d_k =
+    /// (winners wrong when ballots stop one rank earlier) − (winners wrong when they stop at k),
+    /// with rank 1 deciding seats − (winners wrong at rank 1). Sums, sums of squares, and sums
+    /// of d_k × d_(k+1), for the mean, spread, and ratio to the next rank.
+    worth_sum: Vec<f64>,
+    worth_sq: Vec<f64>,
+    worth_next: Vec<f64>,
     cutoffs: Vec<usize>,
     voters: Vec<usize>,
     exhausted_votes: f64,
@@ -43,6 +50,9 @@ impl Totals {
             changed: vec![0; len],
             seats_changed: vec![0; len],
             seats_changed_max: vec![0; len],
+            worth_sum: vec![0.0; len],
+            worth_sq: vec![0.0; len],
+            worth_next: vec![0.0; len],
             ..Default::default()
         }
     }
@@ -60,6 +70,15 @@ impl Totals {
             *a += b;
         }
         for (a, b) in self.seats_changed.iter_mut().zip(o.seats_changed) {
+            *a += b;
+        }
+        for (a, b) in self.worth_sum.iter_mut().zip(o.worth_sum) {
+            *a += b;
+        }
+        for (a, b) in self.worth_sq.iter_mut().zip(o.worth_sq) {
+            *a += b;
+        }
+        for (a, b) in self.worth_next.iter_mut().zip(o.worth_next) {
             *a += b;
         }
         for (a, b) in self.seats_changed_max.iter_mut().zip(o.seats_changed_max) {
@@ -149,9 +168,19 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
                         for (k, &x) in ch.iter().enumerate() {
                             local.changed[k] += x as usize;
                         }
-                        for (k, &x) in a.seats_changed.as_ref().unwrap().iter().enumerate() {
+                        let sc = a.seats_changed.as_ref().unwrap();
+                        for (k, &x) in sc.iter().enumerate() {
                             local.seats_changed[k] += x as u64;
                             local.seats_changed_max[k] = local.seats_changed_max[k].max(x);
+                        }
+                        let worth = |k: usize| if k == 0 { seats as f64 - sc[0] as f64 } else { sc[k - 1] as f64 - sc[k] as f64 };
+                        for k in 0..sc.len() {
+                            let d = worth(k);
+                            local.worth_sum[k] += d;
+                            local.worth_sq[k] += d * d;
+                            if k + 1 < sc.len() {
+                                local.worth_next[k] += d * worth(k + 1);
+                            }
                         }
                         local.cutoffs.push(a.cutoff_rank.unwrap());
                     }
@@ -225,6 +254,11 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
                 "mean": round4(&mean_seats[..show]),
                 "share_mean": round4(&share[..show]),
                 "max": t.seats_changed_max[..show],
+            },
+            "rank_worth": {
+                "mean": round4(&t.worth_sum.iter().map(|x| x / n).collect::<Vec<_>>()[..show]),
+                "sd": round4(&t.worth_sum.iter().zip(&t.worth_sq).map(|(s, q)| (q / n - (s / n).powi(2)).max(0.0).sqrt()).collect::<Vec<_>>()[..show]),
+                "cov_next": round4(&(0..len).map(|k| if k + 1 < len { t.worth_next[k] / n - t.worth_sum[k] / n * t.worth_sum[k + 1] / n } else { 0.0 }).collect::<Vec<_>>()[..show]),
             },
             "threshold_rank": by_threshold,
             "cutoff_rank": {

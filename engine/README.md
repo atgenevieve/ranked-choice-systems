@@ -95,6 +95,7 @@ Each seat count writes one line of JSON. Every line records the full settings, t
   - `seats_changed`: for each cutoff rank *k*, how many seats go to a different candidate when keeping only *k* ranks: `mean` (average across elections), `share_mean` (that average divided by the number of seats), and `max` (the most in any one election). This shows how big a change is, since `p_changed` counts swapping one seat out of 50 the same as swapping all of them.
   - `threshold_rank`: for each threshold (`t5` means 5 in 100 elections), the smallest rank *k* where the truncation curve stays below the threshold for *k* and every deeper rank.
   - `cutoff_rank`: the spread of cutoff ranks across elections: `mean`, `p10`, `p50`, `p90`, `max`, and `counts` (how many elections had each cutoff rank, starting at rank 1).
+  - `rank_worth`: how many winners each rank decides. For rank 1, the seats minus the winners that would be different with first choices alone; for each later rank, the winners that would be different if ballots stopped one rank earlier, minus those different if they stop at this rank. Across ranks it adds up to the seats. `mean` and `sd` (spread across elections) for each rank, and `cov_next` (how it moves with the next rank's, for ratios between ranks).
 - `exhaustion`: average share of voting weight (`votes_pct_mean`) and of ballots (`ballots_pct_mean`), out of 100, that ran out of candidates still in the race.
 
 ## Count real ballots
