@@ -267,13 +267,34 @@ function chart(box, series, opts) {
     el("polyline", { points: p, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round", ...(s.dash ? { "stroke-dasharray": s.dash } : {}) }, svg);
     if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 2.6, fill: css(s.color) }, svg);
   }
-  // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label.
+  // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label. Each label
+  // takes the first spot around its point that crosses no data line and no other label.
+  const lines = series.map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
+  const taken = [];
+  const hits = r => taken.some(o => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1) ||
+    r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B ||
+    lines.some(pts => pts.some((p, i) => {
+      if (i === 0) return false;
+      const [x0, y0] = pts[i - 1], [x1, y1] = p;
+      for (let t = 0; t <= 1; t += 0.1) {
+        const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
+        if (x > r.x1 - 2 && x < r.x2 + 2 && y > r.y1 - 2 && y < r.y2 + 2) return true;
+      }
+      return false;
+    }));
   for (const m of opts.marks || []) {
     const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax));
     el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
     el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: css("--mark"), "stroke-width": 2 }, svg);
-    const right = x > w - 150;
-    text(svg, x + (right ? -9 : 9), y + (m.below ? 16 : -8), m.label, { class: "marklab", "text-anchor": right ? "end" : "start" });
+    taken.push({ x1: x - 6, x2: x + 6, y1: y - 6, y2: y + 6 });
+    const width = m.label.length * 7 + 4;
+    const spots = [];
+    for (const dy of m.below ? [16, -8, 30, -22, -36, -50] : [-8, 16, -22, -36, 30, -50])
+      for (const side of [1, -1]) spots.push({ dx: 9 * side, dy, side });
+    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 11, y2: y + s.dy + 3 });
+    const spot = spots.find(s => !hits(box(s))) || spots.find(s => { const b = box(s); return b.x1 >= L && b.x2 <= w - R; }) || spots[0];
+    taken.push(box(spot));
+    text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end" });
   }
 }
 

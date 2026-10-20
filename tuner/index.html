@@ -127,7 +127,7 @@ section.panel > h2 { font-size: 19px; font-weight: 800; margin: 0; text-wrap: ba
 .chart text { font-family: var(--font-data); font-size: 11px; fill: var(--ink-2); }
 .chart .title { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); }
 .chart .lab { font-family: var(--font-ui); font-size: 12px; fill: var(--ink); }
-.chart .marklab { font-family: var(--font-ui); font-size: 12px; font-weight: 600; fill: var(--mark); }
+.chart .marklab { font-family: var(--font-ui); font-size: 12px; font-weight: 600; fill: var(--mark); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .status { font-size: 13px; color: var(--ink-2); min-height: 1.5em; margin: 0; }
 .status.busy::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--model); margin-right: 6px; animation: pulse 1s infinite alternate; }
 @keyframes pulse { from { opacity: 0.25; } to { opacity: 1; } }
