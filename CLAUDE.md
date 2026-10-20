@@ -88,7 +88,7 @@ All of this was measured with **reach**. Truncation results will differ, and the
 - `docs/model-spec.md`: the voter model, assumption by assumption.
 - `docs/large-elections.md`: how common elections with many seats are, and how voters behave on long ballots.
 - `docs/ballot-format.md`: the `.ballots` file format shared by the engine and the real-data scripts.
-- `data/`: real ballot data, one folder per source, each with a README describing where it came from.
+- `data/`: real ballot data, one folder per source. `data/README.md` sums up each dataset's details, adjustments, and shortcomings.
 - `docs/literature.md`: published research, and the findings this project should reproduce.
 - `engine/`: Rust simulator. See `engine/README.md`.
 - `reference/`: the original JavaScript counter, used as the validation reference.
