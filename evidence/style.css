@@ -109,3 +109,4 @@ svg text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; 
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; } }
 :root[data-theme="dark"] { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; }
 
+.figure h3 { font-size: 15px; font-weight: 600; margin: 10px 0 0; }

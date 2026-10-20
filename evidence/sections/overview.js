@@ -1,4 +1,4 @@
-// Overview: the six decisions, each linking to its evidence tab.
+// Overview: the decisions, each linking to its evidence tab.
 window.SECTIONS.overview = () => {
   const main = document.getElementById("figs");
   const intro = document.createElement("section"); intro.className = "figure";

@@ -416,3 +416,50 @@ function ladder(f, series, opts) {
     }
   });
 }
+
+// Lines on linear scales, for values measured at numbered points (such as voter counts).
+// series: [{name, color, points: [[x, y]], dash, width, band: [[x, lo, hi]]}];
+// opts: {xMin, xMax, xStep, yMax, yStep, xTitle, yTitle, vlines: [x], vlineName, height, aria, fmt}.
+// Hover shows every series at the nearest x.
+function lineChart(f, series, opts) {
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  const fmt = opts.fmt || (v => String(v));
+  draws.push(() => {
+    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 14, T = 18, B = 38;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
+    const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R), sy = v => T + (1 - Math.min(v, opts.yMax) / opts.yMax) * (H - T - B);
+    for (const t of niceTicks(opts.yMax, opts.yStep)) {
+      el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, L - 6, sy(t) + 4, String(t), { "text-anchor": "end" });
+    }
+    const every = Math.max(1, Math.ceil(((opts.xMax - opts.xMin) / opts.xStep) / Math.max(2, Math.floor((w - L - R) / 60))));
+    for (let x = Math.ceil(opts.xMin / opts.xStep) * opts.xStep, i = 0; x <= opts.xMax + 1e-9; x += opts.xStep, i++)
+      if (i % every === 0) txt(svg, sx(x), H - B + 15, x.toLocaleString(), { "text-anchor": "middle" });
+    txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
+    txt(svg, L, T - 6, opts.yTitle || "", { class: "title" });
+    for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: H - B, stroke: css("--axis"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
+    for (const s of series.filter(s => s.band)) {
+      const up = s.band.map(([x, , hi]) => `${sx(x)},${sy(hi)}`), down = s.band.map(([x, lo]) => `${sx(x)},${sy(lo)}`).reverse();
+      el("polygon", { points: [...up, ...down].join(" "), fill: css(s.color), opacity: 0.18 }, svg);
+    }
+    for (const s of series) {
+      const d = s.points.map(([x, y]) => `${sx(x).toFixed(1)},${sy(y).toFixed(1)}`).join(" ");
+      el("polyline", { points: d, fill: "none", stroke: css("--surface"), "stroke-width": (s.width || 2.5) + 3, "stroke-linejoin": "round" }, svg);
+      el("polyline", { points: d, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-dasharray": s.dash || "", "stroke-linejoin": "round" }, svg);
+    }
+    // Hover: a vertical guide and every series' value at the nearest x.
+    const xs = [...new Set(series.flatMap(s => s.points.map(p => p[0])))].sort((a, b) => a - b);
+    const guide = el("line", { y1: T, y2: H - B, stroke: css("--ink"), "stroke-width": 1, visibility: "hidden" }, svg);
+    const marker = el("circle", { r: 1, fill: "transparent" }, svg);
+    const area = el("rect", { x: L, y: T, width: w - L - R, height: H - T - B, fill: "transparent" }, svg);
+    area.addEventListener("pointermove", e => {
+      const r = svg.getBoundingClientRect(), px = e.clientX - r.left;
+      const x = xs.reduce((a, b) => Math.abs(sx(b) - px) < Math.abs(sx(a) - px) ? b : a);
+      guide.setAttribute("x1", sx(x)); guide.setAttribute("x2", sx(x)); guide.setAttribute("visibility", "visible");
+      marker.setAttribute("cx", sx(x)); marker.setAttribute("cy", T + 10);
+      showTip(marker, `${opts.xTitle}: ${x.toLocaleString()}`, series.map(s => { const p = s.points.find(p => p[0] === x); return p ? `${s.name}: ${fmt(p[1])}` : null; }).filter(Boolean));
+    });
+    area.addEventListener("pointerleave", () => { guide.setAttribute("visibility", "hidden"); hideTip(); });
+  });
+}

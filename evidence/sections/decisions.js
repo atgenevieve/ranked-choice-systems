@@ -43,4 +43,11 @@ const DECISIONS = {
     proposal: "Set candidates, seats, and voters from your organization's real elections, and test a range around them. Lower the 1,000-voter minimum so electorates of a few hundred (Metro DC DSA had 432) can be simulated. Expect about 1.5 to 2 candidates per seat in large elections.",
     needed: "Nothing for now. Candidates, seats, and voters become controls in the model tuner. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters).",
   },
+  "quota-rounding": {
+    title: "Quota rounding and turnout",
+    status: "Needs your decision",
+    now: "Each run has one exact number of voters, counted with Scottish rules, whose quota is rounded to a whole number of votes. In elections with few votes per seat, that rounding swings the answer by 2 to 3 times as turnout changes by a few voters.",
+    proposal: "Treat turnout as a range, not a number: each simulated election draws its voter count from the range you expect, so the 95% confidence rank already covers not knowing turnout. Count each election both ways, with the whole-vote quota and with the exact quota, until we know which rules your organization uses.",
+    needed: "Two things. Which counting rules your organization uses, and in particular whether its quota is a whole number of votes (the rule book or the counting software's settings would say). And the turnout range to plan for, such as the lowest and highest turnout in recent elections.",
+  },
 };

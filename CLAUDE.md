@@ -70,7 +70,8 @@ Fixed in milestone 1: Scottish rounding (5 decimal places), Scottish tie-breakin
 Still open:
 
 - **Model version 0.2 gaps** (milestone 4, `docs/model-check.md`): the last candidate is too weak in Scottish multi-seat wards and organizational elections with 5 or more seats. An option (standout candidates) is waiting on the owner.
-- **One voting system.** Only Scottish STV (milestone 7).
+- **One voting system.** Only Scottish STV (milestone 7). An exact-quota option (`run.quota = "exact"`) exists for measuring quota rounding.
+- **Quota rounding and turnout** (open question 3 in `docs/model-spec.md`): with few votes per seat, Scottish rules' whole-vote quota makes the answer swing by 2 to 3 times as voters change by a few (a sawtooth with a step every seats + 1 voters). Never report a result for one exact voter count in such elections. A proposal (turnout as a range) is waiting on the owner.
 
 ## What's been learned so far
 

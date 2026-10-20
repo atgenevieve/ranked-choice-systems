@@ -8,6 +8,7 @@ const TABS = [
   ["slate-sizes", "Slate sizes"],
   ["unaffiliated", "Slates and unaffiliated candidates"],
   ["election-size", "Election size"],
+  ["quota-rounding", "Quota rounding"],
 ];
 const cache = {};
 let current = null;

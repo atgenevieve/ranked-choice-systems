@@ -18,6 +18,7 @@
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately; slates sized to the seats they expect to win | **Approved** |
 | 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | **Approved** |
 | 6 | Number of voters | 10 per candidate, at least 1,000 | Set from your organization's real numbers; lower the minimum | **Approved.** Numbers to come |
+| 7 | Quota rounding and turnout (found after the review) | One exact voter count; whole-vote quota | Turnout as a range; count with both the whole-vote and the exact quota | **Needed:** your counting rules; your turnout range |
 | – | Which real data to tune against | – | Scotland and ERS first, Portland for large fields, your organization's data if available | Can you get past ballots? |
 
 ## 5. Ballot length: how many candidates each voter ranks
@@ -233,6 +234,16 @@ Keep an optional table of closeness between slates for later, if real data from 
 **Proposal:** set candidates, seats, and voters from your organization's real elections, and test a range around them.
 
 **Your decision (October 20, 2026):** approved: set candidates, seats, and voters from your organization's real elections, and test a range around them. Lower the 1,000-voter minimum, so electorates of a few hundred (Metro DC DSA had 432) can be simulated. Large organizational elections run about 1.5 to 2 candidates per seat (Metro DC DSA: 1.63), and the number of voters shows almost no link to seats or candidates. Still to come: your organization's typical numbers.
+
+## 7. Quota rounding and turnout (found after the review)
+
+**Now:** each run has one exact number of voters, and Scottish rules round the quota to a whole number of votes: ballots ÷ (seats + 1), fraction dropped, plus 1.
+
+**What the simulations show:** with few votes per seat, the rounding moves the quota by up to about 10%, once for each winner. In a 75-candidate, 46-seat election of organization members, the 95% confidence rank climbs from about 18 to about 35 as voters grow between one quota step and the next (every 47 voters), then drops back at the step. With the exact quota (no rounding), it stays at about 35. The swing fades as votes per seat grow. See the quota-rounding tab of the evidence page.
+
+**Proposal:** treat turnout as a range: each simulated election draws its voter count from the range expected, so the 95% confidence rank covers not knowing turnout. Count with both quotas until your organization's rules are known.
+
+**Needed from you:** your organization's counting rules, especially whether the quota is a whole number of votes, and the turnout range to plan for.
 
 ## Factors still left out
 

@@ -19,4 +19,6 @@ python3 -I data/ballot_length_charts.py evidence/data/ballot-length.json
 python3 -I data/evidence_data.py evidence/data
 ```
 
+The quota-rounding tab's data comes from simulations, not real ballots. After building the engine (`cargo build --release` in `engine/`), run `python3 -I data/quota_rounding.py evidence/data/quota-rounding.json` (about 20 minutes).
+
 `docs/large-elections.md` supplies the reference elections on the election-size tab (Metro DC DSA, Western Australia).
