@@ -64,7 +64,9 @@ header p { margin: 4px 0 0; color: var(--ink-2); max-width: 70ch; }
 .setting + .setting { border-top: 1px dashed var(--grid); padding-top: 14px; }
 .setting-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .setting-head label, .setting-head .label { font-size: 14.5px; font-weight: 600; }
-.slider-row { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; align-items: start; }
+.slider-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: start; }
+.slider-value { display: grid; gap: 3px; align-content: start; }
+.slider-value .typed { width: 5.4em; }
 .slider-row output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; line-height: 1.3; padding-top: 1px; }
 .slider-track { display: grid; gap: 4px; min-width: 0; }
 .setting-head output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; text-align: right; }
@@ -133,6 +135,7 @@ section.panel > h2 { font-size: 19px; font-weight: 800; margin: 0; text-wrap: ba
 .error { color: var(--bad); }
 .sweep-fields { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
 .sweep-fields .field { width: 120px; }
+.sweep-fields .field.sweep-turnout { width: 220px; }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-2); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .swatch { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
@@ -338,11 +341,12 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
         <div class="chartcard">
           <h3>How turnout changes how many ranks matter</h3>
-          <p class="read">Plays out your election at a range of expected turnouts, from the lowest to the highest, with every other setting the same, including your turnout range around each one. For each expected turnout, it plots the same number as the headline: the rank by which 95 of 100 elections are decided, and the same for 80 and 50 of 100. A line that rises means a bigger turnout needs voters to rank further. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two points fall inside each other's bands, the difference between them could be luck. It runs your election once per point (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask.</p>
+          <p class="read">Plays out your election at a range of expected turnouts, from the lowest to the highest, with every other setting the same, including the turnout range around each one: about 2 in 3 of each point's elections have turnout within that range of the expected number. The turnout range here is the same setting as under Expected voters; changing either changes both. For each expected turnout, it plots the same number as the headline: the rank by which 95 of 100 elections are decided, and the same for 80 and 50 of 100. A line that rises means a bigger turnout needs voters to rank further. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two points fall inside each other's bands, the difference between them could be luck. It runs your election once per point (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask.</p>
           <div class="sweep-fields">
             <div class="field"><label for="sweep-from">Lowest turnout</label><input type="number" id="sweep-from" min="10" max="50000"></div>
             <div class="field"><label for="sweep-to">Highest turnout</label><input type="number" id="sweep-to" min="10" max="50000"></div>
             <div class="field"><label for="sweep-step">Interval (voters)</label><input type="number" id="sweep-step" min="1" max="50000"></div>
+            <div class="field sweep-turnout"><label for="sweep-turnout-n">Turnout range</label><div class="inline-slider"><span class="pctbox"><span aria-hidden="true">±</span><input type="number" id="sweep-turnout-n" min="0" max="30" step="1" value="10" aria-label="Turnout range for this chart, percent, give or take"><span aria-hidden="true">%</span></span><input type="range" id="sweep-turnout" class="compact" min="0" max="30" step="1" value="10" aria-label="Turnout range slider"></div></div>
             <button type="button" id="sweep-run">Run</button>
           </div>
           <p class="status" id="sweep-status"></p>

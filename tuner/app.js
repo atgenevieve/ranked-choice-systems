@@ -95,7 +95,8 @@ function writeControls(c) {
     if (e.type === "checkbox") e.checked = !!c[id]; else e.value = c[id];
   }
   if (c.electorate) document.querySelector(`input[name="electorate"][value="${c.electorate}"]`).checked = true;
-  $("turnout-n").value = $("turnout").value;
+  for (const id of TURNOUT) $(id).value = $("turnout").value;
+  syncBoxes();
 }
 
 /** The [model] section of a settings file, from the controls. */
@@ -221,6 +222,7 @@ function updateLabels(c) {
   const g = Number(c.gap);
   setText("gap-v", Math.abs(g) < 0.05 ? "no different" : g > 0 ? `${times(Math.exp(g))} less support` : `standouts, ${times(Math.exp(-g))} more support`);
   marks("gap-scale", $("gap"), [{ at: -1.5, short: "−1.5", label: "Standouts, 4.5× more support (under review)" }, { at: 0, short: "0", label: "No different" }, { at: 2, short: "2", label: "Default, 7× less support" }]);
+  syncBoxes();
   return { cand, seats, N };
 }
 
@@ -666,23 +668,55 @@ use("downloads").then(downloads => {
 });
 
 // ---------------------------------------------------------------- slider layout
-// Each slider's current value sits to its left; the real-election marks stay under the slider.
+// Each slider has a box to type its value in, left of the slider, in the units the page shows
+// (percent for shares); the description of the value sits under the box, and the real-election
+// marks stay under the slider. Box and slider stay in step as either one changes.
+const TYPED = { pull: { per: 100, unit: "%" }, unaff: { per: 100, unit: "%" }, longshot: { per: 100, unit: "%" }, loyalty: { per: 1, unit: "pts" },
+  evenness: { per: 1, unit: "" }, spread: { per: 1, unit: "" }, gap: { per: 1, unit: "" } };
+const boxes = [];
+const decimals = step => (String(step).split(".")[1] || "").length;
 for (const input of document.querySelectorAll('#controls input[type="range"]:not(.compact)')) {
   const out = $(`${input.id}-v`), scale = $(`${input.id}-scale`);
   const row = document.createElement("div"); row.className = "slider-row";
+  const left = document.createElement("div"); left.className = "slider-value";
   const track = document.createElement("div"); track.className = "slider-track";
+  const t = TYPED[input.id] || { per: 1, unit: "" };
+  const box = document.createElement("input");
+  box.type = "number"; box.className = "typed"; box.id = `${input.id}-n`;
+  const dp = Math.max(0, decimals(input.step) - Math.round(Math.log10(t.per)));
+  box.min = Number(input.min) * t.per; box.max = Number(input.max) * t.per; box.step = Number(input.step) * t.per;
+  box.setAttribute("aria-label", `${document.querySelector(`label[for="${input.id}"]`)?.textContent || input.id}, typed`);
+  const show = () => { if (document.activeElement !== box) box.value = (Number(input.value) * t.per).toFixed(dp); box.disabled = input.disabled; };
+  input.addEventListener("input", show);
+  box.addEventListener("input", () => { if (box.value !== "" && !isNaN(Number(box.value))) input.value = Math.min(Number(input.max), Math.max(Number(input.min), Number(box.value) / t.per)); });
+  box.addEventListener("change", () => { box.value = (Number(input.value) * t.per).toFixed(dp); });
+  const unit = document.createElement("span"); unit.className = "unit"; unit.textContent = t.unit;
+  const line = document.createElement("span"); line.className = "pctbox"; line.append(box, unit);
   input.before(row);
-  if (out) row.append(out);
+  left.append(line);
+  if (out) left.append(out);
   track.append(input);
   if (scale) track.append(scale);
-  row.append(track);
+  row.append(left, track);
+  boxes.push(show);
 }
+/** Puts every typed box back in step with its slider (after "auto" settings move sliders). */
+const syncBoxes = () => boxes.forEach(f => f());
 
 // ---------------------------------------------------------------- turnout range
-// The typed box and the slider stay in step as either one changes.
-$("turnout").addEventListener("input", () => { $("turnout-n").value = $("turnout").value; });
-$("turnout-n").addEventListener("input", () => { if ($("turnout-n").value !== "") $("turnout").value = int($("turnout-n").value, 0, 30); });
-$("turnout-n").addEventListener("change", () => { $("turnout-n").value = $("turnout").value; });
+// Four controls, one setting: the box and slider under Expected voters, and the pair on the
+// turnout chart. Changing any one moves the other three.
+const TURNOUT = ["turnout", "turnout-n", "sweep-turnout", "sweep-turnout-n"];
+function setTurnout(from) {
+  const e = $(from);
+  if (e.value === "") return;
+  const v = int(e.value, 0, 30);
+  for (const id of TURNOUT) if (id !== from) $(id).value = v;
+}
+for (const id of TURNOUT) {
+  $(id).addEventListener("input", () => { setTurnout(id); if (id.startsWith("sweep")) schedule(); });
+  $(id).addEventListener("change", () => { $(id).value = $("turnout").value; });
+}
 
 // ---------------------------------------------------------------- tabs
 // One tab per group of settings; the last one chosen is remembered in this browser.
