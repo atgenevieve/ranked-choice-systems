@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 12th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Kevin Riley",
+    "Pamela A. Hamilton-Johnson",
+    "Shanequa Moore",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2450,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24328. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 17467; with an overvote: 127; with a skipped rank: 517; with a repeated candidate: 423. Blank ballots: 2382 with no marks (estimated from ballot styles), 68 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024328_1.html."
+}

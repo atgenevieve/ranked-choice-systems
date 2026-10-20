@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, REP Borough President Richmond",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Vito Fossella",
+    "Steven Matteo",
+    "Leticia M. Remauro",
+    "Jhong U. Kim",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 206,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24496. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 19727; with an overvote: 186; with a skipped rank: 543; with a repeated candidate: 802. Blank ballots: 123 with no marks (estimated from ballot styles), 83 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024496_1.html. First-choice totals differ from the official first round for 1 candidates; see 2021-checks.json."
+}

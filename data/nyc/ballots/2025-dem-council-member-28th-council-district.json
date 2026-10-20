@@ -1,0 +1,21 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 28th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Ty Hankerson",
+    "Japneet Singh",
+    "Latoya L. LeGrand",
+    "Ruben W. Wills",
+    "Romeo Hitlall",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 764,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26939. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 14201; with an overvote: 152; with a skipped rank: 328; with a repeated candidate: 474. Blank ballots: 695 with no marks (estimated from ballot styles), 69 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026939_1.html."
+}

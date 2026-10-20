@@ -1,0 +1,22 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 6th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Gale A. Brewer",
+    "Maria Danzilo",
+    "Sara Lind",
+    "Jeffrey Omura",
+    "David Gold",
+    "Zachary Tov Weiner",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 3831,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24361. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 39454; with an overvote: 138; with a skipped rank: 216; with a repeated candidate: 274. Blank ballots: 3776 with no marks (estimated from ballot styles), 55 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024361_1.html."
+}

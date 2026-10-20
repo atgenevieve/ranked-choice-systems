@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 39th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Shahana K. Hanif",
+    "Maya Kornberg",
+    "Nickie Kane",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 3975,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26925. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 46593; with an overvote: 158; with a skipped rank: 258; with a repeated candidate: 354. Blank ballots: 3899 with no marks (estimated from ballot styles), 76 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026925_1.html."
+}

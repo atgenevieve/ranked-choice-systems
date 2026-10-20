@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 12th Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Kevin C. Riley",
+    "Pamela A. Hamilton-Johnson",
+    "Aisha Hernandez Ahmed",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 84,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 25797. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 7284; with an overvote: 109; with a skipped rank: 352; with a repeated candidate: 248. Blank ballots: 0 with no marks (estimated from ballot styles), 84 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 025797_1.html."
+}

@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 21st Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Shanel Thomas-Henry",
+    "Erycka Montoya",
+    "Yanna M. Henriquez",
+    "David Aiken",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 781,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26932. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 7875; with an overvote: 73; with a skipped rank: 315; with a repeated candidate: 212. Blank ballots: 739 with no marks (estimated from ballot styles), 42 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026932_1.html."
+}

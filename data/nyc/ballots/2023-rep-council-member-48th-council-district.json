@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, REP Council Member 48th Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Inna Vernikov",
+    "Igor Kazatsker",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 9,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 26030. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 2461; with an overvote: 10; with a skipped rank: 37; with a repeated candidate: 310. Blank ballots: 0 with no marks (estimated from ballot styles), 9 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026030_1.html."
+}

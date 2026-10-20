@@ -1,0 +1,31 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 26th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Julie Won",
+    "Amit S. Bagga",
+    "Brent O'Leary",
+    "Julia L. Forman",
+    "Denise M. Keehan-Smith",
+    "Ebony R. Young",
+    "Badrun Khan",
+    "Hailie Kim",
+    "Jonathan Bailey",
+    "Emily E. Sharpe",
+    "Glennis E. Gomez",
+    "Jesse Laymon",
+    "Steven B. Raga",
+    "Lorenzo Brea",
+    "Sultan Al Maruf",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1516,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24311. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 18017; with an overvote: 183; with a skipped rank: 191; with a repeated candidate: 156. Blank ballots: 1392 with no marks (estimated from ballot styles), 124 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024311_1.html."
+}

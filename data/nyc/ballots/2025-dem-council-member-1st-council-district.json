@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 1st Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Christopher Marte",
+    "Elizabeth Lewinsohn",
+    "Jess Coleman",
+    "Eric Yu",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 3177,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26942. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 24595; with an overvote: 99; with a skipped rank: 274; with a repeated candidate: 203. Blank ballots: 3127 with no marks (estimated from ballot styles), 50 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026942_1.html."
+}

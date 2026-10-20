@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 35th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Crystal Hudson",
+    "Dion M. Ashman",
+    "Hector Robertson",
+    "Kenny Lever",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 5270,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26919. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 40578; with an overvote: 178; with a skipped rank: 523; with a repeated candidate: 496. Blank ballots: 5211 with no marks (estimated from ballot styles), 59 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026919_1.html."
+}

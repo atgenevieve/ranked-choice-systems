@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 28th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Adrienne E. Adams",
+    "Japneet Singh",
+    "Ruben Wills",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1235,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24406. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 14078; with an overvote: 82; with a skipped rank: 400; with a repeated candidate: 323. Blank ballots: 1192 with no marks (estimated from ballot styles), 43 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024406_1.html."
+}

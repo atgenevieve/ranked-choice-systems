@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 31st Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Selvena N. Brooks-Powers",
+    "Nancy J. Martinez",
+    "Nicole S. Lee",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2267,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24462. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 16067; with an overvote: 93; with a skipped rank: 394; with a repeated candidate: 349. Blank ballots: 2231 with no marks (estimated from ballot styles), 36 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024462_1.html."
+}

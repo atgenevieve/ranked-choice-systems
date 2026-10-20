@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 10th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Carmen N. De La Rosa",
+    "Francesca Castellanos",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 3129,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 27101. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 23505; with an overvote: 41; with a skipped rank: 236; with a repeated candidate: 299. Blank ballots: 3097 with no marks (estimated from ballot styles), 32 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 027101_1.html."
+}

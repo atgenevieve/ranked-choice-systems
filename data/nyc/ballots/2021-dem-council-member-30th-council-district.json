@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 30th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Robert F. Holden",
+    "Juan D. Ardila",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 725,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24414. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 9617; with an overvote: 8; with a skipped rank: 86; with a repeated candidate: 154. Blank ballots: 720 with no marks (estimated from ballot styles), 5 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024414_1.html."
+}

@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 2nd Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Carlina Rivera",
+    "Allie Ryan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 16,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 25980. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 7760; with an overvote: 19; with a skipped rank: 128; with a repeated candidate: 307. Blank ballots: 0 with no marks (estimated from ballot styles), 16 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 025980_1.html."
+}

@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 7th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Shaun Abreu",
+    "Edafe Okporo",
+    "Tiffany Khan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 3619,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26947. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 33277; with an overvote: 125; with a skipped rank: 373; with a repeated candidate: 377. Blank ballots: 3559 with no marks (estimated from ballot styles), 60 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026947_1.html."
+}

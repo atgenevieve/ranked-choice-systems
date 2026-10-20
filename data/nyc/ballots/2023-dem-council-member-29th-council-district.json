@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 29th Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Lynn C. Schulman",
+    "Ethan Felder",
+    "Sukhi Singh",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 25,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 25804. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 6442; with an overvote: 34; with a skipped rank: 170; with a repeated candidate: 159. Blank ballots: 0 with no marks (estimated from ballot styles), 25 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 025804_1.html."
+}

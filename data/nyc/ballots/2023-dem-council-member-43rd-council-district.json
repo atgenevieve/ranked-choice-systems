@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2023 primary, DEM Council Member 43rd Council District",
+  "date": "2023-06-27",
+  "system": "irv",
+  "candidates": [
+    "Susan Zhuang",
+    "Wai-Yee Chan",
+    "Stanley Ng",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 18,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2023P_CVR_Final.zip), contest code 25755. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 3650; with an overvote: 26; with a skipped rank: 90; with a repeated candidate: 100. Blank ballots: 0 with no marks (estimated from ballot styles), 18 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 025755_1.html."
+}

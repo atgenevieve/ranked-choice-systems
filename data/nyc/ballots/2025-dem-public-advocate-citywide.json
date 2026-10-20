@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Public Advocate Citywide",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Jumaane D. Williams",
+    "Jenifer Rajkumar",
+    "Marty Dolan",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 121720,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26915. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 958873; with an overvote: 3905; with a skipped rank: 14599; with a repeated candidate: 16353. Blank ballots: 119715 with no marks (estimated from ballot styles), 2005 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026915_1.html."
+}

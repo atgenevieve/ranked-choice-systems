@@ -1,0 +1,18 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Borough President Bronx",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Vanessa L. Gibson",
+    "Rafael Salamanca Jr.",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 10225,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26929. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 105131; with an overvote: 262; with a skipped rank: 2345; with a repeated candidate: 2076. Blank ballots: 10015 with no marks (estimated from ballot styles), 210 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026929_1.html."
+}

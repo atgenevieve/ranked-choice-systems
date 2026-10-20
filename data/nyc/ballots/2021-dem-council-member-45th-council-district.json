@@ -1,0 +1,19 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 45th Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Farah N. Louis",
+    "Anthony Beckford",
+    "Cyril F. Joseph",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2452,
+  "max_ranks": 4,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24375. Ballot allowed 4 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 19379; with an overvote: 131; with a skipped rank: 537; with a repeated candidate: 485. Blank ballots: 2370 with no marks (estimated from ballot styles), 82 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024375_1.html."
+}

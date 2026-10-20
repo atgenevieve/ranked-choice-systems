@@ -1,0 +1,23 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 8th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Elsie Encarnacion",
+    "Wilfredo Lopez",
+    "Clarisa M. Alayeto",
+    "Raymond Santana",
+    "Rosa G. Diaz",
+    "Federico Colon",
+    "Nicholas A. Reyes",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 2401,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26927. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 15726; with an overvote: 252; with a skipped rank: 301; with a repeated candidate: 297. Blank ballots: 2267 with no marks (estimated from ballot styles), 134 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026927_1.html."
+}

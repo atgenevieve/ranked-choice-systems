@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, DEM Council Member 49th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "Kamillah M. Hanks",
+    "Abou S. Diakhate",
+    "Sarah Blas",
+    "Telee N. Brown",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 823,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 26956. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 12391; with an overvote: 76; with a skipped rank: 357; with a repeated candidate: 385. Blank ballots: 780 with no marks (estimated from ballot styles), 43 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 026956_1.html."
+}

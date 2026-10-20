@@ -1,0 +1,16 @@
+{
+  "source": "nyc",
+  "election": "NYC 2025 primary, REP Council Member 47th Council District",
+  "date": "2025-06-24",
+  "system": "irv",
+  "candidates": [
+    "George Sarantopoulos",
+    "Richie Barsamian",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": null,
+  "blank_ballots": 49,
+  "max_ranks": 3,
+  "notes": "NYC Board of Elections cast vote record (2025_Primary_CVR_2025-07-17.zip), contest code 27074. Ballot allowed 3 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 2288; with an overvote: 27; with a skipped rank: 68; with a repeated candidate: 101. Blank ballots: 23 with no marks (estimated from ballot styles), 26 whose first marked rank was an overvote. No certified round-by-round page found (or winner name not matched), so official_winners is null."
+}

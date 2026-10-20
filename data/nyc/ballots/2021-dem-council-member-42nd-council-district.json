@@ -1,0 +1,20 @@
+{
+  "source": "nyc",
+  "election": "NYC 2021 primary, DEM Council Member 42nd Council District",
+  "date": "2021-06-22",
+  "system": "irv",
+  "candidates": [
+    "Charles Barron",
+    "Nikki Lucas",
+    "Wilfredo Florentino",
+    "Gena M. Watson",
+    "Write-in (all write-ins combined)"
+  ],
+  "parties": null,
+  "official_winners": [
+    0
+  ],
+  "blank_ballots": 1772,
+  "max_ranks": 5,
+  "notes": "NYC Board of Elections cast vote record (PE2021_CVR_Final.zip), contest code 24323. Ballot allowed 5 ranks. Cleanup follows the BOE rules (see data/nyc/README.md). Records with any mark in this contest: 15728; with an overvote: 181; with a skipped rank: 940; with a repeated candidate: 656. Blank ballots: 1680 with no marks (estimated from ballot styles), 92 whose first marked rank was an overvote. Official winner from the BOE certified round-by-round page 024323_1.html."
+}
