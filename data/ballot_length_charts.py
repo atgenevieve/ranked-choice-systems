@@ -169,6 +169,34 @@ def main():
                        "seats": {"a": fit_s[0], "b": fit_s[1], "min": seats[0], "max": seats[-1]}, "n": len(rs)}
         print(g, len(rs), "cand fit", round(ac, 2), round(bc, 2), "range", by_group[g]["cand"]["min"], by_group[g]["cand"]["max"],
               "seats fit", fit_s, "seats", seats)
+    # Elections with a rank limit below the number of candidates: how many fill it.
+    limited = []
+    for r in rows:
+        lim = r["max_ranks"]
+        if lim and lim < r["candidates"]:
+            n = sum(r["counts"].values())
+            limited.append({"name": r["name"], "group": r["group"], "limit": lim, "seats": r["seats"],
+                            "candidates": r["candidates"], "fill": round(r["counts"].get(lim, 0) / n, 4), "mean": r["mean"]})
+    # Recount real multi-seat elections with every ballot cut after rank = seats.
+    cut_at_seats = {}
+    for key, fname, keep in [("scotland", "scotland.jsonl", lambda r: r["seats"] >= 3),
+                             ("ers", "preflib-v2.jsonl", lambda r: "/ers-" in r["file"] and r["seats"] >= 2)]:
+        n = changed = 0
+        cut = 0
+        for line in open(os.path.join(os.path.dirname(ROOT), "results", "2026-10-20-real-data-counts", fname), encoding="utf-8"):
+            r = json.loads(line)
+            if not keep(r):
+                continue
+            n += 1
+            ch = r["changed"]
+            changed += bool(r["seats"] <= len(ch) and ch[r["seats"] - 1])
+        cut_at_seats[key] = {"elections": n, "changed": changed}
+    # Share of ballots that rank more candidates than there are seats (what a limit equal to seats would cut).
+    for key, rs in (("scotland", [r for r in rows if r["group"] == "scotland" and r["seats"] >= 3]),
+                    ("ers", [r for r in rows if r["group"] == "ers" and r["seats"] >= 2])):
+        tot = sum(sum(r["counts"].values()) for r in rs)
+        over = sum(v for r in rs for k, v in r["counts"].items() if k > r["seats"])
+        cut_at_seats[key]["ballots_cut"] = round(over / tot, 4)
     # Same seats, more candidates: one panel per (group, seats) with enough elections.
     same_seats = []
     for g in ("scotland", "ers"):
@@ -188,6 +216,8 @@ def main():
         both[g] = dict(zip(("c0", "c1", "c2"), ols([[1, math.log(r["candidates"]), math.log(r["seats"])] for r in rs],
                                                      [math.log(r["mean"]) for r in rs])))
     out = {
+        "limited": limited,
+        "cut_at_seats": cut_at_seats,
         "same_seats": same_seats,
         "both": both,
         "by_group": by_group,

@@ -54,6 +54,8 @@
 
 - **More candidates means more ranks, even with the number of seats held the same** (owner's question, October 20, 2026). Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%. Taking both together, seats matter much less: with the candidates held the same, doubling the seats adds about 10% more ranks in Scotland and 20% in union and society elections. So the biggest divide isn't seats. It's whether an electorate behaves like public voters or like union members.
 
+- **Rank limits** (owner's question, October 20, 2026). The smaller the limit, the more voters fill it: about 50 to 74% fill a limit of 3 (San Francisco, Oakland, and others), 23 to 48% a limit of 5 (NYC, rising with more candidates), and 39 to 49% a limit of 6 (Portland council). **Where the limit or instruction equals the number of seats, most voters rank exactly that many:** Minneapolis Park Board 2009 (3 seats, 3 ranks), 54% filled it; the 2016 Australian Senate (told to number at least 6), 82% numbered exactly 6; Canberra (told to number at least 5), 68% marked exactly 5. Recounting this project's real ballots cut after rank = seats changes the winners in 21 of 1,065 Scottish wards (2%) and 4 of 67 multi-seat union and society elections (6%), matching FairVote's Cambridge finding that a limit equal to the seats barely changes results. No data covers a limit anywhere near 50.
+
 **The key unknown:** no dataset has a 50-seat election. Extending the patterns above to 50 seats gives very different answers:
 
 - (a) If members behave like **public voters** (the Scottish rule, using candidates and seats together), a 50-seat, 75-candidate election projects to about 9 ranks.

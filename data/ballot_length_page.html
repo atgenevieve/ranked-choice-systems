@@ -212,7 +212,7 @@ function scatter(f, opts) {
     const sy = v => T + (1 - v / opts.yMax) * (H - T - B);
     for (const t of niceTicks(opts.yMax, opts.yStep)) {
       el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
-      txt(svg, L - 6, sy(t) + 4, String(t), { "text-anchor": "end" });
+      txt(svg, L - 6, sy(t) + 4, opts.yFmt ? opts.yFmt(t) : String(t), { "text-anchor": "end" });
     }
     for (const t of opts.xTicks) {
       el("line", { x1: sx(t), x2: sx(t), y1: T, y2: H - B, stroke: css("--grid"), "stroke-width": 1 }, svg);
@@ -306,6 +306,63 @@ function scatter(f, opts) {
         lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
     });
   }
+}
+
+// ---------- 3c. Elections with a rank limit ----------
+{
+  const L = DATA.limited;
+  const f = figure("Elections with a rank limit: how many voters fill it",
+    "The smaller the limit, the more voters fill it: about half to three quarters fill a limit of 3, and a quarter to a half fill a limit of 5 or 6. With a limit of 5, more candidates means more voters fill it.",
+    "Each dot is one election where voters could rank fewer candidates than were running. The share is of all ballots in the election that ranked exactly as many as the limit allowed. Lines are straight-line fits over each panel's range.");
+  const box = document.createElement("div"); box.className = "multiples"; f.append(box);
+  const places = { nyc: "NYC", portland: "Portland", public: "San Francisco, Oakland, Minneapolis, and others" };
+  for (const lim of [3, 5, 6]) {
+    const mine = L.filter(e => e.limit === lim);
+    const panel = document.createElement("div"); panel.className = "panel";
+    const h = document.createElement("h3"); h.textContent = `Limit of ${lim}`;
+    const m = document.createElement("div"); m.className = "meta";
+    m.textContent = `${mine.length} elections · ${[...new Set(mine.map(e => places[e.group] || e.group))].join(", ")}`;
+    panel.append(h, m); box.append(panel);
+    const xs = mine.map(e => e.candidates), ys = mine.map(e => e.fill), n = xs.length;
+    const mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+    const sxx = xs.reduce((a, x) => a + (x - mx) ** 2, 0);
+    const slope = sxx ? xs.reduce((a, x, i) => a + (x - mx) * (ys[i] - my), 0) / sxx : 0;
+    scatter(panel, {
+      aria: `Limit of ${lim}: share of ballots that fill the limit, by number of candidates`,
+      height: 220, xMin: 0, xMax: 35, xTicks: [0, 10, 20, 30], yMax: 1, yStep: 0.25, yFmt: pct,
+      xTitle: "Candidates", yTitle: "Share filling the limit",
+      lines: n > 2 && sxx ? [{ from: Math.min(...xs), to: Math.max(...xs), f: x => my + slope * (x - mx), color: "--bar" }] : [],
+      points: mine.map(e => ({ x: e.candidates, y: e.fill, color: "--bar", name: e.name,
+        lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""} · limit ${e.limit}`, `${pct(e.fill)} filled the limit · ranked ${e.mean.toFixed(1)} on average`] })),
+    });
+  }
+  tableView(f, ["Election", "Limit", "Seats", "Candidates", "Filled the limit", "Average ranked"],
+    [...L].sort((a, b) => a.limit - b.limit || b.fill - a.fill).map(e => [e.name, e.limit, e.seats, e.candidates, pct(e.fill), e.mean.toFixed(2)]),
+    [false, true, true, true, true, true]);
+}
+
+// ---------- 3d. A limit equal to the number of seats ----------
+{
+  const C = DATA.cut_at_seats;
+  const f = figure("A limit equal to the number of seats",
+    "Where voters are told to rank as many as there are seats, most do exactly that. And cutting real ballots at that rank rarely changes who wins.",
+    "The first three cards are what voters did under a limit or instruction equal to the seats. The Australian and Canberra figures come from the research write-up (docs/large-elections.md), not from ballots in this project; the Canberra figure is from a search summary. The last two cards recount this project's real ballots with every ballot cut after rank = seats. That only shortens ballots; a real limit would also change how far people rank.");
+  const box = document.createElement("div"); box.className = "predict";
+  const cards = [
+    ["Minneapolis Park Board, 2009", "54%", "3 seats, 3 ranks allowed: share of ballots that ranked all 3. The only election in this project's data with a limit equal to the seats."],
+    ["Australian Senate, 2016", "82%", "6 seats per state, told to number at least 6 party boxes: share who numbered exactly 6."],
+    ["Canberra (ACT), 5-seat districts", "68%", "Told to number at least 5: share who marked exactly 5. About 98% marked at least 5."],
+    ["Recount: Scottish wards", `${C.scotland.changed} of ${C.scotland.elections.toLocaleString()}`, `Wards where the winners change when ballots are cut after rank = seats (3 or 4). The cut shortens ${pct(C.scotland.ballots_cut)} of ballots.`],
+    ["Recount: union and society elections", `${C.ers.changed} of ${C.ers.elections}`, `Elections with 2 or more seats where the winners change when ballots are cut after rank = seats. The cut shortens ${pct(C.ers.ballots_cut)} of ballots.`],
+  ];
+  for (const [h, v, t] of cards) {
+    const d = document.createElement("div");
+    const hh = document.createElement("div"); hh.className = "h"; hh.textContent = h;
+    const vv = document.createElement("div"); vv.className = "v"; vv.textContent = v;
+    const ss = document.createElement("div"); ss.className = "s"; ss.textContent = t;
+    d.append(hh, vv, ss); box.append(d);
+  }
+  f.append(box);
 }
 
 // ---------- 4. Rank my party, then stop ----------
