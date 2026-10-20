@@ -244,19 +244,16 @@ function scatter(f, opts) {
   const uncapped = e => e.max_ranks == null || e.max_ranks >= e.candidates;
   const pts = DATA.elections.filter(e => ["scotland", "public", "ers"].includes(e.group) && uncapped(e));
   const f = figure("Candidates ranked, by number of candidates",
-    `In public elections, voters rank more as the field grows, but slowly: the fitted curve reaches about ${(fp.a * 75 ** fp.b).toFixed(0)} at 75 candidates. Union and society elections climb faster, to about ${(fe.a * 75 ** fe.b).toFixed(0)} at 75.`,
-    "Each dot is one election with no limit on how many candidates voters could rank (elections with a limit are left out). Lines are fitted curves, extended past the data to 100 candidates; the faint part is projection, not evidence. Metro DC DSA's 46-seat delegate count had 75 candidates.");
+    `In public elections, voters rank more as the field grows, but slowly: doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks. In union and society elections, doubling the candidates adds about ${Math.round((2 ** fe.b - 1) * 100)}%.`,
+    `Each dot is one election with no limit on how many candidates voters could rank (elections with a limit are left out). Lines are fitted curves, drawn only over the range each group's data covers: public elections with no limit have 3 to ${DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && uncapped(e)).reduce((m, e) => Math.max(m, e.candidates), 0)} candidates; union and society elections, 3 to 29. Projections to a larger election are at the bottom of the page.`);
   legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "Other public elections"], ["dot", "--ers", "Union and society elections (ERS)"]]);
   scatter(f, {
     aria: "Scatter of average candidates ranked against number of candidates, with fitted curves",
-    logX: false, xMin: 0, xMax: 100, xTicks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], yMax: 25, yStep: 5,
+    logX: false, xMin: 0, xMax: 30, xTicks: [0, 5, 10, 15, 20, 25, 30], yMax: 12, yStep: 2,
     xTitle: "Candidates in the election", yTitle: "Average candidates ranked",
-    marker: { x: 75, label: "75 candidates" },
     lines: [
-      { from: 3, to: 30, f: x => fp.a * x ** fp.b, color: "--public" },
-      { from: 30, to: 100, f: x => fp.a * x ** fp.b, color: "--public", faint: true, label: `public ≈ ${(fp.a * 100 ** fp.b).toFixed(0)}` },
+      { from: 3, to: DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && uncapped(e)).reduce((m, e) => Math.max(m, e.candidates), 0), f: x => fp.a * x ** fp.b, color: "--public" },
       { from: 3, to: 29, f: x => fe.a * x ** fe.b, color: "--ers" },
-      { from: 29, to: 100, f: x => fe.a * x ** fe.b, color: "--ers", faint: true, label: `ERS ≈ ${(fe.a * 100 ** fe.b).toFixed(0)}` },
     ],
     points: pts.map(e => ({ x: e.candidates, y: e.mean, color: GROUP[e.group].v, name: e.name,
       lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
@@ -270,16 +267,14 @@ function scatter(f, opts) {
   const fs = DATA.fits.ers_vs_seats;
   const pts = DATA.elections.filter(e => e.group === "ers");
   const f = figure("Union and society elections: candidates ranked, by number of seats",
-    `In these organizational elections, members rank about ${fs.b.toFixed(1)} more candidates for each extra seat. Extended to 50 seats, that line reaches about ${(fs.a + 50 * fs.b).toFixed(0)}, far past anything in the data.`,
-    "Each dot is one ERS election (British trade unions and similar bodies, 1987 to 1988). The line is a straight-line fit; past 12 seats it is projection. More seats also meant more candidates in these elections, so seats and candidates can't be fully separated.");
+    `In these organizational elections, members rank about ${fs.b.toFixed(1)} more candidates for each extra seat.`,
+    "Each dot is one ERS election (British trade unions and similar bodies, 1987 to 1988), with 1 to 12 seats. The line is a straight-line fit over that range. More seats also meant more candidates in these elections, so seats and candidates can't be fully separated. Projections to a larger election are at the bottom of the page.");
   scatter(f, {
-    aria: "Scatter of average candidates ranked against seats in ERS elections, with a fitted line extended to 50 seats",
-    logX: false, xMin: 0, xMax: 52, xTicks: [0, 10, 20, 30, 40, 50], yMax: 35, yStep: 5,
+    aria: "Scatter of average candidates ranked against seats in ERS elections, with a fitted line",
+    logX: false, xMin: 0, xMax: 13, xTicks: [0, 2, 4, 6, 8, 10, 12], yMax: 12, yStep: 2,
     xTitle: "Seats in the election", yTitle: "Average candidates ranked",
-    marker: { x: 50, label: "50 seats" },
     lines: [
       { from: 1, to: 12, f: x => fs.a + fs.b * x, color: "--ers" },
-      { from: 12, to: 50, f: x => fs.a + fs.b * x, color: "--ers", faint: true, label: `≈ ${(fs.a + 50 * fs.b).toFixed(0)}` },
     ],
     points: pts.map(e => ({ x: e.seats, y: e.mean, color: "--ers", name: e.name,
       lines: [`${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates`, `ranked ${e.mean.toFixed(1)} on average`] })),
@@ -318,12 +313,14 @@ function scatter(f, opts) {
 // ---------- 5. What each version predicts ----------
 {
   const fp = DATA.fits.public_vs_candidates, fe = DATA.fits.ers_vs_candidates, fs = DATA.fits.ers_vs_seats;
-  const f = figure("What each version predicts for a 50-seat election with 75 candidates",
-    "The three readings of the evidence disagree by a factor of 3 or more, which is why the proposal builds all three and reports results under each.");
+  const pubMax = DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && (e.max_ranks == null || e.max_ranks >= e.candidates)).reduce((m, e) => Math.max(m, e.candidates), 0);
+  const f = figure("Projection: a 50-seat election with 75 candidates",
+    "Each rule from the charts above, carried out to an election far larger than any in the data. The three readings disagree by a factor of 3 or more, which is why the proposal builds all three and reports results under each.",
+    `These are projections, not evidence. The public-election rule comes from elections of up to ${pubMax} candidates, and the union and society rules from elections of up to 29 candidates and 12 seats. 75 candidates is the size of Metro DC DSA's 46-seat delegate count.`);
   const box = document.createElement("div"); box.className = "predict";
   const cards = [
-    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, "From the public-election curve at 75 candidates."],
-    ["(b) Follows seats, like union elections", `≈ ${(fe.a * 75 ** fe.b).toFixed(0)} to ${(fs.a + 50 * fs.b).toFixed(0)}`, "From the ERS curves: by candidates (lower) and by seats (upper). Both are long projections."],
+    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, `Rule: doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks, starting from about ${(fp.a * 3 ** fp.b).toFixed(1)} ranks at 3 candidates.`],
+    ["(b) Follows seats, like union elections", `≈ ${(fe.a * 75 ** fe.b).toFixed(0)} to ${(fs.a + 50 * fs.b).toFixed(0)}`, `Rules: doubling the candidates adds about ${Math.round((2 ** fe.b - 1) * 100)}% more ranks (gives the lower number); each extra seat adds about ${fs.b.toFixed(1)} ranks, starting from ${fs.a.toFixed(1)} (gives the higher number).`],
     ["(c) Follows the instructions", "As asked", "Where ballots have a limit, about 4 in 10 voters fill it exactly (NYC 37%, Portland 47%)."],
   ];
   for (const [h, v, s] of cards) {

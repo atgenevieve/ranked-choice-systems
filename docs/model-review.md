@@ -26,15 +26,17 @@
 
 - **Where the ballot has a limit, the most common choice is to fill it.** 47% of Portland council ballots rank exactly the 6 allowed; 37% of NYC ballots in contests with 6 or more candidates rank exactly the 5 allowed.
 - **Most voters rank a few candidates, and few rank everyone.** In Scotland the typical voter ranks 3 of about 7 candidates, and only 11% rank them all. Pooled over all Scottish ballots: 14% rank 1, 26% rank 2, 33% rank 3, then it falls off fast (11% rank 4, 5% rank 5).
-- **Length grows slowly with the number of candidates** in public elections, where ballots allow ranking every candidate:
+- **Length grows slowly with the number of candidates** in public elections, where ballots allow ranking every candidate. Union and society elections (ERS) climb faster. Typical number ranked, with the share of candidates in brackets:
 
-  | Candidates | Elections | Typical number ranked | Share of candidates ranked |
-  |---|---|---|---|
-  | 3 to 5 | 294 | 2.5 | 54% |
-  | 6 to 8 | 732 | 3.1 | 45% |
-  | 9 to 12 | 263 | 3.4 | 36% |
-  | 13 to 20 | 26 | 4.7 | 31% |
-  | 21 or more | 3 | 5.9 | 23% |
+  | Candidates | Public elections | Union and society elections |
+  |---|---|---|
+  | 3 to 5 | 2.7 (56%), 180 elections | 2.3 (58%), 33 elections |
+  | 6 to 8 | 3.1 (45%), 715 elections | 3.6 (51%), 17 elections |
+  | 9 to 12 | 3.4 (35%), 246 elections | 5.2 (52%), 17 elections |
+  | 13 to 20 | 3.3 (25%), 9 elections | 5.5 (37%), 17 elections |
+  | 21 or more | none | 5.9 (23%), 3 elections |
+
+  Public elections with no rank limit only go up to 14 candidates. (Correction: an earlier draft of this table mixed the two groups, which made public elections look like they ranked about 5 or 6 in large fields. That came from the union and society elections.)
 
 - **In organizational elections, length grows with the number of seats.** The ERS elections (British trade unions and similar bodies, 1987 to 1988):
 
