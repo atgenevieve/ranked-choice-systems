@@ -37,6 +37,47 @@ YEARS = {
     2025: {"date": "2025-06-24"},
 }
 
+# Official results that aren't on a round-by-round page in raw/<year>/official/.
+# Keyed by year, then contest code. Each needs a public source.
+MANUAL_OFFICIAL = {
+    2025: {
+        # Hand recount, certified July 25, 2025, after the CVR was posted (July 17).
+        27074: {
+            "winner": "George Sarantopoulos",
+            "round1": {"George Sarantopoulos": 1120, "Richie Barsamian": 1104, "Write-ins": 41},
+            "page": "https://vote.nyc/sites/default/files/pdf/election_results/2025/20250624Primary%20Election/"
+                    "Manual/REP_Council_Member_47th_Council_District_Manual_Count.pdf",
+        },
+    },
+}
+
+# Extra notes for contests whose official record needs explaining. Keyed by year, then contest code.
+CONTEST_NOTES = {
+    2021: {
+        24549: "The BOE posted no count for this contest. Ballotpedia lists the 2021 Republican primary for "
+               "Queens Borough President as canceled, with Thomas Zmich advancing to the general election "
+               "and Danniel Maio withdrawn or disqualified; the contest was still printed on ballots, which "
+               "is why the CVR has marks for it. The CVR's two candidate IDs are missing from the BOE's name "
+               "list, and no public source we found ties either ID to a name.",
+        24347: "Decided by a hand recount, certified August 17, 2021 (other contests were certified July 20). "
+               "The CVR records the scanners' reading of each ballot, so the small first-round differences "
+               "likely come from the hand count.",
+        24367: "Decided by a hand recount, certified August 24, 2021 (other contests were certified July 20). "
+               "The CVR records the scanners' reading of each ballot, so the small first-round differences "
+               "likely come from the hand count.",
+        24496: "Recertified August 24, 2021, the same day as the District 50 Republican hand recount, which "
+               "covered ballots that also carry this contest. The 2-vote first-round difference likely comes "
+               "from that recount.",
+        24425: "Recertified August 24, 2021, the same day as the District 50 Republican hand recount, which "
+               "covered ballots that also carry this contest. The 2-vote first-round difference likely comes "
+               "from that recount.",
+    },
+    2025: {
+        27074: "Official winner and first round from the BOE's certified hand recount (July 25, 2025), which "
+               "came after this CVR (July 17, 2025); the CVR's first round differs from it by 3 votes.",
+    },
+}
+
 HEADER = re.compile(r"^(?P<office>.*?) Choice (?P<rank>\d+) of (?P<max>\d+) (?P<district>.*?) \((?P<code>\d+)\)$")
 CELL = re.compile(r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)', re.S)
 VALUE = re.compile(r"<v>(.*?)</v>|<t[^>]*>(.*?)</t>", re.S)
@@ -272,6 +313,8 @@ def convert_year(year, pool):
             merged[cid]["stats"]["blank_no_marks"] += n
     names = candidate_names(zip_path)
     official = official_results(year)
+    for cid, v in MANUAL_OFFICIAL.get(year, {}).items():
+        official.setdefault(cid, {"title": None, **v})
     checks = {"year": year, "cvr_zip": zip_path.name, "records": records,
               "non_numeric_cell_values": dict(tokens), "contests": {}}
     written = 0
@@ -329,6 +372,9 @@ def convert_year(year, pool):
         if off and check["round1_mismatches"]:
             notes.append(f"First-choice totals differ from the official first round for "
                          f"{len(check['round1_mismatches'])} candidates; see {year}-checks.json.")
+        if cid in CONTEST_NOTES.get(year, {}):
+            notes.append(CONTEST_NOTES[year][cid])
+            check["note"] = CONTEST_NOTES[year][cid]
         meta = {
             "source": "nyc",
             "election": f"NYC {year} primary, {name}",

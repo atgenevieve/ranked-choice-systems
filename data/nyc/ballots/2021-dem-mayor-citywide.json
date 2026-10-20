@@ -20,6 +20,187 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Yang and Garcia",
+      "kind": "campaign",
+      "members": [
+        3,
+        2
+      ],
+      "source": "https://www.politico.com/states/new-york/albany/story/2021/06/18/an-alliance-forms-in-late-innings-of-the-new-york-mayors-race-1386653",
+      "date": "2021-06-18",
+      "note": "Joint campaigning the weekend before the June 22 primary. Yang asked his voters to rank Garcia second; Garcia campaigned with him but said she was not co-endorsing."
+    },
+    {
+      "name": "Chang and Taylor",
+      "kind": "campaign",
+      "members": [
+        9,
+        11
+      ],
+      "source": "https://citylimits.org/2021/05/25/in-first-two-competitors-for-nyc-mayor-to-endorse-each-other/",
+      "date": "2021-05-25",
+      "note": "Cross-endorsed and asked voters to rank both."
+    },
+    {
+      "name": "Working Families Party (final)",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://ny1.com/nyc/all-boroughs/politics/2021/06/04/nyc-elections-2021-whos-running-maya-wiley-working-families-party-wfp-number-one-endorsement",
+      "date": "2021-06-04",
+      "note": "From June 4, 2021 WFP ranked Wiley first and suspended its support for Morales; it had dropped Stringer in late April."
+    },
+    {
+      "name": "Working Families Party (April 2021 ranking, later withdrawn)",
+      "kind": "endorsement",
+      "members": [
+        4,
+        5,
+        1
+      ],
+      "source": "https://ny1.com/nyc/all-boroughs/decision-2021/2021/04/14/stringer-gets-working-families-party-s-endorsement-in-mayor-s-race",
+      "date": "2021-04-14",
+      "ordered": true,
+      "note": "Stringer 1, Morales 2, Wiley 3. Replaced by the June 4 ranking; kept because it was the party's published slate for six weeks."
+    },
+    {
+      "name": "New York Times editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "New York Daily News editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        2,
+        0,
+        6
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "ordered": true
+    },
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        2,
+        0,
+        4
+      ],
+      "source": "https://citizensunion.org/voters-guide/2021-primary-election/new-york-city-mayor-democratic-party-primary-2/",
+      "date": "2021-06",
+      "ordered": true
+    },
+    {
+      "name": "New York State Nurses Association",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "ordered": true
+    },
+    {
+      "name": "UAW Region 9A",
+      "kind": "endorsement",
+      "members": [
+        4,
+        5
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "ordered": true
+    },
+    {
+      "name": "Community Voices Heard Power",
+      "kind": "endorsement",
+      "members": [
+        1,
+        5
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "ordered": true,
+      "note": "Higher Heights for America PAC and NYC Kids PAC published the same ranking."
+    },
+    {
+      "name": "Planned Parenthood of Greater NY Votes PAC",
+      "kind": "endorsement",
+      "members": [
+        2,
+        4,
+        1,
+        6
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16",
+      "ordered": true
+    },
+    {
+      "name": "1199SEIU",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        4
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "Hotel and Motel Trades Council",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://news.ballotpedia.org/2021/06/18/reviewing-noteworthy-endorsers-picks-for-new-york-city-mayor-comptroller/",
+      "date": "2021-06-18"
+    },
+    {
+      "name": "32BJ SEIU",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16"
+    },
+    {
+      "name": "District Council 37",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16"
+    },
+    {
+      "name": "Bronx Democratic Party",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.cityandstateny.com/politics/2021/06/the-endorsements-for-nyc-mayoral-candidates/175441/",
+      "date": "2021-06-16"
+    }
+  ],
   "official_winners": [
     0
   ],

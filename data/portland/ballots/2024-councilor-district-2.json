@@ -29,12 +29,169 @@
     "Uncertified Write In"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Oregon Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        5,
+        2,
+        0,
+        7
+      ],
+      "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+      "date": "2024-07-23",
+      "note": "West endorsed 2024-07-23; Kanal, Pirtle-Guiney and Tasini added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."
+    },
+    {
+      "name": "Northwest Oregon Labor Council",
+      "kind": "endorsement",
+      "members": [
+        7,
+        1,
+        0
+      ],
+      "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+      "date": "2024-09-04"
+    },
+    {
+      "name": "Portland Fire Fighters Association",
+      "kind": "endorsement",
+      "members": [
+        1,
+        8
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+      "date": "2024-07-25"
+    },
+    {
+      "name": "Portland Police Association",
+      "kind": "endorsement",
+      "members": [
+        1,
+        3
+      ],
+      "source": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/",
+      "date": "2024-09-10",
+      "note": "OPB names Ryan and Penson as police-union endorsees; the union never published a full list, so this may be incomplete."
+    },
+    {
+      "name": "United for Portland (Spotlight)",
+      "kind": "endorsement",
+      "members": [
+        9,
+        3,
+        0,
+        1,
+        8,
+        11
+      ],
+      "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+      "date": "2024-10",
+      "note": "Read from the page as it stands in 2026. Willamette Week (2024-10-08) and the Rose City Reform tracker list an earlier, shorter spotlight list; Armstrong may have been added later. The group withdrew an earlier endorsement of Mike Marshall."
+    },
+    {
+      "name": "United for Portland (Green Light, including Spotlight)",
+      "kind": "endorsement",
+      "members": [
+        9,
+        3,
+        0,
+        1,
+        8,
+        11,
+        4,
+        6,
+        13,
+        16,
+        5
+      ],
+      "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+      "date": "2024-10"
+    },
+    {
+      "name": "Portland Metro Chamber",
+      "kind": "endorsement",
+      "members": [
+        1,
+        3,
+        9,
+        0,
+        8
+      ],
+      "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+      "date": "2024-10",
+      "ordered": true,
+      "note": "Ryan 1, Penson 2; Hudson, Pirtle-Guiney and Simril for ranks 3 to 5 in the voter's own order."
+    },
+    {
+      "name": "Sierra Club Oregon Chapter",
+      "kind": "endorsement",
+      "members": [
+        4,
+        6,
+        5
+      ],
+      "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+      "date": "2024-09-17"
+    },
+    {
+      "name": "Willamette Week (media)",
+      "kind": "endorsement",
+      "members": [
+        0,
+        1,
+        4,
+        11,
+        10,
+        9
+      ],
+      "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-2/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "Portland Mercury (media)",
+      "kind": "endorsement",
+      "members": [
+        2,
+        4,
+        7
+      ],
+      "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "The Oregonian editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        1,
+        3,
+        5
+      ],
+      "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-1-and-2-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+      "date": "2024-10-13",
+      "note": "Members from a secondary source (see source title)."
+    },
+    {
+      "name": "Armstrong and Marshall",
+      "kind": "campaign",
+      "members": [
+        11,
+        10
+      ],
+      "source": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/",
+      "date": "2024-10-25",
+      "note": "Shared campaign mailers, one candidate on each side."
+    }
+  ],
   "official_winners": [
     2,
     1,
     0
   ],
-  "blank_ballots": 10916,
+  "blank_ballots": 10922,
   "max_ranks": 6,
-  "notes": "Multnomah County cast vote record cvr-councilor-district-2.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 988; with a skipped rank: 1029; with a repeated candidate: 632; remade ballots: 3598. Blank: 10441 with no marks (estimated from precinct styles), 475 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-2.json (Multnomah County Elections, certified December 2, 2024). Our first-choice totals differ from the official first round by 26 votes in all; see checks.json."
+  "notes": "Multnomah County cast vote record cvr-councilor-district-2.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 1019; with a skipped rank: 1029; with a repeated candidate: 632; remade ballots: 3598. Blank: 10441 with no marks (estimated from precinct styles), 481 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-2.json (Multnomah County Elections, certified December 2, 2024)."
 }

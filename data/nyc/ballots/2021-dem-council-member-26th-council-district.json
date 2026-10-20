@@ -22,6 +22,44 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1,
+        11
+      ],
+      "source": "https://queenseagle.com/all/wfp-rolls-out-new-slate-of-queens-council-endorsements",
+      "date": "2021-02-25",
+      "ordered": true,
+      "note": "WFP's first ranked endorsement: Bagga first, Laymon second."
+    },
+    {
+      "name": "Road to Justice NYC",
+      "kind": "endorsement",
+      "members": [
+        1,
+        11
+      ],
+      "source": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+      "date": "2021-02-23",
+      "ordered": true,
+      "note": "First and second choice."
+    },
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        0,
+        1,
+        2
+      ],
+      "source": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-26-democratic-party-primary-2/",
+      "date": "2021-06",
+      "ordered": true
+    }
+  ],
   "official_winners": [
     0
   ],

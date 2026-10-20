@@ -13,6 +13,48 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "NYC Central Labor Council",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "LaborStrong2021",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://queenseagle.com/all/wfp-rolls-out-new-slate-of-queens-council-endorsements",
+      "date": "2021-02-25"
+    },
+    {
+      "name": "KC and Shafran",
+      "kind": "campaign",
+      "members": [
+        5,
+        2
+      ],
+      "source": "https://qns.com/competing-candidates-cross-endorse-in-tactic-brought-about-by-rank-choice-voting/",
+      "date": "2021-06-09",
+      "note": "Each named the other as their No. 2 choice, about two weeks before the primary."
+    }
+  ],
   "official_winners": [
     0
   ],

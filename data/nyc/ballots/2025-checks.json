@@ -429,7 +429,23 @@
       "unique_ballots": 15
     },
     "REP Council Member 47th Council District": {
-      "official_page": null,
+      "official_page": "https://vote.nyc/sites/default/files/pdf/election_results/2025/20250624Primary%20Election/Manual/REP_Council_Member_47th_Council_District_Manual_Count.pdf",
+      "official_winner": "George Sarantopoulos",
+      "round1_rows_compared": 3,
+      "round1_rows_not_matched": [],
+      "round1_mismatches": {
+        "George Sarantopoulos": {
+          "official": 1120,
+          "ours": 1119
+        },
+        "Write-ins": {
+          "official": 41,
+          "ours": 39
+        }
+      },
+      "official_round1_total": 2265,
+      "our_round1_total": 2262,
+      "note": "Official winner and first round from the BOE's certified hand recount (July 25, 2025), which came after this CVR (July 17, 2025); the CVR's first round differs from it by 3 votes.",
       "ballots": 2262,
       "blank": 49,
       "unique_ballots": 15

@@ -1,0 +1,107 @@
+{
+  "about": "Endorsement slates and campaign alliances for Portland's November 2024 contests. Reviewed by hand; add_slates.py copies them into ballots/<contest>.json as the `slates` field. Members are candidate names as the source wrote them; `aliases` maps a source spelling to the exact name in the metadata. When `ordered` is true, members are listed in the order the source asked voters to rank them. See README.md, section Slates.",
+  "sources": {
+    "wfp-jul": {"url": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/", "date": "2024-07-23", "title": "Oregon Working Families Party Endorses Seven for Portland City Council"},
+    "wfp-sep": {"url": "https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/", "date": "2024-09-25", "title": "Oregon Working Families Party Endorses Second Round of Portland City Council Candidates"},
+    "wfp-mayor": {"url": "https://workingfamilies.org/2024/08/oregon-working-families-party-endorses-carmen-rubio-for-portland-mayor/", "date": "2024-08", "title": "Oregon Working Families Party Endorses Carmen Rubio for Portland Mayor"},
+    "nolc": {"url": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/", "date": "2024-09-04", "title": "Willamette Week: Labor unions launch political action committee (lists the Northwest Oregon Labor Council's June endorsements)"},
+    "nolc-mayor": {"url": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/", "date": "2024-09-10", "title": "OPB: Endorsements begin to shape Portland city government races"},
+    "pffa": {"url": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/", "date": "2024-07-25", "title": "Willamette Week: Firefighters' Union Makes Endorsements in City Council Races"},
+    "ppa": {"url": "https://www.wweek.com/news/city/2024/07/08/portland-police-union-endorsements-quietly-roll-in/", "date": "2024-07-08", "title": "Willamette Week: Portland Police Union Endorsements Quietly Roll In"},
+    "ppa-opb": {"url": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/", "date": "2024-09-10", "title": "OPB: Endorsements begin to shape Portland city government races"},
+    "dsa": {"url": "https://socialistcall.com/2024/11/13/our-work-has-just-begun-dsa-on-portland-city-council/", "date": "2024-11-13", "title": "The Call: Our Work Has Just Begun: DSA on Portland City Council"},
+    "ufp": {"url": "https://www.unitedforportland.org/endorsements/nov2024/", "date": "2024-10", "title": "United for Portland: Endorsed Candidates, November 2024 (read 2026-10-20)"},
+    "chamber": {"url": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/", "date": "2024-10", "title": "Portland Metro Chamber: Chamber announces endorsements for November 2024 election"},
+    "sierra": {"url": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements", "date": "2024-09-17", "title": "Sierra Club Oregon Chapter: 2024 general candidate endorsements (member list read from the Rose City Reform tracker, https://rosecityreform.substack.com/p/portland-candidate-tracker, entry of Sept. 17, 2024, because the Sierra Club page could not be fetched)"},
+    "ww-d1": {"url": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-1/", "date": "2024-10-16", "title": "WW's Fall 2024 Endorsements: District 1"},
+    "ww-d2": {"url": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-2/", "date": "2024-10-16", "title": "WW's Fall 2024 Endorsements: District 2"},
+    "ww-d3": {"url": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-3/", "date": "2024-10-16", "title": "WW's Fall 2024 Endorsements: District 3"},
+    "ww-d4": {"url": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-4/", "date": "2024-10-16", "title": "WW's Fall 2024 Endorsements: District 4"},
+    "ww-mayor": {"url": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-mayor/", "date": "2024-10-16", "title": "WW's Fall 2024 Endorsements: Portland Mayor"},
+    "mercury": {"url": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/", "date": "2024-10-16", "title": "Portland Mercury: Your Mercury 2024 Election Cheat Sheet"},
+    "oregonian-12": {"url": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-1-and-2-candidates-who-can-lead-portland-city-council-through-historic-change.html", "date": "2024-10-13", "title": "The Oregonian editorial board: our picks for Districts 1 and 2 (member list read from the Rose City Reform tracker, https://rosecityreform.substack.com/p/portland-candidate-tracker, because oregonlive.com could not be fetched)"},
+    "oregonian-34": {"url": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-3-and-4-candidates-who-can-lead-portland-city-council-through-historic-change.html", "date": "2024-10-13", "title": "The Oregonian editorial board: our picks for Districts 3 and 4 (member list read from the Rose City Reform tracker, because oregonlive.com could not be fetched)"},
+    "opb-together": {"url": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/", "date": "2024-10-25", "title": "OPB: How candidates and their donors are navigating a first-of-its-kind election season in Portland"},
+    "kl-morillo": {"url": "https://rosecityreform.substack.com/p/its-gonna-be-us", "date": "2024-12-09", "title": "Rose City Reform: It's gonna be us (also FairVote, https://fairvote.org/report/rcv-cross-endorsements-report/)"}
+  },
+  "contests": {
+    "2024-councilor-district-1": {
+      "slates": [
+        {"name": "Oregon Working Families Party", "kind": "endorsement", "source": "wfp-jul", "members": ["Candace Avalos", "Steph Routh", "Timur Ender", "Jamie Dunphy"], "note": "Avalos, Routh and Ender endorsed 2024-07-23; Dunphy added in the second round, 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."},
+        {"name": "Northwest Oregon Labor Council", "kind": "endorsement", "source": "nolc", "members": ["Steph Routh", "Candace Avalos", "Jamie Dunphy"], "note": "Endorsed in late May / June 2024. The labor PAC Working for a Better Portland promoted the council's slate from October 15."},
+        {"name": "Portland Fire Fighters Association", "kind": "endorsement", "source": "pffa", "members": ["Jamie Dunphy", "Steph Routh", "Terrence Hayes"]},
+        {"name": "Portland Police Association", "kind": "endorsement", "source": "ppa", "members": ["Terrence Hayes"], "note": "The union did not publish its list; Willamette Week reported Hayes was its only District 1 endorsement as of July 2024."},
+        {"name": "United for Portland (Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Terrence Hayes", "Loretta Smith"], "note": "Business-backed coalition (Portland Metro Chamber is a member). Spotlight = candidates it asked voters to rank above its other Green Light picks."},
+        {"name": "United for Portland (Green Light, including Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Terrence Hayes", "Loretta Smith", "Noah Ernst"]},
+        {"name": "Portland Metro Chamber", "kind": "endorsement", "source": "chamber", "ordered": true, "members": ["Loretta Smith", "Terrence Hayes", "Noah Ernst"], "note": "Ranked 1, 2, 3; told voters to rank only these three."},
+        {"name": "Sierra Club Oregon Chapter", "kind": "endorsement", "source": "sierra", "members": ["Candace Avalos", "Jamie Dunphy", "Timur Ender", "Steph Routh"]},
+        {"name": "Willamette Week (media)", "kind": "endorsement", "source": "ww-d1", "ordered": true, "members": ["Jamie Dunphy", "Candace Avalos", "Steph Routh", "Noah Ernst", "David Linn", "Loretta Smith"], "note": "Newspaper endorsement, ranked 1 to 6; the last three described as backups."},
+        {"name": "Portland Mercury (media)", "kind": "endorsement", "source": "mercury", "ordered": true, "members": ["Candace Avalos", "Cayle Tern", "Timur Ender"]},
+        {"name": "The Oregonian editorial board (media)", "kind": "endorsement", "source": "oregonian-12", "members": ["Terrence Hayes", "Noah Ernst", "Candace Avalos"], "note": "Members from a secondary source (see source title). The Portland Metro Chamber page confirms that 11 of the Oregonian's 12 picks were United for Portland endorsees, the exception being in District 1, which fits Avalos."},
+        {"name": "Avalos and Routh", "kind": "campaign", "source": "opb-together", "members": ["Candace Avalos", "Steph Routh"], "note": "Held joint house parties and handed out each other's fliers."}
+      ]
+    },
+    "2024-councilor-district-2": {
+      "aliases": {"William Mespelt": "Will Mespelt", "Mike Marshall": "Michael (Mike) Marshall"},
+      "slates": [
+        {"name": "Oregon Working Families Party", "kind": "endorsement", "source": "wfp-jul", "members": ["Nat West", "Sameer Kanal", "Elana Pirtle-Guiney", "Jonathan Tasini"], "note": "West endorsed 2024-07-23; Kanal, Pirtle-Guiney and Tasini added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."},
+        {"name": "Northwest Oregon Labor Council", "kind": "endorsement", "source": "nolc", "members": ["Jonathan Tasini", "Dan Ryan", "Elana Pirtle-Guiney"]},
+        {"name": "Portland Fire Fighters Association", "kind": "endorsement", "source": "pffa", "members": ["Dan Ryan", "Bob Simril"]},
+        {"name": "Portland Police Association", "kind": "endorsement", "source": "ppa-opb", "members": ["Dan Ryan", "Tiffani Penson"], "note": "OPB names Ryan and Penson as police-union endorsees; the union never published a full list, so this may be incomplete."},
+        {"name": "United for Portland (Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Mariah Hudson", "Tiffani Penson", "Elana Pirtle-Guiney", "Dan Ryan", "Bob Simril", "James Armstrong"], "note": "Read from the page as it stands in 2026. Willamette Week (2024-10-08) and the Rose City Reform tracker list an earlier, shorter spotlight list; Armstrong may have been added later. The group withdrew an earlier endorsement of Mike Marshall."},
+        {"name": "United for Portland (Green Light, including Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Mariah Hudson", "Tiffani Penson", "Elana Pirtle-Guiney", "Dan Ryan", "Bob Simril", "James Armstrong", "Michelle DePass", "Marnie Glickman", "Debbie Kitchin", "William Mespelt", "Nat West"]},
+        {"name": "Portland Metro Chamber", "kind": "endorsement", "source": "chamber", "ordered": true, "members": ["Dan Ryan", "Tiffani Penson", "Mariah Hudson", "Elana Pirtle-Guiney", "Bob Simril"], "note": "Ryan 1, Penson 2; Hudson, Pirtle-Guiney and Simril for ranks 3 to 5 in the voter's own order."},
+        {"name": "Sierra Club Oregon Chapter", "kind": "endorsement", "source": "sierra", "members": ["Michelle DePass", "Marnie Glickman", "Nat West"]},
+        {"name": "Willamette Week (media)", "kind": "endorsement", "source": "ww-d2", "ordered": true, "members": ["Elana Pirtle-Guiney", "Dan Ryan", "Michelle DePass", "James Armstrong", "Mike Marshall", "Mariah Hudson"]},
+        {"name": "Portland Mercury (media)", "kind": "endorsement", "source": "mercury", "ordered": true, "members": ["Sameer Kanal", "Michelle DePass", "Jonathan Tasini"]},
+        {"name": "The Oregonian editorial board (media)", "kind": "endorsement", "source": "oregonian-12", "members": ["Dan Ryan", "Tiffani Penson", "Nat West"], "note": "Members from a secondary source (see source title)."},
+        {"name": "Armstrong and Marshall", "kind": "campaign", "source": "opb-together", "members": ["James Armstrong", "Mike Marshall"], "note": "Shared campaign mailers, one candidate on each side."}
+      ]
+    },
+    "2024-councilor-district-3": {
+      "slates": [
+        {"name": "Oregon Working Families Party", "kind": "endorsement", "source": "wfp-jul", "members": ["Tiffany Koyama Lane", "Angelita Morillo", "Chris Flanary"], "note": "Koyama Lane and Morillo endorsed 2024-07-23; Flanary added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."},
+        {"name": "Northwest Oregon Labor Council", "kind": "endorsement", "source": "nolc", "members": ["Steve Novick", "Tiffany Koyama Lane", "Chris Flanary"], "note": "Willamette Week's June 30 report listed only Novick and Koyama Lane; its September 4 report and the council's own page add Flanary."},
+        {"name": "Portland Fire Fighters Association", "kind": "endorsement", "source": "pffa", "members": ["Steve Novick", "Jesse Cornett", "Daniel DeMelo"]},
+        {"name": "Portland Police Association", "kind": "endorsement", "source": "ppa-opb", "members": ["Steve Novick"], "note": "OPB names Novick as a police-union endorsee; the full District 3 list was never published, so this may be incomplete."},
+        {"name": "Portland DSA", "kind": "endorsement", "source": "dsa", "members": ["Tiffany Koyama Lane"]},
+        {"name": "United for Portland (Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Rex Burkholder", "Jesse Cornett", "Daniel DeMelo", "Steve Novick", "Kezia Wanner"], "note": "In District 3 every Green Light endorsee was also a Spotlight endorsee."},
+        {"name": "Portland Metro Chamber", "kind": "endorsement", "source": "chamber", "ordered": true, "members": ["Kezia Wanner", "Steve Novick", "Jesse Cornett", "Rex Burkholder", "Daniel DeMelo"], "note": "Wanner 1, Novick 2, Cornett 3; Burkholder and DeMelo in the voter's own order; rank only these five."},
+        {"name": "Sierra Club Oregon Chapter", "kind": "endorsement", "source": "sierra", "members": ["Rex Burkholder", "Tiffany Koyama Lane", "Angelita Morillo"]},
+        {"name": "Willamette Week (media)", "kind": "endorsement", "source": "ww-d3", "ordered": true, "members": ["Steve Novick", "Philippe Knab", "Cristal Azul Otero", "Rex Burkholder", "Angelita Morillo", "Jesse Cornett"]},
+        {"name": "Portland Mercury (media)", "kind": "endorsement", "source": "mercury", "ordered": true, "members": ["Angelita Morillo", "Steve Novick", "Tiffany Koyama Lane"]},
+        {"name": "The Oregonian editorial board (media)", "kind": "endorsement", "source": "oregonian-34", "members": ["Kezia Wanner", "Steve Novick", "Jesse Cornett"], "note": "Members from a secondary source (see source title)."},
+        {"name": "Koyama Lane and Morillo", "kind": "campaign", "source": "kl-morillo", "members": ["Tiffany Koyama Lane", "Angelita Morillo"], "note": "Campaigned together, sent a joint mailer and asked voters to \"rank us first and second\"."}
+      ]
+    },
+    "2024-councilor-district-4": {
+      "aliases": {"Stan Penkin": "Stanley Penkin"},
+      "slates": [
+        {"name": "Oregon Working Families Party", "kind": "endorsement", "source": "wfp-jul", "members": ["Mitch Green", "Sarah Silkie"], "note": "Green endorsed 2024-07-23; Silkie added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."},
+        {"name": "Northwest Oregon Labor Council", "kind": "endorsement", "source": "nolc", "members": ["Tony Morse", "Olivia Clark", "Eric Zimmerman"]},
+        {"name": "Portland Fire Fighters Association", "kind": "endorsement", "source": "pffa", "members": ["Tony Morse", "Olivia Clark", "Eli Arnold"]},
+        {"name": "Portland Police Association", "kind": "endorsement", "source": "ppa", "members": ["Tony Morse", "Olivia Clark", "Eric Zimmerman", "Eli Arnold"]},
+        {"name": "Portland DSA", "kind": "endorsement", "source": "dsa", "members": ["Mitch Green"]},
+        {"name": "United for Portland (Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Eli Arnold", "Olivia Clark", "Ben Hufford", "Tony Morse", "Stan Penkin", "Eric Zimmerman"]},
+        {"name": "United for Portland (Green Light, including Spotlight)", "kind": "endorsement", "source": "ufp", "members": ["Eli Arnold", "Olivia Clark", "Ben Hufford", "Tony Morse", "Stan Penkin", "Eric Zimmerman", "Moses Ross", "Bob Weinstein"]},
+        {"name": "Portland Metro Chamber", "kind": "endorsement", "source": "chamber", "ordered": true, "members": ["Olivia Clark", "Eric Zimmerman", "Eli Arnold", "Tony Morse", "Stan Penkin", "Ben Hufford"], "note": "Clark and Zimmerman for ranks 1 or 2; Arnold and Morse for 3 or 4; Penkin and Hufford in the voter's own order."},
+        {"name": "Sierra Club Oregon Chapter", "kind": "endorsement", "source": "sierra", "members": ["Lisa Freeman", "Mitch Green", "Chad Lykins"]},
+        {"name": "Willamette Week (media)", "kind": "endorsement", "source": "ww-d4", "ordered": true, "members": ["Olivia Clark", "Eric Zimmerman", "Eli Arnold", "Sarah Silkie", "Bob Weinstein", "Mitch Green"], "note": "Top three ranked; the last three are 'next choices' in the order listed."},
+        {"name": "Portland Mercury (media)", "kind": "endorsement", "source": "mercury", "ordered": true, "members": ["Mitch Green", "Chad Lykins", "Sarah Silkie"]},
+        {"name": "The Oregonian editorial board (media)", "kind": "endorsement", "source": "oregonian-34", "members": ["Eric Zimmerman", "Olivia Clark", "Eli Arnold"], "note": "Members from a secondary source (see source title)."},
+        {"name": "Clark and Zimmerman", "kind": "campaign", "source": "opb-together", "members": ["Olivia Clark", "Eric Zimmerman"], "note": "\"Joined forces\" and encouraged voters to vote for each other."}
+      ]
+    },
+    "2024-mayor": {
+      "aliases": {"Liv Østhus": "Liv (Viva) Osthus"},
+      "slates": [
+        {"name": "Oregon Working Families Party", "kind": "endorsement", "source": "wfp-mayor", "members": ["Carmen Rubio"]},
+        {"name": "Northwest Oregon Labor Council", "kind": "endorsement", "source": "nolc-mayor", "members": ["Carmen Rubio"]},
+        {"name": "Portland Police Association", "kind": "endorsement", "source": "ppa", "members": ["Rene Gonzalez"]},
+        {"name": "Portland Fire Fighters Association", "kind": "endorsement", "source": "pffa", "members": ["Rene Gonzalez"]},
+        {"name": "Willamette Week (media)", "kind": "endorsement", "source": "ww-mayor", "ordered": true, "members": ["Keith Wilson", "Carmen Rubio", "Rene Gonzalez"]},
+        {"name": "Portland Mercury (media)", "kind": "endorsement", "source": "mercury", "ordered": true, "members": ["Carmen Rubio", "Keith Wilson", "Liv Østhus"]}
+      ]
+    }
+  }
+}

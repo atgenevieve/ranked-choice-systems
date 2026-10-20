@@ -13,6 +13,67 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYIC Action",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "Road to Justice NYC",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "RWDSU",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "LaborStrong2021",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYC-DSA",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.brooklynpaper.com/dsa-city-council-endorsements-nyc-socialist",
+      "date": "2020-11-20"
+    }
+  ],
   "official_winners": [
     0
   ],

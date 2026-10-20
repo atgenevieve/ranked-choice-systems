@@ -18,6 +18,207 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Mamdani and Lander",
+      "kind": "campaign",
+      "members": [
+        0,
+        2
+      ],
+      "source": "https://ny1.com/nyc/all-boroughs/politics/2025/06/16/zohran-mamdani-michael-blake-endorse-mayoral-primary",
+      "date": "2025-06-13",
+      "note": "Cross-endorsed June 13, one day before early voting; each asked supporters to rank the other second and not to rank Cuomo."
+    },
+    {
+      "name": "Mamdani and Blake",
+      "kind": "campaign",
+      "members": [
+        0,
+        7
+      ],
+      "source": "https://ny1.com/nyc/all-boroughs/politics/2025/06/16/zohran-mamdani-michael-blake-endorse-mayoral-primary",
+      "date": "2025-06-16",
+      "note": "Cross-endorsed June 16, during early voting."
+    },
+    {
+      "name": "Ramos for Cuomo (one-way)",
+      "kind": "campaign",
+      "members": [
+        8,
+        1
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-06",
+      "note": "Ramos endorsed Cuomo as her second choice; Cuomo did not reciprocate."
+    },
+    {
+      "name": "Tilson for Cuomo (one-way)",
+      "kind": "campaign",
+      "members": [
+        6,
+        1
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24",
+      "note": "Tilson said during the second debate he would rank Cuomo second; not reciprocated."
+    },
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-05-30",
+      "ordered": true,
+      "note": "Ranked at the end of May 2025. Jessica Ramos was fifth until WFP dropped her after she endorsed Cuomo (June 2025). WFP had endorsed Adams, Lander, Mamdani and Myrie unranked in March."
+    },
+    {
+      "name": "NYC-DSA",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17"
+    },
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        1,
+        2,
+        5
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "note": "Endorsed unranked."
+    },
+    {
+      "name": "New York Daily News editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        1,
+        3,
+        2
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24",
+      "ordered": true
+    },
+    {
+      "name": "New York League of Conservation Voters",
+      "kind": "endorsement",
+      "members": [
+        1,
+        2
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "note": "Co-endorsement, unranked."
+    },
+    {
+      "name": "District Council 37",
+      "kind": "endorsement",
+      "members": [
+        3,
+        0,
+        5
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24",
+      "ordered": true
+    },
+    {
+      "name": "UNITE HERE Local 100",
+      "kind": "endorsement",
+      "members": [
+        3,
+        0,
+        2,
+        8
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24",
+      "ordered": true
+    },
+    {
+      "name": "UAW Region 9A",
+      "kind": "endorsement",
+      "members": [
+        0,
+        2,
+        5,
+        3,
+        7
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "ordered": true,
+      "note": "Order as given by FOX 5; City & State lists Blake and Adams both at 5 after Ramos was dropped."
+    },
+    {
+      "name": "Citizen Action of New York",
+      "kind": "endorsement",
+      "members": [
+        0,
+        3,
+        2,
+        5,
+        7
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "ordered": true,
+      "note": "Replaced Ramos with Blake in June 2025."
+    },
+    {
+      "name": "Alexandria Ocasio-Cortez and Nydia Velázquez",
+      "kind": "endorsement",
+      "members": [
+        0,
+        3,
+        2,
+        4,
+        5
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17",
+      "ordered": true,
+      "note": "Elected officials, not an organization; both published the same ranking."
+    },
+    {
+      "name": "1199SEIU",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17"
+    },
+    {
+      "name": "Hotel and Gaming Trades Council",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.fox5ny.com/news/new-york-city-mayor-endorse-rank-voting-election",
+      "date": "2025-06-17"
+    },
+    {
+      "name": "32BJ SEIU",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.cityandstateny.com/politics/2025/06/endorsements-2025-new-york-city-mayoral-race/401606/",
+      "date": "2025-06-24"
+    }
+  ],
   "official_winners": [
     0
   ],

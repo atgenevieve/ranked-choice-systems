@@ -14,6 +14,66 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "NYIC Action",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "Road to Justice NYC",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYC Central Labor Council",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "NYC-DSA",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.brooklynpaper.com/dsa-city-council-endorsements-nyc-socialist",
+      "date": "2020-11-20"
+    },
+    {
+      "name": "Citizens Union",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://citizensunion.org/voters-guide/2021-primary-election/council-district-35-democratic-party-primary/",
+      "date": "2021-06"
+    }
+  ],
   "official_winners": [
     0
   ],

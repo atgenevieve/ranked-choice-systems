@@ -691,6 +691,7 @@
       },
       "official_round1_total": 25627,
       "our_round1_total": 25626,
+      "note": "Decided by a hand recount, certified August 17, 2021 (other contests were certified July 20). The CVR records the scanners' reading of each ballot, so the small first-round differences likely come from the hand count.",
       "ballots": 25626,
       "blank": 2470,
       "unique_ballots": 11521
@@ -721,6 +722,7 @@
     },
     "REP Borough President Queens": {
       "official_page": null,
+      "note": "The BOE posted no count for this contest. Ballotpedia lists the 2021 Republican primary for Queens Borough President as canceled, with Thomas Zmich advancing to the general election and Danniel Maio withdrawn or disqualified; the contest was still printed on ballots, which is why the CVR has marks for it. The CVR's two candidate IDs are missing from the BOE's name list, and no public source we found ties either ID to a name.",
       "ballots": 14267,
       "blank": 2706,
       "unique_ballots": 15
@@ -738,6 +740,7 @@
       },
       "official_round1_total": 19646,
       "our_round1_total": 19644,
+      "note": "Recertified August 24, 2021, the same day as the District 50 Republican hand recount, which covered ballots that also carry this contest. The 2-vote first-round difference likely comes from that recount.",
       "ballots": 19644,
       "blank": 206,
       "unique_ballots": 212
@@ -833,6 +836,7 @@
       },
       "official_round1_total": 8591,
       "our_round1_total": 8577,
+      "note": "Decided by a hand recount, certified August 24, 2021 (other contests were certified July 20). The CVR records the scanners' reading of each ballot, so the small first-round differences likely come from the hand count.",
       "ballots": 8577,
       "blank": 245,
       "unique_ballots": 382
@@ -850,6 +854,7 @@
       },
       "official_round1_total": 60051,
       "our_round1_total": 60049,
+      "note": "Recertified August 24, 2021, the same day as the District 50 Republican hand recount, which covered ballots that also carry this contest. The 2-vote first-round difference likely comes from that recount.",
       "ballots": 60049,
       "blank": 961,
       "unique_ballots": 15

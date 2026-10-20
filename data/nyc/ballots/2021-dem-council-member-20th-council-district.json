@@ -15,6 +15,49 @@
     "Write-in (all write-ins combined)"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "United Federation of Teachers",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "LaborStrong2021",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.gothamgazette.com/city/10098-new-york-city-activist-left-organized-labor-choosing-council-class",
+      "date": "2021-01-26",
+      "note": "LaborStrong2021 is a coalition of unions including DC37, 32BJ SEIU and the Hotel Trades Council. Snapshot of late January 2021, five months before the primary; later changes aren't reflected."
+    },
+    {
+      "name": "Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://queenseagle.com/all/wfp-rolls-out-new-slate-of-queens-council-endorsements",
+      "date": "2021-02-25"
+    },
+    {
+      "name": "Road to Justice NYC",
+      "kind": "endorsement",
+      "members": [
+        2,
+        0
+      ],
+      "source": "https://politicsny.com/2021/02/23/labor-community-coalition-road-to-justice-nyc-endorses-candidates-in-three-queens-city-council-races/",
+      "date": "2021-02-23",
+      "ordered": true,
+      "note": "First and second choice."
+    }
+  ],
   "official_winners": [
     0
   ],
