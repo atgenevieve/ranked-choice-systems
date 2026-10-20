@@ -24,9 +24,9 @@ window.SECTIONS.popularity = () => {
   {
     const Lad = DATA.ladder_7, ord = ["Top", "2nd", "3rd", "4th", "5th", "6th", "Last"];
     const P = Lad.model["0.7"], C = Lad.model["1.0"], R = Lad.real;
-    const f = figure("Candidate by candidate: close, except at the bottom",
-      `The proposed setting (0.7) tracks real Scottish wards closely for the top five candidates. The gap is at the bottom: real support holds up through the 4th candidate, then drops faster, so the last candidate typically gets about ${pct(R[6].median)}, against ${pct(P[6].median)} in the model. The current setting (1.0) gets the bottom right but gives the leader too much (${pct(C[0].median)} against a real ${pct(R[0].median)}). No single setting fits both ends, which is why the proposal adds a separate share of long-shot candidates.`,
-      `Each candidate's share of first choices, from the most popular to the least, in Scottish wards with exactly 7 candidates (${Lad.wards} wards). The green line is the typical (median) ward at each position; the shaded band holds the middle half of wards. The model lines use popularity alone, with no party loyalty. Hover a position for values.`);
+    const f = figure("The typical ward, candidate by candidate",
+      `Neither model setting matches the typical real ward from top to bottom. The proposed setting (0.7) matches the leader (${pct(P[0].median)} of first choices, against a real ${pct(R[0].median)}) but leaves the last candidate too strong (${pct(P[6].median)}, against a real ${pct(R[6].median)}). The current setting (1.0) gets the last candidate about right (${pct(C[6].median)}) but makes the leader too strong (${pct(C[0].median)}).`,
+      `Each candidate's share of first choices, from the most popular to the least, in the ${Lad.wards} Scottish wards with exactly 7 candidates. The green line is the typical (median) ward at each position, and the shaded band holds the middle half of wards. Each model line is the typical election out of 4,000 simulated ones, using popularity alone, with no party loyalty. Hover a position for values.`);
     ladder(f, [
       { name: "Real Scottish wards", color: "--scotland", values: Lad.real, band: true },
       { name: "Model, proposed setting (0.7)", color: "--public", values: Lad.model["0.7"] },
@@ -37,10 +37,9 @@ window.SECTIONS.popularity = () => {
   {
     const A = DATA.ladder_7.all, Lad = DATA.ladder_7;
     const under = l => pct(l.filter(e => e.shares[6] < 0.03).length / l.length);
-    const quarter = l => pct(l.filter(e => e.shares[6] < e.shares[3] / 4).length / l.length);
-    const f = figure("Every real ward: the field drops off at the bottom",
-      `Each thin green line is one real ward, tracing each candidate's share of first choices from the most popular to the least. The black line is the typical real ward; the blue and orange lines are the model. Look at the right-hand end: real wards dive toward zero between the middle candidate and the last, while the proposed model line ends higher, and the current one starts too high. The last candidate gets under 3% of first choices in ${under(A.real)} of real wards, against ${under(A.model)} of model elections at the proposed setting, and less than a quarter of the middle candidate's first choices in ${quarter(A.real)}, against ${quarter(A.model)}. Changing the popularity setting can't fix this: it stretches or squeezes the whole line, top and bottom alike. That's why the proposal adds a separate share of long-shot candidates.`,
-      `All ${A.real.length} real Scottish wards with exactly 7 candidates. Model lines are the typical (median) election at each position, from popularity alone with no party loyalty; the model percentages come from ${A.model.length} simulated elections. Hover a position for values.`);
+    const f = figure("Every ward: most real fields have a near-empty last place",
+      `The typical ward hides how often the last candidate gets almost nothing. In ${under(A.real)} of real wards, the last candidate gets under 3% of first choices. At the proposed setting, only ${under(A.model)} of model elections do. The popularity setting can't close this gap, because it stretches or squeezes the whole line at once: making the bottom weaker also makes the leader stronger, as the current setting shows. That's why the proposal adds a separate share of long-shot candidates, a few candidates far below the rest, alongside a popularity setting that fits the leaders.`,
+      `Each thin green line is one of the ${A.real.length} real wards. The black line is the typical ward, the same as the green line in the chart above, and the model lines are the same as above. The model's percentage comes from ${A.model.length} simulated elections at the proposed setting. Hover a position for values.`);
     ladder(f, [
       { name: "Typical real ward", itemsName: "Each real ward", color: "--scotland", values: Lad.real, items: A.real },
       { name: "Model, proposed setting (0.7)", color: "--public", values: Lad.model["0.7"] },
