@@ -4,7 +4,9 @@ For each type of election (data/model_check.py's CELLS), it takes a fixed sample
 elections and records, for each, what the tuner needs to simulate its twin: candidates (not
 counting write-in slots), seats, voters (at most 3,000, to keep the page quick), the ballot's
 rule, and a seed. It also records the real elections' typical (median) statistics, measured
-by data/model_check.py, and their average ballot-length distribution.
+by data/model_check.py, and their average ballot-length distribution. It adds what the slate
+settings produce on twins of Scottish wards (data/fits/slate-curves.json), so the tuner can show
+slate loyalty and spread in the units real elections are measured in.
 
 Usage (from the repository root, after calibration.py has run for every source):
     python3 -I data/tuner_reference.py tuner/reference.json
@@ -65,6 +67,9 @@ def main():
             "sources": sources, "real": model_check.summarize(real),
             "length_shares": [round(x, 4) for x in dist], "twins": twins,
         })
+    # What the slate settings produce, for the tuner's sliders (data/model_check.py --curves).
+    curves = json.load(open(os.path.join(ROOT, "fits", "slate-curves.json"), encoding="utf-8"))
+    out["slate_curves"] = {"strength": curves["strength"], "spread": curves["spread"], "measured_on": curves["cell"]}
     with open(sys.argv[1], "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
     print(sys.argv[1], os.path.getsize(sys.argv[1]), "bytes")

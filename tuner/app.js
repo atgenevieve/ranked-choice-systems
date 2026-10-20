@@ -1,11 +1,11 @@
 // Rank Depth Tuner: controls -> settings -> the engine (worker.js runs stvsim.wasm) -> results.
-// Two requests per change: twins of real elections (reference.json, built by
-// data/tuner_reference.py), and the viewer's own election. See tuner/README.md.
+// Three requests per change: the viewer's election counted many times (how deep rankings
+// matter), a sample of it measured (what each setting does), and twins of real elections
+// (reference.json, built by data/tuner_reference.py). See tuner/README.md.
 "use strict";
 
 const $ = id => document.getElementById(id);
-const STORE_KEY = "rank-depth-tuner-controls";
-const STRENGTH_MAX = 200; // the strength slider runs from 1 (no pull) to 200, on a log scale
+const STORE_KEY = "rank-depth-tuner-v2";
 
 // ---------------------------------------------------------------- engine
 const worker = new Worker("worker.js");
@@ -23,18 +23,60 @@ const engine = request => new Promise(resolve => {
 
 // ---------------------------------------------------------------- formatting
 const pct = v => v == null ? "–" : v > 0 && v < 0.01 ? "under 1%" : `${(v * 100).toFixed(v < 0.1 && v > 0 ? 1 : 0)}%`;
-const times = v => v == null ? "–" : `${v.toFixed(2)}×`;
+const times = v => v == null ? "–" : `${v.toFixed(v >= 10 ? 0 : 1)}×`;
 const num1 = v => v == null ? "–" : v.toFixed(1);
 const num2 = v => v == null ? "–" : v.toFixed(2);
-const strengthOf = v => Math.pow(STRENGTH_MAX, v / 100);
+const pts = v => v == null ? "–" : `${v >= 0 ? "+" : "−"}${Math.abs(Math.round(v * 100))} points`;
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent?.append(e); return e; };
 const text = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
+const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || lo)));
+const setText = (id, s) => { $(id).textContent = s; };
+
+// ---------------------------------------------------------------- reference data
+let reference = null;  // tuner/reference.json
+let fitted = null;     // what "auto" means for the viewer's election (from the engine)
+
+/** Straight-line interpolation through [x, y] points sorted by x. */
+function interp(points, x) {
+  if (x <= points[0][0]) return points[0][1];
+  for (let i = 1; i < points.length; i++) {
+    if (x <= points[i][0]) {
+      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+      return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
+    }
+  }
+  return points[points.length - 1][1];
+}
+// Slate loyalty in points <-> the engine's own-slate multiplier, and evenness <-> spread to other
+// slates, from what each setting produced on twins of Scottish wards (data/model_check.py --curves).
+function strengthFor(points) {
+  const curve = reference.slate_curves.strength.map(d => [d.clustering * 100, Math.log(d.setting)]);
+  return Math.exp(interp(curve, points));
+}
+function pointsFor(strength) {
+  const curve = reference.slate_curves.strength.map(d => [Math.log(d.setting), d.clustering * 100]);
+  return interp(curve, Math.log(strength));
+}
+function spreadFor(evenness) {
+  // Evenness falls as the spread rises (from 0.3 on); interpolate on the falling part.
+  const curve = reference.slate_curves.spread.filter(d => d.setting >= 0.3).map(d => [d.evenness, d.setting]).sort((a, b) => a[0] - b[0]);
+  return interp(curve, evenness);
+}
+function evennessFor(spread) {
+  return interp(reference.slate_curves.spread.filter(d => d.setting >= 0.3).map(d => [d.setting, d.evenness]), spread);
+}
+/** The real elections of the same type as the viewer's election. */
+function cellLike(c) {
+  const s = int(c.seats, 1, 999);
+  const band = s === 1 ? "1 seat" : s <= 4 ? "2 to 4 seats" : "5 or more seats";
+  return reference?.cells.find(x => x.cell === `${c.electorate === "organization" ? "Organization" : "Public"}, ${band}`);
+}
 
 // ---------------------------------------------------------------- controls
-const FIELDS = ["candidates", "seats", "voters", "sims", "seed", "wording", "n", "n-seats", "slates", "sizing", "strength", "unaff", "other",
-  "spread-auto", "spread", "longshot-auto", "longshot", "gap", "pull-auto", "pull", "cell"];
+const FIELDS = ["candidates", "seats", "voters", "sims", "seed", "wording", "n", "n-seats", "pull-auto", "pull", "slates", "sizing", "unaff",
+  "loyalty", "evenness", "spread-auto", "spread", "longshot-auto", "longshot", "gap", "cell"];
 
 function readControls() {
   const c = {};
@@ -55,17 +97,15 @@ function writeControls(c) {
   if (c.electorate) document.querySelector(`input[name="electorate"][value="${c.electorate}"]`).checked = true;
 }
 
-const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || lo)));
-
-/** The model settings (the [model] section) from the controls. */
+/** The [model] section of a settings file, from the controls. */
 function modelSettings(c) {
   return {
     version: "0.2",
     slates: int(c.slates, 1, 12),
     slate_candidates: c.sizing,
-    slate_strength: Number(strengthOf(Number(c.strength)).toFixed(2)),
+    slate_strength: Number(strengthFor(Number(c.loyalty)).toFixed(2)),
     unaffiliated_share: Number(c.unaff),
-    other_slate_spread: Number(c.other),
+    other_slate_spread: Number(spreadFor(Number(c.evenness)).toFixed(3)),
     popularity_spread: c["spread-auto"] ? "auto" : Number(c.spread),
     long_shot_share: c["longshot-auto"] ? "auto" : Number(c.longshot),
     long_shot_gap: Number(c.gap),
@@ -90,13 +130,13 @@ function electionSettings(c) {
 
 function toml(s, name) {
   const v = x => typeof x === "string" ? `"${x}"` : String(x);
-  const lines = [`# ${name || "A tuning"}, saved from the Rank Depth Tuner.`, "# Run with: engine/target/release/stvsim run <this file>", ""];
+  const lines = [`# ${name || "Settings"}, saved from the Rank Depth Tuner.`, "# Run with: engine/target/release/stvsim run <this file>", ""];
   const section = (head, obj) => {
     lines.push(`[${head}]`);
     for (const [k, x] of Object.entries(obj)) lines.push(`${k} = ${Array.isArray(x) ? `[${x.join(", ")}]` : v(x)}`);
     lines.push("");
   };
-  section("run", { ...s.run, name: (name || "tuning").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "tuning" });
+  section("run", { ...s.run, name: slug(name || "tuning") });
   section("election", s.election);
   section("electorate", s.electorate);
   section("ballot", s.ballot);
@@ -104,34 +144,89 @@ function toml(s, name) {
   return lines.join("\n");
 }
 
-// ---------------------------------------------------------------- labels next to sliders
-let fitted = null; // what "auto" means for the viewer's election (from the engine)
+function slug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "tuning";
+}
+
+// ---------------------------------------------------------------- reference marks on sliders
+/** Marks real elections (and other landmarks) along a slider's scale: a short value at its true
+ *  position, and one line underneath naming each. items: [{at, short, label}]. */
+function marks(id, input, items) {
+  const box = $(id);
+  if (!box) return;
+  const lo = Number(input.min), hi = Number(input.max);
+  const shown = items.filter(m => m.at >= lo - 1e-9 && m.at <= hi + 1e-9).sort((a, b) => a.at - b.at);
+  const track = document.createElement("div"); track.className = "track";
+  for (const m of shown) {
+    const d = document.createElement("span");
+    const f = (m.at - lo) / (hi - lo);
+    d.className = `tick${f < 0.04 ? " left" : f > 0.96 ? " right" : ""}`;
+    d.style.left = `${f * 100}%`;
+    d.textContent = m.short;
+    track.append(d);
+  }
+  const key = document.createElement("p"); key.className = "key";
+  key.textContent = shown.map(m => `${m.label} ${m.short}`).join(" · ");
+  box.replaceChildren(track, key);
+}
 
 function updateLabels(c) {
-  const st = strengthOf(Number(c.strength));
-  const word = Math.abs(st - 4) < 0.6 ? "loose" : Math.abs(st - 100) < 12 ? "tight" : st < 1.2 ? "no pull" : "";
-  $("strength-v").textContent = `${word ? word + ", " : ""}${st < 10 ? st.toFixed(1) : Math.round(st)}× own slate`;
-  $("unaff-v").textContent = pct(Number(c.unaff));
-  $("other-v").textContent = num2(Number(c.other));
-  $("spread").disabled = c["spread-auto"];
-  $("longshot").disabled = c["longshot-auto"];
-  $("pull").disabled = c["pull-auto"];
+  const cand = int(c.candidates, 2, 300), seats = int(c.seats, 1, cand - 1);
+  const N = c.wording === "none" ? null : c["n-seats"] ? seats : int(c.n, 1, cand);
+  if (c["n-seats"]) $("n").value = seats;
   $("n").disabled = c["n-seats"] || c.wording === "none";
   $("n-seats").disabled = c.wording === "none";
-  if (c["n-seats"]) $("n").value = int(c.seats, 1, 999);
-  $("spread-v").textContent = c["spread-auto"] ? (fitted ? `fitted, ${num2(fitted.popularity_spread)}` : "fitted") : num2(Number(c.spread));
-  $("longshot-v").textContent = c["longshot-auto"] ? (fitted ? `fitted, ${pct(fitted.long_shot_share)}` : "fitted") : pct(Number(c.longshot));
+  // Pull toward N.
+  const pulls = c.wording === "up_to" || c.wording === "at_least";
+  $("pull-setting").hidden = !pulls;
+  const pullFit = c.wording === "at_least" ? 0.97 : 0.23;
+  if (c["pull-auto"]) $("pull").value = pullFit;
+  $("pull").disabled = c["pull-auto"];
+  setText("pull-v", `${pct(Number($("pull").value))}${c["pull-auto"] ? ", measured" : ""}`);
+  marks("pull-scale", $("pull"), [{ at: 0.23, short: "23%", label: "US \"up to\" limits" }, { at: 0.97, short: "97%", label: "Canberra \"at least\"" }]);
+  // Slates.
+  setText("slates-v", `${int(c.slates, 1, 12)} slate${int(c.slates, 1, 12) === 1 ? "" : "s"}`);
+  setText("unaff-v", `${pct(Number(c.unaff))} at least`);
+  marks("unaff-scale", $("unaff"), [{ at: 0.17, short: "17%", label: "Scottish independents" }]);
+  if (reference) {
+    const looseP = pointsFor(4), tightP = pointsFor(100);
+    const p = Number(c.loyalty);
+    const word = Math.abs(p - looseP) < 1 ? " (loose)" : Math.abs(p - tightP) < 1.5 ? " (tight)" : "";
+    setText("loyalty-v", `+${Math.round(p)} points${word}`);
+    marks("loyalty-scale", $("loyalty"), [
+      { at: 9, short: "9", label: "NYC endorsement slates" }, { at: 14, short: "14", label: "Portland endorsement slates" }, { at: 61, short: "61", label: "Scottish parties" },
+    ]);
+    setText("evenness-v", `${num2(Number(c.evenness))}${Math.abs(Number(c.evenness) - evennessFor(1.2)) < 0.004 ? " (default)" : ""}`);
+    marks("evenness-scale", $("evenness"), [{ at: Number(evennessFor(1.2).toFixed(2)), short: num2(evennessFor(1.2)), label: "Model default" }, { at: 0.83, short: "0.83", label: "Most even the model makes" }]);
+  }
+  // Popularity.
+  const type = cellLike(c);
+  const typeName = type ? type.cell.toLowerCase().replace("public", "public elections").replace("organization", "organizational elections") : "elections like yours";
+  setText("spread-auto-label", fitted ? `Use the value fitted to real ${typeName}: ${num2(fitted.popularity_spread)}` : "Use the value fitted to real elections like yours");
+  if (c["spread-auto"] && fitted) $("spread").value = fitted.popularity_spread;
+  $("spread").disabled = c["spread-auto"];
+  setText("spread-v", `${num2(Number($("spread").value))}${c["spread-auto"] ? ", fitted" : ""}`);
+  marks("spread-scale", $("spread"), [{ at: 0, short: "0", label: "All equal" }, { at: 0.7, short: "0.7", label: "Small organizational elections" }, { at: 1.0, short: "1.0", label: "Large organizational elections" }, { at: 1.2, short: "1.2", label: "Scottish wards" }]);
+  setText("longshot-auto-label", fitted ? `Use the value fitted to real ${typeName}: ${pct(fitted.long_shot_share) === "0%" ? "none" : pct(fitted.long_shot_share)}` : "Use the value fitted to real elections like yours");
+  if (c["longshot-auto"] && fitted) $("longshot").value = fitted.long_shot_share;
+  $("longshot").disabled = c["longshot-auto"];
+  const ls = Number($("longshot").value);
+  setText("longshot-v", `${ls === 0 ? "none" : `${pct(ls)} of candidates`}${c["longshot-auto"] ? ", fitted" : ""}`);
   const g = Number(c.gap);
-  $("gap-v").textContent = g >= 0 ? `${Math.exp(g).toFixed(1)}× less popular` : `standouts, ${Math.exp(-g).toFixed(1)}× more popular`;
-  $("pull-v").textContent = c["pull-auto"] ? "fitted" : pct(Number(c.pull));
+  setText("gap-v", Math.abs(g) < 0.05 ? "no different" : g > 0 ? `${times(Math.exp(g))} less support` : `standouts, ${times(Math.exp(-g))} more support`);
+  marks("gap-scale", $("gap"), [{ at: -1.5, short: "−1.5", label: "Standouts, 4.5× more support (under review)" }, { at: 0, short: "0", label: "No different" }, { at: 2, short: "2", label: "Default, 7× less support" }]);
+  // Simulations.
+  setText("sims-v", `${int(c.sims, 10, 1000).toLocaleString()} runs`);
+  return { cand, seats, N };
 }
 
 // ---------------------------------------------------------------- charts
-/** A line chart on linear scales. series: [{points: [[x, y]], color, width, dash}];
- *  opts: {xMax, yMax, yStep, yFmt, xTitle, hline: {y, label}, bars: [{x, y}] (drawn behind)}. */
-function lineChart(box, series, opts) {
+/** A chart on linear scales. series: [{points: [[x, y]], color, width, dots}];
+ *  opts: {xMin, xMax, xTicks, yMax, yStep, yFmt, xTitle, hlines: [{y, label}],
+ *  marks: [{x, y, label}], bars: [{x, y}] (drawn behind the lines)}. */
+function chart(box, series, opts) {
   box.replaceChildren();
-  const w = Math.max(260, box.clientWidth || 600), H = 230, L = 44, R = 12, T = 12, B = 36;
+  const w = Math.max(280, box.clientWidth || 600), H = 250, L = 46, R = 14, T = 16, B = 38;
   const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
   const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
   const sy = y => T + (1 - y / opts.yMax) * (H - T - B);
@@ -139,8 +234,7 @@ function lineChart(box, series, opts) {
     el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
     text(svg, L - 6, sy(y) + 4, opts.yFmt(y), { "text-anchor": "end" });
   }
-  const xs = opts.xTicks;
-  for (const x of xs) text(svg, sx(x), H - B + 15, String(opts.xLabel ? opts.xLabel(x) : x), { "text-anchor": "middle" });
+  for (const x of opts.xTicks) text(svg, sx(x), H - B + 15, String(opts.xLabel ? opts.xLabel(x) : x), { "text-anchor": "middle" });
   text(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
   if (opts.bars) {
     const bw = Math.max(2, (sx(opts.xMin + 1) - sx(opts.xMin)) * 0.7);
@@ -149,15 +243,23 @@ function lineChart(box, series, opts) {
       if (h > 0) el("rect", { x: sx(b.x) - bw / 2, y: sy(b.y), width: bw, height: h, rx: 1.5, fill: css("--real") }, svg);
     }
   }
-  if (opts.hline) {
-    el("line", { x1: L, x2: w - R, y1: sy(opts.hline.y), y2: sy(opts.hline.y), stroke: css("--bad"), "stroke-width": 1.2, "stroke-dasharray": "5 4" }, svg);
-    text(svg, w - R, sy(opts.hline.y) - 5, opts.hline.label, { "text-anchor": "end", class: "lab" });
+  for (const h of opts.hlines || []) {
+    el("line", { x1: L, x2: w - R, y1: sy(h.y), y2: sy(h.y), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "5 4", opacity: 0.7 }, svg);
+    text(svg, L + 4, sy(h.y) - 4, h.label, { class: "lab" });
   }
   for (const s of series) {
-    const pts = s.points.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" ");
-    el("polyline", { points: pts, fill: "none", stroke: css("--surface"), "stroke-width": (s.width || 2.5) + 3, "stroke-linejoin": "round" }, svg);
-    el("polyline", { points: pts, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round", "stroke-dasharray": s.dash || "" }, svg);
-    if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 3, fill: css(s.color) }, svg);
+    const p = s.points.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" ");
+    el("polyline", { points: p, fill: "none", stroke: css("--surface"), "stroke-width": (s.width || 2.5) + 3, "stroke-linejoin": "round" }, svg);
+    el("polyline", { points: p, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round" }, svg);
+    if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 2.6, fill: css(s.color) }, svg);
+  }
+  // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label.
+  for (const m of opts.marks || []) {
+    const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax));
+    el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
+    el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: css("--mark"), "stroke-width": 2 }, svg);
+    const right = x > w - 150;
+    text(svg, x + (right ? -9 : 9), y + (m.below ? 16 : -8), m.label, { class: "marklab", "text-anchor": right ? "end" : "start" });
   }
 }
 
@@ -166,77 +268,122 @@ function niceStep(max) {
   return [1, 2, 2.5, 5, 10].map(m => m * p).find(s => s >= raw) || raw;
 }
 /** Rank ticks: 1, then every 1, 5, 10, or 20 ranks, depending on how many are shown. */
-function ticksUpTo(max) {
+function rankTicks(max) {
   const step = max <= 12 ? 1 : max <= 30 ? 5 : max <= 60 ? 10 : 20;
   const out = [1];
   for (let x = step; x <= max; x += step) if (x !== 1) out.push(x);
   return out;
+}
+const pctAxis = v => `${Math.round(v * 100)}%`;
+/** The first rank (1-based) from which the test holds for every rank after it too. */
+function holdsFrom(values, test) {
+  let k = values.length + 1;
+  for (let i = values.length - 1; i >= 0 && test(values[i]); i--) k = i + 1;
+  return k;
 }
 
 // ---------------------------------------------------------------- your election
 let lastElection = null;
 
 function drawElection(r, c) {
-  const t = r.truncation, seats = r.seats, ballotN = c.wording === "none" ? null : (c["n-seats"] ? seats : int(c.n, 1, 999));
-  const p = t.p_changed, mean = t.seats_changed.mean;
-  // Show the curve out to a few ranks past the last change.
-  const last = Math.max(...p.map((x, i) => (x > 0 ? i + 1 : 0)), ...mean.map((x, i) => (x > 0 ? i + 1 : 0)), 3);
-  const xMax = Math.min(p.length, Math.max(last + 3, ballotN ? Math.min(ballotN + 2, p.length) : 0, 8));
-  const cut = t.cutoff_rank, t5 = t.threshold_rank.t5, sims = r.settings.run.sims;
-  const atN = ballotN && ballotN <= p.length ? p[ballotN - 1] : null;
-  const at10 = Math.min(10, mean.length);
-  $("figures").replaceChildren(...[
-    [String(t5), `ranks that matter: cutting ballots at rank ${t5} or deeper changes the winners in fewer than 5 of 100 elections`],
-    [`${cut.p10} to ${cut.p90}`, `the cutoff rank in 8 of 10 elections (typical: ${cut.p50}). Cutting at it or deeper never changes the winners`],
-    [num1(mean[at10 - 1]), `seats change hands, on average, out of ${seats}, when ballots are cut after rank ${at10}`],
-    [pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates before the count ends"],
-  ].map(([n, t]) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = `<span class="n"></span><span class="t"></span>`; d.children[0].textContent = n; d.children[1].textContent = t; return d; }));
-  const xs = ticksUpTo(xMax);
-  lineChart($("chart-changed"), [{ points: p.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 30 }], {
-    xMin: 1, xMax, xTicks: xs, yMax: 1, yStep: 0.25, yFmt: v => `${Math.round(v * 100)}%`, xTitle: "Ballots cut after this rank",
-    hline: { y: 0.05, label: "5 in 100" }, aria: "Share of elections where cutting ballots at each rank changes the winners",
+  const t = r.truncation, seats = r.seats, sims = r.settings.run.sims, cand = r.settings.election.candidates;
+  const N = c.wording === "none" ? null : (c["n-seats"] ? seats : int(c.n, 1, cand));
+  const p = t.p_changed, mean = t.seats_changed.mean, most = t.seats_changed.max;
+  // Share of elections whose cutoff rank is at or below each rank: cutting there, or deeper, changes nothing.
+  const same = [];
+  t.cutoff_rank.counts.reduce((acc, n, i) => { same[i] = (acc + n) / sims; return acc + n; }, 0);
+  const at = level => same.findIndex(x => x >= level - 1e-9) + 1;
+  const k50 = at(0.5), k80 = at(0.8), k95 = at(0.95), kAll = at(1);
+  const k5 = holdsFrom(p, x => x < 0.05);
+  const kSeat = holdsFrom(mean, x => x < 1);
+  const kNone = holdsFrom(most, x => x === 0);
+  const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
+  const xTicks = rankTicks(xMax);
+  // Headline and figures.
+  setText("headline", `Keep the first ${k95} ranks of every ballot, and 19 in 20 simulated elections elect exactly the same ${seats} people as full ballots. Half of elections need only ${k50}.`);
+  const fig = (k, n, t) => { const d = document.createElement("div"); d.className = "figure"; d.innerHTML = '<span class="k"></span><span class="n"></span><span class="t"></span>'; d.children[0].textContent = k; d.children[1].textContent = n; d.children[2].textContent = t; return d; };
+  $("figures").replaceChildren(
+    fig("19 in 20 elections", `rank ${k95}`, `Cut ballots after this rank or any deeper rank, and 95% of elections come out the same. 8 in 10 need ${k80}; every election, ${kAll}.`),
+    fig("One cut, 5 in 100", `rank ${k5}`, `From this rank on, cutting ballots at any single rank changes the winners in fewer than 5 of 100 elections.`),
+    fig("Seats", `rank ${kSeat}`, `From this rank on, cutting ballots moves fewer than 1 of the ${seats} seats, on average. No election changes any seat from rank ${kNone}.`),
+    fig("Votes that run out", pct(r.exhaustion.votes_pct_mean / 100), "of votes run out of ranked candidates still in the race before the count ends."),
+  );
+  // Chart 1: elections that come out the same.
+  chart($("chart-same"), [{ points: same.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
+    xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
+    marks: [{ x: k50, y: same[k50 - 1], label: `half: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `8 in 10: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `19 in 20: rank ${k95}`, below: true }]
+      .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
+    aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });
-  const mMax = Math.max(1, ...mean.slice(0, xMax));
-  const step = niceStep(mMax);
-  lineChart($("chart-seats"), [{ points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 30 }], {
-    xMin: 1, xMax, xTicks: xs, yMax: Math.ceil(mMax / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-    aria: "Average number of seats that change hands when ballots are cut at each rank",
+  // Chart 2: one cut changes the winners.
+  chart($("chart-changed"), [{ points: p.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
+    xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
+    hlines: [{ y: 0.05, label: "5 in 100" }],
+    marks: k5 <= xMax ? [{ x: k5, y: p[k5 - 1] ?? 0, label: `below 5 in 100 from rank ${k5}` }] : [],
+    aria: "Share of elections where cutting ballots at each rank changes the winners",
   });
-  const what = { up_to: `rank up to ${ballotN}`, at_least: `rank at least ${ballotN}`, exactly: `rank exactly ${ballotN}`, none: "rank as many as they like" }[c.wording];
-  $("election-lede").textContent = `${sims} simulated elections: ${r.settings.election.candidates} candidates, ${seats} seats, ${r.settings.election.voters} voters (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then with every ballot cut after rank 1, 2, 3, and so on.` +
-    (atN != null && c.wording !== "none" ? ` Cutting at the ballot's own N (${ballotN}) changes the winners in ${pct(atN)} of elections.` : "");
+  // Chart 3: seats that change hands.
+  const top = Math.max(1, ...most.slice(0, xMax));
+  const step = niceStep(top);
+  chart($("chart-seats"), [
+    { points: most.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
+    { points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 },
+  ], {
+    xMin: 1, xMax, xTicks, yMax: Math.ceil(top / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
+    hlines: [{ y: 1, label: "1 seat" }],
+    marks: [{ x: kSeat, y: mean[kSeat - 1] ?? 0, label: `under 1 seat from rank ${kSeat}` }, ...(kNone <= xMax && kNone !== kSeat ? [{ x: kNone, y: 0, label: `none from rank ${kNone}`, below: false }] : [])],
+    aria: "Seats that change hands when ballots are cut after each rank: average and most in any election",
+  });
+  const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
+  setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${r.settings.election.voters} voters (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
 }
 
 async function runElection(c, seq) {
-  $("election-status").className = "status busy";
-  $("election-status").textContent = "Simulating your election…";
+  setStatus("election-status", "Playing out your election…", true);
   const reply = await engine({ task: "election", settings: electionSettings(c) });
   if (seq !== runSeq) return;
   if (reply.error || !reply.results?.length) {
-    $("election-status").className = "status error";
-    $("election-status").textContent = reply.error ? `The engine refused these settings: ${reply.error}` : "Seats must be fewer than candidates.";
+    setStatus("election-status", reply.error ? `The engine refused these settings: ${reply.error}` : "Seats must be fewer than candidates.", false, true);
     return;
   }
   lastElection = reply.results[0];
-  $("election-status").className = "status";
-  $("election-status").textContent = "";
+  setStatus("election-status", "");
   drawElection(lastElection, c);
 }
 
+// ---------------------------------------------------------------- what each setting does
+async function runDescribe(c, seq, dims) {
+  const reply = await engine({ task: "describe", settings: electionSettings(c), count: 40 });
+  if (seq !== runSeq || reply.error) return;
+  const m = reply.median, { cand, seats, N } = dims;
+  const shares = reply.length_shares;
+  const exactlyN = N && N <= cand ? shares[N - 1] : null;
+  const atLeastN = N && N <= cand ? shares.slice(N - 1).reduce((a, x) => a + x, 0) : null;
+  setText("pull-yours", N ? `${pct(exactlyN)} of voters rank exactly ${N}${c.wording === "at_least" ? `, and ${pct(atLeastN)} rank ${N} or more` : ""}.` : "");
+  setText("electorate-yours", `voters rank ${num1(m.length_mean)} candidates on average${exactlyN != null && c.wording !== "none" ? `; ${pct(exactlyN)} rank exactly ${N}` : ""}. The length chart under "Do the simulated elections look like real ones?" shows real elections.`);
+  const sizes = reply.slate_sizes_example || [];
+  setText("slates-yours", `${sizes.length ? `slates run ${sizes.join(", ")} candidates` : "no slate has candidates"}, and about ${Math.round(reply.candidates_no_slate)} of ${cand} candidates run on no slate (one example election).`);
+  setText("loyalty-yours", m.clustering == null ? "no slate runs two or more candidates, so loyalty has nothing to act on." : `${pts(m.clustering)} above popularity, measured the same way as the reference elections.`);
+  setText("evenness-yours", m.evenness == null ? "" : `${num2(m.evenness)}. Your election's own figure differs from the slider's scale because its slates and candidates on no slate differ from a Scottish ward's.`);
+  const type = cellLike(c);
+  setText("spread-yours", `the most popular candidate gets ${pct(reply.top_share)} of first choices: ${times(m.quota)} the quota of ${pct(1 / (seats + 1))}. The least popular gets ${pct(reply.last_share)}.` +
+    (type ? ` In real ${type.cell.toLowerCase().replace("public", "public elections").replace("organization", "organizational elections")}, the top candidate gets ${times(type.real.quota)} the quota.` : ""));
+  setText("longshot-yours", `${Math.round(reply.long_shots)} of ${cand} candidates are long shots.`);
+}
+
 // ---------------------------------------------------------------- real elections
-let reference = null;
 let lastCompare = null;
 const STATS = [
-  ["quota", "Top candidate's first choices, as a multiple of the quota", times, "rel"],
-  ["even_last", "Last candidate's first choices, as a multiple of an even split", times, "rel"],
-  ["even_top", "Top candidate, as a multiple of an even split", times, "rel"],
+  ["quota", "Most popular candidate's first choices, as a multiple of the quota (the share that guarantees a seat)", times, "rel"],
+  ["even_last", "Least popular candidate's first choices, as a multiple of an even split (every candidate equal)", times, "rel"],
+  ["even_top", "Most popular candidate's first choices, as a multiple of an even split", times, "rel"],
   ["length_mean", "Average number of candidates ranked", num1, "rel"],
-  ["complete", "Share ranking every candidate", pct, "pts"],
-  ["fills_limit", "Share ranking exactly the ballot's limit", pct, "pts"],
-  ["clustering", "Clustering above popularity (second choice on the same slate)", num2, "abs"],
-  ["evenness", "Evenness of votes leaving a slate (1 = even)", num2, "abs"],
-  ["running_mate", "Candidates with a running mate", pct, "pts"],
-  ["no_slate", "Candidates in no slate", pct, "pts"],
+  ["complete", "Voters ranking every candidate", pct, "pts"],
+  ["fills_limit", "Voters ranking exactly the ballot's limit", pct, "pts"],
+  ["clustering", "Slate loyalty: second choices on the same slate, above popularity", pts, "abs"],
+  ["evenness", "How evenly votes leave a slate (1 = evenly)", num2, "abs"],
+  ["running_mate", "Candidates with a running mate on their slate", pct, "pts"],
+  ["no_slate", "Candidates on no slate", pct, "pts"],
 ];
 
 function match(kind, real, model) {
@@ -260,18 +407,16 @@ function drawCompare(cell, reply) {
     const td = document.createElement("td"); const chip = document.createElement("span"); chip.className = `chip ${cls}`; chip.textContent = word; td.append(chip); tr.append(td);
     body.append(tr);
   }
-  // Ballot-length distribution: real bars, model line (lengths 1 to 15, then 16 or more).
+  // Ballot length: real bars, model line (1 to 15 ranks, then 16 or more).
   const K = cell.length_shares.length;
   const model = new Array(K).fill(0);
-  for (const t of reply.twins) {
-    t.length_shares.forEach((x, i) => { model[Math.min(i, K - 1)] += x / reply.twins.length; });
-  }
+  for (const t of reply.twins) t.length_shares.forEach((x, i) => { model[Math.min(i, K - 1)] += x / reply.twins.length; });
   const last = Math.max(3, ...cell.length_shares.map((x, i) => (x > 0.005 ? i + 1 : 0)), ...model.map((x, i) => (x > 0.005 ? i + 1 : 0)));
   const yTop = Math.max(...cell.length_shares, ...model);
   const step = yTop > 0.3 ? 0.1 : 0.05;
-  lineChart($("chart-length"), [{ points: model.slice(0, last).map((y, i) => [i + 1, y]), color: "--model", dots: true }], {
+  chart($("chart-length"), [{ points: model.slice(0, last).map((y, i) => [i + 1, y]), color: "--model", dots: true }], {
     xMin: 0.5, xMax: last + 0.5, xTicks: Array.from({ length: last }, (_, i) => i + 1), xLabel: x => (x === K ? `${K}+` : x),
-    yMax: Math.ceil(yTop / step) * step, yStep: step, yFmt: v => `${Math.round(v * 100)}%`, xTitle: "Candidates ranked",
+    yMax: Math.ceil(yTop / step) * step, yStep: step, yFmt: pctAxis, xTitle: "Candidates ranked",
     bars: cell.length_shares.slice(0, last).map((y, i) => ({ x: i + 1, y })), aria: "Share of voters ranking each number of candidates, real against model",
   });
 }
@@ -279,22 +424,17 @@ function drawCompare(cell, reply) {
 async function runCompare(c, seq) {
   if (!reference) return;
   const cell = reference.cells.find(x => x.cell === c.cell) || reference.cells[0];
-  const src = Object.entries(cell.sources).map(([k, n]) => `${n} ${{ scotland: "Scottish", ers: "union and society", org: "other organizational", public: "other public", nyc: "NYC", portland: "Portland", act: "Canberra" }[k] || k}`).join(", ");
-  $("cell-note").textContent = `${cell.elections} real elections: ${src}. Twins use your slate and popularity settings with ${cell.electorate === "organization" ? "organization members" : "public voters"}' ballot lengths, whatever you chose for your own election.` +
-    (cell.sources.scotland ? " Scottish parties are tight: set slates to tight to compare with them." : "");
-  $("compare-status").className = "status busy";
-  $("compare-status").textContent = "Simulating twins of real elections…";
+  const names = { scotland: "Scottish", ers: "union and society", org: "other organizational", public: "other public", nyc: "NYC", portland: "Portland", act: "Canberra" };
+  const src = Object.entries(cell.sources).map(([k, n]) => `${n} ${names[k] || k}`).join(", ");
+  setText("cell-note", `${cell.elections} real elections: ${src}. The twins use your slate and popularity settings, with ${cell.electorate === "organization" ? "organization members'" : "public voters'"} ballot lengths.` +
+    (cell.sources.scotland ? " Scottish parties are tight: set slate loyalty near 61 to compare with them." : ""));
+  setStatus("compare-status", "Playing out twins of real elections…", true);
   const twins = cell.twins.map(({ name, ...t }) => t);
   const reply = await engine({ task: "twins", electorate: { type: cell.electorate }, model: modelSettings(c), merge_last: cell.merge_last, twins });
   if (seq !== runSeq) return;
-  if (reply.error) {
-    $("compare-status").className = "status error";
-    $("compare-status").textContent = `The engine refused these settings: ${reply.error}`;
-    return;
-  }
+  if (reply.error) { setStatus("compare-status", `The engine refused these settings: ${reply.error}`, false, true); return; }
   lastCompare = { cell, reply };
-  $("compare-status").className = "status";
-  $("compare-status").textContent = "";
+  setStatus("compare-status", "");
   drawCompare(cell, reply);
 }
 
@@ -302,16 +442,23 @@ async function runCompare(c, seq) {
 let runSeq = 0;
 let timer = null;
 
+function setStatus(id, msg, busy, error) {
+  $(id).className = `status${busy ? " busy" : ""}${error ? " error" : ""}`;
+  $(id).textContent = msg;
+}
+
 async function refresh() {
-  const c = readControls();
-  updateLabels(c);
+  if (!reference) return;
+  let c = readControls();
+  fitted = await engine({ task: "defaults", electorate: c.electorate, seats: int(c.seats, 1, 999) });
+  const dims = updateLabels(c);
+  c = readControls(); // sliders that follow "auto" may have moved
   try { localStorage.setItem(STORE_KEY, JSON.stringify(c)); } catch { /* storage may be blocked */ }
   $("toml").textContent = toml(electionSettings(c), $("tuning-name").value.trim());
-  const seats = int(c.seats, 1, 999);
-  fitted = await engine({ task: "defaults", electorate: c.electorate, seats });
-  updateLabels(c);
   const seq = ++runSeq;
-  await Promise.all([runElection(c, seq), runCompare(c, seq)]);
+  // Quick answers first, then the slower count of your election.
+  await Promise.all([runDescribe(c, seq, dims), runCompare(c, seq)]);
+  if (seq === runSeq) await runElection(c, seq);
 }
 
 function schedule() {
@@ -337,11 +484,7 @@ addEventListener("resize", () => {
 // ---------------------------------------------------------------- saving
 const use = name => (window.claude?.use ? window.claude.use(name) : Promise.resolve(null));
 let db = null;
-
-function say(msg, error) {
-  $("save-status").className = error ? "status error" : "status";
-  $("save-status").textContent = msg;
-}
+const say = (msg, error) => setStatus("save-status", msg, false, error);
 
 $("copy").addEventListener("click", () => {
   const t = $("toml").textContent;
@@ -352,13 +495,9 @@ $("copy").addEventListener("click", () => {
   });
 });
 
-function slug(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "tuning";
-}
-
 $("save-shared").addEventListener("click", async () => {
   const name = $("tuning-name").value.trim();
-  if (!name) { say("Give the tuning a name first.", true); $("tuning-name").focus(); return; }
+  if (!name) { say("Give these settings a name first.", true); $("tuning-name").focus(); return; }
   if (!db) { say("Saving to the list works on the published page. Here, copy the settings instead.", true); return; }
   $("save-shared").disabled = true;
   try {
@@ -417,19 +556,18 @@ use("downloads").then(downloads => {
 
 // ---------------------------------------------------------------- start
 (async () => {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
-    if (saved) writeControls(saved);
-  } catch { /* storage may be blocked */ }
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch { /* storage may be blocked */ }
   try {
     reference = await (await fetch("reference.json")).json();
     $("cell").replaceChildren(...reference.cells.map(x => { const o = document.createElement("option"); o.value = o.textContent = x.cell; return o; }));
-    let wanted = "Organization, 5 or more seats";
-    try { wanted = JSON.parse(localStorage.getItem(STORE_KEY) || "{}").cell || wanted; } catch { /* ignore */ }
-    $("cell").value = wanted;
+    $("cell").value = "Organization, 5 or more seats";
+    $("loyalty").value = Math.round(pointsFor(4));
+    $("evenness").value = evennessFor(1.2).toFixed(3);
   } catch {
-    $("compare-status").className = "status error";
-    $("compare-status").textContent = "Couldn't load the real-election reference (reference.json).";
+    setStatus("compare-status", "Couldn't load the real-election reference (reference.json).", false, true);
+    return;
   }
+  if (saved) writeControls(saved);
   refresh();
 })();

@@ -7,3 +7,4 @@ Settings of the voter model (model version 0.2, `docs/model-spec.md`) fitted to 
 - `model-check.json`: simulated twins of real elections against the real ones, with the engine's defaults. Made by `python3 -I data/model_check.py data/fits/model-check.json --sample 200`. Explained in `docs/model-check.md`.
 
 Each fit is repeatable: the scripts use fixed random seeds, and the twins' seeds come from the real files' names.
+- `slate-curves.json`: what the slate settings produce on twins of Scottish wards: slate loyalty (clustering above popularity) for each own-slate strength, and evenness for each spread to other slates. The tuner uses these to show both settings in the units real elections are measured in. Made by `python3 -I data/model_check.py data/fits/slate-curves.json --sample 150 --curves`.

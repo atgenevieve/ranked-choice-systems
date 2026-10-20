@@ -8,6 +8,8 @@
 //!   election (same candidates, seats, voters, and ballot rules) and measures it (`stats.rs`).
 //! - `{"task": "election", "settings": {...}}`: a settings file as JSON; simulates it and returns
 //!   one results line per seat count, as `stvsim run` does.
+//! - `{"task": "describe", "settings": {...}, "count": n}`: simulates `count` elections from the
+//!   settings and measures them: what each setting produces in the viewer's own election.
 //! - `{"task": "defaults", "electorate": "public" | "organization", "seats": n}`: what "auto"
 //!   and the named settings mean for that type of election.
 
@@ -91,6 +93,43 @@ fn handle(text: &str) -> Result<Value, String> {
             s.finish()?;
             let lines: Vec<Value> = s.election.seats.iter().filter(|&&k| k >= 1 && k < s.election.candidates).map(|&k| simulate(&s, k, 1)).collect();
             Ok(json!({ "results": lines }))
+        }
+        Some("describe") => {
+            // A sample of the viewer's own election, measured: what each setting produces.
+            let mut s: Settings = serde_json::from_value(req["settings"].clone()).map_err(|e| format!("settings: {e}"))?;
+            s.finish()?;
+            let count = req["count"].as_u64().unwrap_or(40) as usize;
+            let c = s.election.candidates;
+            let seats = s.election.seats.first().copied().unwrap_or(1).clamp(1, c.saturating_sub(1).max(1));
+            let v = s.election.voters.unwrap();
+            let max = s.ballot.max_ranks(seats);
+            let (mut all, mut slates, mut unaff, mut longs, mut tops, mut lasts) = (Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new());
+            let mut lengths = vec![0.0; c];
+            for i in 0..count {
+                let g = model::generate(c, seats, v, s.election.ranks, &s.electorate, &s.ballot, &s.model, crate::sim::election_seed(s.run.seed, c, seats, i));
+                let st = measure(&g.ballots, seats, Some(&g.slate_of), max, false);
+                for (k, x) in st.length_shares.iter().enumerate() {
+                    lengths[k] += x / count as f64;
+                }
+                let mut sizes: Vec<usize> = (0..s.model.slates).map(|k| g.slate_of.iter().filter(|x| **x == Some(k)).count()).filter(|&n| n > 0).collect();
+                sizes.sort_unstable_by(|a, b| b.cmp(a));
+                slates.push(sizes);
+                unaff.push(g.slate_of.iter().filter(|x| x.is_none()).count() as f64);
+                longs.push(g.long_shot.iter().filter(|&&x| x).count() as f64);
+                tops.push(st.first_sorted[0]);
+                lasts.push(st.first_sorted[c - 1]);
+                all.push(st);
+            }
+            let med = |mut v: Vec<f64>| {
+                v.sort_by(|a, b| a.partial_cmp(b).unwrap());
+                v[v.len() / 2]
+            };
+            Ok(json!({
+                "elections": count, "median": medians(&all),
+                "top_share": med(tops), "last_share": med(lasts),
+                "candidates_no_slate": med(unaff), "long_shots": med(longs),
+                "slate_sizes_example": slates.first(), "length_shares": lengths,
+            }))
         }
         Some("defaults") => {
             let kind = match req["electorate"].as_str() {

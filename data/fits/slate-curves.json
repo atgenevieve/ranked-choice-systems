@@ -1,0 +1,140 @@
+{
+ "sample": 150,
+ "cell": "Public, 2 to 4 seats",
+ "strength": [
+  {
+   "setting": 1,
+   "clustering": 0.0363,
+   "evenness": 0.8055
+  },
+  {
+   "setting": 1.5,
+   "clustering": 0.04519999999999999,
+   "evenness": 0.8133
+  },
+  {
+   "setting": 2,
+   "clustering": 0.052099999999999994,
+   "evenness": 0.8144
+  },
+  {
+   "setting": 3,
+   "clustering": 0.0841,
+   "evenness": 0.817
+  },
+  {
+   "setting": 4,
+   "clustering": 0.10919999999999999,
+   "evenness": 0.817
+  },
+  {
+   "setting": 6,
+   "clustering": 0.15720000000000003,
+   "evenness": 0.8181
+  },
+  {
+   "setting": 8,
+   "clustering": 0.20030000000000003,
+   "evenness": 0.8169
+  },
+  {
+   "setting": 12,
+   "clustering": 0.261,
+   "evenness": 0.8148
+  },
+  {
+   "setting": 20,
+   "clustering": 0.34850000000000003,
+   "evenness": 0.8131
+  },
+  {
+   "setting": 30,
+   "clustering": 0.41159999999999997,
+   "evenness": 0.8032
+  },
+  {
+   "setting": 50,
+   "clustering": 0.5047999999999999,
+   "evenness": 0.7957
+  },
+  {
+   "setting": 80,
+   "clustering": 0.5740000000000001,
+   "evenness": 0.7879
+  },
+  {
+   "setting": 100,
+   "clustering": 0.6013999999999999,
+   "evenness": 0.7846
+  },
+  {
+   "setting": 150,
+   "clustering": 0.6447,
+   "evenness": 0.7778
+  },
+  {
+   "setting": 200,
+   "clustering": 0.6720999999999999,
+   "evenness": 0.7736
+  }
+ ],
+ "spread": [
+  {
+   "setting": 0,
+   "evenness": 0.821,
+   "clustering": 0.5730000000000001
+  },
+  {
+   "setting": 0.3,
+   "evenness": 0.8273,
+   "clustering": 0.5742
+  },
+  {
+   "setting": 0.6,
+   "evenness": 0.822,
+   "clustering": 0.5817000000000001
+  },
+  {
+   "setting": 0.9,
+   "evenness": 0.8039,
+   "clustering": 0.5903999999999999
+  },
+  {
+   "setting": 1.2,
+   "evenness": 0.7846,
+   "clustering": 0.6013999999999999
+  },
+  {
+   "setting": 1.5,
+   "evenness": 0.7706,
+   "clustering": 0.6101
+  },
+  {
+   "setting": 2.0,
+   "evenness": 0.7244,
+   "clustering": 0.6359
+  },
+  {
+   "setting": 2.5,
+   "evenness": 0.687,
+   "clustering": 0.6717
+  },
+  {
+   "setting": 3.0,
+   "evenness": 0.6547,
+   "clustering": 0.6925
+  }
+ ],
+ "real": {
+  "clustering": 0.6171,
+  "complete": 0.11269589716499384,
+  "even_last": 0.15487499999999998,
+  "even_top": 2.121678,
+  "evenness": 0.8473,
+  "length_mean": 3.075932333717801,
+  "no_slate": 0.125,
+  "only_candidate": 0.5,
+  "quota": 1.363955,
+  "running_mate": 0.3333333333333333
+ }
+}

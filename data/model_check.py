@@ -239,6 +239,24 @@ def tune_popularity(sample, cells):
     return best
 
 
+def curves(sample):
+    """What the slate settings produce, in the units the tuner shows them in, measured on twins
+    of Scottish multi-seat wards (the elections with real values for both): clustering above
+    popularity for each slate strength, and evenness of votes leaving a slate for each spread."""
+    cell = "Public, 2 to 4 seats"
+    out = {"cell": cell, "strength": [], "spread": []}
+    for st in (1, 1.5, 2, 3, 4, 6, 8, 12, 20, 30, 50, 80, 100, 150, 200):
+        r = run(sample, [cell], {cell: {"slate_strength": st}})[0]
+        out["strength"].append({"setting": st, "clustering": r["simulated"].get("clustering"), "evenness": r["simulated"].get("evenness")})
+        print("strength", st, out["strength"][-1], flush=True)
+    for sp in (0, 0.3, 0.6, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0):
+        r = run(sample, [cell], {cell: {"other_slate_spread": sp}})[0]
+        out["spread"].append({"setting": sp, "evenness": r["simulated"].get("evenness"), "clustering": r["simulated"].get("clustering")})
+        print("spread", sp, out["spread"][-1], flush=True)
+    out["real"] = r["real"]
+    return out
+
+
 def table(results):
     names = {"quota": "Top candidate vs quota", "even_top": "Top candidate vs even split", "even_last": "Last candidate vs even split",
              "length_mean": "Average ballot length", "complete": "Share ranking everyone", "fills_limit": "Share filling the limit",
@@ -264,7 +282,13 @@ def main():
     ap.add_argument("--cells", default="")
     ap.add_argument("--set", action="append", default=[])
     ap.add_argument("--tune-popularity", action="store_true", help="search popularity settings for each type of election")
+    ap.add_argument("--curves", action="store_true", help="measure what the slate settings produce, for the tuner's sliders")
     args = ap.parse_args()
+    if args.curves:
+        with open(args.output, "w", encoding="utf-8") as f:
+            json.dump({"sample": args.sample, **curves(args.sample)}, f, indent=1)
+            f.write("\n")
+        return
     if args.tune_popularity:
         cells = [c for c in args.cells.split("|") if c] if args.cells else None
         best = tune_popularity(args.sample, cells)
