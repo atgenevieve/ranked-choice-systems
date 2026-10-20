@@ -390,7 +390,6 @@ function sweepDefaults(c) {
   const a = Math.max(10, Math.round(v / 2)), b = Math.min(50000, v * 2);
   $("sweep-from").placeholder = String(a);
   $("sweep-to").placeholder = String(b);
-  $("sweep-step").placeholder = String(sweepStep(int($("sweep-from").value || a, 10, 50000), int($("sweep-to").value || b, 10, 50000)));
 }
 for (const id of ["sweep-from", "sweep-to"]) $(id).addEventListener("input", () => sweepDefaults(readControls()));
 
@@ -435,7 +434,7 @@ $("sweep-run").addEventListener("click", async () => {
   const from = int($("sweep-from").value || $("sweep-from").placeholder, 10, 50000);
   const to = int($("sweep-to").value || $("sweep-to").placeholder, 10, 50000);
   const [a, b] = from <= to ? [from, to] : [to, from];
-  const step = int($("sweep-step").value || sweepStep(a, b), 1, 50000);
+  const step = sweepStep(a, b);
   const list = [];
   for (let x = a; x < b; x += step) list.push(x);
   list.push(b);
