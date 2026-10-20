@@ -215,8 +215,6 @@ function updateLabels(c) {
   const g = Number(c.gap);
   setText("gap-v", Math.abs(g) < 0.05 ? "no different" : g > 0 ? `${times(Math.exp(g))} less support` : `standouts, ${times(Math.exp(-g))} more support`);
   marks("gap-scale", $("gap"), [{ at: -1.5, short: "−1.5", label: "Standouts, 4.5× more support (under review)" }, { at: 0, short: "0", label: "No different" }, { at: 2, short: "2", label: "Default, 7× less support" }]);
-  // Simulations.
-  setText("sims-v", `${int(c.sims, 10, 1000).toLocaleString()} runs`);
   return { cand, seats, N };
 }
 
