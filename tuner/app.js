@@ -182,7 +182,7 @@ function updateLabels(c) {
   const pullFit = c.wording === "at_least" ? 0.97 : 0.23;
   if (c["pull-auto"]) $("pull").value = pullFit;
   $("pull").disabled = c["pull-auto"];
-  setText("pull-v", `${pct(Number($("pull").value))}${c["pull-auto"] ? ", measured" : ""}`);
+  setText("pull-v", `${pct(Number($("pull").value))}${c["pull-auto"] ? ", from real ballots" : ""}`);
   marks("pull-scale", $("pull"), [{ at: 0.23, short: "23%", label: "US \"up to\" limits" }, { at: 0.97, short: "97%", label: "Canberra \"at least\"" }]);
   // Slates.
   setText("slates-v", `${int(c.slates, 1, 12)} slate${int(c.slates, 1, 12) === 1 ? "" : "s"}`);
@@ -563,6 +563,32 @@ for (const input of document.querySelectorAll('#controls input[type="range"]')) 
   track.append(input);
   if (scale) track.append(scale);
   row.append(track);
+}
+
+// ---------------------------------------------------------------- tabs
+// One tab per group of settings; the last one chosen is remembered in this browser.
+{
+  const panels = [...document.querySelectorAll(".tabpanel")];
+  const buttons = panels.map((p, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.role = "tab"; b.id = `tab-${i}`; b.textContent = p.dataset.tab;
+    b.setAttribute("aria-controls", p.id = `panel-${i}`);
+    p.setAttribute("aria-labelledby", b.id);
+    b.addEventListener("click", () => show(i));
+    b.addEventListener("keydown", e => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { e.preventDefault(); show((i + d + panels.length) % panels.length); buttons[(i + d + panels.length) % panels.length].focus(); }
+    });
+    return b;
+  });
+  $("tabs").append(...buttons);
+  function show(i) {
+    panels.forEach((p, k) => { p.hidden = k !== i; buttons[k].setAttribute("aria-selected", String(k === i)); buttons[k].tabIndex = k === i ? 0 : -1; });
+    try { localStorage.setItem(STORE_KEY + "-tab", String(i)); } catch { /* storage may be blocked */ }
+  }
+  let start = 0;
+  try { start = Math.min(panels.length - 1, Number(localStorage.getItem(STORE_KEY + "-tab")) || 0); } catch { /* storage may be blocked */ }
+  show(start);
 }
 
 // ---------------------------------------------------------------- start

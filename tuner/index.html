@@ -49,8 +49,15 @@ header p { margin: 4px 0 0; color: var(--ink-2); max-width: 70ch; }
 .layout { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 20px; align-items: start; }
 @media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
-/* Settings */
-.controls { display: grid; gap: 16px; }
+/* Settings: one panel, one tab per group of settings. */
+.controls { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0 16px 16px; display: grid; gap: 14px; min-width: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px 2px; border-bottom: 1px solid var(--rule); margin: 0 -16px; padding: 8px 12px 0; }
+.tabs button { background: transparent; color: var(--ink-2); border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 6px 7px; font-size: 14px; font-weight: 600; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--model); }
+.tabs button:hover { color: var(--ink); }
+.tabpanel { display: grid; gap: 16px; min-width: 0; }
+.tabpanel[hidden] { display: none; }
+.tabpanel > h2 { font-size: 16px; font-weight: 800; margin: 0; }
 .group { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px 16px; display: grid; gap: 16px; min-width: 0; }
 .group > h2 { font-size: 16px; font-weight: 800; margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--grid); }
 .setting { display: grid; gap: 6px; min-width: 0; }
@@ -155,7 +162,8 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
 
   <div class="layout">
     <form class="controls" id="controls" autocomplete="off">
-      <div class="group">
+      <div class="tabs" role="tablist" aria-label="Settings" id="tabs"></div>
+      <div class="tabpanel" role="tabpanel" data-tab="Election">
         <h2>Your election</h2>
         <div class="row3">
           <div class="field"><label for="candidates">Candidates</label><input type="number" id="candidates" min="2" max="300" value="75"></div>
@@ -169,7 +177,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
       </div>
 
-      <div class="group">
+      <div class="tabpanel" role="tabpanel" data-tab="Ballot">
         <h2>Ballot</h2>
         <div class="setting">
           <div class="setting-head"><label for="wording">What the ballot tells voters</label></div>
@@ -196,7 +204,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
       </div>
 
-      <div class="group">
+      <div class="tabpanel" role="tabpanel" data-tab="Voters">
         <h2>Voters</h2>
         <div class="setting">
           <div class="setting-head"><span class="label">Who is voting</span></div>
@@ -210,7 +218,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
       </div>
 
-      <div class="group">
+      <div class="tabpanel" role="tabpanel" data-tab="Slates">
         <h2>Slates</h2>
         <div class="setting">
           <div class="setting-head"><label for="slates">Number of slates</label><output id="slates-v"></output></div>
@@ -254,7 +262,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
       </div>
 
-      <div class="group">
+      <div class="tabpanel" role="tabpanel" data-tab="Popularity">
         <h2>Candidate popularity</h2>
         <div class="setting">
           <div class="setting-head"><label for="spread">How unequal candidates' support is</label><output id="spread-v"></output></div>
@@ -282,14 +290,14 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         </div>
       </div>
 
-      <details class="group">
-        <summary>Random seed</summary>
+      <div class="tabpanel" role="tabpanel" data-tab="Seed">
+        <h2>Random seed</h2>
         <div class="setting">
           <div class="setting-head"><label for="seed">Seed</label></div>
           <input type="number" id="seed" min="1" value="1">
           <p class="what">The starting value for the random voters. The same seed and settings always give the same results; a different seed shows how much results vary by chance.</p>
         </div>
-      </details>
+      </div>
     </form>
 
     <div class="results">
