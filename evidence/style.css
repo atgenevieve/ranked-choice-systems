@@ -82,8 +82,11 @@ td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-nume
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
 .loading { color: var(--muted); padding-block: 20px; }
 /* Decision summary on each tab and the overview. */
-.decision { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; }
-.decision h2 { font-size: 18px; margin: 0; }
+/* The decision box heads each tab: tinted, so it reads as the tab's summary rather than one more chart. */
+.decision { background: color-mix(in srgb, var(--public) 8%, var(--surface)); border: 1px solid color-mix(in srgb, var(--public) 30%, var(--grid)); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; }
+.decision .eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--public); }
+.decision h2 { font-size: 21px; margin: -6px 0 0; letter-spacing: -0.01em; }
+.decision .status { background: color-mix(in srgb, var(--public) 16%, var(--surface)); color: var(--ink); }
 .decision dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 14px; }
 .decision dt { font-weight: 600; color: var(--ink-2); }
 .decision dd { margin: 0; max-width: 72ch; }

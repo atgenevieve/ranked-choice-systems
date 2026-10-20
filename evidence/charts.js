@@ -235,7 +235,8 @@ function strips(f, groups, opts = {}) {
 // The decision box at the top of each tab.
 function decisionBox(d) {
   const box = document.createElement("section"); box.className = "decision";
-  const h = document.createElement("h2"); h.textContent = d.title; box.append(h);
+  const eb = document.createElement("div"); eb.className = "eyebrow"; eb.textContent = "Decision";
+  const h = document.createElement("h2"); h.textContent = d.title; box.append(eb, h);
   const dl = document.createElement("dl");
   for (const [k, v] of [["Status", d.status], ["Model now", d.now], ["Proposal", d.proposal], ["Needed from you", d.needed]]) {
     if (!v) continue;
