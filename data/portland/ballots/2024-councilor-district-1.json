@@ -1,0 +1,34 @@
+{
+  "source": "portland",
+  "election": "Portland, OR 2024 general, Councilor, District 1",
+  "date": "2024-11-05",
+  "system": "portland-stv",
+  "candidates": [
+    "Candace Avalos",
+    "Loretta Smith",
+    "Jamie Dunphy",
+    "Noah Ernst",
+    "Terrence Hayes",
+    "Steph Routh",
+    "Timur Ender",
+    "Doug Clove",
+    "Peggy Sue Owens",
+    "David Linn",
+    "Joe Allen",
+    "Michael (Mike) Sands",
+    "Deian Salazar",
+    "Cayle Tern",
+    "Thomas Shervey",
+    "Joe Furi",
+    "Uncertified Write In"
+  ],
+  "parties": null,
+  "official_winners": [
+    0,
+    2,
+    1
+  ],
+  "blank_ballots": 12258,
+  "max_ranks": 6,
+  "notes": "Multnomah County cast vote record cvr-councilor-district-1.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 1453; with a skipped rank: 1206; with a repeated candidate: 714; remade ballots: 2188. Blank: 11558 with no marks (estimated from precinct styles), 700 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-1.json (Multnomah County Elections, certified December 2, 2024). Our first-choice totals differ from the official first round by 10 votes in all; see checks.json."
+}

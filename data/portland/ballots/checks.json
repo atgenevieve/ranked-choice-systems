@@ -1,0 +1,354 @@
+{
+  "City of Portland, Auditor": {
+    "official_file": "official/city-of-portland-auditor.json",
+    "official_winners": [
+      "Simone Rede"
+    ],
+    "official_threshold": "94316",
+    "official_round1_total": 188630,
+    "our_round1_total": 188739,
+    "round1_differences": {
+      "Simone Rede": {
+        "official": 186134,
+        "ours": 186243
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 188739,
+    "unique_ballots": 4,
+    "blank": 144230,
+    "stats": {
+      "rows": 332969,
+      "remade": 9338,
+      "duplicate": 1177,
+      "skipped": 3466,
+      "overvote": 19,
+      "blank_only_overvotes": 14,
+      "blank_no_marks": 144216,
+      "rows_outside_contest": 0
+    },
+    "ignored_writein_columns": 2
+  },
+  "City of Portland, Councilor, District 1": {
+    "official_file": "official/city-of-portland-councilor-district-1.json",
+    "official_winners": [
+      "Candace Avalos",
+      "Jamie Dunphy",
+      "Loretta Smith"
+    ],
+    "official_threshold": "10718",
+    "official_round1_total": 42871,
+    "our_round1_total": 42881,
+    "round1_differences": {
+      "David Linn": {
+        "official": 1111,
+        "ours": 1112
+      },
+      "Doug Clove": {
+        "official": 1698,
+        "ours": 1699
+      },
+      "Jamie Dunphy": {
+        "official": 5064,
+        "ours": 5066
+      },
+      "Peggy Sue Owens": {
+        "official": 1266,
+        "ours": 1268
+      },
+      "Steph Routh": {
+        "official": 3894,
+        "ours": 3897
+      },
+      "Thomas Shervey": {
+        "official": 385,
+        "ours": 386
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 42881,
+    "unique_ballots": 18897,
+    "blank": 12258,
+    "stats": {
+      "rows": 332969,
+      "remade": 2188,
+      "duplicate": 714,
+      "skipped": 1206,
+      "overvote": 1453,
+      "blank_only_overvotes": 700,
+      "blank_no_marks": 11558,
+      "rows_outside_contest": 277830
+    },
+    "ignored_writein_columns": 18
+  },
+  "City of Portland, Councilor, District 2": {
+    "official_file": "official/city-of-portland-councilor-district-2.json",
+    "official_winners": [
+      "Sameer Kanal",
+      "Dan Ryan",
+      "Elana Pirtle-Guiney"
+    ],
+    "official_threshold": "19290",
+    "official_round1_total": 77157,
+    "our_round1_total": 77163,
+    "round1_differences": {
+      "Antonio Jamal PettyJohnBlue": {
+        "official": 217,
+        "ours": 218
+      },
+      "Bob Simril": {
+        "official": 2520,
+        "ours": 2521
+      },
+      "Dan Ryan": {
+        "official": 12047,
+        "ours": 12046
+      },
+      "Debbie Kitchin": {
+        "official": 1228,
+        "ours": 1227
+      },
+      "Jennifer Park": {
+        "official": 1114,
+        "ours": 1113
+      },
+      "Liz Taylor": {
+        "official": 628,
+        "ours": 630
+      },
+      "Mariah Hudson": {
+        "official": 2287,
+        "ours": 2284
+      },
+      "Michael (Mike) Marshall": {
+        "official": 1646,
+        "ours": 1647
+      },
+      "Michelle DePass": {
+        "official": 6838,
+        "ours": 6849
+      },
+      "Sameer Kanal": {
+        "official": 9924,
+        "ours": 9923
+      },
+      "Tiffani Penson": {
+        "official": 7218,
+        "ours": 7215
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 77163,
+    "unique_ballots": 41109,
+    "blank": 10916,
+    "stats": {
+      "rows": 332969,
+      "remade": 3598,
+      "duplicate": 632,
+      "skipped": 1029,
+      "overvote": 988,
+      "blank_only_overvotes": 475,
+      "blank_no_marks": 10441,
+      "rows_outside_contest": 244890
+    },
+    "ignored_writein_columns": 18
+  },
+  "City of Portland, Councilor, District 3": {
+    "official_file": "official/city-of-portland-councilor-district-3.json",
+    "official_winners": [
+      "Steve Novick",
+      "Angelita Morillo",
+      "Tiffany Koyama Lane"
+    ],
+    "official_threshold": "21129",
+    "official_round1_total": 84515,
+    "our_round1_total": 84520,
+    "round1_differences": {
+      "Ahlam K Osman": {
+        "official": 709,
+        "ours": 710
+      },
+      "Daniel DeMelo": {
+        "official": 1571,
+        "ours": 1572
+      },
+      "Harrison Kass": {
+        "official": 2786,
+        "ours": 2785
+      },
+      "Jesse Cornett": {
+        "official": 3860,
+        "ours": 3861
+      },
+      "Kezia Wanner": {
+        "official": 5313,
+        "ours": 5314
+      },
+      "Luke Zak": {
+        "official": 548,
+        "ours": 547
+      },
+      "Melodie Beirwagen": {
+        "official": 1132,
+        "ours": 1133
+      },
+      "Patrick Hilton": {
+        "official": 194,
+        "ours": 195
+      },
+      "Steve Novick": {
+        "official": 20457,
+        "ours": 20458
+      },
+      "Tiffany Koyama Lane": {
+        "official": 16320,
+        "ours": 16319
+      },
+      "Uncertified Write In": {
+        "official": 248,
+        "ours": 249
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 84520,
+    "unique_ballots": 40704,
+    "blank": 13434,
+    "stats": {
+      "rows": 332969,
+      "remade": 3948,
+      "duplicate": 601,
+      "overvote": 943,
+      "blank_only_overvotes": 545,
+      "skipped": 883,
+      "blank_no_marks": 12889,
+      "rows_outside_contest": 235015
+    },
+    "ignored_writein_columns": 18
+  },
+  "City of Portland, Councilor, District 4": {
+    "official_file": "official/city-of-portland-councilor-district-4.json",
+    "official_winners": [
+      "Olivia Clark",
+      "Mitch Green",
+      "Eric Zimmerman"
+    ],
+    "official_threshold": "19180",
+    "official_round1_total": 76717,
+    "our_round1_total": 76720,
+    "round1_differences": {
+      "Bob Weinstein": {
+        "official": 3891,
+        "ours": 3892
+      },
+      "Mitch Green": {
+        "official": 10387,
+        "ours": 10388
+      },
+      "Tony Schwartz": {
+        "official": 100,
+        "ours": 101
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 76720,
+    "unique_ballots": 38257,
+    "blank": 15077,
+    "stats": {
+      "rows": 332969,
+      "remade": 3476,
+      "overvote": 965,
+      "blank_only_overvotes": 555,
+      "duplicate": 490,
+      "skipped": 671,
+      "blank_no_marks": 14522,
+      "rows_outside_contest": 241172
+    },
+    "ignored_writein_columns": 18
+  },
+  "City of Portland, Mayor": {
+    "official_file": "official/city-of-portland-mayor.json",
+    "official_winners": [
+      "Keith Wilson"
+    ],
+    "official_threshold": "129977",
+    "official_round1_total": 309963,
+    "our_round1_total": 310014,
+    "round1_differences": {
+      "Alexander Landry Neely": {
+        "official": 1863,
+        "ours": 1860
+      },
+      "Carmen Rubio": {
+        "official": 69215,
+        "ours": 69372
+      },
+      "Durrell Kinsey Bey": {
+        "official": 2685,
+        "ours": 2683
+      },
+      "Dustin Witherspoon": {
+        "official": 934,
+        "ours": 937
+      },
+      "James Atkinson IV": {
+        "official": 571,
+        "ours": 577
+      },
+      "Josh Leake": {
+        "official": 2340,
+        "ours": 2339
+      },
+      "Keith Wilson": {
+        "official": 104389,
+        "ours": 104332
+      },
+      "Liv (Viva) Osthus": {
+        "official": 20188,
+        "ours": 20162
+      },
+      "Martin Ward": {
+        "official": 2064,
+        "ours": 2065
+      },
+      "Michael Necula": {
+        "official": 324,
+        "ours": 325
+      },
+      "Mingus Mapps": {
+        "official": 39679,
+        "ours": 39663
+      },
+      "Rene Gonzalez": {
+        "official": 55267,
+        "ours": 55256
+      },
+      "Saadiq Ali": {
+        "official": 862,
+        "ours": 865
+      },
+      "Shei'Meka (BeUtee) As-Salaam": {
+        "official": 1164,
+        "ours": 1161
+      },
+      "Yao Jun He": {
+        "official": 801,
+        "ours": 800
+      }
+    },
+    "candidates_missing_from_official": [],
+    "ballots": 310014,
+    "unique_ballots": 53006,
+    "blank": 22955,
+    "stats": {
+      "rows": 332969,
+      "remade": 13808,
+      "duplicate": 2581,
+      "skipped": 6608,
+      "overvote": 3855,
+      "blank_only_overvotes": 1482,
+      "blank_no_marks": 21473,
+      "rows_outside_contest": 0
+    },
+    "ignored_writein_columns": 6
+  }
+}
