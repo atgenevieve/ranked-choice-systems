@@ -57,6 +57,7 @@ Each seat count writes one line of JSON. Every line records the full settings, t
   - `curve`: the average reach, in votes out of 100, at each rank.
 - `truncation`:
   - `p_changed`: for each cutoff rank *k*, the share of elections where keeping only *k* ranks changes the set of winners. This is the **truncation curve**.
+  - `seats_changed`: for each cutoff rank *k*, how many seats go to a different candidate when keeping only *k* ranks: `mean` (average across elections), `share_mean` (that average divided by the number of seats), and `max` (the most in any one election). This shows how big a change is, since `p_changed` counts swapping one seat out of 50 the same as swapping all of them.
   - `threshold_rank`: for each threshold (`t5` means 5 in 100 elections), the smallest rank *k* where the truncation curve stays below the threshold for *k* and every deeper rank.
   - `cutoff_rank`: the spread of cutoff ranks across elections: `mean`, `p10`, `p50`, `p90`, `max`, and `counts` (how many elections had each cutoff rank, starting at rank 1).
 - `exhaustion`: average share of voting weight (`votes_pct_mean`) and of ballots (`ballots_pct_mean`), out of 100, that ran out of candidates still in the race.
@@ -67,7 +68,7 @@ Each seat count writes one line of JSON. Every line records the full settings, t
 target/release/stvsim count data/scotland/ballots/*.ballots
 ```
 
-This reads files in the format in `docs/ballot-format.md` and writes one line of JSON per election: the winners, the order candidates were elected and excluded, the reach curve, exhaustion, and truncation (`changed` and `winners_at` for each cutoff rank, and `cutoff_rank`). If a metadata file lists the officially declared winners, `matches_official` says whether the engine agrees.
+This reads files in the format in `docs/ballot-format.md` and writes one line of JSON per election: the winners, the order candidates were elected and excluded, the reach curve, exhaustion, and truncation (`changed`, `winners_at`, and `seats_changed` for each cutoff rank, and `cutoff_rank`). If a metadata file lists the officially declared winners, `matches_official` says whether the engine agrees.
 
 Options: `--rules scottish|reference`, `--surplus-order largest|election`, `--seed N` (the seed for decisions by lot), and `--no-truncation`.
 
@@ -120,7 +121,7 @@ A truncated count is identical to the full count until the first stage where som
 1. Runs the full count once, and notes the first stage at which a vote landed on each rank.
 2. Skips every cutoff deeper than the deepest rank any vote reached, since nothing changes there.
 3. Runs the full count again, and at the stage where each cutoff first matters, copies the count and finishes the copy with the cut ballots.
-4. Stops a copy as soon as it elects someone who didn't win the full count, or excludes someone who did.
+4. When only asked whether the winners change (the `count` command never does this), stops a copy as soon as it elects someone who didn't win the full count, or excludes someone who did. Simulations run every copy to the end so they can count how many seats change.
 
 ## Sweeps
 

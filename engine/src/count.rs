@@ -530,7 +530,7 @@ pub enum Truncation {
     Off,
     /// Only record whether winners change. Truncated counts stop as soon as they differ.
     Changes,
-    /// Also record the winners at every cutoff.
+    /// Also record the winners, and how many seats change, at every cutoff.
     Winners,
 }
 
@@ -556,6 +556,8 @@ pub struct Analysis {
     pub cutoff_rank: Option<usize>,
     /// winners_at[k-1] = winners when keeping only the first k ranks.
     pub winners_at: Option<Vec<Vec<u32>>>,
+    /// seats_changed[k-1] = how many seats go to a different candidate when keeping only the first k ranks.
+    pub seats_changed: Option<Vec<u32>>,
 }
 
 fn sorted(v: &[u32]) -> Vec<u32> {
@@ -594,6 +596,7 @@ fn analyze_with<N: Num>(bal: &Ballots, seats: usize, opt: Options, trunc: Trunca
         changed: None,
         cutoff_rank: None,
         winners_at: None,
+        seats_changed: None,
     };
     if trunc == Truncation::Off {
         return out;
@@ -639,6 +642,7 @@ fn analyze_with<N: Num>(bal: &Ballots, seats: usize, opt: Options, trunc: Trunca
     out.cutoff_rank = Some(changed.iter().rposition(|&c| c).map_or(1, |k| k + 2));
     out.changed = Some(changed);
     if trunc == Truncation::Winners {
+        out.seats_changed = Some(winners_at.iter().map(|w| w.iter().filter(|c| !mask[**c as usize]).count() as u32).collect());
         out.winners_at = Some(winners_at);
     }
     out
@@ -676,6 +680,7 @@ mod tests {
             assert_eq!(a.changed, Some(vec![true, false, false]));
             assert_eq!(a.winners_at, Some(vec![vec![0], vec![1], vec![1]]));
             assert_eq!(a.cutoff_rank, Some(2));
+            assert_eq!(a.seats_changed, Some(vec![1, 0, 0]));
             let fast = analyze(&b, 1, opt(rules), Truncation::Changes);
             assert_eq!(fast.changed, a.changed);
         }

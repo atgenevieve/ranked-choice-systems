@@ -28,6 +28,7 @@ How they relate: if reach at rank *k* is zero, truncating there can't change any
 
 - **Cutoff rank** for one election: the smallest *k* such that truncating at *k* or at any deeper rank gives the same winners as full ballots. Truncation results aren't always orderly: cutting at 8 can flip a seat while cutting at 7 doesn't. So check every deeper cutoff, not only *k*.
 - **Truncation curve** across many simulated elections: P(truncating at rank *k* changes the winners), for each *k*. This is the main chart.
+- **Seats changed:** how many seats go to a different candidate when truncating at rank *k*. Reported alongside the truncation curve, because in a 50-seat election, swapping one seat and swapping twenty both count as "the winners changed."
 - **Threshold:** a probability line drawn across the curve, such as "under 5 in 100 elections." The report must explain why each threshold was chosen.
 
 ## Architecture
@@ -67,7 +68,6 @@ Still open:
 
 - **Everyone ranks to the maximum.** Every simulated voter fills every rank up to the ballot cap (default 100). Real voters stop early. This needs a ballot-length setting in the model, set from real data and approved by the owner (milestones 2 to 4).
 - **One voting system.** Only Scottish STV (milestone 7).
-- **Truncation reports only whether the set of winners changes,** not how many seats change. In large multi-seat elections, a single seat swapping counts as a change.
 
 ## What's been learned so far
 

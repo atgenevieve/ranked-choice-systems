@@ -138,6 +138,8 @@ struct Totals {
     reach_cuts: Vec<Vec<usize>>,
     reach_censored: Vec<usize>,
     changed: Vec<usize>,
+    seats_changed: Vec<u64>,
+    seats_changed_max: Vec<u32>,
     cutoffs: Vec<usize>,
     exhausted_votes: f64,
     exhausted_ballots: f64,
@@ -150,6 +152,8 @@ impl Totals {
             reach_cuts: vec![Vec::new(); THRESH.len()],
             reach_censored: vec![0; THRESH.len()],
             changed: vec![0; len],
+            seats_changed: vec![0; len],
+            seats_changed_max: vec![0; len],
             ..Default::default()
         }
     }
@@ -165,6 +169,12 @@ impl Totals {
         }
         for (a, b) in self.changed.iter_mut().zip(o.changed) {
             *a += b;
+        }
+        for (a, b) in self.seats_changed.iter_mut().zip(o.seats_changed) {
+            *a += b;
+        }
+        for (a, b) in self.seats_changed_max.iter_mut().zip(o.seats_changed_max) {
+            *a = (*a).max(b);
         }
         self.cutoffs.extend(o.cutoffs);
         self.exhausted_votes += o.exhausted_votes;
@@ -201,7 +211,7 @@ fn run(path: &str) {
     let len = s.election.ranks;
     let sims = s.run.sims;
     let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, lot_seed: 0 };
-    let trunc = if s.run.truncation { Truncation::Changes } else { Truncation::Off };
+    let trunc = if s.run.truncation { Truncation::Winners } else { Truncation::Off };
     let show = if s.run.curve_ranks == 0 { len } else { s.run.curve_ranks.min(len) };
 
     for &seats in s.election.seats.iter() {
@@ -242,6 +252,10 @@ fn run(path: &str) {
                         if let Some(ch) = &a.changed {
                             for (k, &x) in ch.iter().enumerate() {
                                 local.changed[k] += x as usize;
+                            }
+                            for (k, &x) in a.seats_changed.as_ref().unwrap().iter().enumerate() {
+                                local.seats_changed[k] += x as u64;
+                                local.seats_changed_max[k] = local.seats_changed_max[k].max(x);
                             }
                             local.cutoffs.push(a.cutoff_rank.unwrap());
                         }
@@ -293,8 +307,15 @@ fn run(path: &str) {
                 counts[k - 1] += 1;
             }
             let mean = t.cutoffs.iter().sum::<usize>() as f64 / n;
+            let mean_seats: Vec<f64> = t.seats_changed.iter().map(|&x| x as f64 / n).collect();
+            let share: Vec<f64> = mean_seats.iter().map(|x| x / seats as f64).collect();
             line["truncation"] = json!({
                 "p_changed": round4(&p[..show]),
+                "seats_changed": {
+                    "mean": round4(&mean_seats[..show]),
+                    "share_mean": round4(&share[..show]),
+                    "max": t.seats_changed_max[..show],
+                },
                 "threshold_rank": by_threshold,
                 "cutoff_rank": {
                     "mean": (mean * 100.0).round() / 100.0,

@@ -33,5 +33,5 @@ With this model, truncation reaches deeper than reach suggests, in a different w
 
 In multi-seat elections, a small share of votes reaching deep ranks can still swap one close seat. Truncation counts any change to the set of winners, however small, so it's sensitive to this. Two questions for later:
 
-- Should the report also measure how many seats change, not only whether any seat changes?
+- Should the report also measure how many seats change, not only whether any seat changes? (Owner: yes. Added to the engine after this run; see `../2026-10-20-seats-changed-test/`.)
 - How much of this goes away once voters rank only a few candidates, as real voters do?
