@@ -336,8 +336,8 @@ function drawElection(r, c) {
     { points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 },
   ], {
     xMin: 1, xMax, xTicks, yMax: Math.ceil(top / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-    marks: [...(kOne <= xMax ? [{ x: kOne, y: mean[kOne - 1] ?? 0, label: `under 1 from rank ${kOne}` }] : []),
-      ...(kZero <= xMax && kZero !== kOne ? [{ x: kZero, y: 0, label: `0 from rank ${kZero}` }] : [])],
+    marks: [...(kOne <= xMax ? [{ x: kOne, y: mean[kOne - 1] ?? 0, label: `1 seat: rank ${kOne}` }] : []),
+      ...(kZero <= xMax && kZero !== kOne ? [{ x: kZero, y: 0, label: `0 seats: rank ${kZero}` }] : [])],
     aria: "Winners who change when every ballot stops at each rank: average across elections, and most in any one election",
   });
   const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
