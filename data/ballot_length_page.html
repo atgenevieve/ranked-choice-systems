@@ -1,0 +1,345 @@
+<title>Ballot Length Evidence</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a report figure set. One column of figures; small multiples in a wrapping grid; every figure has its table view folded underneath. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #7b7a75;
+  --grid: #e6e5e0;
+  --axis: #a3a29b;
+  --public: #2a78d6;
+  --ers: #eb6834;
+  --scotland: #1baf7a;
+  --bar: #2a78d6;
+  --limit: #0d366b;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+    --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70;
+    --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+  --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70;
+  --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { padding-block: 30px 10px; display: grid; gap: 10px; }
+h1 { font-size: 28px; margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
+.lede { margin: 0; color: var(--ink-2); max-width: 70ch; }
+main { padding-block: 10px 60px; display: grid; gap: 22px; }
+.figure { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
+.figure h2 { font-size: 18px; margin: 0; text-wrap: balance; }
+.figure .note { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 72ch; }
+.takeaway { margin: 0; font-size: 14px; font-weight: 600; max-width: 72ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin: 0; padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.key-line { width: 18px; height: 2px; display: inline-block; }
+.multiples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 18px 24px; }
+.panel { min-width: 0; display: grid; gap: 4px; }
+.panel h3 { margin: 0; font-size: 14px; }
+.panel .meta { font-size: 12px; color: var(--muted); }
+.plot { min-width: 0; position: relative; }
+.plot svg { display: block; width: 100%; overflow: visible; }
+svg text { font-family: var(--font-data); font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+svg text.val { fill: var(--ink); font-weight: 500; }
+svg text.lab { font-family: var(--font-body); font-size: 12px; fill: var(--ink-2); }
+svg text.title { font-family: var(--font-body); font-size: 12px; fill: var(--muted); }
+svg .hit { fill: transparent; cursor: pointer; }
+svg .hit:focus-visible { outline: none; stroke: var(--ink); stroke-width: 2; }
+.predict { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+.predict div { border: 1px solid var(--grid); border-radius: 8px; padding: 12px 14px; display: grid; gap: 2px; }
+.predict .v { font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.predict .h { font-weight: 600; }
+.predict .s { font-size: 13px; color: var(--ink-2); }
+details { font-size: 13px; }
+details summary { cursor: pointer; color: var(--ink-2); padding-block: 4px; }
+details summary:focus-visible { outline: 2px solid var(--public); outline-offset: 2px; }
+.tablewrap { overflow-x: auto; max-height: 360px; overflow-y: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--grid); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.4; max-width: 300px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+#tip b { display: block; }
+#tip .k { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+</style>
+
+<header class="wrap">
+  <h1>Ballot length evidence</h1>
+  <p class="lede">What real ballots show about how many candidates voters rank, for the ballot-length decision in the model review. Sources: 1,100 Scottish council elections, 87 union and society elections from the Electoral Reform Society (ERS, 1987 to 1988), other public elections from PrefLib, and NYC and Portland ballots.</p>
+</header>
+<main class="wrap" id="figs"></main>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = /*DATA*/null;
+const NS = "http://www.w3.org/2000/svg";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.append(e); return e; };
+const txt = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
+const pct = x => (x * 100).toFixed(0) + "%";
+const draws = [];
+const GROUP = { scotland: { name: "Scotland", v: "--scotland" }, public: { name: "Other public elections (PrefLib)", v: "--public" }, ers: { name: "Union and society elections (ERS)", v: "--ers" } };
+
+const tip = document.getElementById("tip");
+function showTip(target, title, lines) {
+  tip.replaceChildren();
+  const b = document.createElement("b"); b.textContent = title; tip.append(b);
+  for (const l of lines) { const d = document.createElement("div"); d.className = "k"; d.textContent = l; tip.append(d); }
+  tip.hidden = false;
+  const r = target.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+  let left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8)), top = r.top - h - 8;
+  if (top < 8) top = r.bottom + 8;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+addEventListener("scroll", hideTip, { passive: true });
+function hitArea(svg, shape, title, lines, label) {
+  const h = el(shape.tag, { ...shape.attrs, class: "hit", tabindex: 0, role: "img", "aria-label": label }, svg);
+  h.addEventListener("pointerenter", () => showTip(h, title, lines));
+  h.addEventListener("pointerleave", hideTip);
+  h.addEventListener("focus", () => showTip(h, title, lines));
+  h.addEventListener("blur", hideTip);
+}
+
+function figure(title, takeaway, note) {
+  const f = document.createElement("section"); f.className = "figure";
+  const h = document.createElement("h2"); h.textContent = title; f.append(h);
+  if (takeaway) { const p = document.createElement("p"); p.className = "takeaway"; p.textContent = takeaway; f.append(p); }
+  if (note) { const p = document.createElement("p"); p.className = "note"; p.textContent = note; f.append(p); }
+  document.getElementById("figs").append(f);
+  return f;
+}
+function tableView(f, head, rows, numeric) {
+  const d = document.createElement("details");
+  const s = document.createElement("summary"); s.textContent = "Show as a table"; d.append(s);
+  const w = document.createElement("div"); w.className = "tablewrap";
+  const t = document.createElement("table"); const th = document.createElement("thead"); const tr = document.createElement("tr");
+  head.forEach((h, i) => { const c = document.createElement("th"); c.textContent = h; if (numeric[i]) c.className = "n"; tr.append(c); });
+  th.append(tr); t.append(th);
+  const tb = document.createElement("tbody");
+  for (const r of rows) { const tr = document.createElement("tr"); r.forEach((v, i) => { const c = document.createElement("td"); c.textContent = v; if (numeric[i]) c.className = "n"; tr.append(c); }); tb.append(tr); }
+  t.append(tb); w.append(t); d.append(w); f.append(d);
+}
+function legend(f, items) {
+  const ul = document.createElement("ul"); ul.className = "legend";
+  for (const [kind, color, label] of items) {
+    const li = document.createElement("li"); const k = document.createElement("span");
+    k.className = kind === "line" ? "key-line" : "dot"; k.style.background = `var(${color})`;
+    li.append(k, document.createTextNode(label)); ul.append(li);
+  }
+  f.append(ul);
+}
+function niceTicks(max, step) { const t = []; for (let v = 0; v <= max + 1e-9; v += step) t.push(+v.toFixed(4)); return t; }
+
+// ---------- 1. Small multiples: share of ballots by number ranked ----------
+{
+  const f = figure("How many candidates voters rank",
+    "Where the ballot has a limit, the most common choice is to fill it. Where it has none, most voters stop at 2 to 4.",
+    "Share of all ballots that rank exactly this many candidates. The darker bar marks the ballot's limit.");
+  const box = document.createElement("div"); box.className = "multiples"; f.append(box);
+  const keys = ["scotland", "ers", "portland", "nyc"];
+  const panels = keys.map(k => {
+    const d = DATA.distributions[k];
+    const p = document.createElement("div"); p.className = "panel";
+    const h = document.createElement("h3"); h.textContent = d.label;
+    const m = document.createElement("div"); m.className = "meta"; m.textContent = `${d.elections.toLocaleString()} elections · ${d.ballots.toLocaleString()} ballots`;
+    const plot = document.createElement("div"); plot.className = "plot";
+    p.append(h, m, plot); box.append(p);
+    return { d, plot };
+  });
+  draws.push(() => {
+    for (const { d, plot } of panels) {
+      const w = plot.clientWidth || 400, H = 190, L = 34, R = 6, T = 14, B = 26;
+      plot.replaceChildren();
+      const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": `${d.label}: share of ballots by number of candidates ranked` }, plot);
+      const sh = d.shares.slice(0, 10), maxY = 0.5;
+      const sy = v => T + (1 - v / maxY) * (H - T - B);
+      const bw = (w - L - R) / sh.length;
+      for (const t of niceTicks(maxY, 0.1)) {
+        el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+        txt(svg, L - 6, sy(t) + 4, pct(t), { "text-anchor": "end" });
+      }
+      sh.forEach((v, i) => {
+        const len = i + 1, x = L + i * bw + 2, bwi = Math.min(24, bw - 4), x0 = x + (bw - 4 - bwi) / 2;
+        const isLimit = d.limit && len === d.limit;
+        const y = sy(v), h = sy(0) - y;
+        if (h > 0) {
+          const r = Math.min(4, h);
+          el("path", { d: `M${x0},${sy(0)} V${y + r} Q${x0},${y} ${x0 + r},${y} H${x0 + bwi - r} Q${x0 + bwi},${y} ${x0 + bwi},${y + r} V${sy(0)} Z`, fill: css(isLimit ? "--limit" : "--bar") }, svg);
+        }
+        txt(svg, x0 + bwi / 2, H - B + 14, len === 10 ? "10+" : String(len), { "text-anchor": "middle" });
+        if (isLimit || v === Math.max(...sh)) txt(svg, x0 + bwi / 2, y - 4, pct(v), { "text-anchor": "middle", class: "val" });
+        hitArea(svg, { tag: "rect", attrs: { x: L + i * bw, y: T, width: bw, height: H - T - B } }, d.label,
+          [`Ranked ${len}${len === 10 ? " or more" : ""}: ${pct(v)} of ballots${isLimit ? " (the ballot's limit)" : ""}`], `Ranked ${len}: ${pct(v)}`);
+      });
+      txt(svg, (L + w - R) / 2, H - 2, "Candidates ranked", { "text-anchor": "middle", class: "title" });
+    }
+  });
+  // Fold the "10 or more" tail into the 10th bar for the charts and table.
+  for (const k of keys) { const s = DATA.distributions[k].shares; const tail = s.slice(9).reduce((a, b) => a + b, 0); DATA.distributions[k].shares = [...s.slice(0, 9), +tail.toFixed(4)]; }
+  tableView(f, ["Source", ...Array.from({ length: 10 }, (_, i) => i === 9 ? "10+" : String(i + 1))],
+    keys.map(k => [DATA.distributions[k].label, ...DATA.distributions[k].shares.map(pct)]), [false, ...Array(10).fill(true)]);
+}
+
+// ---------- shared scatter ----------
+function scatter(f, opts) {
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  draws.push(() => {
+    const w = plot.clientWidth || 800, H = 340, L = 40, R = 16, T = 16, B = 38;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria }, plot);
+    const sx = opts.logX
+      ? v => L + (Math.log(v) - Math.log(opts.xMin)) / (Math.log(opts.xMax) - Math.log(opts.xMin)) * (w - L - R)
+      : v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
+    const sy = v => T + (1 - v / opts.yMax) * (H - T - B);
+    for (const t of niceTicks(opts.yMax, opts.yStep)) {
+      el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, L - 6, sy(t) + 4, String(t), { "text-anchor": "end" });
+    }
+    for (const t of opts.xTicks) {
+      el("line", { x1: sx(t), x2: sx(t), y1: T, y2: H - B, stroke: css("--grid"), "stroke-width": 1 }, svg);
+      txt(svg, sx(t), H - B + 15, String(t), { "text-anchor": "middle" });
+    }
+    txt(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
+    txt(svg, L, T - 4, opts.yTitle, { class: "title" });
+    if (opts.marker) {
+      const mx = sx(opts.marker.x);
+      el("line", { x1: mx, x2: mx, y1: T, y2: H - B, stroke: css("--axis"), "stroke-width": 1 }, svg);
+      txt(svg, mx - 6, T + 12, opts.marker.label, { "text-anchor": "end", class: "lab" });
+    }
+    for (const ln of opts.lines) {
+      const pts = [];
+      for (let i = 0; i <= 60; i++) { const x = opts.logX ? Math.exp(Math.log(ln.from) + (Math.log(ln.to) - Math.log(ln.from)) * i / 60) : ln.from + (ln.to - ln.from) * i / 60; pts.push([sx(x), sy(ln.f(x))]); }
+      el("polyline", { points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: css(ln.color), "stroke-width": 2, "stroke-linecap": "round", opacity: ln.faint ? 0.45 : 1 }, svg);
+      if (ln.label) { const [px, py] = pts[pts.length - 1]; txt(svg, px - 4, py - 8, ln.label, { "text-anchor": "end", class: "val" }); }
+    }
+    for (const p of opts.points) {
+      const cx = sx(p.x), cy = sy(Math.min(p.y, opts.yMax));
+      el("circle", { cx, cy, r: 4, fill: css(p.color), stroke: css("--surface"), "stroke-width": 1.5, opacity: 0.85 }, svg);
+    }
+    for (const p of opts.points) {
+      const cx = sx(p.x), cy = sy(Math.min(p.y, opts.yMax));
+      hitArea(svg, { tag: "circle", attrs: { cx, cy, r: 7 } }, p.name, p.lines, `${p.name}: ${p.lines.join(", ")}`);
+    }
+  });
+}
+
+// ---------- 2. Ranks versus candidates ----------
+{
+  const fp = DATA.fits.public_vs_candidates, fe = DATA.fits.ers_vs_candidates;
+  const uncapped = e => e.max_ranks == null || e.max_ranks >= e.candidates;
+  const pts = DATA.elections.filter(e => ["scotland", "public", "ers"].includes(e.group) && uncapped(e));
+  const f = figure("Candidates ranked, by number of candidates",
+    `In public elections, voters rank more as the field grows, but slowly: the fitted curve reaches about ${(fp.a * 75 ** fp.b).toFixed(0)} at 75 candidates. Union and society elections climb faster, to about ${(fe.a * 75 ** fe.b).toFixed(0)} at 75.`,
+    "Each dot is one election with no limit on how many candidates voters could rank (elections with a limit are left out). Lines are fitted curves, extended past the data to 100 candidates; the faint part is projection, not evidence. Metro DC DSA's 46-seat delegate count had 75 candidates.");
+  legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "Other public elections"], ["dot", "--ers", "Union and society elections (ERS)"]]);
+  scatter(f, {
+    aria: "Scatter of average candidates ranked against number of candidates, with fitted curves",
+    logX: true, xMin: 2, xMax: 100, xTicks: [2, 5, 10, 20, 50, 100], yMax: 25, yStep: 5,
+    xTitle: "Candidates in the election (log scale)", yTitle: "Average candidates ranked",
+    marker: { x: 75, label: "75 candidates" },
+    lines: [
+      { from: 3, to: 30, f: x => fp.a * x ** fp.b, color: "--public" },
+      { from: 30, to: 100, f: x => fp.a * x ** fp.b, color: "--public", faint: true, label: `public ≈ ${(fp.a * 100 ** fp.b).toFixed(0)}` },
+      { from: 3, to: 29, f: x => fe.a * x ** fe.b, color: "--ers" },
+      { from: 29, to: 100, f: x => fe.a * x ** fe.b, color: "--ers", faint: true, label: `ERS ≈ ${(fe.a * 100 ** fe.b).toFixed(0)}` },
+    ],
+    points: pts.map(e => ({ x: e.candidates, y: e.mean, color: GROUP[e.group].v, name: e.name,
+      lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
+  });
+  tableView(f, ["Election", "Group", "Candidates", "Seats", "Average ranked"],
+    pts.map(e => [e.name, GROUP[e.group].name, e.candidates, e.seats, e.mean.toFixed(2)]), [false, false, true, true, true]);
+}
+
+// ---------- 3. Ranks versus seats (ERS) ----------
+{
+  const fs = DATA.fits.ers_vs_seats;
+  const pts = DATA.elections.filter(e => e.group === "ers");
+  const f = figure("Union and society elections: candidates ranked, by number of seats",
+    `In these organizational elections, members rank about ${fs.b.toFixed(1)} more candidates for each extra seat. Extended to 50 seats, that line reaches about ${(fs.a + 50 * fs.b).toFixed(0)}, far past anything in the data.`,
+    "Each dot is one ERS election (British trade unions and similar bodies, 1987 to 1988). The line is a straight-line fit; past 12 seats it is projection. More seats also meant more candidates in these elections, so seats and candidates can't be fully separated.");
+  scatter(f, {
+    aria: "Scatter of average candidates ranked against seats in ERS elections, with a fitted line extended to 50 seats",
+    logX: false, xMin: 0, xMax: 52, xTicks: [0, 10, 20, 30, 40, 50], yMax: 35, yStep: 5,
+    xTitle: "Seats in the election", yTitle: "Average candidates ranked",
+    marker: { x: 50, label: "50 seats" },
+    lines: [
+      { from: 1, to: 12, f: x => fs.a + fs.b * x, color: "--ers" },
+      { from: 12, to: 50, f: x => fs.a + fs.b * x, color: "--ers", faint: true, label: `≈ ${(fs.a + 50 * fs.b).toFixed(0)}` },
+    ],
+    points: pts.map(e => ({ x: e.seats, y: e.mean, color: "--ers", name: e.name,
+      lines: [`${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates`, `ranked ${e.mean.toFixed(1)} on average`] })),
+  });
+  tableView(f, ["Election", "Seats", "Candidates", "Average ranked"],
+    pts.sort((a, b) => a.seats - b.seats).map(e => [e.name, e.seats, e.candidates, e.mean.toFixed(2)]), [false, true, true, true]);
+}
+
+// ---------- 4. Rank my party, then stop ----------
+{
+  const d = DATA.party_then_stop;
+  const f = figure("Scotland: voters who rank their party's candidates, then stop",
+    `About ${pct(d.all)} of voters whose first choice had running mates ranked exactly that party's candidates and no one else.`,
+    "Among Scottish voters whose first choice's party ran 2 or more candidates in the ward. This is why the proposal ties ballot length to slates: for many voters, the list ends where their slate ends.");
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  draws.push(() => {
+    const w = plot.clientWidth || 600, rows = d.by_party, rowH = 34, L = 140, R = 48, T = 4, B = 24, H = T + rows.length * rowH + B;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": "Share of voters who rank only their party's candidates, by party" }, plot);
+    const sx = v => L + v / 0.5 * (w - L - R);
+    for (const t of [0, 0.1, 0.2, 0.3, 0.4, 0.5]) {
+      el("line", { x1: sx(t), x2: sx(t), y1: T, y2: H - B, stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, sx(t), H - B + 15, pct(t), { "text-anchor": "middle" });
+    }
+    rows.forEach((r, i) => {
+      const y = T + i * rowH + (rowH - 20) / 2, x1 = sx(r.share);
+      txt(svg, L - 10, y + 14, r.party, { "text-anchor": "end", class: "lab" });
+      el("path", { d: `M${sx(0)},${y} H${x1 - 4} Q${x1},${y} ${x1},${y + 4} V${y + 16} Q${x1},${y + 20} ${x1 - 4},${y + 20} H${sx(0)} Z`, fill: css("--scotland") }, svg);
+      txt(svg, x1 + 6, y + 14, pct(r.share), { class: "val" });
+      hitArea(svg, { tag: "rect", attrs: { x: L, y: T + i * rowH, width: w - L - R, height: rowH } }, r.party, [`${pct(r.share)} of ${r.voters.toLocaleString()} voters`], `${r.party}: ${pct(r.share)}`);
+    });
+  });
+  tableView(f, ["Party", "Voters considered", "Ranked only their party"], d.by_party.map(r => [r.party, r.voters.toLocaleString(), pct(r.share)]), [false, true, true]);
+}
+
+// ---------- 5. What each version predicts ----------
+{
+  const fp = DATA.fits.public_vs_candidates, fe = DATA.fits.ers_vs_candidates, fs = DATA.fits.ers_vs_seats;
+  const f = figure("What each version predicts for a 50-seat election with 75 candidates",
+    "The three readings of the evidence disagree by a factor of 3 or more, which is why the proposal builds all three and reports results under each.");
+  const box = document.createElement("div"); box.className = "predict";
+  const cards = [
+    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, "From the public-election curve at 75 candidates."],
+    ["(b) Follows seats, like union elections", `≈ ${(fe.a * 75 ** fe.b).toFixed(0)} to ${(fs.a + 50 * fs.b).toFixed(0)}`, "From the ERS curves: by candidates (lower) and by seats (upper). Both are long projections."],
+    ["(c) Follows the instructions", "As asked", "Where ballots have a limit, about 4 in 10 voters fill it exactly (NYC 37%, Portland 47%)."],
+  ];
+  for (const [h, v, s] of cards) {
+    const d = document.createElement("div");
+    const hh = document.createElement("div"); hh.className = "h"; hh.textContent = h;
+    const vv = document.createElement("div"); vv.className = "v"; vv.textContent = v;
+    const ss = document.createElement("div"); ss.className = "s"; ss.textContent = s;
+    d.append(hh, vv, ss); box.append(d);
+  }
+  f.append(box);
+}
+
+const drawAll = () => { hideTip(); for (const d of draws) d(); };
+drawAll();
+let rt = null;
+new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(drawAll, 60); }).observe(document.getElementById("figs"));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
+new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>

@@ -1,0 +1,153 @@
+"""Builds the data for the ballot-length charts (docs/model-review.md, assumption 5).
+
+Reads each source's calibration.jsonl and metadata, and the Scottish ballots
+(for the "rank my party's candidates, then stop" pattern). Writes one JSON file.
+
+Usage (from the repository root):
+    python3 -I data/ballot_length_charts.py <out.json>
+"""
+import glob
+import json
+import math
+import os
+import sys
+from collections import defaultdict
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PARTY_ALIASES = {"LabCo": "Lab"}
+NO_PARTY = {None, "Ind", "Independent", "None", ""}
+PARTY_NAMES = {"SNP": "SNP", "Lab": "Labour", "Con": "Conservative", "LD": "Liberal Democrats", "Gr": "Greens"}
+MAX_LEN = 12  # pooled distributions show 1..11 and "12 or more"
+
+
+def meta_for(path):
+    return json.load(open(path[: -len(".ballots")] + ".json", encoding="utf-8"))
+
+
+def group_of(src, file):
+    if src == "preflib":
+        return "ers" if "/ers-" in file else "public"
+    return src
+
+
+def elections():
+    out = []
+    for src in ["scotland", "preflib", "nyc", "portland"]:
+        for line in open(os.path.join(ROOT, src, "calibration.jsonl"), encoding="utf-8"):
+            d = json.loads(line)
+            meta = meta_for(os.path.join(os.path.dirname(ROOT), d["file"]))
+            bl = d["ballot_length"]
+            out.append({
+                "group": group_of(src, d["file"]),
+                "name": d["election"],
+                "candidates": d["candidates"],
+                "seats": d["seats"],
+                "max_ranks": meta.get("max_ranks"),
+                "voters": d["voters"],
+                "mean": bl["mean"],
+                "counts": {int(k): v for k, v in bl["counts_by_length"].items()},
+            })
+    return out
+
+
+def pooled(rows):
+    tot = defaultdict(int)
+    for r in rows:
+        for k, v in r["counts"].items():
+            tot[min(k, MAX_LEN)] += v
+    n = sum(tot.values())
+    return [round(tot[k] / n, 4) for k in range(1, MAX_LEN + 1)], n
+
+
+def party_then_stop():
+    """Among Scottish voters whose first choice has running mates, the share
+    who rank exactly that party's candidates and nothing else, by party."""
+    acc = defaultdict(lambda: [0, 0])
+    for path in glob.glob(os.path.join(ROOT, "scotland", "ballots", "*.ballots")):
+        parties = meta_for(path).get("parties")
+        if not parties:
+            continue
+        labels = [PARTY_ALIASES.get(p, p) for p in parties]
+        members = defaultdict(set)
+        for i, p in enumerate(labels):
+            if p not in NO_PARTY:
+                members[p].add(i)
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                p = line.split()
+                if not p or p[0] in ("candidates", "seats") or p[0].startswith("#"):
+                    continue
+                w, b = int(p[0]), [int(x) for x in p[1:]]
+                party = labels[b[0]]
+                ms = members.get(party)
+                if not ms or len(ms) < 2:
+                    continue
+                acc[party][0] += w
+                if set(b) == ms:
+                    acc[party][1] += w
+    rows = [{"party": PARTY_NAMES[p], "voters": n, "share": round(s / n, 4)}
+            for p, (n, s) in acc.items() if p in PARTY_NAMES and n]
+    total_n = sum(n for n, _ in acc.values())
+    total_s = sum(s for _, s in acc.values())
+    return sorted(rows, key=lambda r: -r["share"]), round(total_s / total_n, 4)
+
+
+def fit_power(points):
+    """Least-squares fit of log(mean) = log(a) + b log(x)."""
+    xs = [math.log(x) for x, _ in points]
+    ys = [math.log(y) for _, y in points]
+    n = len(xs)
+    mx, my = sum(xs) / n, sum(ys) / n
+    b = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs)
+    return math.exp(my - b * mx), b
+
+
+def fit_line(points):
+    n = len(points)
+    mx = sum(x for x, _ in points) / n
+    my = sum(y for _, y in points) / n
+    b = sum((x - mx) * (y - my) for x, y in points) / sum((x - mx) ** 2 for x, _ in points)
+    return my - b * mx, b
+
+
+def main():
+    rows = elections()
+    uncapped = lambda r: r["max_ranks"] is None or r["max_ranks"] >= r["candidates"]
+    public = [r for r in rows if r["group"] in ("scotland", "public") and uncapped(r)]
+    ers = [r for r in rows if r["group"] == "ers"]
+    a_c, b_c = fit_power([(r["candidates"], r["mean"]) for r in public])
+    a_s, b_s = fit_line([(r["seats"], r["mean"]) for r in ers])
+    a_ec, b_ec = fit_power([(r["candidates"], r["mean"]) for r in ers])
+    scot = [r for r in rows if r["group"] == "scotland"]
+    portland_council = [r for r in rows if r["group"] == "portland" and r["seats"] == 3]
+    nyc5 = [r for r in rows if r["group"] == "nyc" and r["max_ranks"] == 5 and r["candidates"] >= 6]
+    dists = {}
+    for key, rs, label in [("scotland", scot, "Scotland: no rank limit"),
+                           ("ers", ers, "Union and society elections (ERS): no rank limit"),
+                           ("portland", portland_council, "Portland council districts: limit of 6"),
+                           ("nyc", nyc5, "NYC contests with 6+ candidates: limit of 5")]:
+        shares, n = pooled(rs)
+        dists[key] = {"label": label, "shares": shares, "ballots": n, "elections": len(rs),
+                      "limit": rs[0]["max_ranks"] if key in ("portland", "nyc") else None}
+    stop_rows, stop_all = party_then_stop()
+    out = {
+        "elections": [{k: r[k] for k in ("group", "name", "candidates", "seats", "max_ranks", "voters", "mean")} for r in rows],
+        "distributions": dists,
+        "party_then_stop": {"by_party": stop_rows, "all": stop_all},
+        "fits": {
+            "public_vs_candidates": {"a": a_c, "b": b_c, "n": len(public)},
+            "ers_vs_seats": {"a": a_s, "b": b_s, "n": len(ers)},
+            "ers_vs_candidates": {"a": a_ec, "b": b_ec, "n": len(ers)},
+        },
+    }
+    json.dump(out, open(sys.argv[1], "w", encoding="utf-8"), ensure_ascii=False)
+    print(f"public fit: mean = {a_c:.2f} x C^{b_c:.2f} (n={len(public)}); at C=75: {a_c * 75 ** b_c:.1f}, C=100: {a_c * 100 ** b_c:.1f}")
+    print(f"ERS seats fit: mean = {a_s:.2f} + {b_s:.2f} x S (n={len(ers)}); at S=50: {a_s + 50 * b_s:.1f}")
+    print(f"ERS candidates fit: mean = {a_ec:.2f} x C^{b_ec:.2f}; at C=75: {a_ec * 75 ** b_ec:.1f}")
+    print("party then stop:", stop_all, stop_rows)
+    for k, v in dists.items():
+        print(k, v["elections"], v["ballots"], v["shares"][:8])
+
+
+if __name__ == "__main__":
+    main()
