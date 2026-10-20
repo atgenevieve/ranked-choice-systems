@@ -22,8 +22,9 @@
 
 **Now:** every simulated voter ranks every candidate, up to a cap of 100. The model spec already flags this as unrealistic.
 
-**What the real ballots show:**
+**What the real ballots show** (charts: https://claude.ai/artifact/5BnZ8BNRE4tYPiwmsUS9op, built by `data/ballot_length_charts.py`):
 
+- **Where the ballot has a limit, the most common choice is to fill it.** 47% of Portland council ballots rank exactly the 6 allowed; 37% of NYC ballots in contests with 6 or more candidates rank exactly the 5 allowed.
 - **Most voters rank a few candidates, and few rank everyone.** In Scotland the typical voter ranks 3 of about 7 candidates, and only 11% rank them all. Pooled over all Scottish ballots: 14% rank 1, 26% rank 2, 33% rank 3, then it falls off fast (11% rank 4, 5% rank 5).
 - **Length grows slowly with the number of candidates** in public elections, where ballots allow ranking every candidate:
 
