@@ -1,0 +1,125 @@
+{
+  "downloaded": "2026-10-20",
+  "files": {
+    "20499/SenateFirstPrefsByStateByVoteTypeDownload-20499.csv": {
+      "bytes": 62557,
+      "sha256": "e878ce6c89a70e4e390bd9a25fc730a1af72ab61fde7d587b24252275aae5e34",
+      "url": "https://results.aec.gov.au/20499/Website/Downloads/SenateFirstPrefsByStateByVoteTypeDownload-20499.csv"
+    },
+    "20499/SenateInformalByStateDownload-20499.csv": {
+      "bytes": 754,
+      "sha256": "830d378bde3e89d5b6c591e7b11f83be1569bfc15c08a9c5a1e24aa893954488",
+      "url": "https://results.aec.gov.au/20499/Website/Downloads/SenateInformalByStateDownload-20499.csv"
+    },
+    "20499/SenateSenatorsElectedDownload-20499.csv": {
+      "bytes": 3535,
+      "sha256": "157aaf2bb57669bfd96fd794016c82fdf18a5d79b3444c846d89ef6e1be8a5c9",
+      "url": "https://results.aec.gov.au/20499/Website/Downloads/SenateSenatorsElectedDownload-20499.csv"
+    },
+    "20499/aec-senate-formalpreferences-20499-ACT.zip": {
+      "bytes": 2339332,
+      "sha256": "81f30f3bbbc66d01dd11f6288cb7e7567c2eec037a8eeaca69ce88a722fb86c0",
+      "url": "https://results.aec.gov.au/20499/Website/External/aec-senate-formalpreferences-20499-ACT.zip"
+    },
+    "20499/aec-senate-formalpreferences-20499-NT.zip": {
+      "bytes": 750443,
+      "sha256": "82d3980b7654f79765e125397e711a943ca2f56f558db43259435879ec9fdd1a",
+      "url": "https://results.aec.gov.au/20499/Website/External/aec-senate-formalpreferences-20499-NT.zip"
+    },
+    "20499/aec-senate-formalpreferences-20499-TAS.zip": {
+      "bytes": 4987806,
+      "sha256": "216069ef5641e7cc73cff193108638742fff6bba77a09bb7f6999bf0dc5d2c14",
+      "url": "https://results.aec.gov.au/20499/Website/External/aec-senate-formalpreferences-20499-TAS.zip"
+    },
+    "24310/SenateFirstPrefsByStateByVoteTypeDownload-24310.csv": {
+      "bytes": 48877,
+      "sha256": "19c5132e5dcc6524263001bc45e8d3d7b25aaa0e740e893815fe73b86918c0b3",
+      "url": "https://results.aec.gov.au/24310/Website/Downloads/SenateFirstPrefsByStateByVoteTypeDownload-24310.csv"
+    },
+    "24310/SenateInformalByStateDownload-24310.csv": {
+      "bytes": 757,
+      "sha256": "1befc394ab43c7532785e19f7acc973d33539a4ae56fa99c4c2d4d290d8fcc14",
+      "url": "https://results.aec.gov.au/24310/Website/Downloads/SenateInformalByStateDownload-24310.csv"
+    },
+    "24310/SenateSenatorsElectedDownload-24310.csv": {
+      "bytes": 1944,
+      "sha256": "bd5cea7bd10ed2936fa5f1b59c3f7884e53bd4b715da80d3891789051da9db2f",
+      "url": "https://results.aec.gov.au/24310/Website/Downloads/SenateSenatorsElectedDownload-24310.csv"
+    },
+    "24310/aec-senate-formalpreferences-24310-ACT.zip": {
+      "bytes": 1960883,
+      "sha256": "991918a62ed6a9aafba3ad6185d551dc2dce3d38314eb3b377f011bcf1707af0",
+      "url": "https://results.aec.gov.au/24310/Website/External/aec-senate-formalpreferences-24310-ACT.zip"
+    },
+    "24310/aec-senate-formalpreferences-24310-NT.zip": {
+      "bytes": 798601,
+      "sha256": "e0b663703947f1a3e2084dc8a1ec9adc45d96222a58d2d19023eec3820a3948b",
+      "url": "https://results.aec.gov.au/24310/Website/External/aec-senate-formalpreferences-24310-NT.zip"
+    },
+    "24310/aec-senate-formalpreferences-24310-TAS.zip": {
+      "bytes": 3707300,
+      "sha256": "720edc2f401f0775ca7b1e9eeea51231d7f9415d3ade8a0e12d7b594c1ab78de",
+      "url": "https://results.aec.gov.au/24310/Website/External/aec-senate-formalpreferences-24310-TAS.zip"
+    },
+    "27966/SenateFirstPrefsByStateByVoteTypeDownload-27966.csv": {
+      "bytes": 45079,
+      "sha256": "496366921b175d9dd9a2e7106f073503a0301e1236cc8fbd5029f90c6c174d34",
+      "url": "https://results.aec.gov.au/27966/Website/Downloads/SenateFirstPrefsByStateByVoteTypeDownload-27966.csv"
+    },
+    "27966/SenateInformalByStateDownload-27966.csv": {
+      "bytes": 757,
+      "sha256": "c67de999ab0f72488592509eddc91de8efeb1af189e02b0c222b07cd0bb49f8d",
+      "url": "https://results.aec.gov.au/27966/Website/Downloads/SenateInformalByStateDownload-27966.csv"
+    },
+    "27966/SenateSenatorsElectedDownload-27966.csv": {
+      "bytes": 1937,
+      "sha256": "af7a1eacd959687d1da3de71fc47a81968334f38b697467079b55395fc73ca90",
+      "url": "https://results.aec.gov.au/27966/Website/Downloads/SenateSenatorsElectedDownload-27966.csv"
+    },
+    "27966/aec-senate-formalpreferences-27966-ACT.zip": {
+      "bytes": 2613721,
+      "sha256": "75ca09ea8ceda46bc4c90fb7eb3232ee157c50a0bc8a65e07673520a286909a6",
+      "url": "https://results.aec.gov.au/27966/Website/External/aec-senate-formalpreferences-27966-ACT.zip"
+    },
+    "27966/aec-senate-formalpreferences-27966-NT.zip": {
+      "bytes": 771268,
+      "sha256": "033b0c205c5e468fa057a9d91c2f4a5b0c197b4d0d5d7cf60092a36a2b4a7e18",
+      "url": "https://results.aec.gov.au/27966/Website/External/aec-senate-formalpreferences-27966-NT.zip"
+    },
+    "27966/aec-senate-formalpreferences-27966-TAS.zip": {
+      "bytes": 3647917,
+      "sha256": "e29fea4788ead51e415b0f5fe5dc501ce941513422dc6dac9fc1429181d7413e",
+      "url": "https://results.aec.gov.au/27966/Website/External/aec-senate-formalpreferences-27966-TAS.zip"
+    },
+    "31496/SenateFirstPrefsByStateByVoteTypeDownload-31496.csv": {
+      "bytes": 35481,
+      "sha256": "f80100e04ac3f57783bd8d052f9bd6706f7deb3d9224ef4b6965045695f6583b",
+      "url": "https://results.aec.gov.au/31496/Website/Downloads/SenateFirstPrefsByStateByVoteTypeDownload-31496.csv"
+    },
+    "31496/SenateInformalByStateDownload-31496.csv": {
+      "bytes": 754,
+      "sha256": "f2f356b903cb1f7f03078162cdabf93244c03e099f49ff2a44c07a62f7cfb7c0",
+      "url": "https://results.aec.gov.au/31496/Website/Downloads/SenateInformalByStateDownload-31496.csv"
+    },
+    "31496/SenateSenatorsElectedDownload-31496.csv": {
+      "bytes": 1969,
+      "sha256": "e1c24bfd933feb8b23ea6e451d07e39f70f7af59a1cf991c0e1e1ced42071c01",
+      "url": "https://results.aec.gov.au/31496/Website/Downloads/SenateSenatorsElectedDownload-31496.csv"
+    },
+    "31496/aec-senate-formalpreferences-31496-ACT.zip": {
+      "bytes": 2013634,
+      "sha256": "320b42fd26a45d8719efc9c54c5cc9f3d8b4370d95365b109fd2087beff1c28a",
+      "url": "https://results.aec.gov.au/31496/Website/External/aec-senate-formalpreferences-31496-ACT.zip"
+    },
+    "31496/aec-senate-formalpreferences-31496-NT.zip": {
+      "bytes": 783339,
+      "sha256": "00526d34f8dd598c8453db2136de38117513b345ecadd982ce1ad1a60cc1d4fc",
+      "url": "https://results.aec.gov.au/31496/Website/External/aec-senate-formalpreferences-31496-NT.zip"
+    },
+    "31496/aec-senate-formalpreferences-31496-TAS.zip": {
+      "bytes": 3717829,
+      "sha256": "704b67fa2b754866086c6151694623069ce74364e3473aa1c2fd5fa812545523",
+      "url": "https://results.aec.gov.au/31496/Website/External/aec-senate-formalpreferences-31496-TAS.zip"
+    }
+  }
+}

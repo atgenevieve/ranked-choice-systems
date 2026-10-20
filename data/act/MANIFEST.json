@@ -1,0 +1,117 @@
+{
+  "downloaded": "2026-10-20",
+  "method": "Fetched through a headless browser, because Cloudflare blocks scripted downloads. SHA-256 checksums were computed in the browser on the bytes served, then checked again on disk.",
+  "page": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/ballot-paper-preference-data",
+  "files": {
+    "BrindabellaTotal.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0005/2603156/BrindabellaTotal.txt",
+      "bytes": 10291076,
+      "sha256": "994e99de7bc7044cf367b9c048fc58496ccfefd4a6e9d86fd037e66f5a1dc78b"
+    },
+    "GinninderraTotal.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0008/2603159/GinninderraTotal.txt",
+      "bytes": 10968133,
+      "sha256": "2998ed00716043db2d0bf4767363c64b0136791a8baf7c462653eca5e83530ee"
+    },
+    "KurrajongTotal.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0019/2603161/KurrajongTotal.txt",
+      "bytes": 10767415,
+      "sha256": "16f579bde73cad40dfd88ba2d58fb3005c6b4dba6fe5721a589c116adc209dd6"
+    },
+    "MurrumbidgeeTotal.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0020/2603162/MurrumbidgeeTotal.txt",
+      "bytes": 11014424,
+      "sha256": "5151cc15f7c0914ff0486ad4b0212b14aa1f90876275981e9d20cc0026569cc0"
+    },
+    "YerrabiTotal.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0020/2610704/YerrabiTotal.txt",
+      "bytes": 9370234,
+      "sha256": "1d30d40b9550cc563ddf5bfdf83b1e26bc4c0c915f90760fca6495da33312aa2"
+    },
+    "candidates.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0006/2603157/candidates.txt",
+      "bytes": 3667,
+      "sha256": "5ef9b69c403ed8ab2989bd955a0545e2c6abee573d813c6fc01356e8798dbd9f"
+    },
+    "Electorates.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0007/2603158/Electorates.txt",
+      "bytes": 102,
+      "sha256": "a62e27ab956e5102c2b175dac4e0e0be4f69df24753d8394171d93dd9cf73ead"
+    },
+    "Groups.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0018/2603160/Groups.txt",
+      "bytes": 1452,
+      "sha256": "241b9d5be849ee0953851258640a911e785081203a78bca1c6c93f118da94f4e"
+    },
+    "PollingPlaceBatchNumbers.txt": {
+      "url": "https://www.elections.act.gov.au/__data/assets/text_file/0004/2603164/PollingPlaceBatchNumbers.txt",
+      "bytes": 38568,
+      "sha256": "e4f20c295937d53c8c0b69d76f2d81234ca9c8961d6d47157ce480eb6d64ab73"
+    },
+    "DataDescriptions.pdf": {
+      "url": "https://www.elections.act.gov.au/__data/assets/pdf_file/0009/2603169/DataDescriptions.pdf",
+      "bytes": 253860,
+      "sha256": "d87d71f5bde4bb7018504adc622eb064ef9b4c4cb0bffc2ea777bfeff1dd6830"
+    },
+    "official/Stats-Book-2024.xlsx": {
+      "url": "https://www.elections.act.gov.au/__data/assets/excel_doc/0006/2799717/Stats-Book-2024.XLSX",
+      "bytes": 670210,
+      "sha256": "5ca65fbe8694c7bd343a4dcde195eab4be61aa73f7759e4e7decb2c841129320"
+    },
+    "official/list-of-elected-candidates.html": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/2020-list-of-elected-candidates",
+      "bytes": 176529,
+      "sha256": "8ed079d52877d1a5bac8fde2dc85d1a0e6fd84ca15b25ce42d530e0bc6c8948d"
+    },
+    "official/Brindabella-table-1.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table1_Brindabella-FINAL.xlsx",
+      "bytes": 20804,
+      "sha256": "9c490eefc431df6a960d554bfe34a43ebf1ca58be55794d648edea0bbebb0d5e"
+    },
+    "official/Brindabella-table-2.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table2_Brindabella-FINAL.xlsx",
+      "bytes": 23205,
+      "sha256": "d36ba5f588bb81bd253b603b5d9c13b2ad5032110004698c83636ab9f36deedb"
+    },
+    "official/Ginninderra-table-1.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table1_Ginninderra-FINAL.xlsx",
+      "bytes": 26735,
+      "sha256": "7ee0fdd9368f4e2f5fbb137e229bbf0a1f16ad5f12f7e9d0beb206ad06488871"
+    },
+    "official/Ginninderra-table-2.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table2_Ginninderra-FINAL.xlsx",
+      "bytes": 30770,
+      "sha256": "330547c75ca249754b4cf11cd9f9ea839050c1b6f250bed36451a277f5168b69"
+    },
+    "official/Kurrajong-table-1.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table1_Kurrajong-FINAL.xlsx",
+      "bytes": 32179,
+      "sha256": "786cfac045b6493305b0f638f0338c25723cfab8bcc162bfd070f3de386624fd"
+    },
+    "official/Kurrajong-table-2.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table2_Kurrajong-FINAL.xlsx",
+      "bytes": 41724,
+      "sha256": "7d9953f66712efb5059a79ed88a1e349b15b5067b9f4901684ba53da9f9a4531"
+    },
+    "official/Murrumbidgee-table-1.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table1_Murrumbidgee-FINAL.xlsx",
+      "bytes": 20885,
+      "sha256": "9dcd2450b7dea4343545ba0a9997fe7837d6e578dc5f209558fbf9f88d7e75e4"
+    },
+    "official/Murrumbidgee-table-2.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table2_murrumbidgee-FINAL.xlsx",
+      "bytes": 23149,
+      "sha256": "e928d672b7cee49fc895114cf274df6ad66f5998d1f7f6b3f1bda97ccea111f4"
+    },
+    "official/Yerrabi-table-1.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table1_Yerrabi-FINAL.xlsx",
+      "bytes": 23331,
+      "sha256": "3fdad83521d4a72f7f9668e888e503bc37ee2a5a13199cedb14be0df0624e0a6"
+    },
+    "official/Yerrabi-table-2.xlsx": {
+      "url": "https://www.elections.act.gov.au/elections/previous-assembly-elections/2024-election/distribution-of-preferences-2024/table2_Yerrabi-FINAL.xlsx",
+      "bytes": 25849,
+      "sha256": "9c20dc5a869d2fc9b6dae630b36ab454e2b4771dd88380ef21eef8b031d31dab"
+    }
+  }
+}

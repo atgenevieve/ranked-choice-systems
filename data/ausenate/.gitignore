@@ -1,0 +1,5 @@
+# Full-count files (above-the-line votes expanded) are rebuilt by convert.py
+# and left out of git to keep the folder small. See README.md.
+ballots/*-act.ballots
+ballots/*-nt.ballots
+ballots/*-tas.ballots
