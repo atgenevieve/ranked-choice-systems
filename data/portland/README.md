@@ -74,6 +74,66 @@ Candidates are numbered by first-round votes, highest first, with "Uncertified W
 
 The differences are under 0.1% everywhere. A plain instant-runoff count of our files picks the official mayor and auditor. We haven't checked the council winners, because that needs a Portland-rules STV count, which the engine doesn't have yet.
 
+## Slates
+
+Portland's races are nonpartisan, so `parties` stays `null`. But voters had help sorting the long candidate lists: unions, parties, business groups, and newspapers published endorsement lists, and some candidates campaigned in pairs. The metadata records these groups in a `slates` field (format in `docs/ballot-format.md`). The project uses slates to measure **slate cohesion**: do voters who rank one slate member first also rank a fellow member second?
+
+- **Where the data lives:** `slates.json` holds every slate by candidate name, with its source, so it can be reviewed by hand. `add_slates.py` copies it into `ballots/<contest>.json`, turning names into candidate numbers. Run it after `convert.py`, which rewrites the metadata files without slates:
+
+  ```
+  python3 data/portland/add_slates.py --check   # report only
+  python3 data/portland/add_slates.py           # write
+  ```
+
+  The script stops without writing if any name doesn't match a candidate exactly. Where a source spells a name differently from the ballot, `slates.json` lists the spelling under `aliases`, and the script prints every alias it used. The aliases are: William Mespelt → Will Mespelt, Mike Marshall → Michael (Mike) Marshall, Stan Penkin → Stanley Penkin, and Liv Østhus → Liv (Viva) Osthus.
+- **Extra fields:** besides `name`, `kind`, `members`, and `source`, each slate has `date` (when the source published it), and some have `ordered: true` (members are listed in the order the endorser asked voters to rank them) and a `note`.
+
+### Coverage
+
+55 slates in the four council districts and the mayor's race. The auditor race had one candidate and has no slates.
+
+| Slate | Kind | D1 | D2 | D3 | D4 | Mayor |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Oregon Working Families Party | endorsement | 4 | 4 | 3 | 2 | 1 |
+| Northwest Oregon Labor Council | endorsement | 3 | 3 | 3 | 3 | 1 |
+| Portland Fire Fighters Association | endorsement | 3 | 2 | 3 | 3 | 1 |
+| Portland Police Association | endorsement | 1 | 2* | 1* | 4 | 1 |
+| Portland DSA | endorsement | | | 1 | 1 | |
+| United for Portland, Spotlight tier | endorsement | 2 | 6 | 5 | 6 | |
+| United for Portland, Green Light tier (includes Spotlight) | endorsement | 3 | 11 | | 8 | |
+| Portland Metro Chamber (ranked) | endorsement | 3 | 5 | 5 | 6 | |
+| Sierra Club Oregon Chapter | endorsement | 4 | 3 | 3 | 3 | |
+| Willamette Week (media, ranked) | endorsement | 6 | 6 | 6 | 6 | 3 |
+| Portland Mercury (media, ranked) | endorsement | 3 | 3 | 3 | 3 | 3 |
+| The Oregonian editorial board (media) | endorsement | 3 | 3 | 3 | 3 | |
+| Candidate pair | campaign | Avalos, Routh | Armstrong, Marshall | Koyama Lane, Morillo | Clark, Zimmerman | |
+
+Numbers are slate members in that contest. \* may be incomplete (see below). In District 3, United for Portland's Green Light and Spotlight lists are the same, so only the Spotlight slate is recorded.
+
+The campaign pairs: in District 3, Tiffany Koyama Lane and Angelita Morillo canvassed together, sent a joint mailer, and asked voters to "rank us first and second" (Rose City Reform, December 9, 2024; FairVote's cross-endorsement report). In Districts 1, 2, and 4, OPB (October 25, 2024) reports that Candace Avalos and Steph Routh held joint house parties and handed out each other's fliers, James Armstrong and Mike Marshall shared mailers, and Olivia Clark and Eric Zimmerman "joined forces" and urged voters to vote for each other.
+
+### Sources
+
+All URLs are in `slates.json`. The main ones:
+
+- Oregon Working Families Party: its own posts of July 23 and September 25, 2024. The second round came late (about three weeks before ballots were mailed), and each slate's `note` says which members came in which round.
+- Northwest Oregon Labor Council: the council's own page is behind a login, so we use Willamette Week, September 4, 2024, which lists all 12 council picks. (Willamette Week's June 30 report listed only Novick and Koyama Lane in District 3; Chris Flanary was added later.)
+- Portland Fire Fighters Association: Willamette Week, July 25, 2024.
+- Portland Police Association: the union never published its list. Willamette Week (July 8, 2024) reported its District 1 and District 4 picks. For Districts 2 and 3 we only have OPB's September 10 note that Dan Ryan, Tiffani Penson, and Steve Novick had its endorsement.
+- Portland DSA: endorsed only two council candidates, Tiffany Koyama Lane (D3) and Mitch Green (D4) (*The Call*, November 13, 2024).
+- United for Portland (the business-backed coalition the Portland Metro Chamber belongs to): its own November 2024 endorsement page, read October 2026.
+- Portland Metro Chamber: its own October 2024 page, with ranking instructions.
+- Willamette Week and Portland Mercury: their own October 16, 2024 endorsement pages.
+
+### Uncertain
+
+- **Sierra Club and The Oregonian come from a secondary source.** Their pages could not be fetched from here (the Sierra Club page returns a redirect loop and oregonlive.com is blocked), so their member lists come from the Rose City Reform candidate tracker (https://rosecityreform.substack.com/p/portland-candidate-tracker). Several Sierra Club picks match other aggregators (Blue Voter Guide), and the Oregonian list fits the Chamber's remark that 11 of the Oregonian's 12 picks were also United for Portland endorsees, the exception being in District 1. The source URLs point at the original pages; check them by hand before relying on these slates.
+- **United for Portland's page may have changed since 2024.** In District 2 the current page has six Spotlight picks, including James Armstrong; Willamette Week's October 8, 2024 summary named fewer. The group also withdrew an earlier endorsement of Mike Marshall.
+- **Police union slates in Districts 2 and 3 may be incomplete,** as described above.
+- **Left out:** Portland for All, HOME PAC, Portland Neighbors Welcome, the Portland Association of Teachers, and the "Portland Voter Guide PAC" also endorsed council candidates, but we found only partial lists or only secondary reports, so they aren't included. "Don't Rank Rene" asked voters to leave Rene Gonzalez off the mayoral ballot; it's a negative campaign, not a slate.
+- **Party registration (`kind: "party"`) isn't recorded.** We found no public source listing the council candidates' voter registration. Oregon voter registration records exist but aren't published per candidate, and we didn't guess.
+- **Forum statements aren't recorded as campaigns.** At candidate forums, some candidates named rivals they would rank (for example, in District 2 Marnie Glickman, Sameer Kanal, and Jonathan Tasini named each other; in District 3 Steve Novick and Jesse Cornett named each other). These were reported by Rose City Reform but weren't joint campaigns, so they're left out.
+
 ## Known problems
 
 - **First-round totals are close but not exact,** as the table shows. Likely causes: the posted CVR may be from a slightly different point in the count than the certified results, or a few remade or adjudicated ballots are recorded differently. We haven't found the cause.

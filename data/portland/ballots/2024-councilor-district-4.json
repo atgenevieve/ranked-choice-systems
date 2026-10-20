@@ -37,6 +37,170 @@
     "Uncertified Write In"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Oregon Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1,
+        5
+      ],
+      "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+      "date": "2024-07-23",
+      "note": "Green endorsed 2024-07-23; Silkie added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."
+    },
+    {
+      "name": "Northwest Oregon Labor Council",
+      "kind": "endorsement",
+      "members": [
+        8,
+        0,
+        3
+      ],
+      "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+      "date": "2024-09-04"
+    },
+    {
+      "name": "Portland Fire Fighters Association",
+      "kind": "endorsement",
+      "members": [
+        8,
+        0,
+        2
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+      "date": "2024-07-25"
+    },
+    {
+      "name": "Portland Police Association",
+      "kind": "endorsement",
+      "members": [
+        8,
+        0,
+        3,
+        2
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/08/portland-police-union-endorsements-quietly-roll-in/",
+      "date": "2024-07-08"
+    },
+    {
+      "name": "Portland DSA",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://socialistcall.com/2024/11/13/our-work-has-just-begun-dsa-on-portland-city-council/",
+      "date": "2024-11-13"
+    },
+    {
+      "name": "United for Portland (Spotlight)",
+      "kind": "endorsement",
+      "members": [
+        2,
+        0,
+        9,
+        8,
+        12,
+        3
+      ],
+      "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+      "date": "2024-10"
+    },
+    {
+      "name": "United for Portland (Green Light, including Spotlight)",
+      "kind": "endorsement",
+      "members": [
+        2,
+        0,
+        9,
+        8,
+        12,
+        3,
+        16,
+        6
+      ],
+      "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+      "date": "2024-10"
+    },
+    {
+      "name": "Portland Metro Chamber",
+      "kind": "endorsement",
+      "members": [
+        0,
+        3,
+        2,
+        8,
+        12,
+        9
+      ],
+      "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+      "date": "2024-10",
+      "ordered": true,
+      "note": "Clark and Zimmerman for ranks 1 or 2; Arnold and Morse for 3 or 4; Penkin and Hufford in the voter's own order."
+    },
+    {
+      "name": "Sierra Club Oregon Chapter",
+      "kind": "endorsement",
+      "members": [
+        7,
+        1,
+        4
+      ],
+      "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+      "date": "2024-09-17"
+    },
+    {
+      "name": "Willamette Week (media)",
+      "kind": "endorsement",
+      "members": [
+        0,
+        3,
+        2,
+        5,
+        6,
+        1
+      ],
+      "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-4/",
+      "date": "2024-10-16",
+      "ordered": true,
+      "note": "Top three ranked; the last three are 'next choices' in the order listed."
+    },
+    {
+      "name": "Portland Mercury (media)",
+      "kind": "endorsement",
+      "members": [
+        1,
+        4,
+        5
+      ],
+      "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "The Oregonian editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        3,
+        0,
+        2
+      ],
+      "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-3-and-4-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+      "date": "2024-10-13",
+      "note": "Members from a secondary source (see source title)."
+    },
+    {
+      "name": "Clark and Zimmerman",
+      "kind": "campaign",
+      "members": [
+        0,
+        3
+      ],
+      "source": "https://www.opb.org/article/2024/10/25/how-candidates-and-their-donors-are-navigating-a-first-of-its-kind-election-season-in-portland/",
+      "date": "2024-10-25",
+      "note": "\"Joined forces\" and encouraged voters to vote for each other."
+    }
+  ],
   "official_winners": [
     0,
     1,

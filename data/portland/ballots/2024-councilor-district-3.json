@@ -37,6 +37,152 @@
     "Uncertified Write In"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Oregon Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        2,
+        1,
+        12
+      ],
+      "source": "https://workingfamilies.org/2024/07/oregon-working-families-party-endorses-seven-for-portland-city-council/",
+      "date": "2024-07-23",
+      "note": "Koyama Lane and Morillo endorsed 2024-07-23; Flanary added 2024-09-25 (https://workingfamilies.org/2024/09/oregon-working-families-party-endorses-second-round-of-portland-city-council-candidates/)."
+    },
+    {
+      "name": "Northwest Oregon Labor Council",
+      "kind": "endorsement",
+      "members": [
+        0,
+        2,
+        12
+      ],
+      "source": "https://www.wweek.com/news/city/2024/09/04/labor-unions-launch-political-action-committee-to-back-city-council-candidates/",
+      "date": "2024-09-04",
+      "note": "Willamette Week's June 30 report listed only Novick and Koyama Lane; its September 4 report and the council's own page add Flanary."
+    },
+    {
+      "name": "Portland Fire Fighters Association",
+      "kind": "endorsement",
+      "members": [
+        0,
+        5,
+        7
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+      "date": "2024-07-25"
+    },
+    {
+      "name": "Portland Police Association",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/",
+      "date": "2024-09-10",
+      "note": "OPB names Novick as a police-union endorsee; the full District 3 list was never published, so this may be incomplete."
+    },
+    {
+      "name": "Portland DSA",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://socialistcall.com/2024/11/13/our-work-has-just-begun-dsa-on-portland-city-council/",
+      "date": "2024-11-13"
+    },
+    {
+      "name": "United for Portland (Spotlight)",
+      "kind": "endorsement",
+      "members": [
+        4,
+        5,
+        7,
+        0,
+        3
+      ],
+      "source": "https://www.unitedforportland.org/endorsements/nov2024/",
+      "date": "2024-10",
+      "note": "In District 3 every Green Light endorsee was also a Spotlight endorsee."
+    },
+    {
+      "name": "Portland Metro Chamber",
+      "kind": "endorsement",
+      "members": [
+        3,
+        0,
+        5,
+        4,
+        7
+      ],
+      "source": "https://portlandmetrochamber.com/resources/chamber-announces-endorsements-for-november-2024-election/",
+      "date": "2024-10",
+      "ordered": true,
+      "note": "Wanner 1, Novick 2, Cornett 3; Burkholder and DeMelo in the voter's own order; rank only these five."
+    },
+    {
+      "name": "Sierra Club Oregon Chapter",
+      "kind": "endorsement",
+      "members": [
+        4,
+        2,
+        1
+      ],
+      "source": "https://www.sierraclub.org/oregon/2024-general-candidate-endorsements",
+      "date": "2024-09-17"
+    },
+    {
+      "name": "Willamette Week (media)",
+      "kind": "endorsement",
+      "members": [
+        0,
+        8,
+        10,
+        4,
+        1,
+        5
+      ],
+      "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-city-council-district-3/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "Portland Mercury (media)",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0,
+        2
+      ],
+      "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "The Oregonian editorial board (media)",
+      "kind": "endorsement",
+      "members": [
+        3,
+        0,
+        5
+      ],
+      "source": "https://www.oregonlive.com/opinion/2024/10/editorial-endorsement-november-2024-our-picks-for-districts-3-and-4-candidates-who-can-lead-portland-city-council-through-historic-change.html",
+      "date": "2024-10-13",
+      "note": "Members from a secondary source (see source title)."
+    },
+    {
+      "name": "Koyama Lane and Morillo",
+      "kind": "campaign",
+      "members": [
+        2,
+        1
+      ],
+      "source": "https://rosecityreform.substack.com/p/its-gonna-be-us",
+      "date": "2024-12-09",
+      "note": "Campaigned together, sent a joint mailer and asked voters to \"rank us first and second\"."
+    }
+  ],
   "official_winners": [
     0,
     1,

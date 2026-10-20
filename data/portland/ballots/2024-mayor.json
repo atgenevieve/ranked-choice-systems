@@ -27,6 +27,68 @@
     "Uncertified Write In"
   ],
   "parties": null,
+  "slates": [
+    {
+      "name": "Oregon Working Families Party",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://workingfamilies.org/2024/08/oregon-working-families-party-endorses-carmen-rubio-for-portland-mayor/",
+      "date": "2024-08"
+    },
+    {
+      "name": "Northwest Oregon Labor Council",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "https://www.opb.org/article/2024/09/10/portland-mayor-city-council-endorsements-unions-government-election/",
+      "date": "2024-09-10"
+    },
+    {
+      "name": "Portland Police Association",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/08/portland-police-union-endorsements-quietly-roll-in/",
+      "date": "2024-07-08"
+    },
+    {
+      "name": "Portland Fire Fighters Association",
+      "kind": "endorsement",
+      "members": [
+        2
+      ],
+      "source": "https://www.wweek.com/news/city/2024/07/25/firefighters-union-makes-endorsements-in-city-council-election/",
+      "date": "2024-07-25"
+    },
+    {
+      "name": "Willamette Week (media)",
+      "kind": "endorsement",
+      "members": [
+        0,
+        1,
+        2
+      ],
+      "source": "https://www.wweek.com/news/2024/10/16/wws-fall-2024-endorsements-portland-mayor/",
+      "date": "2024-10-16",
+      "ordered": true
+    },
+    {
+      "name": "Portland Mercury (media)",
+      "kind": "endorsement",
+      "members": [
+        1,
+        0,
+        4
+      ],
+      "source": "https://www.portlandmercury.com/election-guide-2024/your-mercury-2024-election-cheat-sheet-47453705/",
+      "date": "2024-10-16",
+      "ordered": true
+    }
+  ],
   "official_winners": [
     0
   ],
