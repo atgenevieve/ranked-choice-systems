@@ -59,6 +59,18 @@ All settings live in a settings file in TOML, a simple text format of `name = va
 
 `docs/model-spec.md` explains each setting and its evidence. Settings files written before model version 0.2 don't name a version; add `version = "0.1"` under `[model]` to repeat them, as in `settings/test-truncation.toml`.
 
+## Measure ballot files
+
+```
+target/release/stvsim stats [--merge-last] data/scotland/ballots/*.ballots
+```
+
+Prints the statistics the model tuner compares with real elections (`src/stats.rs`): the top and last candidates against the quota and an even split, ballot length, clustering, evenness, and candidate kinds. `data/check_stats.py` checks they match the Python definitions in `data/calibration.py`.
+
+## The engine in a web page
+
+The engine is also a library (`src/lib.rs`) that compiles to WebAssembly for the model tuner (`tuner/`). `src/wasm.rs` describes the requests the page sends. Rebuild with `sh tuner/build.sh` (needs `rustup target add wasm32-unknown-unknown` once).
+
 ## Write simulated elections as ballot files
 
 ```

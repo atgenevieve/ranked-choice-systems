@@ -245,6 +245,23 @@ const LENGTH: [[f64; 6]; 2] = [[0.4641, 0.595, 0.3589, 1.4403, 0.1736, 0.1442], 
 const PULL_UP_TO: f64 = 0.23;
 const PULL_AT_LEAST: f64 = 0.97;
 
+/// What "auto" and the named settings mean for one type of election (shown by the tuner).
+pub fn auto_values(kind: ElectorateType, seats: usize) -> serde_json::Value {
+    let k = kind as usize;
+    let band = seat_band(seats);
+    let d = LENGTH[k];
+    serde_json::json!({
+        "popularity_spread": POPULARITY_SPREAD[k][band],
+        "long_shot_share": LONG_SHOT_SHARE[k][band],
+        "long_shot_gap": default_long_shot_gap(),
+        "slate_strength": { "loose": STRENGTH_LOOSE, "tight": STRENGTH_TIGHT },
+        "other_slate_spread": default_other_spread(),
+        "unaffiliated_share": default_unaffiliated(),
+        "length": { "scale": d[0], "candidates_power": d[1], "seats_power": d[2], "bunching": d[3], "complete_share": d[4], "complete_fade": d[5] },
+        "pull": { "up_to": PULL_UP_TO, "at_least": PULL_AT_LEAST },
+    })
+}
+
 impl SlateParams {
     pub fn check(&self) -> Result<(), String> {
         match self.version.as_str() {

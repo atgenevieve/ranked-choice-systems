@@ -72,13 +72,18 @@ impl Settings {
     pub fn load(path: &str) -> Result<Settings, String> {
         let text = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
         let mut s: Settings = toml::from_str(&text).map_err(|e| format!("{path}: {e}"))?;
-        s.model.check().map_err(|e| format!("{path}: {e}"))?;
-        let floor = if s.model.version == "0.1" { 1000 } else { 100 };
-        s.election.voters.get_or_insert((10 * s.election.candidates).max(floor));
-        s.election.ranks = s.election.ranks.min(s.election.candidates);
-        if s.run.threads == 0 {
-            s.run.threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1);
-        }
+        s.finish().map_err(|e| format!("{path}: {e}"))?;
         Ok(s)
+    }
+    /// Checks the settings and fills in defaults that depend on other settings.
+    pub fn finish(&mut self) -> Result<(), String> {
+        self.model.check()?;
+        let floor = if self.model.version == "0.1" { 1000 } else { 100 };
+        self.election.voters.get_or_insert((10 * self.election.candidates).max(floor));
+        self.election.ranks = self.election.ranks.min(self.election.candidates);
+        if self.run.threads == 0 {
+            self.run.threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1);
+        }
+        Ok(())
     }
 }

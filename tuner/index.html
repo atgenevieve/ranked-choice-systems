@@ -1,0 +1,273 @@
+<meta charset="utf-8">
+<title>Rank Depth Tuner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;800&display=swap">
+<style>
+/* Layout: a control column beside a results column (stacked on phones). Results read top to
+   bottom: your election first, then how the model compares with real elections, then saving. */
+:root {
+  --bg: #f2f4f1;          /* ballot-paper grey-green */
+  --surface: #ffffff;
+  --ink: #18231d;
+  --ink-2: #4d5a52;
+  --rule: #d9ded8;
+  --grid: #e7ebe6;
+  --model: #2558c9;       /* the simulated elections */
+  --real: #8fa598;        /* the real elections */
+  --real-ink: #3f5a4b;
+  --good: #23703a; --good-bg: #e2f1e5;
+  --warn: #8a5a00; --warn-bg: #f8ecd2;
+  --bad: #a3271b; --bad-bg: #f8e0dc;
+  --focus: #2558c9;
+  --font-ui: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121714; --surface: #1a211d; --ink: #e6ece7; --ink-2: #a7b4ab; --rule: #2e3832; --grid: #252e29;
+    --model: #7aa2ff; --real: #5f7a6b; --real-ink: #a9c4b4;
+    --good: #8fd6a0; --good-bg: #1d3324; --warn: #f0c56b; --warn-bg: #3a2f17; --bad: #ff9b8f; --bad-bg: #3d1f1b;
+    --focus: #7aa2ff; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121714; --surface: #1a211d; --ink: #e6ece7; --ink-2: #a7b4ab; --rule: #2e3832; --grid: #252e29;
+  --model: #7aa2ff; --real: #5f7a6b; --real-ink: #a9c4b4;
+  --good: #8fd6a0; --good-bg: #1d3324; --warn: #f0c56b; --warn-bg: #3a2f17; --bad: #ff9b8f; --bad-bg: #3d1f1b;
+  --focus: #7aa2ff; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+header p { margin: 4px 0 0; color: var(--ink-2); max-width: 68ch; }
+.layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* Controls */
+.controls { display: grid; gap: 14px; }
+fieldset { margin: 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); padding: 12px 14px 14px; display: grid; gap: 10px; min-width: 0; }
+legend { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); padding: 0 4px; }
+.field { display: grid; gap: 4px; }
+.field > label, .field > .label { font-size: 13.5px; font-weight: 500; }
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+input[type="number"], input[type="text"], select {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; width: 100%; min-width: 0;
+}
+input[type="number"] { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--model); }
+input:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.value { font-family: var(--font-data); font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.slider-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ticks { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-2); }
+.ticks.marks { position: relative; height: 1.4em; display: block; margin: 0 8px; }
+.ticks.marks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.ticks.marks span:first-child { transform: none; margin-left: -8px; }
+.check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.segmented { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented label { text-align: center; padding: 6px 8px; font-size: 13.5px; cursor: pointer; background: var(--bg); }
+.segmented input:checked + label { background: var(--model); color: var(--surface); font-weight: 600; }
+.segmented input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
+.hint { font-size: 12.5px; color: var(--ink-2); margin: 0; }
+details summary { cursor: pointer; font-size: 13.5px; font-weight: 500; }
+
+/* Results */
+.results { display: grid; gap: 20px; min-width: 0; }
+section.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px 18px; display: grid; gap: 14px; min-width: 0; }
+section.panel h2 { font-size: 19px; font-weight: 800; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--ink-2); max-width: 70ch; font-size: 14px; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.figure { border-top: 3px solid var(--model); padding-top: 8px; display: grid; gap: 2px; }
+.figure .n { font-family: var(--font-data); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.figure .t { font-size: 13px; color: var(--ink-2); }
+.chart { width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--font-data); font-size: 11px; fill: var(--ink-2); }
+.chart .title { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); }
+.chart .lab { font-family: var(--font-ui); font-size: 12px; fill: var(--ink); }
+.charts2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.charts2 h3, .panel h3 { font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+.status { font-size: 13px; color: var(--ink-2); min-height: 1.5em; }
+.status.busy::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--model); margin-right: 6px; animation: pulse 1s infinite alternate; }
+@keyframes pulse { from { opacity: 0.25; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .status.busy::before { animation: none; } }
+.error { color: var(--bad); }
+
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); }
+td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.close { color: var(--good); background: var(--good-bg); }
+.chip.near { color: var(--warn); background: var(--warn-bg); }
+.chip.off { color: var(--bad); background: var(--bad-bg); }
+.chip.none { color: var(--ink-2); background: var(--grid); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.save-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.save-row input { flex: 1 1 220px; }
+button { font: inherit; font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 6px; border: 1px solid var(--model); background: var(--model); color: var(--surface); cursor: pointer; }
+button.quiet { background: transparent; color: var(--model); }
+button:disabled { opacity: 0.5; cursor: default; }
+pre.toml { margin: 0; font-family: var(--font-data); font-size: 12.5px; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; overflow-x: auto; max-height: 260px; }
+ul.saved { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.saved li { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--grid); padding-bottom: 6px; }
+ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Rank Depth Tuner</h1>
+    <p>Change the voter model's settings and see two things at once: how deep rankings matter in your election, and how the model's elections compare with real ones. Every simulation runs the project's own engine, in this page.</p>
+  </header>
+
+  <div class="layout">
+    <form class="controls" id="controls" autocomplete="off">
+      <fieldset>
+        <legend>Your election</legend>
+        <div class="row3">
+          <div class="field"><label for="candidates">Candidates</label><input type="number" id="candidates" min="2" max="300" value="75"></div>
+          <div class="field"><label for="seats">Seats</label><input type="number" id="seats" min="1" max="200" value="46"></div>
+          <div class="field"><label for="voters">Voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="sims">Simulated elections</label>
+            <select id="sims"><option value="50">50 (quick)</option><option value="100" selected>100</option><option value="200">200</option><option value="400">400 (slow)</option></select></div>
+          <div class="field"><label for="seed">Random seed</label><input type="number" id="seed" min="1" value="1"></div>
+        </div>
+        <p class="hint">Defaults are Metro DC DSA's 2025 delegate election. The seed makes results repeatable.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ballot</legend>
+        <div class="field"><label for="wording">What the ballot says</label>
+          <select id="wording">
+            <option value="up_to" selected>Rank up to N</option>
+            <option value="at_least">Rank at least N</option>
+            <option value="exactly">Rank exactly N</option>
+            <option value="none">Rank as many as you like</option>
+          </select></div>
+        <div class="row2">
+          <div class="field"><label for="n">N</label><input type="number" id="n" min="1" value="46"></div>
+          <label class="check" for="n-seats"><input type="checkbox" id="n-seats" checked> Same as seats</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Voters</legend>
+        <div class="field"><span class="label">Who is voting</span>
+          <div class="segmented" role="radiogroup" aria-label="Who is voting">
+            <input type="radio" name="electorate" id="el-org" value="organization" checked><label for="el-org">Organization members</label>
+            <input type="radio" name="electorate" id="el-pub" value="public"><label for="el-pub">Public voters</label>
+          </div>
+          <p class="hint">Members rank further as fields grow, tuned to union and society elections; public voters are tuned to Scotland.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Slates</legend>
+        <div class="row2">
+          <div class="field"><label for="slates">Number of slates</label><input type="number" id="slates" min="1" max="12" value="4"></div>
+          <div class="field"><label for="sizing">Slate sizes</label>
+            <select id="sizing"><option value="expected_seats" selected>Seats they could win</option><option value="same_as_voters">Same share as voters</option></select></div>
+        </div>
+        <div class="field">
+          <div class="slider-head"><label for="strength">Loose or tight slates</label><span class="value" id="strength-v"></span></div>
+          <input type="range" id="strength" min="0" max="100" step="1" value="26">
+          <div class="ticks marks" aria-hidden="true"><span style="left:0%">No pull</span><span style="left:26%">Loose</span><span style="left:87%">Tight</span></div>
+        </div>
+        <div class="field">
+          <div class="slider-head"><label for="unaff">Candidates in no slate (at least)</label><span class="value" id="unaff-v"></span></div>
+          <input type="range" id="unaff" min="0" max="0.5" step="0.01" value="0.15">
+        </div>
+        <div class="field">
+          <div class="slider-head"><label for="other">How unevenly votes leave a slate</label><span class="value" id="other-v"></span></div>
+          <input type="range" id="other" min="0" max="2" step="0.05" value="1.2">
+          <div class="ticks"><span>Evenly</span><span>Unevenly</span></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Candidate popularity</legend>
+        <div class="field">
+          <div class="slider-head"><label for="spread">Popularity spread</label><span class="value" id="spread-v"></span></div>
+          <label class="check" for="spread-auto"><input type="checkbox" id="spread-auto" checked> Fitted for each type of election</label>
+          <input type="range" id="spread" min="0" max="2" step="0.05" value="1">
+          <div class="ticks"><span>All equal</span><span>Lopsided</span></div>
+        </div>
+        <div class="field">
+          <div class="slider-head"><label for="longshot">Long-shot candidates</label><span class="value" id="longshot-v"></span></div>
+          <label class="check" for="longshot-auto"><input type="checkbox" id="longshot-auto" checked> Fitted for each type of election</label>
+          <input type="range" id="longshot" min="0" max="0.4" step="0.01" value="0">
+        </div>
+        <div class="field">
+          <div class="slider-head"><label for="gap">How far long shots trail</label><span class="value" id="gap-v"></span></div>
+          <input type="range" id="gap" min="-3" max="4" step="0.1" value="2">
+          <p class="hint">Below 0, they become standouts above the rest instead (an option under review).</p>
+        </div>
+      </fieldset>
+
+      <details>
+        <summary>More settings</summary>
+        <fieldset style="margin-top:10px">
+          <legend>Pull toward N</legend>
+          <div class="field">
+            <div class="slider-head"><label for="pull">Share of voters below N who rank N</label><span class="value" id="pull-v"></span></div>
+            <label class="check" for="pull-auto"><input type="checkbox" id="pull-auto" checked> Fitted (23% for "up to", 97% for "at least")</label>
+            <input type="range" id="pull" min="0" max="1" step="0.01" value="0.23">
+          </div>
+        </fieldset>
+      </details>
+    </form>
+
+    <div class="results">
+      <section class="panel" id="election-panel" aria-live="polite">
+        <h2>How deep rankings matter in your election</h2>
+        <p class="lede" id="election-lede">Each simulated election is counted with full ballots, then again with every ballot cut after rank 1, 2, 3, and so on. A cut that hands any seat to someone else means ranks past it mattered.</p>
+        <div class="status" id="election-status"></div>
+        <div class="figures" id="figures"></div>
+        <div class="charts2">
+          <div><h3>Elections where cutting ballots changes the winners</h3><div class="chart" id="chart-changed"></div></div>
+          <div><h3>Seats that change hands, on average</h3><div class="chart" id="chart-seats"></div></div>
+        </div>
+      </section>
+
+      <section class="panel" id="compare-panel">
+        <h2>How the model compares with real elections</h2>
+        <p class="lede">The model simulates a twin of each real election in a sample: same candidates, seats, voters, and ballot rules, with your slate and popularity settings. Close means the typical twin is within about 10% of the typical real election.</p>
+        <div class="field" style="max-width:360px"><label for="cell">Real elections to compare with</label><select id="cell"></select></div>
+        <p class="hint" id="cell-note"></p>
+        <div class="status" id="compare-status"></div>
+        <div class="tablewrap"><table id="compare-table"><thead><tr><th>Statistic</th><th class="n">Real</th><th class="n">Model</th><th>Match</th></tr></thead><tbody></tbody></table></div>
+        <div>
+          <h3>How many candidates voters rank</h3>
+          <div class="legend"><span><i class="swatch" style="background:var(--real)"></i>Real elections</span><span><i class="swatch" style="background:var(--model);height:3px"></i>Model</span></div>
+          <div class="chart" id="chart-length"></div>
+        </div>
+      </section>
+
+      <section class="panel" id="save-panel">
+        <h2>Save this tuning</h2>
+        <p class="lede">A tuning is these settings as a settings file the engine can run. Saved tunings are listed here for everyone with access to this page, and Claude can read them back into the project.</p>
+        <div class="save-row">
+          <input type="text" id="tuning-name" placeholder="Name, such as Loose slates, members" aria-label="Tuning name">
+          <button type="button" id="save-shared">Save to the list</button>
+          <button type="button" class="quiet" id="copy">Copy settings</button>
+          <button type="button" class="quiet" id="download" hidden>Save file</button>
+        </div>
+        <div class="status" id="save-status"></div>
+        <pre class="toml" id="toml"></pre>
+        <div id="saved-wrap" hidden><h3>Saved tunings</h3><ul class="saved" id="saved"></ul></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
