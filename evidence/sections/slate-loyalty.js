@@ -43,20 +43,6 @@ window.SECTIONS["slate-loyalty"] = () => {
   }
 
   {
-    const cols = D.flow_columns, keep = cols.map((c, j) => j).filter(j => cols[j] !== "Ranked no one else");
-    const colors = ["--public", "--ers", "--scotland", "--c4", "--c5", "--c6", "--c7"];
-    const series = keep.map((j, k) => ({ name: cols[j], color: colors[k] }));
-    const ev = [...D.cross_party_evenness].sort((a, b) => a - b), evMed = ev[Math.floor(ev.length / 2)];
-    const f = figure("Once votes leave a party, they spread widely",
-      "When a Scottish voter's second choice isn't a running mate, it usually spreads across several other parties, not mainly to one neighbor. The Greens are the exception: about half their departing second choices go to the SNP. One loyalty number on a line of slates can't produce strong loyalty and a wide spread at the same time, which is why the proposal uses two settings.",
-      `Second choices that went to a different party, by the first choice's party, pooled over every Scottish ward where that party ran 2 or more candidates. Each bar adds to 100%. Voters who stayed with their own party, or ranked no one else, are left out (they're in the grid above). Measured ward by ward, these spreads score a typical ${evMed.toFixed(2)} for evenness, where 1 would be a perfectly even split across the other candidates.`);
-    const rows = D.flows.map(r => {
-      const own = cols.indexOf(r.first);
-      return { label: r.first, values: keep.map(j => j === own ? 0 : r.shares[j]) };
-    });
-    stackedBars(f, rows, series, { labelW: 150, aria: "Where second choices go when they leave the first choice's party, by party" });
-  }
-  {
     const E = DATA.evenness_by_party;
     const order = ["SNP", "Labour", "Conservative", "Liberal Democrats", "Greens"].filter(k => E[k]);
     const colors = ["--public", "--ers", "--scotland", "--c4", "--c5"];
@@ -67,5 +53,19 @@ window.SECTIONS["slate-loyalty"] = () => {
       min: 0.2, max: 1, bw: 0.015, per: 0.01, xTicks: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], xFmt: v => v.toFixed(1),
       xTitle: "Evenness", yTitle: "Share of the party's wards, per 0.01", aria: "Distribution of cross-party evenness by party",
     });
+  }
+  {
+    const cols = D.flow_columns, keep = cols.map((c, j) => j).filter(j => cols[j] !== "Ranked no one else");
+    const colors = ["--public", "--ers", "--scotland", "--c4", "--c5", "--c6", "--c7"];
+    const series = keep.map((j, k) => ({ name: cols[j], color: colors[k] }));
+    const ev = [...D.cross_party_evenness].sort((a, b) => a - b), evMed = ev[Math.floor(ev.length / 2)];
+    const f = figure("Where each party's departing votes go",
+      "When a Scottish voter's second choice isn't a running mate, it usually spreads across several other parties, not mainly to one neighbor. The Greens are the exception: about half their departing second choices go to the SNP. One loyalty number on a line of slates can't produce strong loyalty and a wide spread at the same time, which is why the proposal uses two settings.",
+      `Second choices that went to a different party, by the first choice's party, pooled over every Scottish ward where that party ran 2 or more candidates. Each bar adds to 100%. Voters who stayed with their own party, or ranked no one else, are left out (they're in the grid above). Measured ward by ward, these spreads score a typical ${evMed.toFixed(2)} for evenness, where 1 would be a perfectly even split across the other candidates.`);
+    const rows = D.flows.map(r => {
+      const own = cols.indexOf(r.first);
+      return { label: r.first, values: keep.map(j => j === own ? 0 : r.shares[j]) };
+    });
+    stackedBars(f, rows, series, { labelW: 150, aria: "Where second choices go when they leave the first choice's party, by party" });
   }
 };
