@@ -40,6 +40,32 @@ window.SECTIONS.popularity = () => {
   }
 
   {
+    const capY = 20, over = E.filter(e => e.top_ratio > capY).length;
+    // Typical (median) ratio in each band of field sizes, per group, joined by a line across the
+    // bands that group covers (bands with at least 3 elections).
+    const BANDS = [[2, 4], [5, 6], [7, 8], [9, 10], [11, 13], [14, 19], [20, 34]];
+    const GROUPS = { "--scotland": g => g === "scotland", "--public": g => !["scotland", "ers", "org"].includes(g), "--ers": g => g === "ers" || g === "org" };
+    const bandLine = (test, color) => {
+      const pts = BANDS.map(([lo, hi]) => { const v = E.filter(e => test(e.group) && e.candidates >= lo && e.candidates <= hi).map(e => e.top_ratio); return v.length >= 3 ? [(lo + hi) / 2, med(v)] : null; }).filter(Boolean);
+      return { from: pts[0][0], to: pts[pts.length - 1][0], color, pts,
+        f: x => { let k = 0; while (k < pts.length - 2 && x > pts[k + 1][0]) k++; const [x0, y0] = pts[k], [x1, y1] = pts[k + 1]; return y0 + (y1 - y0) * (x - x0) / (x1 - x0); } };
+    };
+    const lines = Object.entries(GROUPS).map(([c, t]) => bandLine(t, c)), sc = lines[0].pts;
+    const f = figure("Bigger fields are more lopsided",
+      `In every group, the more candidates run, the further the top candidate pulls ahead of the middle one. In Scotland, the top candidate typically gets about ${times(sc[0][1])} the middle candidate's first choices with 2 to 4 candidates, and about ${times(sc[sc.length - 1][1])} with 11 to 13. Bigger fields add more long-shot candidates, so the middle candidate is weaker. For a large election like yours, expect a lopsided field.`,
+      `Each dot is one election, from 2 to 34 candidates. Up the side: the top candidate's first choices divided by the middle candidate's. The middle candidate is the median one: line the candidates up from most to fewest first choices, and it's the one halfway down. ${over} elections above ${capY}× are drawn at the top edge; hover for their values. Each line, in its group's color, joins the typical (median) election in each band of field sizes (2 to 4 candidates, 5 to 6, 7 to 8, 9 to 10, 11 to 13, 14 to 19, and 20 or more), across the bands with at least 3 of that group's elections.`);
+    legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "US and other public elections"], ["dot", "--ers", "Union, society, and other organizational elections"]]);
+    const color = g => g === "scotland" ? "--scotland" : (g === "ers" || g === "org") ? "--ers" : "--public";
+    scatter(f, {
+      aria: "Top-to-middle multiple against number of candidates",
+      xMin: 0, xMax: 35, xTicks: [0, 5, 10, 15, 20, 25, 30, 35], yMax: capY, yStep: 5, yFmt: v => `${v}×`,
+      xTitle: "Candidates in the election", yTitle: "Top candidate ÷ middle candidate", lines,
+      points: E.map(e => ({ x: e.candidates, y: e.top_ratio, color: color(e.group), name: e.name,
+        lines: [NAMES[e.group], `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `top candidate ${times(e.top_ratio)} the middle one · top share ${pct(e.top_share)}`] })),
+    });
+  }
+
+  {
     const Lad = DATA.ladder_7, ord = ["Top", "2nd", "3rd", "4th", "5th", "6th", "Last"];
     const P = Lad.model["0.7"], C = Lad.model["1.0"], R = Lad.real;
     const f = figure("The typical ward, candidate by candidate",
@@ -87,21 +113,5 @@ window.SECTIONS.popularity = () => {
       const all = E.filter(e => e.group === g).map(e => e.top_ratio), v = all.map(x => Math.min(x, 15.99));
       return { label: NAMES[g], sub: `${v.length} elections`, values: v, median: med(all), color: g === "scotland" ? "--scotland" : "--bar" };
     }), { min: 0, max: 16, bin: 0.5, ticks: [0, 2, 4, 6, 8, 10, 12, 14, 16], fmt: v => `${v}×`, xTitle: "Top candidate's first choices, as a multiple of the middle candidate's", aria: "Top candidate against middle candidate, by group" });
-  }
-
-  {
-    const capY = 20, over = E.filter(e => e.top_ratio > capY).length;
-    const f = figure("By number of candidates",
-      "Bigger fields tend to be more lopsided: with more long-shot candidates, the middle candidate is weaker, so the top candidate is further ahead of it.",
-      `Each dot is one election, from 2 to 34 candidates. ${over} elections above ${capY}× are drawn at the top edge; hover for their values.`);
-    legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "US and other public elections"], ["dot", "--ers", "Union, society, and other organizational elections"]]);
-    const color = g => g === "scotland" ? "--scotland" : (g === "ers" || g === "org") ? "--ers" : "--public";
-    scatter(f, {
-      aria: "Top-to-middle multiple against number of candidates",
-      xMin: 0, xMax: 35, xTicks: [0, 5, 10, 15, 20, 25, 30, 35], yMax: capY, yStep: 5, yFmt: v => `${v}×`,
-      xTitle: "Candidates in the election", yTitle: "Top candidate ÷ middle candidate", lines: [],
-      points: E.map(e => ({ x: e.candidates, y: e.top_ratio, color: color(e.group), name: e.name,
-        lines: [NAMES[e.group], `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `top candidate ${times(e.top_ratio)} the middle one · top share ${pct(e.top_share)}`] })),
-    });
   }
 };
