@@ -1,6 +1,6 @@
 # Model review: decisions for the owner
 
-**Status:** draft for milestone 3. Nothing here is built. For each assumption in the voter model, this page gives what the model does now, what the real ballots show, a proposed setting, and the alternatives. You decide; each decision and its reason then go into `docs/model-spec.md`, and only then into the engine (milestone 4).
+**Status:** milestone 3. Five of six decisions approved on October 20, 2026; candidate popularity is still open. Nothing here is built yet. For each assumption in the voter model, this page gives what the model does now, what the real ballots show, a proposed setting, and the alternatives. You decide; each decision and its reason then go into `docs/model-spec.md`, and only then into the engine (milestone 4).
 
 **Evidence used:** 1,100 Scottish council elections, 168 PrefLib elections (including 87 organizational elections from the Electoral Reform Society, ERS), 126 NYC primary contests, and 6 Portland contests. That's about 18 million ballots in all. `data/README.md` describes each dataset and its weaknesses, and `docs/real-data-findings.md` has the full Scottish findings.
 
@@ -12,12 +12,12 @@
 
 | # | Assumption | Now | Proposal | Decision needed |
 |---|---|---|---|---|
-| 5 | Ballot length | Everyone ranks everyone | Two settings: electorate type (public or organizational) and ballot type (no limit, limit equal to seats, other limit); limits cut ballots and can pull voters up to them | **Biggest decision.** Approve the two-setting structure; help find organizational ballots with limits |
-| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune to overall clustering in real ballots | Replace the line? Are your slates loose (like Portland endorsements) or tight (like Scottish parties)? |
-| 3 | Candidate popularity | Lognormal, spread 1.0 | Keep the lognormal, add a separate tail of long-shot candidates | Add the tail? |
-| 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately | Separate them? |
-| 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | Allow candidates outside slates? |
-| 6 | Number of voters | 10 per candidate | Set from your organization's real numbers | What are they? |
+| 5 | Ballot length | Everyone ranks everyone | Two settings: electorate type (public or organizational) and ballot type (no limit, limit equal to seats, other limit); limits cut ballots and can pull voters up to them | **Approved.** Still open: your ballot's exact wording |
+| 4 | Slate loyalty and layout | One loyalty number; slates in a line | Two numbers: loyalty to your own slate, and how evenly you spread to the rest. Drop the line. Tune to overall clustering in real ballots | **Approved.** Still open: loose or tight; test both |
+| 3 | Candidate popularity | Lognormal, spread 1.0 | Top candidate about 2 times an even split (spread about 0.7), plus a separate share of long-shot candidates | **Open.** Approve? |
+| 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately; slates sized to the seats they expect to win | **Approved** |
+| 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | **Approved** |
+| 6 | Number of voters | 10 per candidate, at least 1,000 | Set from your organization's real numbers; lower the minimum | **Approved.** Numbers to come |
 | – | Which real data to tune against | – | Scotland and ERS first, Portland for large fields, your organization's data if available | Can you get past ballots? |
 
 ## 5. Ballot length: how many candidates each voter ranks
@@ -99,7 +99,7 @@ Note the difference from the organization's own ballots: Canberra and the Senate
 - Treat the limit as a simple cut, with no pull toward it. Simpler, but the NYC and Portland data show a clear pull for limits of 5 and 6.
 - Pick one electorate type now. Simpler, but the two differ by about 3 times for a large election, and nothing yet shows which one the organization's members resemble.
 
-**Your decision:**
+**Your decision (October 20, 2026):** approved: two settings, electorate type and ballot rules, as proposed. Still open: the exact wording of your organization's ballot ("up to N", "at least N", or "exactly N"), and organizational ballots with a limit to tune against.
 
 ## 4. Slate loyalty, and slates arranged in a line
 
@@ -169,23 +169,23 @@ Keep an optional table of closeness between slates for later, if real data from 
 - Keep the line and tune loyalty only. Simplest, but it likely can't match both the loyalty and the spread.
 - Give each voter their own taste on top of slates (the "individual taste" factor the spec leaves out). More realistic, slower, and harder to explain.
 
-**Your decision:** also, are your organization's slates more like parties (tight) or endorsement lists (loose)?
+**Your decision (October 20, 2026):** approved: drop the line, and use two settings, own-slate loyalty and spread to other slates, tuned to overall clustering. Still open: whether your organization's slates are loose or tight. Until your organization's ballots show which, test both.
 
 ## 3. Candidate popularity
 
 **Now:** each candidate's popularity is drawn from a lognormal distribution, a common pattern where most values are moderate and a few are very large, with spread 1.0. Exploratory runs found this the most important setting: it changed answers by 2 to 3 times.
 
-**What the real ballots show:**
+**What the real ballots show.** These use plain ratios. An **even split** is the share of first choices each candidate would get if all were equally popular: 1 in 7 (about 14%) with 7 candidates.
 
-- **The overall spread is close to 1.0** in multi-seat elections: about 0.95 in Scotland, 0.75 to 1.0 in the larger ERS elections, and 1.1 to 1.6 in Portland's council races. Single-seat US races are more lopsided (1.5 to 1.8), because a few leading candidates dominate.
-- **But the shape is wrong.** In real elections the leading candidates sit close together, and a tail of long shots trails far below. In Scotland the top looks like a spread of about 0.7, and the bottom like about 1.3. Parties run as many candidates as they expect to elect, and those candidates finish close together.
-- **Larger fields tend to have more long shots:** Portland's 31-candidate districts have spreads of 1.4 to 1.6.
+- **The top candidate gets about 2 times an even split** in a typical election: 2.1 times in Scottish wards and in union and society elections, 2.4 times in NYC primaries. Across all elections, 8 in 10 fall between 1.5 and 3.1 times. Canberra (about 4 times) and Portland (about 7 times) are higher, mainly because long candidate lists make the even split tiny.
+- **The model's current setting (spread 1.0) makes the leader too strong:** about 2.5 times an even split in a 7-candidate field. A spread of about 0.7 gives 2.0 times, matching real wards.
+- **But real fields have a weaker bottom than the model can make.** In 63% of 7-candidate Scottish wards, the last candidate gets under 3% of first choices; at a spread of 0.7, only 17% of model elections do. No single spread fits both ends: making the bottom weaker also makes the leader stronger.
 
-**Proposal:** keep the lognormal for serious candidates, with a spread of about 0.7. Add a second setting: the **share of long-shot candidates**, whose popularity comes from a much lower range. Tune both to Scotland, ERS, and Portland. Because this setting matters most, report every headline result across the real range, from about 0.6 to 1.6.
+**Proposal:** keep the lognormal for the leading candidates, with a spread of about 0.7, so the top candidate gets about 2 times an even split. Add a second setting: the **share of long-shot candidates**, whose popularity comes from a much lower range. Tune both to Scotland, ERS, and Portland. Because this setting matters most, report every headline result across the real range, from about 1.5 to 3 times an even split.
 
 **Alternatives:**
 
-- Keep a single spread of 1.0. It matches the average, but not the shape.
+- Keep a single spread of 1.0. It gets the last candidate about right, but makes the leader too strong.
 - Set popularity directly from your organization's past first-choice counts, if available. That is the best option for your elections.
 
 **Your decision:**
@@ -200,7 +200,9 @@ Keep an optional table of closeness between slates for later, if real data from 
 
 **Alternative:** keep them equal. Simpler, but known to be wrong for parties. Organizational slates may differ.
 
-**Your decision:** also, do your organization's big slates run full lists or short ones?
+**Your decision (October 20, 2026):** approved: set candidate shares and voter shares separately. In your organization, slates generally don't run full lists: they run about as many candidates as the seats they expect to win, because they believe that helps them. So the default sizes each slate to the seats its support could win, as Scottish parties do.
+
+**A question to test later (milestone 8):** is a slate sized to its expected seats actually better for the slate than a full list? The simulator can compare the two directly. The answer may be useful to organizers either way.
 
 ## 1. Number of slates, and candidates outside slates
 
@@ -210,7 +212,9 @@ Keep an optional table of closeness between slates for later, if real data from 
 
 **Proposal:** keep 4 slates as the default. Add a setting for the **share of candidates outside any slate**, who get no loyalty boost from anyone. Tune it to about 15%.
 
-**Your decision:** also, how many organized slates does your organization usually have?
+**Your decision (October 20, 2026):** approved: keep 4 slates as the default, and add a share of candidates outside any slate (about 15%).
+
+**Note on candidates with no running mate.** In Scotland, 47% of candidates are their party's only candidate in the ward, and 17% are independents, so about 64% have no running mate to pass votes to. Slates sized to their expected seats (decision 2) produce single-candidate slates on their own, so no extra setting is needed. Milestone 4 checks that the share of candidates with no running mate comes out close to Scotland's.
 
 ## 6. Number of voters
 
@@ -220,7 +224,7 @@ Keep an optional table of closeness between slates for later, if real data from 
 
 **Proposal:** set candidates, seats, and voters from your organization's real elections, and test a range around them.
 
-**Your decision:** typical numbers of candidates, seats, and voters in your organization's elections.
+**Your decision (October 20, 2026):** approved: set candidates, seats, and voters from your organization's real elections, and test a range around them. Lower the 1,000-voter minimum, so electorates of a few hundred (Metro DC DSA had 432) can be simulated. Large organizational elections run about 1.5 to 2 candidates per seat (Metro DC DSA: 1.63), and the number of voters shows almost no link to seats or candidates. Still to come: your organization's typical numbers.
 
 ## Factors still left out
 

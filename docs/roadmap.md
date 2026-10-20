@@ -2,7 +2,7 @@
 
 Each milestone ends with a check. Don't start the next one until its check passes.
 
-**Status:** milestones 0 to 2 are done. Milestone 3 (owner review) is waiting on the owner: see `docs/model-review.md`.
+**Status:** milestones 0 to 2 are done. Milestone 3 (owner review): five of six decisions approved on October 20, 2026; candidate popularity is still open. See `docs/model-review.md`.
 
 ## Milestone 0: Set up
 
@@ -87,6 +87,8 @@ Each system needs hand-checked test elections before use.
 ## Milestone 8: Run sweeps
 
 Settings-file-driven runs across candidates, seats, voters, voting systems, and model tunings, on all cores, resumable.
+
+Include a slate-size experiment: compare a slate that runs about as many candidates as the seats it expects to win against the same slate running a full list (the owner's question from milestone 3).
 
 **Done when:** the sweeps in the report's outline are complete, with results files recording full settings and versions.
 
