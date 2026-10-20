@@ -13,12 +13,25 @@ window.SECTIONS.popularity = () => {
   {
     const f = figure("How much more the top candidate gets than the middle one",
       `In a typical Scottish ward, the most popular candidate gets about ${times(med(E.filter(e => e.group === "scotland").map(e => e.top_ratio)))} as many first choices as the middle candidate. Union and society elections look much the same. Single-seat US races and large fields are more lopsided: Canberra about ${times(med(E.filter(e => e.group === "act").map(e => e.top_ratio)))}, Portland about ${times(med(E.filter(e => e.group === "portland").map(e => e.top_ratio)))}.`,
-      `Top candidate's first choices divided by the middle candidate's (the median candidate), for each election. 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
+      `Top candidate's first choices divided by the middle candidate's, for each election. The middle candidate is the median one: line the candidates up from most to fewest first choices, and it's the one halfway down (the 4th of 7). 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
     const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
     strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
       const all = E.filter(e => e.group === g).map(e => e.top_ratio), v = all.map(x => Math.min(x, 15.99));
       return { label: NAMES[g], sub: `${v.length} elections`, values: v, median: med(all), color: g === "scotland" ? "--scotland" : "--bar" };
     }), { min: 0, max: 16, bin: 0.5, ticks: [0, 2, 4, 6, 8, 10, 12, 14, 16], fmt: v => `${v}×`, xTitle: "Top candidate's first choices, as a multiple of the middle candidate's", aria: "Top candidate against middle candidate, by group" });
+  }
+
+  {
+    const even = e => e.top_share * e.candidates, M7 = DATA.ladder_7.model;
+    const g = k => med(E.filter(e => e.group === k).map(even));
+    const f = figure("How far the top candidate is above an even split",
+      `If every candidate were equally popular, each would get the same share of first choices: with 7 candidates, 1 in 7 (about 14%). In a typical Scottish ward, the top candidate gets about ${g("scotland").toFixed(1)} times that even share, and union and society elections look the same (${g("ers").toFixed(1)}×). NYC primaries are a little more lopsided (${g("nyc").toFixed(1)}×). Canberra (${g("act").toFixed(1)}×) and Portland (${g("portland").toFixed(1)}×) are higher mainly because they have long candidate lists, which make the even share tiny. The model gives about ${(M7["0.7"][0].median * 7).toFixed(1)}× at the proposed setting and ${(M7["1.0"][0].median * 7).toFixed(1)}× at the current one, in a 7-candidate field.`,
+      "The top candidate's share of first choices divided by the even share (1 ÷ number of candidates), for each election. 1× means the top candidate got exactly an even share; 2× means twice as much. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts.");
+    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
+    strips(f, order.filter(k => E.some(e => e.group === k)).map(k => {
+      const v = E.filter(e => e.group === k).map(even);
+      return { label: NAMES[k], sub: `${v.length} elections`, values: v, color: k === "scotland" ? "--scotland" : "--bar" };
+    }), { min: 0, max: 8, bin: 0.25, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8], mark: 1, fmt: v => `${v}×`, xTitle: "Top candidate's share, as a multiple of an even split", aria: "Top candidate's share as a multiple of an even split, by group" });
   }
 
   {

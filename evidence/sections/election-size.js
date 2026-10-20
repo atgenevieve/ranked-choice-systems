@@ -29,6 +29,36 @@ window.SECTIONS["election-size"] = () => {
     });
   }
   {
+    // Typical candidates per seat at each number of seats: a line through the medians, across only
+    // the seats each group covers. Sparse seat counts are pooled so each point has a few elections.
+    const BINS = { org: [[1, 1], [2, 2], [3, 3], [4, 4], [5, 6], [7, 9], [10, 12]], pub: [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]] };
+    const medLine = (els, bins) => {
+      const pts = bins.map(([lo, hi]) => { const v = els.filter(e => e.seats >= lo && e.seats <= hi); return v.length ? [(lo + hi) / 2, med(v.map(e => e.candidates / e.seats))] : null; }).filter(Boolean);
+      return { from: pts[0][0], to: pts[pts.length - 1][0], pts,
+        f: x => { let k = 0; while (k < pts.length - 2 && x > pts[k + 1][0]) k++; const [x0, y0] = pts[k], [x1, y1] = pts[k + 1]; return y0 + (y1 - y0) * (x - x0) / (x1 - x0); } };
+    };
+    const orgL = medLine(E.filter(e => ORG.has(e.group)), BINS.org), pubL = medLine(E.filter(e => !ORG.has(e.group)), BINS.pub);
+    const at = (L, x) => L.pts.find(p => p[0] === x)[1];
+    const ratio = dsa.candidates / dsa.seats, capY = 12, over = E.filter(e => e.candidates / e.seats > capY).length, DSA_X = 13.5;
+    const f = figure("Candidates per seat: the more seats, the fewer candidates for each",
+      `This is the clearest pattern in the data. A typical single-seat election has ${at(orgL, 1).toFixed(0)} candidates (organizational) or ${at(pubL, 1).toFixed(0)} (public) for the one seat. As seats grow, candidates per seat falls fast, then levels off: about ${at(orgL, 2).toFixed(1)} with 2 seats, ${at(orgL, 4).toFixed(1)} with 4, and between 1 and 2 in organizational elections with 5 to 12 seats. Metro DC DSA's ${dsa.seats}-seat election had ${ratio.toFixed(2)} candidates per seat, in that same range. The public line rises at 5 seats because those are mostly Canberra's crowded fields. So for a ${dsa.seats}-seat election, expect roughly 1.5 to 2 candidates per seat: about ${Math.round(1.5 * dsa.seats)} to ${Math.round(2 * dsa.seats)} candidates.`,
+      `Each dot is one election: its candidates divided by its seats. Dots are spread slightly sideways so they don't hide each other. The lines join the typical (median) election at each number of seats, across only the seats each group covers; organizational elections with 5 to 6, 7 to 9, and 10 to 12 seats are pooled. ${over} elections with more than ${capY} candidates per seat are drawn at the top edge. The axis skips from 12 seats to ${dsa.seats} for Metro DC DSA. Candidates per seat is the flip side of the share of candidates who win, charted further down: 2 candidates per seat means half the candidates win.`);
+    legend(f, [["dot", "--public", "Public elections"], ["dot", "--ers", "Organizational elections"], ["dot", "--c7", `Metro DC DSA, ${dsa.seats} seats`],
+      ["line", "--public", "Typical public election"], ["line", "--ers", "Typical organizational election"]]);
+    const jitter = i => ((i * 0.618034) % 1 - 0.5) * 0.36;
+    scatter(f, {
+      aria: "Candidates per seat against number of seats, with typical lines and Metro DC DSA",
+      xMin: 0, xMax: 14, xTicks: [0, 2, 4, 6, 8, 10, 12, DSA_X], xFmt: v => v === DSA_X ? `${dsa.seats}` : String(v), yMax: capY, yStep: 2,
+      xTitle: "Seats", yTitle: "Candidates per seat",
+      lines: [{ from: pubL.from, to: pubL.to, f: pubL.f, color: "--public" }, { from: orgL.from, to: orgL.to, f: orgL.f, color: "--ers" }],
+      points: [
+        ...E.map((e, i) => ({ x: e.seats + jitter(i), y: Math.min(e.candidates / e.seats, capY), color: ORG.has(e.group) ? "--ers" : "--public", name: e.name,
+          lines: [NAMES[e.group], `${e.seats} seat${e.seats > 1 ? "s" : ""} · ${e.candidates} candidates · ${(e.candidates / e.seats).toFixed(2)} per seat`] })),
+        { x: DSA_X, y: ratio, color: "--c7", name: dsa.name, lines: [`${dsa.seats} seats · ${dsa.candidates} candidates · ${ratio.toFixed(2)} per seat`] },
+      ],
+    });
+  }
+  {
     const per = g => g.slope.toFixed(1);
     const f = figure("Within the real data: more seats, somewhat more candidates",
       `On average, each extra seat brings about ${per(org)} more candidates, in public and organizational elections alike: the two trend lines nearly overlap. But the link is loose. Elections with the same number of seats vary a lot, from a few candidates to over 30, so the dots scatter widely around the lines. If you stretched these lines out to ${dsa.seats} seats, they'd predict only about ${Math.round(org.f(dsa.seats))} candidates, fewer than there are seats. Metro DC DSA had ${dsa.candidates}, so a straight line is the wrong rule for large elections.`,
@@ -41,17 +71,6 @@ window.SECTIONS["election-size"] = () => {
       lines: [{ from: 1, to: pub.max, f: pub.f, color: "--public" }, { from: 1, to: org.max, f: org.f, color: "--ers" }],
       points: E.map(dot),
     });
-  }
-  {
-    const els = (lo, hi) => E.filter(e => ORG.has(e.group) && e.seats >= lo && e.seats <= hi);
-    const row = (label, v) => ({ label: `${label} (${v.length})`, values: [med(v.map(e => e.candidates / e.seats))] });
-    const rows = [row("1 seat", els(1, 1)), row("2 to 4 seats", els(2, 4)), row("5 to 12 seats", els(5, 99)),
-      { label: `Metro DC DSA, ${dsa.seats} seats`, values: [dsa.candidates / dsa.seats] }];
-    const big = rows[2].values[0];
-    const f = figure("A better rule for large elections: candidates per seat",
-      `In organizational elections, the number of candidates for each seat falls as seats grow: about ${rows[0].values[0].toFixed(1)} with one seat, ${rows[1].values[0].toFixed(1)} with 2 to 4 seats, and ${big.toFixed(2)} with 5 to 12. Metro DC DSA's ${dsa.seats}-seat election had ${(dsa.candidates / dsa.seats).toFixed(2)}, almost exactly the same as the largest elections in the data. At ${big.toFixed(2)} candidates per seat, a ${dsa.seats}-seat election would have about ${Math.round(big * dsa.seats)} candidates; Metro DC DSA had ${dsa.candidates}.`,
-      "Candidates divided by seats, typical (median) election in each group of organizational elections in the data, with the number of elections in brackets. All the elections with 5 or more seats are union and society elections.");
-    hbars(f, rows, [{ name: "Candidates per seat", color: "--ers" }], { max: 6, step: 1, labelW: 200, fmt: v => String(+(+v).toFixed(2)), aria: "Candidates per seat in organizational elections, by number of seats, with Metro DC DSA" });
   }
   // Ratio charts: one row per group, plus Metro DC DSA's 46-seat count as its own row.
   const order = ["scotland", "act", "ers", "org", "public", "portland", "nyc"].filter(g => E.some(e => e.group === g));
@@ -75,8 +94,8 @@ window.SECTIONS["election-size"] = () => {
       .sort((a, b) => b.values[0] - a.values[0]);
     rows.push({ label: "Metro DC DSA, 2025", values: [perSeat(dsa), perCand(dsa)] });
     const g = k => rows.find(r => r.label === NAMES[k]).values;
-    const f = figure("Voters per seat and per candidate",
-      `Organizational elections have far fewer voters behind each seat and each candidate. Metro DC DSA had about ${num(perSeat(dsa))} voters per seat and ${num(perCand(dsa))} per candidate. Union and society elections typically have about ${num(g("ers")[0])} per seat, Scottish wards about ${num(g("scotland")[0])}, and big-city races tens of thousands. With so few voters per seat, a handful of ballots can decide a seat, and many candidates start with only a few first choices.`,
+    const f = figure("Voters: no link to seats or candidates, but a very different scale",
+      `The number of voters has almost nothing to do with the number of seats or candidates in organizational elections: big and small electorates run similar fields. What differs is scale. Organizational elections have far fewer voters behind each seat and each candidate. Metro DC DSA had about ${num(perSeat(dsa))} voters per seat and ${num(perCand(dsa))} per candidate. Union and society elections typically have about ${num(g("ers")[0])} per seat, Scottish wards about ${num(g("scotland")[0])}, and big-city races tens of thousands. With so few voters per seat, a handful of ballots can decide a seat, and many candidates start with only a few first choices.`,
       "The typical (median) election in each group: voters divided by seats, and voters divided by candidates. The organizational bars are too short to see next to the big public elections; the numbers beside them give the values.");
     hbars(f, rows, [{ name: "Voters per seat", color: "--public" }, { name: "Voters per candidate", color: "--ers" }],
       { max: 30000, step: 10000, labelW: 200, fmt: num, aria: "Typical voters per seat and per candidate, by group" });
@@ -88,9 +107,9 @@ window.SECTIONS["election-size"] = () => {
         const v = E.filter(e => e.group === g);
         const voters = med(v.map(e => e.voters));
         return [NAMES[g], `${med(v.map(e => e.seats))} seat${med(v.map(e => e.seats)) > 1 ? "s" : ""}, ${med(v.map(e => e.candidates))} candidates`,
-          `${v.length} elections. Typical voters: ${voters.toLocaleString()}.`];
+          `${v.length} elections. About ${med(v.map(e => e.candidates / e.seats)).toFixed(1)} candidates per seat; typical voters ${voters.toLocaleString()}, about ${num(med(v.map(e => e.voters / e.seats)))} per seat.`];
       }),
-      ["Metro DC DSA delegates, 2025", "46 seats, 75 candidates", "432 ballots. Quota about 10 votes."],
+      ["Metro DC DSA delegates, 2025", "46 seats, 75 candidates", "1.63 candidates per seat; 432 ballots, about 9 per seat. Quota about 10 votes."],
     ], "compact");
   }
 };
