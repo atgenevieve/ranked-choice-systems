@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2017, Ward 11 - Perth City North",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Philip James Brown",
+  "Harry Coates",
+  "Dave Doogan",
+  "Sam Finlayson",
+  "Arthur Alexander Frater",
+  "Callum Gillies",
+  "Elspeth Maclachlan",
+  "John Rebbeck"
+ ],
+ "parties": [
+  "LD",
+  "Con",
+  "SNP",
+  "Ind",
+  "Ind",
+  "Lab",
+  "Ind",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/perth_kinross_2017_ward11.blt",
+ "council": "Perth and Kinross",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 3647,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.perth-city-north.2017-05-04/"
+}

@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Midlothian Sout0",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Dougie Crawford",
+  "Cath Johnstone",
+  "Jim Muirhead",
+  "Bryan Pottinger",
+  "Peter Smaill"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "Lab",
+  "Lab",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Source name 'Dougie Crawfor' is cut short; replaced with Wikipedia's 'Dougie Crawford'. Source name 'Cath Johnston' is cut short; replaced with Wikipedia's 'Cath Johnstone'. Source name 'Jim Muirhea' is cut short; replaced with Wikipedia's 'Jim Muirhead'. Source name 'Bryan Pottinge' is cut short; replaced with Wikipedia's 'Bryan Pottinger'. Source name 'Peter Smail' is cut short; replaced with Wikipedia's 'Peter Smaill'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/midlothian_2012_ward6.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 3626,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

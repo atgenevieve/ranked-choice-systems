@@ -1,0 +1,33 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2016, Ward 9 - Almond and Earn (by-election)",
+ "date": null,
+ "system": "scottish-stv",
+ "candidates": [
+  "Kathleen Baird",
+  "Denise Baykal",
+  "George Hayton",
+  "Wilma Lumsden",
+  "Dave Mackenzie"
+ ],
+ "parties": [
+  null,
+  null,
+  null,
+  null,
+  null
+ ],
+ "official_winners": null,
+ "blank_ballots": 0,
+ "notes": "Some party descriptions were blank. Official winners not found in any source.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/perth_kinross_2016_by_election_ward9.blt",
+ "council": "Perth and Kinross",
+ "year": 2016,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3431,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": null,
+ "official_winners_url": null
+}

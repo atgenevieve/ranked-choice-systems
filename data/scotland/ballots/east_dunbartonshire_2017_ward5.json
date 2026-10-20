@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "East Dunbartonshire 2017, Bishopbriggs South",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Connor Boyd",
+  "Alan Brown",
+  "Ian James Elrick",
+  "Gordan Low",
+  "Irene Mackay",
+  "Alan Moir"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "Lab",
+  "SNP",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  1,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/east_dunbartonshire_2017_ward5.blt",
+ "council": "East Dunbartonshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 6099,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-dunbartonshire.bishopbriggs-south.2017-05-04/"
+}

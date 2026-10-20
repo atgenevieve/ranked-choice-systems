@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "South Ayrshire 2017, Girvan and South Carrick",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alec Clark",
+  "Karen Clark-Mccartney",
+  "Ian Fitzsimmons",
+  "Peter Henderson",
+  "Owen Martin",
+  "Gavin Scott"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Con",
+  "SNP",
+  "Lab",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/south_ayrshire_2017_ward8.blt",
+ "council": "South Ayrshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4531,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-ayrshire.girvan-and-south-carrick.2017-05-04/"
+}

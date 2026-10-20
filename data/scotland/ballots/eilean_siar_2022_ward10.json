@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Comhairle nan Eilean Siar 2022, Ward 10 Steòrnabhagh a Deas",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Frank Stephen Burns",
+  "Archie Macdonald",
+  "Rae Mackenzie",
+  "Callum Ian Macmillan",
+  "Angus Mccormack",
+  "Frances Murray",
+  "George Murray"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Ind",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  2,
+  4,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/eilean_siar_2022_ward10.blt",
+ "council": "Comhairle nan Eilean Siar",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 1446,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.na-h-eileanan-an-iar.steornabhagh-a-deas.2022-05-05/"
+}

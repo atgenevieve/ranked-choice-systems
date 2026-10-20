@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2017, West End",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Bradley Booth",
+  "Bill Campbell",
+  "Donald Hay",
+  "Fraser Macpherson",
+  "Andrew Mcbride",
+  "Richard Blake Mccready",
+  "Morgan Petrie",
+  "Steven Rome",
+  "Tam Wilson"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Con",
+  "LD",
+  "Ind",
+  "Lab",
+  "Gr",
+  "SNP",
+  "Soc"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2017_ward3.blt",
+ "council": "Dundee City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5471,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.west-end.2017-05-04/"
+}

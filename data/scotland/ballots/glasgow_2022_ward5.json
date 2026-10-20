@@ -1,0 +1,50 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2022, Ward 5 Govan",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Imran Alam",
+  "Ricky Bell",
+  "William Bonnar",
+  "Stephen Dornan",
+  "Uche Gladys Emordi",
+  "Funmi Fajemiseye",
+  "John Flanagan",
+  "Ruth S Hall",
+  "Dan Hutchison",
+  "Neil O'Docherty",
+  "Mamun Rashid"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Soc",
+  "SNP",
+  "API",
+  "SNP",
+  "Ind",
+  "Lab",
+  "Gr",
+  "LD",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/glasgow_2022_ward5.blt",
+ "council": "Glasgow City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6456,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.govan.2022-05-05/"
+}

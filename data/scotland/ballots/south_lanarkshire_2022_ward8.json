@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 8 - East Kilbride Central North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alex Brown",
+  "Tom Bryson",
+  "Joe Fagan",
+  "Grant Ferguson",
+  "Kristofer Keane",
+  "Hugh Macdonald",
+  "Tam Mitchell"
+ ],
+ "parties": [
+  "Con",
+  "LD",
+  "Lab",
+  "SNP",
+  "Ind",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/south_lanarkshire_2022_ward8.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5705,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.east-kilbride-central-north.2022-05-05/"
+}

@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 16 - Bothwell and Uddingston",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Maureen Devlin",
+  "James Ferguson",
+  "Kenny Mccreary",
+  "James Mcguigan",
+  "Colin Robb",
+  "Phil Sykes"
+ ],
+ "parties": [
+  "Lab",
+  "Gr",
+  "Con",
+  "SNP",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/south_lanarkshire_2017_ward16.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5248,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.bothwell-and-uddingston.2017-05-04/"
+}

@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Clackmannanshire 2022, Ward 4 Clackmannanshire South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kenneth John Earle",
+  "Ellen Forson",
+  "Craig Holden",
+  "William Marlin",
+  "Bryan Quinn",
+  "Matthew Reilly",
+  "Hugh Van Lierop"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "SNP",
+  "Con",
+  "Gr",
+  "API",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/clackmannanshire_2022_ward4.blt",
+ "council": "Clackmannanshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 3803,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.clackmannanshire.clackmannanshire-south.2022-05-05/"
+}

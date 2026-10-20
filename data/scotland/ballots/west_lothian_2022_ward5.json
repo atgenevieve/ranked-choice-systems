@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2022, Ward 5 - East Livingston and East Calder",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Frank Anderson",
+  "Damian Doran-Timson",
+  "Neal Drummond",
+  "Robert Durie Howden",
+  "Ruth Hutchison",
+  "Carl John",
+  "Danny Logue",
+  "Andy Rafferty",
+  "Veronica Smith",
+  "Thomas George Ullathorne"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "Gr",
+  "LD",
+  "SFP",
+  "SNP",
+  "Lab",
+  "Lab",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  5,
+  6,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "Source labels Frank Anderson 'SNP'; corrected to 'Ind'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/west_lothian_2022_ward5.blt",
+ "council": "West Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6587,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-lothian.east-livingston-and-east-calder.2022-05-05/"
+}

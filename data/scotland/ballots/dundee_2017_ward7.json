@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2017, East End",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Will Dawson",
+  "Ryan Finnegan",
+  "Darryl Guthrie",
+  "Darren Kane",
+  "Ian Mckay",
+  "Caitlin Elizabeth Meldrum",
+  "William Morren",
+  "Margaret Mary Richardson",
+  "Christina Roberts"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Ind",
+  "Con",
+  "TUSC",
+  "Gr",
+  "UKIP",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  7,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2017_ward7.blt",
+ "council": "Dundee City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4438,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.dundee-city.east-end.2017-05-04/"
+}

@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Shetland Islands 2012, North Isles",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gary Cleaver",
+  "Steven Coutts",
+  "Robert Henderson",
+  "Jim Johnston",
+  "Alan William Skinner"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Shetland Islands Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/shetland_2012_ward1.blt",
+ "council": "Shetland Islands",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 1379,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Shetland_Islands_Council_election"
+}

@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2022, Kingswells-Sheddocksley-Summerhill Ward",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kate Blake",
+  "David Cameron",
+  "Steve Delaney",
+  "David John Mcgrath",
+  "Sam Ochola",
+  "Dawn Smith",
+  "John Wheeler"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "LD",
+  "Gr",
+  "SNP",
+  "SFP",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeen_2022_ward3.blt",
+ "council": "Aberdeen City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4752,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.kingswellssheddocksleysummerhill.2022-05-05/"
+}

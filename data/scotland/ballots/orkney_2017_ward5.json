@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Orkney Islands 2017, East Mainland, South Ronaldsay and Burray Ward",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Norman Rae Craigie",
+  "Andrew Drever",
+  "Jim Foubister",
+  "John Stanley Groundwater",
+  "Steve Sankey"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/orkney_2017_ward5.blt",
+ "council": "Orkney Islands",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 1424,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.orkney-islands.east-mainland-south-ronaldsay-and-burray.2017-05-04/"
+}

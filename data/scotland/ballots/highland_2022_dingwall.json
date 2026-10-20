@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Dingwall and Seaforth",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gavin Berkenheger",
+  "Les Hood",
+  "Sean Edward Kennedy",
+  "Graham Alexander Mackenzie",
+  "Angela Maclean",
+  "Margaret Paterson",
+  "Thomas Widrow"
+ ],
+ "parties": [
+  "Con",
+  "Lab",
+  "Ind",
+  "SNP",
+  "LD",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2022_dingwall.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4640,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.dingwall-and-seaforth.2022-05-05/"
+}

@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Scottish Borders 2012, Galashiels and District Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Sandy Aitchison",
+  "Bill Herd",
+  "Rick Kenney",
+  "Fiona Lackenby",
+  "John Mitchell",
+  "Robbie Tatler",
+  "Bill White"
+ ],
+ "parties": [
+  "Borders",
+  "SNP",
+  "LD",
+  "Con",
+  "SNP",
+  "Lab",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Scottish Borders Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/sc_borders_2012_ward3.blt",
+ "council": "Scottish Borders",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 3657,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Scottish_Borders_Council_election"
+}

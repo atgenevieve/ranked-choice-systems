@@ -1,0 +1,38 @@
+{
+ "source": "scotland",
+ "election": "East Ayrshire 2012, Ward 6 Irvine Valley",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "May Anderson",
+  "Alan Brown",
+  "George Mair",
+  "Bobby Mcdill",
+  "John Mcfadzean"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Lab",
+  "SNP",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 East Ayrshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/east_ayrshire_2012_ward6.blt",
+ "council": "East Ayrshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4718,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_East_Ayrshire_Council_election"
+}

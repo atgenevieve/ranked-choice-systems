@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 13 - Cambuslang West",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Bradley",
+  "Don Ferguson",
+  "Kieran James Kiely",
+  "Ann Le Blond",
+  "David Mcclemont",
+  "Clare Mccoll",
+  "Norman Rae",
+  "Margaret Walker"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "UKIP",
+  "Con",
+  "Gr",
+  "SNP",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2017_ward13.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 5529,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.cambuslang-west.2017-05-04/"
+}

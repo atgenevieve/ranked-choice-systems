@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2022, Ward 11 - Perth City North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alan Black",
+  "James Ian Graham",
+  "Brian Leishman",
+  "Ian Massie",
+  "Ronnie Mcneil",
+  "John Rebbeck",
+  "Aziz Rehman"
+ ],
+ "parties": [
+  "API",
+  "LD",
+  "Lab",
+  "SNP",
+  "Gr",
+  "SNP",
+  "Con"
+ ],
+ "official_winners": [
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/perth_kinross_2022_ward11.blt",
+ "council": "Perth and Kinross",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3457,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.perth-city-north.2022-05-05/"
+}

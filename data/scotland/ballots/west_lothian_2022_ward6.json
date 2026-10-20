@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2022, Ward 6 - Fauldhouse and the Breich Valley",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Neil Barnes",
+  "Pauline Clark",
+  "Elaine Fairbairn",
+  "Greg Mccarra",
+  "Craig Meek",
+  "Hani Mohamed",
+  "Cathy Muldoon",
+  "Gillian Pattle"
+ ],
+ "parties": [
+  "Gr",
+  "SNP",
+  "Con",
+  "SNP",
+  "Lab",
+  "API",
+  "Lab",
+  "LD"
+ ],
+ "official_winners": [
+  1,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/west_lothian_2022_ward6.blt",
+ "council": "West Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5072,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-lothian.fauldhouse-and-the-breich-valley.2022-05-05/"
+}

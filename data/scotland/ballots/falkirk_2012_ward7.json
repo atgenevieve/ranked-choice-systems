@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2012, Falkirk South",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Colin Chalmers",
+  "Dennis Goldie",
+  "Gerry Goldie",
+  "Joe Lemetti",
+  "Hugh Mcginlay",
+  "John Patrick",
+  "Georgie Thomson"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Lab",
+  "Ind",
+  "Ind",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Falkirk Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/falkirk_2012_ward7.blt",
+ "council": "Falkirk",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5337,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Falkirk_Council_election"
+}

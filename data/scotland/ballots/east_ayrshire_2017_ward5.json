@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "East Ayrshire 2017, Kilmarnock South",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Knapp",
+  "Clare Maitland",
+  "Billy Mcclure",
+  "Caitlin O'Brien",
+  "Jim Todd"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Con",
+  "Libtn",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/east_ayrshire_2017_ward5.blt",
+ "council": "East Ayrshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 3262,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-ayrshire.kilmarnock-south.2017-05-04/"
+}

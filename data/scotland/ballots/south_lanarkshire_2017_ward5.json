@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2017, Ward 5 - Avondale and Stonehouse",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Graeme Campbell",
+  "Margaret Cooper",
+  "Isobel Dorman",
+  "Alister Hendry",
+  "Laura Murray",
+  "Daniel John O'Malley",
+  "Mairi Tulbure",
+  "Erica Young"
+ ],
+ "parties": [
+  "Con",
+  "Lab",
+  "SNP",
+  "Ind",
+  "UKIP",
+  "LD",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2017_ward5.blt",
+ "council": "South Lanarkshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 6546,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.avondale-and-stonehouse.2017-05-04/"
+}

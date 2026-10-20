@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2019, Torry-Ferryhill Ward (by-election)",
+ "date": "2019-11-21",
+ "system": "scottish-stv",
+ "candidates": [
+  "Roy Hill",
+  "Betty Lyon",
+  "Gregor McAbery",
+  "Simon Paul McLean",
+  "Neil Murray",
+  "Audrey Nicoll",
+  "Willie Young"
+ ],
+ "parties": [
+  "UKIP",
+  "Gr",
+  "LD",
+  "Ind",
+  "Con",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeen_2019_by_election_torry-ferryhill.blt",
+ "council": "Aberdeen City",
+ "year": 2019,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3743,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.torryferryhill.by.2019-11-21/"
+}

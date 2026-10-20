@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Argyll and Bute 2021, Ward 8 - Isle of Bute (by-election)",
+ "date": "2021-03-18",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kim Findlay",
+  "Fraser Gillies",
+  "Dawn Macdonald",
+  "Liz McCabe",
+  "Peter Wallace"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "Lab",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/argyll_bute_2021_by_election_isle_of_bute.blt",
+ "council": "Argyll and Bute",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2013,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.argyll-and-bute.isle-of-bute.by.2021-03-18/"
+}

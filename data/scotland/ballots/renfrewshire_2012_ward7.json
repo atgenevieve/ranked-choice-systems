@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Renfrewshire 2012, 7. Johnstone South Elderslie & Howwood Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Caldwell",
+  "John Hood",
+  "Gerry Mccartney",
+  "Stephen Mcgee",
+  "Tracie Mcgee",
+  "John Duncan Mcintyre",
+  "Iain Mcmillan",
+  "Ryan Morrison"
+ ],
+ "parties": [
+  "Lab",
+  "Lab",
+  "Soc",
+  "SNP",
+  "SNP",
+  "Con",
+  "Lab",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Renfrewshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/renfrewshire_2012_ward7.blt",
+ "council": "Renfrewshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5510,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Renfrewshire_Council_election"
+}

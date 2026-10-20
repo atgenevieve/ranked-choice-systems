@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Fife 2017, Ward 22 - Buckhaven, Methil & Wemyss Villages",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Leslie Bain",
+  "Keith Henry Barton",
+  "Ken Caldwell",
+  "Eunice Cameron",
+  "Stephen Ferguson",
+  "David Graham",
+  "Ronald Hunter",
+  "John O'Brien",
+  "Rory Roberson",
+  "Ryan Smart"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "SNP",
+  "Ind",
+  "Gr",
+  "Lab",
+  "Ind",
+  "SNP",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  2,
+  5,
+  7,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/fife_2017_ward22.blt",
+ "council": "Fife",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 5468,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.fife.buckhaven-methil-and-wemyss-villages.2017-05-04/"
+}

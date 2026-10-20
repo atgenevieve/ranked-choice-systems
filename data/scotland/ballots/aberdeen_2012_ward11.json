@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2012, Ward 11 - Airyhall - Broomhill - Garthdee",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Bill Berry",
+  "Paul Briggs",
+  "Bex Holmes",
+  "Angela Taylor",
+  "Gordon Scott Townson",
+  "Ian Yuill"
+ ],
+ "parties": [
+  "Con",
+  "Ind",
+  "Gr",
+  "Lab",
+  "SNP",
+  "LD"
+ ],
+ "official_winners": [
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeen City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/aberdeen_2012_ward11.blt",
+ "council": "Aberdeen City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4781,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeen_City_Council_election"
+}

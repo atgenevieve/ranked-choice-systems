@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Inverclyde 2022, Ward 7 - Inverclyde South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Crowther",
+  "Georgina Halfnight",
+  "Natasha Mcguire",
+  "Irene Mcleod",
+  "Tommy Mcvey"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Lab",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/inverclyde_2022_ward7.blt",
+ "council": "Inverclyde",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3157,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.inverclyde.inverclyde-south.2022-05-05/"
+}

@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Clackmannanshire 2012, Clackmannanshire West",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Eddie Carrick",
+  "Bill Mason",
+  "George Matchett",
+  "Tina Murphy",
+  "Janis Paterson",
+  "Les Sharp",
+  "Jim Stalker"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "Lab",
+  "SNP",
+  "SNP",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  2,
+  3,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Clackmannanshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/clackmannanshire_2012_ward1.blt",
+ "council": "Clackmannanshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 3204,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Clackmannanshire_Council_election"
+}

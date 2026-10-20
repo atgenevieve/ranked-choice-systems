@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Scottish Borders 2022, Ward 3 - Galashiels & District",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Michael Banks",
+  "James D W Clark",
+  "Duck Frater",
+  "Euan Jardine",
+  "Neil Mackinnon",
+  "Harry Redpath Scott",
+  "Fay Sinclair",
+  "Hannah Steel",
+  "Bill White"
+ ],
+ "parties": [
+  "Van",
+  "SEFP",
+  "Ind",
+  "Con",
+  "Gr",
+  "Ind",
+  "SNP",
+  "LD",
+  "Ind"
+ ],
+ "official_winners": [
+  3,
+  4,
+  6,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/sc_borders_2022_ward3.blt",
+ "council": "Scottish Borders",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4557,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.scottish-borders.galashiels-and-district.2022-05-05/"
+}

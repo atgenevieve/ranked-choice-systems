@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "North Lanarkshire 2022, Ward 8 - Airdrie North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alan Beveridge",
+  "Sophia Coyle",
+  "Henry Emerson Dunbar",
+  "Daryl Gardner",
+  "Peter Gerard Kelly",
+  "Robert Stewart Mcgeorge",
+  "Graeme Mcginnigle",
+  "Richard Alan Sullivan"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Lab",
+  "UKIP",
+  "Lab",
+  "LD",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/north_lanarkshire_2022_ward8.blt",
+ "council": "North Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5565,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.north-lanarkshire.airdrie-north.2022-05-05/"
+}

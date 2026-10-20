@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "North Ayrshire 2012, Ward 07 - Kilbirnie and Beith",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Bell",
+  "Anthea Dickson",
+  "Jean Highgate",
+  "Tristan Lindsay",
+  "Josh Mccormick",
+  "Ted Nevill",
+  "Allan Wilson",
+  "Craig Wilson"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Ind",
+  "SLP",
+  "Ind",
+  "Con",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 North Ayrshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/north_ayrshire_2012_ward7.blt",
+ "council": "North Ayrshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4444,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_North_Ayrshire_Council_election"
+}

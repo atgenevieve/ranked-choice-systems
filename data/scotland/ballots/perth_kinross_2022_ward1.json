@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2022, Ward 1 - Carse of Gowrie",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alasdair Bailey",
+  "Lindsay James Crosbie Easton",
+  "Angus Forbes",
+  "Ken Harvey",
+  "Roger Humphry",
+  "John Kellas",
+  "Don Marshall",
+  "Mac Roberts"
+ ],
+ "parties": [
+  "Lab",
+  "LD",
+  "Con",
+  "SNP",
+  "Gr",
+  "SNP",
+  "SFP",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/perth_kinross_2022_ward1.blt",
+ "council": "Perth and Kinross",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4547,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.carse-of-gowrie.2022-05-05/"
+}

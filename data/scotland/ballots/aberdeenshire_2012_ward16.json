@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2012, Banchory and Mid Deeside Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Karen Clark",
+  "Linda Clark",
+  "Jill Webster",
+  "Matt Wickham",
+  "Lesley Young"
+ ],
+ "parties": [
+  "LD",
+  "SNP",
+  "Con",
+  "Gr",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeenshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/aberdeenshire_2012_ward16.blt",
+ "council": "Aberdeenshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 3290,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeenshire_Council_election"
+}

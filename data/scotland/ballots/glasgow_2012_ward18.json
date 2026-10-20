@@ -1,0 +1,50 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2012, Ward 18 East Centre",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Keenan Alexander",
+  "Nina Ballantyne",
+  "Frank Docherty",
+  "Jennifer Dunn",
+  "Steven Laird",
+  "Alan Lee",
+  "Elaine Mcdougall",
+  "Daniel O'Donnell",
+  "Fraser Paterson",
+  "Russell Robertson",
+  "Colin Rullkotter"
+ ],
+ "parties": [
+  "Con",
+  "Gr",
+  "Lab",
+  "SNP",
+  "UKIP",
+  "LD",
+  "Lab",
+  "Soc",
+  "Glasgow First",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  2,
+  3,
+  6,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/glasgow_2012_ward18.blt",
+ "council": "Glasgow City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 6988,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Glasgow_City_Council_election"
+}

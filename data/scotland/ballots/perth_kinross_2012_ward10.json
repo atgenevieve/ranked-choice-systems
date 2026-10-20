@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2012, Perth City South",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Bob Band",
+  "Lorraine Caddell",
+  "Murray Duncan",
+  "Iona Macgregor",
+  "Alistair Munro",
+  "Alexander Stewart",
+  "Alice Walsh",
+  "William Ogilvie Wilson"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "SNP",
+  "Ind",
+  "Lab",
+  "Con",
+  "Gr",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  4,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Perth and Kinross Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/perth_kinross_2012_ward10.blt",
+ "council": "Perth and Kinross",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5011,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Perth_and_Kinross_Council_election"
+}

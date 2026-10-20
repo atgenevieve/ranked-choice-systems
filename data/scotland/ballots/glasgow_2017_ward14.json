@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2017, Ward 14 Drumchapel/Anniesland",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Malcolm Balfour",
+  "Paul Carey",
+  "Bryan Free",
+  "Gary Kelly",
+  "Elspeth Kerr",
+  "Patrick Logue",
+  "Louisa Mcguigan",
+  "Anne Mctaggart",
+  "Joe Meehan",
+  "Malcolm Mitchell"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "UKIP",
+  "Sol",
+  "SNP",
+  "Con",
+  "Gr",
+  "Lab",
+  "Soc",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/glasgow_2017_ward14.blt",
+ "council": "Glasgow City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 7534,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.drumchapelanniesland.2017-05-04/"
+}

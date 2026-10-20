@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2022, Northfield-Mastrick North Ward",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Nestor Carlsen-Devereux",
+  "Donna Clark",
+  "Sam Forman",
+  "Gordon Graham",
+  "Lucas Smith Grant",
+  "Graeme Stephen Lawrence",
+  "David Maitland",
+  "Louise Mccafferty",
+  "Ciaran Mcrae"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "LD",
+  "Lab",
+  "TUSC",
+  "Lab",
+  "API",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  3,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/aberdeen_2022_ward4.blt",
+ "council": "Aberdeen City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3674,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.northfieldmastrick-north.2022-05-05/"
+}

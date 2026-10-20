@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Dundee City 2012, Strathmartine Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Alexander",
+  "Ian Borthwick",
+  "Stewart Hunter",
+  "Kevin Keenan",
+  "Jim Mcfarlane",
+  "John Mckiddie",
+  "Grant Simmons",
+  "Iliyan Stefanov",
+  "Colin Stewart"
+ ],
+ "parties": [
+  "SNP",
+  "Ind",
+  "SNP",
+  "Lab",
+  "TUSC",
+  "Lab",
+  "Ind",
+  "LD",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Dundee City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/dundee_2012_ward1.blt",
+ "council": "Dundee City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5304,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Dundee_City_Council_election"
+}

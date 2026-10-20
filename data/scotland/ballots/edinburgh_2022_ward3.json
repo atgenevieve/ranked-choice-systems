@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2022, Ward 3 - Drum Brae-Gyle",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Robert Christopher Aldridge",
+  "Mark Brown",
+  "Euan Hyslop",
+  "Eileen Johnston",
+  "Nkechi Okoro",
+  "Anne Scott",
+  "Gary Smith",
+  "Edward John Thornley"
+ ],
+ "parties": [
+  "LD",
+  "Con",
+  "SNP",
+  "SFP",
+  "LabCo",
+  "Gr",
+  "Libtn",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  2,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/edinburgh_2022_ward3.blt",
+ "council": "City of Edinburgh",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 9451,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.edinburgh.drum-braegyle.2022-05-05/"
+}

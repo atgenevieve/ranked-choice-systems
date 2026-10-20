@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Angus 2022, Ward 8 - Montrose and District",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Jamie Adams",
+  "James Boag",
+  "Kenny Braes",
+  "Bill Duff",
+  "Iain Gall",
+  "Angela Jocelyn Noble",
+  "John Ruddy",
+  "Mark Salmond",
+  "Tommy Stewart"
+ ],
+ "parties": [
+  "Gr",
+  "Ind",
+  "SNP",
+  "SNP",
+  "Con",
+  "LD",
+  "LabCo",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/angus_2022_ward8.blt",
+ "council": "Angus",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5049,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.angus.montrose-and-district.2022-05-05/"
+}

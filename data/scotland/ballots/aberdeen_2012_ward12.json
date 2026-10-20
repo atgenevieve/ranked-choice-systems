@@ -1,0 +1,52 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2012, Ward 12 - Torry - Ferryhill",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Yvonne Allan",
+  "William Brown",
+  "Graham Robert Dickson",
+  "Alan Donnelly",
+  "David Fryer",
+  "Suzanne Kelly",
+  "Jim Kiddie",
+  "Hamish Hay Mackay",
+  "Andrew Reekie",
+  "Richard Robertson",
+  "Kathryn Russell",
+  "Billy Watson"
+ ],
+ "parties": [
+  "Lab",
+  "Ind",
+  "SNP",
+  "Con",
+  "Ind",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Gr",
+  "LD",
+  "Lab",
+  "NF"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeen City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/12_cands/aberdeen_2012_ward12.blt",
+ "council": "Aberdeen City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4288,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeen_City_Council_election"
+}

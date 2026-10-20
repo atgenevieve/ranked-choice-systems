@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2017, Ward 10 - Perth City South (by-election)",
+ "date": "2017-11-23",
+ "system": "scottish-stv",
+ "candidates": [
+  "Liz Barrett",
+  "Denise Baykal",
+  "Audrey Coates",
+  "Tricia Duncan",
+  "Pauline Leitch",
+  "Elspeth Maclachlan"
+ ],
+ "parties": [
+  "LD",
+  "Ind",
+  "Con",
+  "Lab",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": [
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/perth_kinross_2017_by_election_ward_10.blt",
+ "council": "Perth and Kinross",
+ "year": 2017,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 5552,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.perth-city-south.by.2017-11-23/"
+}

@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Angus 2012, Arbroath West and Letham",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kevin Barthorpe",
+  "David Fairweather",
+  "Alex King",
+  "David Lumgair",
+  "Alec Mollison",
+  "Peter Nield",
+  "Ewan Smith",
+  "Ian Watson"
+ ],
+ "parties": [
+  "LD",
+  "Ind",
+  "SNP",
+  "Con",
+  "Lab",
+  "Ind",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Angus Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/angus_2012_ward6.blt",
+ "council": "Angus",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4382,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Angus_Council_election"
+}

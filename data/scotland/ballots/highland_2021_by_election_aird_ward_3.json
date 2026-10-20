@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Highland 2021, Ward 12 - Aird and Loch Ness (by-election)",
+ "date": "2021-03-11",
+ "system": "scottish-stv",
+ "candidates": [
+  "Gavin Berkenheger",
+  "David Fraser",
+  "Ryan Mackintosh",
+  "Bill Moore",
+  "Martin Robertson",
+  "Gordon Shanks"
+ ],
+ "parties": [
+  "Con",
+  "Ind",
+  "Gr",
+  "Lab",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  1
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/highland_2021_by_election_aird_ward_3.blt",
+ "council": "Highland",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3520,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.aird-and-loch-ness.by.2021-03-11/"
+}

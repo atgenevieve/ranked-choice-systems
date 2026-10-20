@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Scottish Borders 2022, Ward 7 - East Berwickshire",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "James Anderson",
+  "Peter Guthrie",
+  "Carol Hamilton",
+  "Lynda Jones",
+  "Raquel Lloyd-Jones",
+  "Aileen Orr",
+  "Edward Brownlie Prentice",
+  "Paul Stirton"
+ ],
+ "parties": [
+  "Ind",
+  "Gr",
+  "Con",
+  "Con",
+  "Ind",
+  "SNP",
+  "SFP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/sc_borders_2022_ward7.blt",
+ "council": "Scottish Borders",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4238,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.scottish-borders.east-berwickshire.2022-05-05/"
+}

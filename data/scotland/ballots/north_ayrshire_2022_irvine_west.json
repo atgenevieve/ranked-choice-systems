@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "North Ayrshire 2022, Ward 07 - Irvine West",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Kevin T Blades",
+  "Bobby Cochrane",
+  "Scott Gallacher",
+  "Lewis Dominic Hutton",
+  "Tristan Lindsay",
+  "Shaun Macaulay",
+  "Sylvia Mallinson",
+  "Louise Mcphater",
+  "Chloe Robertson",
+  "Colin Turbett"
+ ],
+ "parties": [
+  "Ind",
+  "SLP",
+  "Con",
+  "LD",
+  "Ind",
+  "SNP",
+  "Lab",
+  "Lab",
+  "SNP",
+  "Soc"
+ ],
+ "official_winners": [
+  2,
+  5,
+  7,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/north_ayrshire_2022_irvine_west.blt",
+ "council": "North Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 4666,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.north-ayrshire.irvine-west.2022-05-05/"
+}

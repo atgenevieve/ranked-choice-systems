@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 7 - East Kilbride Central South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Anderson",
+  "Rita Baillie",
+  "Lorna Cammock",
+  "Gerry Convery",
+  "Alan James Cresswell",
+  "Alan Fraser",
+  "David Mackay",
+  "Elaine Mcdougall",
+  "Lisa Quarrell"
+ ],
+ "parties": [
+  "SNP",
+  "API",
+  "LD",
+  "Lab",
+  "Gr",
+  "Con",
+  "UKIP",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/south_lanarkshire_2022_ward7.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5202,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.east-kilbride-central-south.2022-05-05/"
+}

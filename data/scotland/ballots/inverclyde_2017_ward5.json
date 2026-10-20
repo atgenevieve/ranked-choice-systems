@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Inverclyde 2017, Inverclyde West",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ronald Ahlfeld",
+  "Alan Holliday",
+  "James Kelly",
+  "Christopher William Mceleny",
+  "Lynne Quinn",
+  "Alan Taylor",
+  "George White"
+ ],
+ "parties": [
+  "Ind",
+  "Lab",
+  "Con",
+  "SNP",
+  "Ind",
+  "UKIP",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/inverclyde_2017_ward5.blt",
+ "council": "Inverclyde",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4850,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.inverclyde.inverclyde-west.2017-05-04/"
+}

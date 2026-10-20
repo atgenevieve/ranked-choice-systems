@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2022, Ward 13 - Westhill and District",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Stephen William Cameron",
+  "Fatima Joji",
+  "Ron Mckail",
+  "Colin Mckay",
+  "Craig Miller",
+  "Iris Margaret Walker",
+  "Lesley Young"
+ ],
+ "parties": [
+  "ISP",
+  "SNP",
+  "Con",
+  "API",
+  "Con",
+  "LD",
+  "Lab"
+ ],
+ "official_winners": [
+  1,
+  2,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeenshire_2022_ward13.blt",
+ "council": "Aberdeenshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 5706,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeenshire.westhill-and-district.2022-05-05/"
+}

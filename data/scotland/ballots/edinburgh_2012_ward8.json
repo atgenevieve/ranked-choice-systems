@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "City of Edinburgh 2012, Colinton_Fairmilehead Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Elaine Aitken",
+  "Eric Barry",
+  "Alan Beal",
+  "Richard Lewis",
+  "Malcolm Mackay",
+  "Jason Geoffrey Rust",
+  "Andy Saunders"
+ ],
+ "parties": [
+  "Con",
+  "Lab",
+  "LD",
+  "SNP",
+  "UKIP",
+  "Con",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 City of Edinburgh Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/edinburgh_2012_ward8.blt",
+ "council": "City of Edinburgh",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 9377,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_City_of_Edinburgh_Council_election"
+}

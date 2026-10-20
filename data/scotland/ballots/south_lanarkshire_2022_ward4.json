@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 4 - Clydesdale South",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Ross Gowland",
+  "George Greenshields",
+  "Mark Horsham",
+  "Ross Lambie",
+  "Janice Mackay",
+  "Colin Mcgavigan",
+  "Ann Mcguinness",
+  "Imogen Walker"
+ ],
+ "parties": [
+  "Lab",
+  "Ind",
+  "SNP",
+  "Con",
+  "UKIP",
+  "Ind",
+  "Gr",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/south_lanarkshire_2022_ward4.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 5260,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.clydesdale-south.2022-05-05/"
+}

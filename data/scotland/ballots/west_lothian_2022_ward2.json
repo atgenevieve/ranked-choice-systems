@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2022, Ward 2 - Broxburn Uphall and Winchburgh",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Diane Calder",
+  "Janet Campbell",
+  "Charles Mckenzie Corser",
+  "Ann Davidson",
+  "Angela Doran-Timson",
+  "Hazel Mcleod",
+  "Phil Noble",
+  "Kenneth Alexander Sutherland",
+  "Cam Wright"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "LD",
+  "Lab",
+  "Con",
+  "Lab",
+  "API",
+  "SFP",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/west_lothian_2022_ward2.blt",
+ "council": "West Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 6853,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-lothian.broxburn-uphall-and-winchburgh.2022-05-05/"
+}

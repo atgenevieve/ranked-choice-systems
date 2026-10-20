@@ -1,0 +1,33 @@
+{
+ "source": "scotland",
+ "election": "Argyll and Bute 2021, Ward 9 Lomond North (by-election)",
+ "date": "2021-12-16",
+ "system": "scottish-stv",
+ "candidates": [
+  "Paul Collins",
+  "Mark Irvine",
+  "Robert MacIntyre",
+  "Ken Smith"
+ ],
+ "parties": [
+  "Con",
+  "Ind",
+  "Ind",
+  "SNP"
+ ],
+ "official_winners": [
+  0
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/argyll_bute_2021_by_election_lomond_north.blt",
+ "council": "Argyll and Bute",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 1825,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.argyll-and-bute.lomond-north.by.2021-12-16/"
+}

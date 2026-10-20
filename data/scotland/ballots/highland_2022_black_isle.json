@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Highland 2022, Black Isle",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Sarah Atkin",
+  "Margaret Bryant",
+  "Lyndsey Johnston",
+  "Morven-May Maccallum",
+  "Okain John Mclennan",
+  "Bev Smith",
+  "Theo Stratton",
+  "Anne Thomas"
+ ],
+ "parties": [
+  "Ind",
+  "Lab",
+  "SNP",
+  "LD",
+  "Ind",
+  "Ind",
+  "Con",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/highland_2022_black_isle.blt",
+ "council": "Highland",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4709,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.black-isle.2022-05-05/"
+}

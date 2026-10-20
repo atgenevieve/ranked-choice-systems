@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2007, Anderson ward",
+ "date": "2007-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Nina Baker",
+  "Erin Boyle",
+  "Philip Braat",
+  "Dave Holladay",
+  "Akhtar Khan",
+  "Ann Laird",
+  "Craig Mackay",
+  "Gordon Matheson",
+  "Peter Murray"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "Lab",
+  "Ind",
+  "Sol",
+  "LD",
+  "SNP",
+  "Lab",
+  "Soc"
+ ],
+ "official_winners": [
+  0,
+  2,
+  6,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2007 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/glasgow_2007_anderston.blt",
+ "council": "Glasgow City",
+ "year": 2007,
+ "by_election": false,
+ "group": "2007 council elections",
+ "seats": 4,
+ "ballots_counted": 6900,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2007_Glasgow_City_Council_election"
+}

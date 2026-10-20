@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2019, Ward 8 - East Kilbride Central North (by-election)",
+ "date": "2019-08-29",
+ "system": "scottish-stv",
+ "candidates": [
+  "Grant Ferguson",
+  "Graham William Fisher",
+  "Antony Lee",
+  "David Mackay",
+  "Paul McGarry",
+  "Stephen McNamara",
+  "Kirsty Williams"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Gr",
+  "UKIP",
+  "LD",
+  "Libtn",
+  "Lab"
+ ],
+ "official_winners": [
+  0
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/south_lanarkshire_2019_by_election_east_kilbride.blt",
+ "council": "South Lanarkshire",
+ "year": 2019,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 3405,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.east-kilbride-central-north.by.2019-08-29/"
+}

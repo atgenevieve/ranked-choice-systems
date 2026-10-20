@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Aberdeenshire 2012, Stonehaven and Lower Deeside Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Wendy Agnew",
+  "Peter Bellarby",
+  "Raymond Christie",
+  "Graeme Clark",
+  "Robert Fergusson",
+  "David Fleming",
+  "Jeff Hutchison",
+  "Bob Michie",
+  "Douglas Samways",
+  "Rachel Shanks"
+ ],
+ "parties": [
+  "Con",
+  "LD",
+  "Lab",
+  "SNP",
+  "SNP",
+  "LD",
+  "Con",
+  "Ind",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeenshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/aberdeenshire_2012_ward18.blt",
+ "council": "Aberdeenshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4120,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeenshire_Council_election"
+}

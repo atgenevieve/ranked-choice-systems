@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Moray 2017, Fochabers Lhanbryde",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Bremner",
+  "Donald Cameron",
+  "Kenneth John Gillespie",
+  "Peter Jonathan Horton",
+  "Marc Macrae",
+  "Shona Morrison",
+  "Sean Murray Morton",
+  "Ian Taylor"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Ind",
+  "LD",
+  "Con",
+  "SNP",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/moray_2017_ward4.blt",
+ "council": "Moray",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4089,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.moray.fochabers-lhanbryde.2017-05-04/"
+}

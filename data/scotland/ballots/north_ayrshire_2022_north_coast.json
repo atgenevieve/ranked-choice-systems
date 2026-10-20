@@ -1,0 +1,53 @@
+{
+ "source": "scotland",
+ "election": "North Ayrshire 2022, Ward 01 - North Coast",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Eleanor Collier",
+  "Todd Ferguson",
+  "Jane Fraser",
+  "Alan Hill",
+  "Nick Hobson",
+  "Wendy Low-Thomson",
+  "Tom Marshall",
+  "James Mcdaid",
+  "Margaret Mclellan",
+  "Ian Murdoch",
+  "David John Nairn",
+  "Valerie Reid"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "API",
+  "SNP",
+  "ISP",
+  "Ind",
+  "Con",
+  "SLP",
+  "LD",
+  "Ind",
+  "Gr",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  3,
+  6,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/12_cands/north_ayrshire_2022_north_coast.blt",
+ "council": "North Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 5,
+ "ballots_counted": 9845,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.north-ayrshire.north-coast.2022-05-05/"
+}

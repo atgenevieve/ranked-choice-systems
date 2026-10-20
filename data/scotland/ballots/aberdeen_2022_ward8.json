@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2022, George St-Harbour Ward",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Desmond Bouse",
+  "Mac Ahmed Chaudry",
+  "Dell Henrickson",
+  "Michael Hutchison",
+  "Guy Ingerson",
+  "Sandra Macdonald",
+  "Shane Painter"
+ ],
+ "parties": [
+  "LD",
+  "Ind",
+  "SNP",
+  "SNP",
+  "Gr",
+  "Lab",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Candidate 'Desmond Bouse' is listed as 'Desmond Buchanan' by Democracy Club (matched as the only unmatched name).",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeen_2022_ward8.blt",
+ "council": "Aberdeen City",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 3427,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.george-stharbour.2022-05-05/"
+}

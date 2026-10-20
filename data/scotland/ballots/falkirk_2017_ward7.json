@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2017, Ward 7 - Falkirk South",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Lorna Catherine Binnie",
+  "Donnie Buchanan",
+  "John Patrick",
+  "Pat Reid"
+ ],
+ "parties": [
+  "SNP",
+  "Gr",
+  "Con",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/falkirk_2017_ward7.blt",
+ "council": "Falkirk",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 6210,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.falkirk-south.2017-05-04/"
+}

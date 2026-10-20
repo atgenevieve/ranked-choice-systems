@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2012, Ward 16 - Bothwell and Uddingston",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Maureen Devlin",
+  "Anne Kegg",
+  "Jim Mcguigan",
+  "Patrick Morgan"
+ ],
+ "parties": [
+  "Lab",
+  "Con",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 South Lanarkshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/south_lanarkshire_2012_ward16.blt",
+ "council": "South Lanarkshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 3810,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_South_Lanarkshire_Council_election"
+}

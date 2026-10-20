@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Highland 2021, Ward 13 - Inverness West (by-election)",
+ "date": "2021-08-12",
+ "system": "scottish-stv",
+ "candidates": [
+  "Colin Aitken",
+  "Max Bannerman",
+  "Iain Cullens Forsyth",
+  "Calum Mark Liptrot",
+  "Ryan Mackintosh",
+  "Kate Maclean",
+  "Duncan McDonald"
+ ],
+ "parties": [
+  "LD",
+  "Con",
+  "ISP",
+  "Libtn",
+  "Gr",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  0
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2021_by_election_inverness_west.blt",
+ "council": "Highland",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2131,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.inverness-west.by.2021-08-12/"
+}

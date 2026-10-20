@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2022, Ward 7 - Strathallan",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Keith Allan",
+  "Steven Carr",
+  "Neil Henry Gaunt",
+  "Andrew Lear",
+  "Crawford Reid",
+  "Catherine Scott"
+ ],
+ "parties": [
+  "Con",
+  "SNP",
+  "LD",
+  "Gr",
+  "Con",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/perth_kinross_2022_ward7.blt",
+ "council": "Perth and Kinross",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4785,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.strathallan.2022-05-05/"
+}

@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2017, Ward 20 Baillieston",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Elaine Ballantyne",
+  "Phillip Charles",
+  "Jim Coleman",
+  "Theresa Keenan",
+  "Scott Mckelvie",
+  "Liam Mclaughlan",
+  "Richard Stalley",
+  "David Turner",
+  "Kayleigh Van Dongen"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Lab",
+  "Lab",
+  "Libtn",
+  "Soc",
+  "LD",
+  "SNP",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/glasgow_2017_ward20.blt",
+ "council": "Glasgow City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 6935,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.baillieston.2017-05-04/"
+}

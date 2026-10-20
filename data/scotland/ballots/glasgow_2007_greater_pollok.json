@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2007, Greater pollok",
+ "date": "2007-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Keith Baldassara",
+  "Fleming Carswell",
+  "Patricia Duffy",
+  "Alex Glass",
+  "Tommy Morrison",
+  "Rory O'Brien",
+  "William O'Rourke",
+  "Caroline Scott",
+  "Alice Sheridan"
+ ],
+ "parties": [
+  "Soc",
+  "LD",
+  "SNP",
+  "Lab",
+  "Lab",
+  "Con",
+  "Lab",
+  "Gr",
+  "Sol"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2007 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/glasgow_2007_greater_pollok.blt",
+ "council": "Glasgow City",
+ "year": 2007,
+ "by_election": false,
+ "group": "2007 council elections",
+ "seats": 4,
+ "ballots_counted": 8682,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2007_Glasgow_City_Council_election"
+}

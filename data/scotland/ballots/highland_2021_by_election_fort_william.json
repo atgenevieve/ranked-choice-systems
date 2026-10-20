@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Highland 2021, Ward 21 - Fort William and Ardnamurchan (by-election)",
+ "date": "2021-12-02",
+ "system": "scottish-stv",
+ "candidates": [
+  "Mark Drayton",
+  "Sarah Fanet",
+  "Roger Liley",
+  "Joanne Matheson",
+  "Andy McKenna",
+  "Ruraidh Stewart",
+  "Kate Willis"
+ ],
+ "parties": [
+  null,
+  "SNP",
+  "LD",
+  "Ind",
+  "Ind",
+  "Con",
+  "Gr"
+ ],
+ "official_winners": [
+  1
+ ],
+ "blank_ballots": 0,
+ "notes": "Some party descriptions were blank.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2021_by_election_fort_william.blt",
+ "council": "Highland",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2287,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.fort-william-and-ardnamurchan.by.2021-12-02/"
+}

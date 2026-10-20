@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Orkney Islands 2017, North Isles Ward",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Stephen Clackson",
+  "Stuart Roy Mcivor",
+  "George Arthur Mowat-Brown",
+  "Billy Muir",
+  "Graham Sinclair",
+  "Ralph Stevenson",
+  "Simon Tarry",
+  "Kevin Woodbridge"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  4,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/orkney_2017_ward6.blt",
+ "council": "Orkney Islands",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 1075,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.orkney-islands.north-isles.2017-05-04/"
+}

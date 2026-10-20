@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2017, Ward 6 - Strathearn",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Rhona Brock",
+  "Lawrence Bernard Buckley",
+  "Stewart Donaldson",
+  "John Fellows",
+  "Craig Finlay",
+  "Roz Mccall",
+  "Alex Menzies-Runciman",
+  "Tina Ng-A-Mann"
+ ],
+ "parties": [
+  "Ind",
+  "Gr",
+  "SNP",
+  "SNP",
+  "Ind",
+  "Con",
+  "Con",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/perth_kinross_2017_ward6.blt",
+ "council": "Perth and Kinross",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 4536,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.strathearn.2017-05-04/"
+}

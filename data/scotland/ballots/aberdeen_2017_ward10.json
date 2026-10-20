@@ -1,0 +1,40 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2017, Hazlehead/Queens Cross/Countesswells Ward",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "John Cooke",
+  "Martin Greig",
+  "Claire Imrie",
+  "John Mcleod",
+  "Steve Robertson",
+  "Jennifer Stewart"
+ ],
+ "parties": [
+  "SNP",
+  "LD",
+  "Con",
+  "Lab",
+  "Con",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/aberdeen_2017_ward10.blt",
+ "council": "Aberdeen City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 7508,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.aberdeen-city.hazleheadqueens-crosscountesswells.2017-05-04/"
+}

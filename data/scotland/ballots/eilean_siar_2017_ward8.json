@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Comhairle nan Eilean Siar 2017, Loch a Tuath",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Donald Finlayson Crichton",
+  "Ruaraidh Ferguson",
+  "Iain C Maciver",
+  "John A Maciver",
+  "Allan Cameron Maclachlan",
+  "Calum Maclean"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  3,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/eilean_siar_2017_ward8.blt",
+ "council": "Comhairle nan Eilean Siar",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 1282,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.eilean-siar.loch-a-tuath.2017-05-04/"
+}

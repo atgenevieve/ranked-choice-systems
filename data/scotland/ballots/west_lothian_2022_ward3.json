@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "West Lothian 2022, Ward 3 - Livingston North",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alison Adamson",
+  "Robert Bell",
+  "Robert De Bold",
+  "Catrina Mcdonald",
+  "Anne Mcmillan",
+  "Andrew Miller",
+  "Michael Rae",
+  "Mark Wilkinson"
+ ],
+ "parties": [
+  "Con",
+  "SFP",
+  "SNP",
+  "LD",
+  "Lab",
+  "SNP",
+  "Lab",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  2,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/west_lothian_2022_ward3.blt",
+ "council": "West Lothian",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 7229,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.west-lothian.livingston-north.2022-05-05/"
+}

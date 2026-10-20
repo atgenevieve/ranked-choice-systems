@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "East Lothian 2022, Ward 2 - Preston-Seton-Gosford (by-election)",
+ "date": "2022-01-20",
+ "system": "scottish-stv",
+ "candidates": [
+  "Calum Miller",
+  "Ben Morse",
+  "Andy Ovens",
+  "Tim Porteus",
+  "Janis Wilson",
+  "Colin Yorkston"
+ ],
+ "parties": [
+  "Ind",
+  "LD",
+  "Con",
+  "Gr",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/6_cands/east_lothian_2022_by_election_ward2.blt",
+ "council": "East Lothian",
+ "year": 2022,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 4653,
+ "party_labels_from": "by-election ballot-paper descriptions, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-lothian.preston-seton-and-gosford.by.2022-01-20/"
+}

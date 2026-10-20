@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2012, Ward 8 Southside Central",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "William Bonnar",
+  "Thomas Muirhead Connor",
+  "Moira Ann Crawford",
+  "Jean Douglas",
+  "Jahangir Hanif",
+  "Mhairi Hunter",
+  "David Mansfield Jago",
+  "Anne-Marie Millar",
+  "James Scanlon",
+  "Soryia Siddique"
+ ],
+ "parties": [
+  "Soc",
+  "Con",
+  "Gr",
+  "BP",
+  "SNP",
+  "SNP",
+  "LD",
+  "Ind",
+  "Lab",
+  "Lab"
+ ],
+ "official_winners": [
+  4,
+  5,
+  8,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/glasgow_2012_ward8.blt",
+ "council": "Glasgow City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 6955,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Glasgow_City_Council_election"
+}

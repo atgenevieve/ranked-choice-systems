@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Dalkeit0",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Alex Bennett",
+  "George Boyd",
+  "Jim Bryant",
+  "Colin Cassidy",
+  "Willie Duncan",
+  "Margot Russell",
+  "Robin Traquair"
+ ],
+ "parties": [
+  "Lab",
+  "LD",
+  "SNP",
+  "SNP",
+  "TUSC",
+  "Lab",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Source name 'Alex Bennet' is cut short; replaced with Wikipedia's 'Alex Bennett'. Source name 'George Boy' is cut short; replaced with Wikipedia's 'George Boyd'. Source name 'Jim Bryan' is cut short; replaced with Wikipedia's 'Jim Bryant'. Source name 'Colin Cassid' is cut short; replaced with Wikipedia's 'Colin Cassidy'. Source name 'Willie Dunca' is cut short; replaced with Wikipedia's 'Willie Duncan'. Source name 'Margot Russel' is cut short; replaced with Wikipedia's 'Margot Russell'. Source name 'Robin Traquai' is cut short; replaced with Wikipedia's 'Robin Traquair'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/midlothian_2012_ward3.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 3230,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

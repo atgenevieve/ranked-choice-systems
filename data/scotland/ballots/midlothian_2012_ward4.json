@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "Midlothian 2012, Midlothian Wes0",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Helen Blackburn",
+  "Andrew Coventry",
+  "Andrew Hardie",
+  "Russell Imrie",
+  "Alex Jones",
+  "Lynn Leitch",
+  "George McCleery",
+  "Les Thacker",
+  "Owen Thompson"
+ ],
+ "parties": [
+  "Gr",
+  "SNP",
+  "Con",
+  "Lab",
+  "Lab",
+  "TUSC",
+  "Ind",
+  "LD",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  3,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "Source name 'Helen Blackbur' is cut short; replaced with Wikipedia's 'Helen Blackburn'. Source name 'Andrew Coventr' is cut short; replaced with Wikipedia's 'Andrew Coventry'. Source name 'Andrew Hardi' is cut short; replaced with Wikipedia's 'Andrew Hardie'. Source name 'Russell Imri' is cut short; replaced with Wikipedia's 'Russell Imrie'. Source name 'Alex Jone' is cut short; replaced with Wikipedia's 'Alex Jones'. Source name 'Lynn Leitc' is cut short; replaced with Wikipedia's 'Lynn Leitch'. Source name 'George Mccleer' is cut short; replaced with Wikipedia's 'George McCleery'. Source name 'Les Thacke' is cut short; replaced with Wikipedia's 'Les Thacker'. Source name 'Owen Thompso' is cut short; replaced with Wikipedia's 'Owen Thompson'. Winners from Wikipedia page '2012 Midlothian Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/midlothian_2012_ward4.blt",
+ "council": "Midlothian",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4335,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Midlothian_Council_election"
+}

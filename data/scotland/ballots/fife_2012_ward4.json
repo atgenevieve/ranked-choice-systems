@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Fife 2012, Dunfermline South Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Angela Dixon",
+  "Margaret Reid Fairgrieve",
+  "Brian Goodall",
+  "Cara Hilton",
+  "Tony Martin",
+  "Mike Rumney",
+  "Fay Sinclair"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "SNP",
+  "Lab",
+  "LD",
+  "Lab",
+  "SNP"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Fife Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/fife_2012_ward4.blt",
+ "council": "Fife",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 5771,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Fife_Council_election"
+}

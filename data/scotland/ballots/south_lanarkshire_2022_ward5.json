@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "South Lanarkshire 2022, Ward 5 - Avondale and Stonehouse",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Erica Bradley-Young",
+  "Gary Burns",
+  "Margaret Cooper",
+  "Elise Frame",
+  "Susan Kerr",
+  "Colin Maclaren",
+  "Leigh Payne"
+ ],
+ "parties": [
+  "Gr",
+  "Con",
+  "Ind",
+  "SNP",
+  "Lab",
+  "API",
+  "SNP"
+ ],
+ "official_winners": [
+  2,
+  3,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/south_lanarkshire_2022_ward5.blt",
+ "council": "South Lanarkshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 6869,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.south-lanarkshire.avondale-and-stonehouse.2022-05-05/"
+}

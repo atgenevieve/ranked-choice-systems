@@ -1,0 +1,37 @@
+{
+ "source": "scotland",
+ "election": "Moray 2017, Keith and Cullen",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Rob Barsby",
+  "Theresa Ann Coull",
+  "Donald Gatt",
+  "Iain Michael Grieve",
+  "Ron Shepherd"
+ ],
+ "parties": [
+  "Ind",
+  "SNP",
+  "Con",
+  "SNP",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  2,
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/moray_2017_ward2.blt",
+ "council": "Moray",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 3690,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.moray.keith-and-cullen.2017-05-04/"
+}

@@ -1,0 +1,50 @@
+{
+ "source": "scotland",
+ "election": "Comhairle nan Eilean Siar 2012, Barraigh, Bhatarsaigh Eirisgeigh Agus Uibhist A Deas",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "David Blaney",
+  "Peter Carlin",
+  "Calum Macaulay",
+  "Angus Macdonald",
+  "Ronnie Mackinnon",
+  "Allan F Macleod",
+  "Gerry Macleod",
+  "Calum Macmillan",
+  "Donald Manford",
+  "Donnie Steele",
+  "Eric Wallis"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Ind",
+  "Ind",
+  "Lab",
+  "Ind",
+  "SNP",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  4,
+  8,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Comhairle nan Eilean Siar election'.",
+ "raw_file": "raw/scot-elex/blt_files/11_cands/eilean_siar_2012_ward1.blt",
+ "council": "Comhairle nan Eilean Siar",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 1392,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Comhairle_nan_Eilean_Siar_election"
+}

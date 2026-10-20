@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Highland 2021, Ward 3 - Wick and East Caithness (by-election)",
+ "date": "2021-08-12",
+ "system": "scottish-stv",
+ "candidates": [
+  "Michael James Cameron",
+  "Harry Christian",
+  "Bill Fernie",
+  "Daniel Ross",
+  "Jill Tilt"
+ ],
+ "parties": [
+  "SNP",
+  "Libtn",
+  "Ind",
+  "Con",
+  "LD"
+ ],
+ "official_winners": [
+  4
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/5_cands/highland_2021_by_election_wick.blt",
+ "council": "Highland",
+ "year": 2021,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 2411,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.highland.wick-and-east-caithness.by.2021-08-12/"
+}

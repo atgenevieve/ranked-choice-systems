@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "Clackmannanshire 2017, Ward 2 Clackmannanshire North",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Donald Balsillie",
+  "Martha Benny",
+  "Dave Clark",
+  "Archie Drummond",
+  "Jack Gervaise",
+  "Helen Lewis",
+  "Bobby Mcgill",
+  "Damian Sherwood-Johnson"
+ ],
+ "parties": [
+  "SNP",
+  "Con",
+  "Lab",
+  "SNP",
+  "Gr",
+  "SNP",
+  "Lab",
+  "LD"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/clackmannanshire_2017_ward2.blt",
+ "council": "Clackmannanshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 4032,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.clackmannanshire.clackmannanshire-north.2017-05-04/"
+}

@@ -1,0 +1,42 @@
+{
+ "source": "scotland",
+ "election": "Falkirk 2022, Ward 4 - Carse Kinnaird and Tryst",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Margaret Anslow",
+  "Gary Bouse",
+  "James Flynn",
+  "Robert Kemp",
+  "Sean Patrick Mccay",
+  "Tom Mclaughlin",
+  "Laura Murtagh"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Con",
+  "Con",
+  "LD",
+  "Gr",
+  "SNP"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/falkirk_2022_ward4.blt",
+ "council": "Falkirk",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 7178,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.falkirk.carse-kinnaird-and-tryst.2022-05-05/"
+}

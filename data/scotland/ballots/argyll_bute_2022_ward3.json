@@ -1,0 +1,45 @@
+{
+ "source": "scotland",
+ "election": "Argyll and Bute 2022, Ward 3 - Mid-Argyll",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Abisola Adepetun",
+  "David Barton",
+  "Jan Brown",
+  "Lesley Burt",
+  "Andy Cameron",
+  "Garret Corner",
+  "Donnie Macmillan",
+  "Douglas Trevor Philand",
+  "Ross Alistair Weir"
+ ],
+ "parties": [
+  "Ind",
+  "LD",
+  "SNP",
+  "Lab",
+  "Ind",
+  "Con",
+  "Ind",
+  "Ind",
+  "ISP"
+ ],
+ "official_winners": [
+  2,
+  5,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/argyll_bute_2022_ward3.blt",
+ "council": "Argyll and Bute",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3197,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.argyll-and-bute.mid-argyll.2022-05-05/"
+}

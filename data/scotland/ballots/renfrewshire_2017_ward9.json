@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Renfrewshire 2017, Ward 9 - Johnstone North, Kilbarchan, Howwood and Lochwinnoch",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Sarah Elizabeth Anderson",
+  "Derek Bibby",
+  "Bill Binks",
+  "Andy Doig",
+  "William Duff",
+  "Christopher Gilmour",
+  "Geoffrey Richard Knowles",
+  "Cheryl O'Brien",
+  "Emma Rodden",
+  "Graeme Ramsay Stockton"
+ ],
+ "parties": [
+  "Gr",
+  "Lab",
+  "Con",
+  "Ind",
+  "LD",
+  "Lab",
+  "Soc",
+  "UKIP",
+  "SNP",
+  "SNP"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/renfrewshire_2017_ward9.blt",
+ "council": "Renfrewshire",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 6095,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.renfrewshire.johnstone-north-kilbarchan-howwood-and-lochwinnoch.2017-05-04/"
+}

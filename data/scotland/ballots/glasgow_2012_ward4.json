@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2012, Ward 4 Craigton",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Iris Gibson",
+  "Matt Kerr",
+  "Gordon Macdiarmid",
+  "Janice Mackay",
+  "Jayne Ann Morgan",
+  "Isabel Nelson",
+  "Ian Ruffell",
+  "Gail Sheridan",
+  "Jim Torrance",
+  "Alistair Watson"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Glasgow First",
+  "UKIP",
+  "Con",
+  "LD",
+  "Gr",
+  "Sol",
+  "SNP",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  8,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Glasgow City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/glasgow_2012_ward4.blt",
+ "council": "Glasgow City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 8199,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Glasgow_City_Council_election"
+}

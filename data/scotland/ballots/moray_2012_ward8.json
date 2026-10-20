@@ -1,0 +1,48 @@
+{
+ "source": "scotland",
+ "election": "Moray 2012, Forres Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "George Alexander",
+  "Andy Anderson",
+  "Lorna Creswell",
+  "Jeff Hamilton",
+  "Paul Mcbain",
+  "Aaron John Mclean",
+  "Paddy Meiklejohn",
+  "Irene Ogilvie",
+  "Anne Audrey Skene",
+  "Fabio Villani"
+ ],
+ "parties": [
+  "Ind",
+  "SSC",
+  "Ind",
+  "Ind",
+  "Con",
+  "SNP",
+  "UKIP",
+  "SNP",
+  "Ind",
+  "Gr"
+ ],
+ "official_winners": [
+  0,
+  2,
+  5,
+  8
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Moray Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/10_cands/moray_2012_ward8.blt",
+ "council": "Moray",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 4501,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Moray_Council_election"
+}

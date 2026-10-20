@@ -1,0 +1,44 @@
+{
+ "source": "scotland",
+ "election": "North Lanarkshire 2012, Ward 3 Cumbernauld South",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "William Goldie",
+  "Allan Graham",
+  "Paddy Hogg",
+  "Willie Homer",
+  "Donald Masterton",
+  "David Mcarthur",
+  "Kevin Mcvey",
+  "Stephanie Muir"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "SNP",
+  "SNP",
+  "CICA",
+  "Con",
+  "Soc",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 North Lanarkshire Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/north_lanarkshire_2012_ward3.blt",
+ "council": "North Lanarkshire",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 4,
+ "ballots_counted": 6015,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_North_Lanarkshire_Council_election"
+}

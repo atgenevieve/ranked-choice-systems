@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Aberdeen City 2012, Ward 9 - Lower Deeside",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Andy Anderson",
+  "Marie Boulton",
+  "M. Tauqeer Malik",
+  "Aileen Malone",
+  "Dorothy Janet Mccaig",
+  "Raymond Murchie",
+  "Peter Reiss"
+ ],
+ "parties": [
+  "Ind",
+  "Ind",
+  "Lab",
+  "LD",
+  "SNP",
+  "Con",
+  "Ind"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Aberdeen City Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/aberdeen_2012_ward9.blt",
+ "council": "Aberdeen City",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 4944,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Aberdeen_City_Council_election"
+}

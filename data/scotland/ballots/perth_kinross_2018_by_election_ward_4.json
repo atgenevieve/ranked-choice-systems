@@ -1,0 +1,39 @@
+{
+ "source": "scotland",
+ "election": "Perth and Kinross 2018, Ward 4 - Highland (by-election)",
+ "date": "2018-04-19",
+ "system": "scottish-stv",
+ "candidates": [
+  "Denise Baykal",
+  "John Cameron Duff",
+  "John Kellas",
+  "Mary McDougall",
+  "Jayne Ramage",
+  "Chris Rennie",
+  "Avril Taylor"
+ ],
+ "parties": [
+  "Ind",
+  "Con",
+  "SNP",
+  "Gr",
+  "Lab",
+  "LD",
+  "Ind"
+ ],
+ "official_winners": [
+  1
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/perth_kinross_2018_by_election_ward_4.blt",
+ "council": "Perth and Kinross",
+ "year": 2018,
+ "by_election": true,
+ "group": "by-elections",
+ "seats": 1,
+ "ballots_counted": 4086,
+ "party_labels_from": "Democracy Club party names, mapped by convert.py rules",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.perth-and-kinross.highland.by.2018-04-19/"
+}

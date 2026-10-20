@@ -1,0 +1,43 @@
+{
+ "source": "scotland",
+ "election": "Highland 2012, Inverness West Ward",
+ "date": "2012-05-03",
+ "system": "scottish-stv",
+ "candidates": [
+  "Allan Duffy",
+  "Robert Ford",
+  "Mary Fraser",
+  "Alex Graham",
+  "George Macdonald",
+  "Pauline Munro",
+  "Alan Reginald Cameron Petitt",
+  "Graham Ross"
+ ],
+ "parties": [
+  "SNP",
+  "Lab",
+  "Con",
+  "LD",
+  "TUSC",
+  "SNP",
+  "SC",
+  "Ind"
+ ],
+ "official_winners": [
+  0,
+  3,
+  7
+ ],
+ "blank_ballots": 0,
+ "notes": "Winners from Wikipedia page '2012 Highland Council election'.",
+ "raw_file": "raw/scot-elex/blt_files/8_cands/highland_2012_ward14.blt",
+ "council": "Highland",
+ "year": 2012,
+ "by_election": false,
+ "group": "2012 council elections",
+ "seats": 3,
+ "ballots_counted": 2472,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Wikipedia",
+ "official_winners_url": "https://en.wikipedia.org/wiki/2012_Highland_Council_election"
+}

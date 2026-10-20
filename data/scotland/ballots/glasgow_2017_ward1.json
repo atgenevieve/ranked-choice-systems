@@ -1,0 +1,52 @@
+{
+ "source": "scotland",
+ "election": "Glasgow City 2017, Ward 1 Linn",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Euan Blockley",
+  "Max Brodie",
+  "Margot Clark",
+  "John Cowan",
+  "Malcolm Cunning",
+  "Alan Digney",
+  "Glenn Elder",
+  "Paul Leinster",
+  "Cathy Milligan",
+  "Margaret Morgan",
+  "Bobby Pollock",
+  "Alan Stewart"
+ ],
+ "parties": [
+  "Con",
+  "Sol",
+  "LD",
+  "UKIP",
+  "Lab",
+  "Gr",
+  "SNP",
+  "SNP",
+  "Ind",
+  "SNP",
+  "Ind",
+  "Lab"
+ ],
+ "official_winners": [
+  0,
+  4,
+  6,
+  9
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/12_cands/glasgow_2017_ward1.blt",
+ "council": "Glasgow City",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 4,
+ "ballots_counted": 8800,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.glasgow-city.linn.2017-05-04/"
+}

@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "North Ayrshire 2022, Ward 08 - Irvine East",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Marie Burns",
+  "Ross Collins",
+  "Karin Craig",
+  "Barry Keith Jackson",
+  "Susan Johnson",
+  "Nairn Mcdonald",
+  "Angela Stephen"
+ ],
+ "parties": [
+  "SNP",
+  "Gr",
+  "SFP",
+  "LD",
+  "SNP",
+  "LabCo",
+  "Con"
+ ],
+ "official_winners": [
+  0,
+  5,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/north_ayrshire_2022_irvine_east.blt",
+ "council": "North Ayrshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 4025,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.north-ayrshire.irvine-east.2022-05-05/"
+}

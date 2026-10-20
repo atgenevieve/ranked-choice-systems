@@ -1,0 +1,35 @@
+{
+ "source": "scotland",
+ "election": "Moray 2017, Speyside Glenlivet",
+ "date": "2017-05-04",
+ "system": "scottish-stv",
+ "candidates": [
+  "Angus Anderson",
+  "Louise Margaret Laing",
+  "Derek Ross",
+  "Walter Wilson"
+ ],
+ "parties": [
+  "SNP",
+  "SNP",
+  "Ind",
+  "Con"
+ ],
+ "official_winners": [
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "Candidate 'Louise Margaret Laing' is listed as 'Louise Nicol' by Democracy Club (matched as the only unmatched name).",
+ "raw_file": "raw/scot-elex/blt_files/4_cands/moray_2017_ward1.blt",
+ "council": "Moray",
+ "year": 2017,
+ "by_election": false,
+ "group": "2017 council elections",
+ "seats": 3,
+ "ballots_counted": 3639,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.moray.speyside-glenlivet.2017-05-04/"
+}

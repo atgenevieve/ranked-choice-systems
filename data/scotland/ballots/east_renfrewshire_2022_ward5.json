@@ -1,0 +1,46 @@
+{
+ "source": "scotland",
+ "election": "East Renfrewshire 2022, Ward 5 ‐ Newton Mearns South and Eaglesham",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Andrew Anderson",
+  "Caroline Bamforth",
+  "Paul Edlin",
+  "Jim Mclean",
+  "Victoria Palmer‐Dyer",
+  "Luke Reid",
+  "Amer Siddiqui",
+  "Paul Smith",
+  "Mark Niven Turnbull"
+ ],
+ "parties": [
+  "Lab",
+  "SNP",
+  "Con",
+  "Con",
+  "Gr",
+  "SFP",
+  "API",
+  "Con",
+  "FA"
+ ],
+ "official_winners": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/9_cands/east_renfrewshire_2022_ward5.blt",
+ "council": "East Renfrewshire",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 4,
+ "ballots_counted": 9562,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.east-renfrewshire.newton-mearns-south-and-eaglesham.2022-05-05/"
+}

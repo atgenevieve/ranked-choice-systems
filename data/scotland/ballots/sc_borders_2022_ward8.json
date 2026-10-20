@@ -1,0 +1,41 @@
+{
+ "source": "scotland",
+ "election": "Scottish Borders 2022, Ward 8 - Kelso & District",
+ "date": "2022-05-05",
+ "system": "scottish-stv",
+ "candidates": [
+  "Wilson George",
+  "Shelagh King",
+  "Kenryck Lloyd-Jones",
+  "Simon Mountford",
+  "Euan Macfarlane Robson",
+  "Sunny Smith",
+  "Tom Weatherston"
+ ],
+ "parties": [
+  "Lab",
+  "Gr",
+  "Lab",
+  "Con",
+  "LD",
+  "Van",
+  "Con"
+ ],
+ "official_winners": [
+  3,
+  4,
+  6
+ ],
+ "blank_ballots": 0,
+ "notes": "",
+ "raw_file": "raw/scot-elex/blt_files/7_cands/sc_borders_2022_ward8.blt",
+ "council": "Scottish Borders",
+ "year": 2022,
+ "by_election": false,
+ "group": "2022 council elections",
+ "seats": 3,
+ "ballots_counted": 3920,
+ "party_labels_from": "scot-elex CSV (standardized by MGGG)",
+ "official_winners_from": "Democracy Club",
+ "official_winners_url": "https://candidates.democracyclub.org.uk/elections/local.scottish-borders.kelso-and-district.2022-05-05/"
+}
