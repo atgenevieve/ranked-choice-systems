@@ -1,0 +1,102 @@
+
+/* Layout: a report figure set. One column of figures; small multiples in a wrapping grid; every figure has its table view folded underneath. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #7b7a75;
+  --grid: #e6e5e0;
+  --axis: #a3a29b;
+  --public: #2a78d6;
+  --ers: #eb6834;
+  --scotland: #1baf7a;
+  --org: #8c8b85;
+  --bar: #2a78d6;
+  --limit: #0d366b;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+    --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70; --org: #8f8e88;
+    --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+  --grid: #2d2d2b; --axis: #6b6a65; --public: #3987e5; --ers: #d95926; --scotland: #199e70; --org: #8f8e88;
+  --bar: #3987e5; --limit: #9ec5f4; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { padding-block: 30px 10px; display: grid; gap: 10px; }
+h1 { font-size: 28px; margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
+.lede { margin: 0; color: var(--ink-2); max-width: 70ch; }
+main { padding-block: 10px 60px; display: grid; gap: 22px; }
+.figure { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
+.figure h2 { font-size: 18px; margin: 0; text-wrap: balance; }
+.figure .note { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 72ch; }
+.takeaway { margin: 0; font-size: 14px; font-weight: 600; max-width: 72ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin: 0; padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.key-line { width: 18px; height: 2px; display: inline-block; }
+.multiples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 18px 24px; }
+.panel { min-width: 0; display: grid; gap: 4px; }
+.panel h3 { margin: 0; font-size: 14px; }
+.panel .meta { font-size: 12px; color: var(--muted); }
+.plot { min-width: 0; position: relative; }
+.plot svg { display: block; width: 100%; overflow: visible; }
+svg text { font-family: var(--font-data); font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+svg text.val { fill: var(--ink); font-weight: 500; }
+svg text.lab { font-family: var(--font-body); font-size: 12px; fill: var(--ink-2); }
+svg text.title { font-family: var(--font-body); font-size: 12px; fill: var(--muted); }
+svg .hit { fill: transparent; cursor: pointer; }
+svg .hit:focus-visible { outline: none; stroke: var(--ink); stroke-width: 2; }
+/* Summary boxes: one box per finding (heading, big number, explanation). Only the direct children are boxes. */
+.predict { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+.predict > div { border: 1px solid var(--grid); border-radius: 8px; padding: 12px 14px; display: grid; gap: 2px; align-content: start; }
+.predict .h { font-weight: 600; }
+.predict .v { font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.predict .s { font-size: 13px; color: var(--ink-2); }
+details { font-size: 13px; }
+details summary { cursor: pointer; color: var(--ink-2); padding-block: 4px; }
+details summary:focus-visible { outline: 2px solid var(--public); outline-offset: 2px; }
+.tablewrap { overflow-x: auto; max-height: 360px; overflow-y: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--grid); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.4; max-width: 300px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+#tip b { display: block; }
+#tip .k { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+/* Tabs: one per model decision. */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--grid); }
+.tabs .wrap { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; padding-block: 6px 0; }
+.tabs button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--ink-2); padding: 8px 12px 10px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--public); }
+.tabs button:focus-visible { outline: 2px solid var(--public); outline-offset: -2px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.loading { color: var(--muted); padding-block: 20px; }
+/* Decision summary on each tab and the overview. */
+.decision { background: var(--surface); border: 1px solid var(--grid); border-left: 3px solid var(--public); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; }
+.decision h2 { font-size: 18px; margin: 0; }
+.decision dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 14px; }
+.decision dt { font-weight: 600; color: var(--ink-2); }
+.decision dd { margin: 0; max-width: 72ch; }
+.decision .status { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--grid); color: var(--ink-2); }
+.decision a, .overview a { color: var(--public); }
+.overview { display: grid; gap: 14px; }
+.overview .decision button.link { font: inherit; color: var(--public); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; justify-self: start; }
+@media (max-width: 560px) { .decision dl { grid-template-columns: minmax(0, 1fr); } .decision dt { margin-top: 4px; } }
+table.heat { width: auto; min-width: 100%; }
+table.heat th { white-space: nowrap; }
+td.heatcell { background: color-mix(in srgb, var(--public) calc(var(--a) * 70%), transparent); }
+td.heatcell.diag { font-weight: 700; box-shadow: inset 0 0 0 2px var(--ink); }
+.predict.compact .v { font-size: 19px; }
+table.heat { font-size: 12px; }
+table.heat th { white-space: normal; vertical-align: bottom; }
+table.heat tbody th { white-space: nowrap; }

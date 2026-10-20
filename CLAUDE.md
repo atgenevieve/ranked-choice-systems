@@ -88,6 +88,7 @@ All of this was measured with **reach**. Truncation results will differ, and the
 
 - `docs/roadmap.md`: milestones, in order, with how to tell each is done.
 - `docs/model-spec.md`: the voter model, assumption by assumption.
+- `evidence/`: the model evidence page (one tab per model decision), and how to rebuild its data.
 - `docs/model-review.md`: the milestone 3 review: what real data shows for each model assumption, with proposals and decisions.
 - `docs/real-data-findings.md`: detailed findings from real ballots.
 - `docs/endorsement-cohesion.md`: a reusable method for measuring how voters follow endorsements, slates, and pacts on ranked ballots, with early findings. Keep it usable outside this project.
