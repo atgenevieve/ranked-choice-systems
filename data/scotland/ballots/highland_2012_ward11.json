@@ -1,6 +1,6 @@
 {
  "source": "scotland",
- "election": "Highland 2012, Eilean a' Che� Ward",
+ "election": "Highland 2012, Eilean a' Chèo Ward",
  "date": "2012-05-03",
  "system": "scottish-stv",
  "candidates": [
@@ -28,7 +28,7 @@
   5
  ],
  "blank_ballots": 0,
- "notes": "Candidate 'Moira Elisobeth Scobbie' is listed as 'Moira Scoobie' by Wikipedia (matched as the only unmatched name). Winners from Wikipedia page '2012 Highland Council election'.",
+ "notes": "Candidate 'Moira Elisobeth Scobbie' is listed as 'Moira Scoobie' by Wikipedia (matched as the only unmatched name). Winners from Wikipedia page '2012 Highland Council election'. Source ward name is damaged (a lost accented character); corrected by hand to Eilean a' Chèo.",
  "raw_file": "raw/scot-elex/blt_files/7_cands/highland_2012_ward11.blt",
  "council": "Highland",
  "year": 2012,

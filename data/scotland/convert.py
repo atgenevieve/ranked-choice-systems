@@ -79,6 +79,7 @@ BY_ELECTION_PARTY_RULES = [
 WARD_NAME_FIXES = {
     "aberdeenshire_2022_ward1": "Ward 1 - Banff and District",
     "midlothian_2012_ward1": "Penicuik",
+    "highland_2012_ward11": "Eilean a' Chèo",
 }
 
 # Party labels wrong in the source, corrected by hand. Found by comparing
