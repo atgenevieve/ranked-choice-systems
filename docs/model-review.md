@@ -72,10 +72,16 @@ These would give very different truncation results, so this is the decision that
 
 | | No limit | Limit equal to the seats | Limit above the seats |
 |---|---|---|---|
-| **Public** | 1,189 elections (Scotland and others) | 1 election (Minneapolis Park Board 2009); Canberra and Australian Senate ballots being gathered (instruction "at least" the seats) | 81 elections (NYC, Portland, San Francisco, Oakland, and others) |
+| **Public** | 1,189 elections (Scotland and others) | Limit: 1 election (Minneapolis Park Board 2009). Instruction "number at least" the seats: Canberra 2024 (5 electorates, 5 seats) and the Australian Senate below the line in Tasmania 2016 (12 seats) | 81 elections (NYC, Portland, San Francisco, Oakland, and others) |
 | **Organizational** | 108 elections (union and society elections, Debian, APA) | none | none |
 
 **The limit effect, so far (public elections only):** compared with unlimited elections of similar size, a limit of 3 mostly just cuts ballots short (about as many fill it as would rank 3 or more anyway). Limits of 5 and 6 act as a target: about 2 to 5 times as many voters rank exactly that many as would rank that far with no limit. These comparisons are across places, so differences like NYC's "rank up to 5" campaign are mixed in.
+
+**An instruction equal to the seats is a very strong anchor** (Canberra 2024 data, gathered October 20, 2026). Canberra voters were told: "Number five boxes from 1 to 5 in the order of your choice. You may then show as many further preferences as you wish." 98% numbered at least 5, and 69% exactly 5, with 24 to 34 candidates. In Scottish wards with 12 or more candidates and no instruction, only 16% ranked 5 or more; in union and society elections of that size, 57%. In the 2016 Tasmanian Senate count (12 seats, told to number at least 12 below the line), 67% of below-the-line voters numbered exactly 12.
+
+Ranks past the instruction can still decide a seat. In Canberra's Brindabella electorate, cutting every ballot after rank 5 changes one of the five seats, even though only about 3% of votes reached rank 6.
+
+Note the difference from the organization's own ballots: Canberra and the Senate set a *minimum* ("at least 5"), with no maximum. A *maximum* equal to the seats ("up to 5") has only one example in the data (Minneapolis, where 54% filled it).
 
 **Proposal (revised):**
 
