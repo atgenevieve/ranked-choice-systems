@@ -52,11 +52,15 @@
 - **Rank limits and instructions matter.** Where ballots allow only 3 to 6 ranks (NYC, Portland, San Francisco, Oakland), most voters stop at or before the limit. Research on the Australian Senate found that 82% of voters numbered exactly the 6 boxes the instructions asked for (`docs/large-elections.md`).
 - **Length is tied to slates.** A third of Scottish voters whose first choice has running mates (other candidates from the same party) rank exactly their party's candidates and then stop. Conservative voters rank only one candidate far more often than SNP voters (23% against 9%).
 
+- **More candidates means more ranks, even with the number of seats held the same** (owner's question, October 20, 2026). Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%. Taking both together, seats matter much less: with the candidates held the same, doubling the seats adds about 10% more ranks in Scotland and 20% in union and society elections. So the biggest divide isn't seats. It's whether an electorate behaves like public voters or like union members.
+
 **The key unknown:** no dataset has a 50-seat election. Extending the patterns above to 50 seats gives very different answers:
 
-- (a) If length follows **candidates**, as in public elections, members would rank about 6 to 10.
-- (b) If it follows **seats**, as in the ERS elections, they might rank 20 to 40.
-- (c) If it follows **the ballot instructions**, they'd rank whatever the instructions ask for.
+- (a) If members behave like **public voters** (the Scottish rule, using candidates and seats together), a 50-seat, 75-candidate election projects to about 9 ranks.
+- (b) If they behave like **union members** (the ERS rule, same method), about 26.
+- (c) If they follow **the ballot instructions**, they'd rank whatever the instructions ask for.
+
+(An earlier draft framed (a) and (b) as "follows candidates" against "follows seats". Holding seats fixed shows that candidates drive most of the effect in both groups; the difference between (a) and (b) is the kind of electorate.)
 
 These would give very different truncation results, so this is the decision that matters most.
 

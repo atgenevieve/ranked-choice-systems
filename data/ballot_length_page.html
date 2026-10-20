@@ -205,7 +205,7 @@ function niceTicks(max, step) { const t = []; for (let v = 0; v <= max + 1e-9; v
 function scatter(f, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 800, H = 340, L = 40, R = 16, T = 16, B = 38;
+    const w = plot.clientWidth || 800, H = opts.height || 340, L = 40, R = 16, T = 16, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria }, plot);
     const sx = v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
@@ -283,6 +283,31 @@ function scatter(f, opts) {
     [...pts].sort((a, b) => a.seats - b.seats).map(e => [e.name, GROUP[e.group].name, e.seats, e.candidates, e.mean.toFixed(2)]), [false, false, true, true, true]);
 }
 
+// ---------- 3b. Same seats, more candidates ----------
+{
+  const f = figure("Same number of seats, more candidates",
+    "Even with the number of seats held the same, more candidates means more ranks. Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%.",
+    `Each panel holds only elections with the same number of seats, so the trend inside a panel comes from the number of candidates alone. Panels need at least 15 elections. Taking candidates and seats together, seats matter much less: with the candidates held the same, doubling the seats adds about ${Math.round((2 ** DATA.both.scotland.c2 - 1) * 100)}% more ranks in Scotland and ${Math.round((2 ** DATA.both.ers.c2 - 1) * 100)}% in union and society elections, while doubling the candidates adds ${Math.round((2 ** DATA.both.scotland.c1 - 1) * 100)}% and ${Math.round((2 ** DATA.both.ers.c1 - 1) * 100)}%.`);
+  const box = document.createElement("div"); box.className = "multiples"; f.append(box);
+  const pts = chartPts();
+  for (const p of DATA.same_seats) {
+    const panel = document.createElement("div"); panel.className = "panel";
+    const h = document.createElement("h3"); h.textContent = `${p.group === "scotland" ? "Scotland" : "Union and society elections"}, ${p.seats} seat${p.seats > 1 ? "s" : ""}`;
+    const m = document.createElement("div"); m.className = "meta";
+    m.textContent = `${p.n} elections · ${p.min} to ${p.max} candidates · doubling the candidates adds about ${Math.round((2 ** p.b - 1) * 100)}%`;
+    panel.append(h, m); box.append(panel);
+    const mine = pts.filter(e => e.group === p.group && e.seats === p.seats);
+    scatter(panel, {
+      aria: `${h.textContent}: average candidates ranked against number of candidates`,
+      height: 220, xMin: 0, xMax: 30, xTicks: [0, 10, 20, 30], yMax: 12, yStep: 4,
+      xTitle: "Candidates", yTitle: "Average ranked",
+      lines: [{ from: p.min, to: p.max, f: x => p.a * x ** p.b, color: GROUP[p.group].v }],
+      points: mine.map(e => ({ x: e.candidates, y: e.mean, color: GROUP[p.group].v, name: e.name,
+        lines: [`${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `ranked ${e.mean.toFixed(1)} on average`] })),
+    });
+  }
+}
+
 // ---------- 4. Rank my party, then stop ----------
 {
   const d = DATA.party_then_stop;
@@ -312,15 +337,15 @@ function scatter(f, opts) {
 
 // ---------- 5. What each version predicts ----------
 {
-  const fp = DATA.fits.public_vs_candidates, fe = DATA.fits.ers_vs_candidates, fs = DATA.fits.ers_vs_seats;
+  const B2 = DATA.both, proj = b => Math.exp(b.c0 + b.c1 * Math.log(75) + b.c2 * Math.log(50)), dbl = c => Math.round((2 ** c - 1) * 100);
   const pubMax = DATA.elections.filter(e => ["scotland", "public"].includes(e.group) && (e.max_ranks == null || e.max_ranks >= e.candidates)).reduce((m, e) => Math.max(m, e.candidates), 0);
   const f = figure("Projection: a 50-seat election with 75 candidates",
-    "Each rule from the charts above, carried out to an election far larger than any in the data. The three readings disagree by a factor of 3 or more, which is why the proposal builds all three and reports results under each.",
+    "Each rule uses candidates and seats together, carried out to an election far larger than any in the data. The readings disagree by a factor of about 3, which is why the proposal builds all three and reports results under each. The biggest divide isn't seats; it's whether members behave like public voters or like union members.",
     `These are projections, not evidence. The public-election rule comes from elections of up to ${pubMax} candidates, and the union and society rules from elections of up to 29 candidates and 12 seats. 75 candidates is the size of Metro DC DSA's 46-seat delegate count.`);
   const box = document.createElement("div"); box.className = "predict";
   const cards = [
-    ["(a) Follows candidates, like public elections", `≈ ${(fp.a * 75 ** fp.b).toFixed(0)}`, `Rule, fitted to all public elections together (Scotland and others): doubling the candidates adds about ${Math.round((2 ** fp.b - 1) * 100)}% more ranks, starting from about ${(fp.a * 3 ** fp.b).toFixed(1)} ranks at 3 candidates.`],
-    ["(b) Follows seats, like union elections", `≈ ${(fe.a * 75 ** fe.b).toFixed(0)} to ${(fs.a + 50 * fs.b).toFixed(0)}`, `Rules: doubling the candidates adds about ${Math.round((2 ** fe.b - 1) * 100)}% more ranks (gives the lower number); each extra seat adds about ${fs.b.toFixed(1)} ranks, starting from ${fs.a.toFixed(1)} (gives the higher number).`],
+    ["(a) Behaves like public voters (Scotland)", `≈ ${proj(B2.scotland).toFixed(0)}`, `Rule from 1,100 Scottish elections: doubling the candidates adds about ${dbl(B2.scotland.c1)}% more ranks, and doubling the seats adds about ${dbl(B2.scotland.c2)}%.`],
+    ["(b) Behaves like union members (ERS)", `≈ ${proj(B2.ers).toFixed(0)}`, `Rule from 87 union and society elections: doubling the candidates adds about ${dbl(B2.ers.c1)}% more ranks, and doubling the seats adds about ${dbl(B2.ers.c2)}%.`],
     ["(c) Follows the instructions", "As asked", "Where ballots have a limit, about 4 in 10 voters fill it exactly (NYC 37%, Portland 47%)."],
   ];
   for (const [h, v, s] of cards) {

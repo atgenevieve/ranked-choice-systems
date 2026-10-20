@@ -123,6 +123,18 @@ def fit_line(points):
     return my - b * mx, b
 
 
+def ols(X, y):
+    """Least squares by the normal equations (small, well-conditioned problems only)."""
+    k = len(X[0])
+    M = [[sum(r[a] * r[b] for r in X) for b in range(k)] + [sum(r[a] * v for r, v in zip(X, y))] for a in range(k)]
+    for c in range(k):
+        for r in range(k):
+            if r != c:
+                f = M[r][c] / M[c][c]
+                M[r] = [x - f * z for x, z in zip(M[r], M[c])]
+    return [M[i][k] / M[i][i] for i in range(k)]
+
+
 def main():
     rows = elections()
     uncapped = lambda r: r["max_ranks"] is None or r["max_ranks"] >= r["candidates"]
@@ -157,7 +169,27 @@ def main():
                        "seats": {"a": fit_s[0], "b": fit_s[1], "min": seats[0], "max": seats[-1]}, "n": len(rs)}
         print(g, len(rs), "cand fit", round(ac, 2), round(bc, 2), "range", by_group[g]["cand"]["min"], by_group[g]["cand"]["max"],
               "seats fit", fit_s, "seats", seats)
+    # Same seats, more candidates: one panel per (group, seats) with enough elections.
+    same_seats = []
+    for g in ("scotland", "ers"):
+        by_s = defaultdict(list)
+        for r in groups[g]:
+            by_s[r["seats"]].append(r)
+        for seats_n, rs in sorted(by_s.items()):
+            if len(rs) < 15 or len({r["candidates"] for r in rs}) < 3:
+                continue
+            ac, bc = fit_power([(r["candidates"], r["mean"]) for r in rs])
+            same_seats.append({"group": g, "seats": seats_n, "n": len(rs), "a": ac, "b": bc,
+                               "min": min(r["candidates"] for r in rs), "max": max(r["candidates"] for r in rs)})
+    # Both at once: log(mean) = c0 + c1 log(candidates) + c2 log(seats), per group.
+    both = {}
+    for g in ("scotland", "ers"):
+        rs = groups[g]
+        both[g] = dict(zip(("c0", "c1", "c2"), ols([[1, math.log(r["candidates"]), math.log(r["seats"])] for r in rs],
+                                                     [math.log(r["mean"]) for r in rs])))
     out = {
+        "same_seats": same_seats,
+        "both": both,
         "by_group": by_group,
         "elections": [{k: r[k] for k in ("group", "name", "candidates", "seats", "max_ranks", "voters", "mean")} for r in rows],
         "distributions": dists,
