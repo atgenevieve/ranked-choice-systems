@@ -249,8 +249,8 @@ function scatter(f, opts) {
   legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "Other public elections"], ["dot", "--ers", "Union and society elections (ERS)"]]);
   scatter(f, {
     aria: "Scatter of average candidates ranked against number of candidates, with fitted curves",
-    logX: true, xMin: 2, xMax: 100, xTicks: [2, 5, 10, 20, 50, 100], yMax: 25, yStep: 5,
-    xTitle: "Candidates in the election (log scale)", yTitle: "Average candidates ranked",
+    logX: false, xMin: 0, xMax: 100, xTicks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], yMax: 25, yStep: 5,
+    xTitle: "Candidates in the election", yTitle: "Average candidates ranked",
     marker: { x: 75, label: "75 candidates" },
     lines: [
       { from: 3, to: 30, f: x => fp.a * x ** fp.b, color: "--public" },

@@ -50,6 +50,7 @@ These are defaults, not decisions. Raise alternatives if something works better.
 - For the tuner, prefer compiling the engine's ballot generator to WebAssembly, a format that lets the Rust code run inside a web page. This keeps one copy of the model code, so the tuner and the simulations can't drift apart. If that's too much work, use a small local server that calls the engine.
 - Settings files in TOML or JSON. Results as JSON Lines (one result per line).
 - Charts with a standard JavaScript charting library.
+- **Charts use linear scales, never log scales** (owner's preference).
 
 ## Rules for this project
 
