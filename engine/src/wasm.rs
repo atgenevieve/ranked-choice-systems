@@ -10,12 +10,16 @@
 //!   one results line per seat count, as `stvsim run` does.
 //! - `{"task": "describe", "settings": {...}, "count": n}`: simulates `count` elections from the
 //!   settings and measures them: what each setting produces in the viewer's own election.
+//! - `{"task": "worth", "settings": {...}, "first": i, "count": n}`: what each ballot position is
+//!   worth to a candidate, in simulated elections i to i + n − 1 (`sim::position_worth`): sums
+//!   for candidates drawn at random (`any`) and for candidates on the edge (`edge`), so a page
+//!   can split the elections across several workers and add the sums.
 //! - `{"task": "defaults", "electorate": "public" | "organization", "seats": n}`: what "auto"
 //!   and the named settings mean for that type of election.
 
 use crate::model::{self, BallotRules, Electorate, RankCount, SlateParams, Wording};
 use crate::settings::Settings;
-use crate::sim::simulate;
+use crate::sim::{position_worth, simulate};
 use crate::stats::{measure, medians};
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -93,6 +97,16 @@ fn handle(text: &str) -> Result<Value, String> {
             s.finish()?;
             let lines: Vec<Value> = s.election.seats.iter().filter(|&&k| k >= 1 && k < s.election.candidates).map(|&k| simulate(&s, k, 1)).collect();
             Ok(json!({ "results": lines }))
+        }
+        Some("worth") => {
+            let mut s: Settings = serde_json::from_value(req["settings"].clone()).map_err(|e| format!("settings: {e}"))?;
+            s.finish()?;
+            let c = s.election.candidates;
+            let seats = s.election.seats.first().copied().unwrap_or(1).clamp(1, c.saturating_sub(1).max(1));
+            let first = req["first"].as_u64().unwrap_or(0) as usize;
+            let count = req["count"].as_u64().unwrap_or(s.run.sims as u64) as usize;
+            let (any, edge) = position_worth(&s, seats, first, count);
+            Ok(json!({ "any": any.to_json(), "edge": edge.to_json() }))
         }
         Some("describe") => {
             // A sample of the viewer's own election, measured: what each setting produces.

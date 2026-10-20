@@ -12,18 +12,33 @@ const PAGE = window.TUNER_PAGE || "election";
 const STORE_KEY = PAGE === "branches" ? "rank-depth-branches-v1" : "rank-depth-tuner-v2";
 
 // ---------------------------------------------------------------- engine
-const worker = new Worker("worker.js");
-let nextId = 1;
-const pending = new Map();
-worker.onmessage = e => {
-  const p = pending.get(e.data.id);
-  if (p) { pending.delete(e.data.id); p(e.data.reply); }
-};
-const engine = request => new Promise(resolve => {
-  const id = nextId++;
-  pending.set(id, resolve);
-  worker.postMessage({ id, request });
+// A pool of workers, one per spare processor core, each running its own copy of the engine
+// (worker.js). Requests wait in one queue here and go to whichever worker is free, one at a time,
+// so a request whose `alive()` check fails by then (the settings changed) is dropped unstarted.
+const POOL_SIZE = Math.max(2, Math.min(12, (navigator.hardwareConcurrency || 4) - 1));
+const queue = [];
+const workers = Array.from({ length: POOL_SIZE }, () => {
+  const w = { worker: new Worker("worker.js"), busy: null };
+  w.worker.onmessage = e => {
+    const job = w.busy; w.busy = null;
+    if (job) job.resolve(e.data.reply);
+    dispatch();
+  };
+  return w;
 });
+let nextId = 1;
+function dispatch() {
+  for (const w of workers) {
+    if (w.busy) continue;
+    let job;
+    while ((job = queue.shift()) && job.alive && !job.alive()) job.resolve({ error: "stale", stale: true });
+    if (!job) return;
+    w.busy = job;
+    w.worker.postMessage({ id: nextId++, request: job.request });
+  }
+}
+/** Sends a request to the engine. `alive`, if given, is checked just before the request starts. */
+const engine = (request, alive) => new Promise(resolve => { queue.push({ request, resolve, alive }); dispatch(); });
 
 // ---------------------------------------------------------------- formatting
 const pct = v => v == null ? "–" : v > 0 && v < 0.01 ? "under 1%" : `${(v * 100).toFixed(v < 0.1 && v > 0 ? 1 : 0)}%`;

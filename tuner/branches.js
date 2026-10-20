@@ -18,6 +18,8 @@ const BRANCH_KEY = "rank-depth-branches-list-v1";
 let branchList = BRANCH_DEFAULTS.map(b => ({ ...b }));
 try { const saved = JSON.parse(localStorage.getItem(BRANCH_KEY) || "null"); if (Array.isArray(saved) && saved.length) branchList = saved; } catch { /* storage may be blocked */ }
 const branchResults = new Map();  // name -> {b, r}
+const branchWorth = new Map();    // name -> {any, edge (summed WorthSums), done, total (elections)}
+const WORTH_CHUNK = 50;           // simulated elections per worth request, so the pool can share them out
 
 function drawBranchTable() {
   const body = $("branch-table").tBodies[0];
@@ -76,7 +78,8 @@ function drawSummary() {
 }
 
 /** Every branch's two charts, on the same rank axis so the branches can be compared. */
-function redrawBranches() {
+function drawBranches() {
+  worthCharts = [];
   drawSummary();
   const box = $("branches");
   box.replaceChildren();
@@ -110,6 +113,22 @@ function redrawBranches() {
     const c1 = half("How many ranks affect election results");
     const c2 = half("How many winners change", '<span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
     sec.append(h, stats, says, pair);
+    const worth = branchWorth.get(b.name);
+    if (worth && worth.done) {
+      const card = document.createElement("div"); card.className = "worthcard";
+      const t = document.createElement("h4"); t.textContent = "What each ballot position is worth to a candidate";
+      const m = worthMeans(worth);
+      const edgeTimes = m.anyTop > 0 ? Math.round(m.edgeTop / m.anyTop) : null;
+      const read = document.createElement("p"); read.className = "read";
+      read.textContent = `How many percentage points more likely a candidate is to win when one more voter ranks them at this position instead of leaving them off.` +
+        (edgeTimes ? ` In a close race, every position is worth about ${edgeTimes} times more.` : "") +
+        ` Error bars: the range the average could fall in by chance (95%).` +
+        (worth.done < worth.total ? ` Still running: ${worth.done.toLocaleString()} of ${worth.total.toLocaleString()} simulated elections so far.` : "");
+      const c3 = document.createElement("div"); c3.className = "chart";
+      card.append(t, read, c3);
+      sec.append(card);
+      worthCharts.push({ box: c3, m, name: b.name });
+    }
     box.append(sec);
     chart(c1, [{ points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }], {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
@@ -128,27 +147,109 @@ function redrawBranches() {
     });
   }
 }
-window.redrawBranches = redrawBranches;
+window.redrawBranches = () => { drawBranches(); drawWorthCharts(); };
 
-/** Plays out every branch in turn; stops if the settings change while it runs. */
+/** Means and 95% ranges, in percentage points, from summed worth results. */
+function worthMeans(w) {
+  const stat = g => g.sum.map((x, k) => {
+    const n = g.n[k];
+    if (!n) return null;
+    const mean = x / n, sd = Math.sqrt(Math.max(0, g.sq[k] / n - mean * mean));
+    return { m: 100 * mean, lo: 100 * (mean - 1.96 * sd / Math.sqrt(n)), hi: 100 * (mean + 1.96 * sd / Math.sqrt(n)) };
+  });
+  const any = stat(w.any), edge = stat(w.edge);
+  const top10 = a => a.slice(0, 10).reduce((t, v) => t + (v ? v.m : 0), 0);
+  return { any, anyTop: top10(any), edgeTop: top10(edge) };
+}
+
+let worthCharts = [];
+/** The worth bar charts, one bar per ballot position, on one scale across branches. */
+function drawWorthCharts() {
+  const peak = Math.max(1, ...worthCharts.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.hi)));
+  const step = niceStep(peak), yMax = Math.ceil(peak / step) * step;
+  for (const { box, m, name } of worthCharts) barChart(box, m.any, { yMax, yStep: step, aria: `${name}: what each ballot position is worth to a candidate` });
+}
+
+/** Bars from 0, one per position, with error bars that stay visible over the bars. */
+function barChart(box, vals, opts) {
+  box.replaceChildren();
+  const w = Math.max(280, box.clientWidth || 800), H = 240, L = 56, R = 10, T = 12, B = 38;
+  const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
+  const n = vals.length, bw = (w - L - R) / n;
+  const sx = i => L + i * bw + bw / 2, sy = v => T + (1 - Math.max(0, Math.min(v, opts.yMax)) / opts.yMax) * (H - T - B);
+  for (let y = 0; y <= opts.yMax + 1e-9; y += opts.yStep) {
+    el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
+    text(svg, L - 6, sy(y) + 4, y ? `+${+y.toFixed(2)} pts` : "0", { "text-anchor": "end" });
+  }
+  const every = n <= 20 ? 1 : n <= 50 ? 5 : 10;
+  vals.forEach((v, i) => {
+    if ((i + 1) % every === 0 || i === 0) text(svg, sx(i), H - B + 15, String(i + 1), { "text-anchor": "middle" });
+    if (!v) return;
+    el("rect", { x: sx(i) - bw * 0.36, y: sy(v.m), width: bw * 0.72, height: Math.max(0.5, sy(0) - sy(v.m)), fill: css("--model") }, svg);
+    if (v.hi - v.lo < 1e-9) return;
+    const tw = Math.max(2, bw * 0.22), lo = sy(v.lo), hi = sy(v.hi);
+    for (const [stroke, width] of [[css("--surface"), 3.5], [css("--ink"), 1.3]]) {
+      el("line", { x1: sx(i), x2: sx(i), y1: lo, y2: hi, stroke, "stroke-width": width, "stroke-linecap": "round" }, svg);
+      for (const y of [lo, hi]) el("line", { x1: sx(i) - tw, x2: sx(i) + tw, y1: y, y2: y, stroke, "stroke-width": width, "stroke-linecap": "round" }, svg);
+    }
+  });
+  text(svg, (L + w - R) / 2, H - 4, "Position on one voter's ballot", { "text-anchor": "middle", class: "title" });
+}
+
+/** Plays out every branch at once across the engine pool: first each branch's election (the
+ *  two line charts), then what each ballot position is worth, in chunks of elections. Requests
+ *  queued when the settings change are dropped unstarted. */
 window.runBranches = async (c, alive) => {
   setText("sims-count", int(c.sims, 10, 1000).toLocaleString());
   setText("slates-count", String(int(c.slates, 1, 12)));
   setText("turnout-head", String(int(c.turnout, 0, 30)));
   branchResults.clear();
-  redrawBranches();
-  for (let i = 0; i < branchList.length; i++) {
-    const b = branchList[i];
-    setStatus("branches-status", `Playing out ${b.name} (${i + 1} of ${branchList.length})…`, true);
+  branchWorth.clear();
+  window.redrawBranches();
+  let pendingDraw = false;
+  const redraw = () => {
+    if (pendingDraw) return;
+    pendingDraw = true;
+    requestAnimationFrame(() => { pendingDraw = false; if (alive()) window.redrawBranches(); });
+  };
+  const sims = int(c.sims, 10, 1000);
+  let jobs = 0, done = 0;
+  const progress = () => { if (alive()) setStatus("branches-status", done < jobs ? `Playing out the branches: ${Math.round(100 * done / jobs)}% done, on ${POOL_SIZE} processor cores…` : "", done < jobs); };
+  const all = [];
+  const plans = branchList.map(b => {
     const cand = int(b.candidates, 2, 300), seats = int(b.seats, 1, cand - 1);
-    const reply = await engine({ task: "election", settings: electionSettings({ ...c, candidates: cand, seats, voters: b.voters }) });
-    if (!alive()) return;
-    if (reply.error || !reply.results?.length) {
-      setStatus("branches-status", `The engine refused ${b.name}'s numbers: ${reply.error || "seats must be fewer than candidates"}.`, false, true);
-      continue;
-    }
-    branchResults.set(b.name, { b, r: reply.results[0] });
-    redrawBranches();
+    return { b, settings: electionSettings({ ...c, candidates: cand, seats, voters: b.voters }) };
+  });
+  for (const { b, settings } of plans) {
+    jobs++;
+    all.push(engine({ task: "election", settings }, alive).then(reply => {
+      done++; progress();
+      if (!alive() || reply.stale) return;
+      if (reply.error || !reply.results?.length) {
+        setStatus("branches-status", `The engine refused ${b.name}'s numbers: ${reply.error || "seats must be fewer than candidates"}.`, false, true);
+        return;
+      }
+      branchResults.set(b.name, { b, r: reply.results[0] });
+      redraw();
+    }));
   }
-  if (alive()) setStatus("branches-status", "");
+  for (const { b, settings } of plans) {
+    const add = (into, from) => { for (const k of ["sum", "sq", "n"]) from[k].forEach((x, i) => { into[k][i] = (into[k][i] || 0) + x; }); };
+    branchWorth.set(b.name, { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
+    for (let first = 0; first < sims; first += WORTH_CHUNK) {
+      const count = Math.min(WORTH_CHUNK, sims - first);
+      jobs++;
+      all.push(engine({ task: "worth", settings, first, count }, alive).then(reply => {
+        done++; progress();
+        if (!alive() || reply.stale || reply.error) return;
+        const w = branchWorth.get(b.name);
+        add(w.any, reply.any); add(w.edge, reply.edge);
+        w.done += count;
+        redraw();
+      }));
+    }
+  }
+  progress();
+  await Promise.all(all);
+  progress();
 };

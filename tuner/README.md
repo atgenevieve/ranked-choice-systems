@@ -13,7 +13,9 @@ The open questions from milestone 4 (standout candidates, and the pull toward a 
 ## Files
 
 - `index.html`, `app.js`: the page.
-- `branches.html`, `branches.js`: the NYC DSA branch page, published separately. It shares `app.js` (the model settings, engine calls, and charts) and plays out each branch's delegate election with its own candidates, seats, and expected ballots, which you can edit on the page.
+- `branches.html`, `branches.js`: the NYC DSA branch page, published separately. It shares `app.js` (the model settings, engine calls, and charts) and plays out each branch's delegate election with its own candidates, seats, and expected ballots, which you can edit on the page. Under each branch's two charts, a bar chart shows what each ballot position is worth to a candidate: how many percentage points more likely a candidate is to win when one more voter ranks them at that position instead of leaving them off (`sim::position_worth` in the engine), for candidates drawn at random, with the close-race multiple (the last 2 winners and 2 strongest losers) in its subtitle.
+
+The engine runs in a pool of workers, one per spare processor core (`app.js`), so both pages' requests run side by side. On the branch page, every branch and every chunk of 50 simulated elections for the bar chart is a separate request.
 - `worker.js`: runs the engine off the page's main thread.
 - `stvsim.wasm`: the engine, built from `engine/src` (requests and replies are described in `engine/src/wasm.rs`).
 - `reference.json`: the real elections, built by `data/tuner_reference.py`.

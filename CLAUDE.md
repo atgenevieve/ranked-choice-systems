@@ -22,7 +22,7 @@ How they relate: if reach at rank *k* is zero, truncating there can't change any
 ### Two versions of truncation
 
 - **Whole electorate (build first).** Cut everyone's ballots at rank *k*. Answers "how deep does ranking need to go for the election to come out the same?"
-- **Single voter (later).** Could one voter's rank *k* decide a seat? Much rarer. Answers "is it worth my time to fill in rank *k*?"
+- **Single voter (later).** Could one voter's rank *k* decide a seat? Much rarer. Answers "is it worth my time to fill in rank *k*?" A first, candidate-side version exists: **position worth** (`sim::position_worth`, shown on the branch page), how many percentage points more likely a candidate is to win when one voter ranks them at position *k* instead of leaving them off, for candidates drawn at random and for candidates on the edge.
 
 ### Key definitions
 
