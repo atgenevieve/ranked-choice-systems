@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2010 Berkeley City Council - District 7",
-  "date": "2010",
+  "date": "2010-11-02",
   "system": "unknown",
   "candidates": [
     "Cecilia 'Ces' Rosales",
@@ -10,10 +10,19 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    1
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 2,
   "preflib_file": "00017-00000001.toi",
   "preflib_dataset": "berkley",
-  "notes": "PrefLib file 00017-00000001.toi (dataset 00017, 'berkley'). Counting rule, as far as we know: Instant runoff, single-winner. 2 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00017-00000001.toi (dataset 00017, 'berkley'). Counting rule, as far as we know: Instant runoff, single-winner. 2 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Alameda County Registrar of Voters, \"Ranked-Choice Voting Official Final Accumulated Results - Member, City Council, District 7 - Berkeley\" (https://www.acgov.org/rov/rcv/results2010-11-02/rcvresults_3981.htm).",
+    "date": "California general election.",
+    "max_ranks": "Alameda County and San Francisco ranked-choice ballots allowed 3 rankings (every ballot in the file has 3 or fewer ranks)."
+  }
 }

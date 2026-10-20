@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2010 UK Labor Leadership",
-  "date": "2010",
+  "date": "2010-09-25",
   "system": "unknown",
   "candidates": [
     "D.Abbott",
@@ -16,5 +16,13 @@
   "tied_ballots_dropped": 0,
   "preflib_file": "00030-00000001.soi",
   "preflib_dataset": "uklabor",
-  "notes": "PrefLib file 00030-00000001.soi (dataset 00030, 'uklabor'). Counting rule, as far as we know: Alternative vote (instant runoff) by electoral college; these are only the 266 MPs' ballots."
+  "notes": "PrefLib file 00030-00000001.soi (dataset 00030, 'uklabor'). Counting rule, as far as we know: Alternative vote (instant runoff) by electoral college; these are only the 266 MPs' ballots.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": null,
+    "date": "Result announced 25 September 2010 (Wikipedia, \"2010 Labour Party leadership election (UK)\").",
+    "max_ranks": "Members could rank every candidate."
+  },
+  "label_notes": "These are only the 266 MPs' ballots, one third of an electoral college. The official winner (Ed Miliband) won the whole college, not this section, so official_winners is null."
 }

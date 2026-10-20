@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2008 Pierce County Council - District 2",
-  "date": "2008",
+  "date": "2008-11-04",
   "system": "unknown",
   "candidates": [
     "Al Rose",
@@ -9,11 +9,27 @@
     "Joyce Mcdonald",
     "Write-In"
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    "Democratic",
+    "Democratic",
+    "Republican",
+    null
+  ],
+  "official_winners": [
+    2
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 15,
   "preflib_file": "00020-00000002.toi",
   "preflib_dataset": "pierce",
-  "notes": "PrefLib file 00020-00000002.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 15 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00020-00000002.toi (dataset 00020, 'pierce'). Counting rule, as far as we know: Instant runoff, single-winner. 15 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "party_source": "Party preference shown in Pierce County's \"November 4, 2008 General Election - Official Results\" (https://piercecountywa.gov/DocumentCenter/View/1422/nov2008results), read through search-engine extracts because the county site blocks automated access. Joyce McDonald's Republican affiliation also on Wikipedia (\"Joyce McDonald\").",
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Pierce County November 4, 2008 official results; Wikipedia, \"Joyce McDonald\".",
+    "date": "Pierce County, November 4, 2008 General Election.",
+    "max_ranks": "Pierce County used a 3-rank ballot for its 2008 and 2009 ranked-choice races (county sample ballot; every ballot in the file has 3 or fewer ranks)."
+  },
+  "label_notes": "Al Rose and Carolyn Merrival's labels rest on the search extract only; check against the PDF when it can be opened."
 }

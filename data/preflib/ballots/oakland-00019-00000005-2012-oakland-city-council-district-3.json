@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2012 Oakland City Council - District 3",
-  "date": "2012",
+  "date": "2012-11-06",
   "system": "unknown",
   "candidates": [
     "Larry Lionel Young",
@@ -13,10 +13,19 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    4
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 89,
   "preflib_file": "00019-00000005.toi",
   "preflib_dataset": "oakland",
-  "notes": "PrefLib file 00019-00000005.toi (dataset 00019, 'oakland'). Counting rule, as far as we know: Instant runoff, single-winner. 89 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00019-00000005.toi (dataset 00019, 'oakland'). Counting rule, as far as we know: Instant runoff, single-winner. 89 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Oakland North, \"The vote is in: Victory for Kalb, Kaplan, Gallo and Parker\" (https://oaklandnorth.net/2012/11/07/the-vote-is-in-victory-for-dan-kalb-rebecca-kaplan-noel-gallo-and-barbara-parker/).",
+    "date": "California general election.",
+    "max_ranks": "Alameda County and San Francisco ranked-choice ballots allowed 3 rankings (every ballot in the file has 3 or fewer ranks)."
+  }
 }

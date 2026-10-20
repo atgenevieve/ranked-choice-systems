@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2009 Minneapolis Board of Estimate and Taxation Election - No Write In",
-  "date": "2009",
+  "date": "2009-11-03",
   "system": "unknown",
   "candidates": [
     "\"Carol Becker\"",
@@ -13,10 +13,47 @@
     "\"Write In\""
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    0,
+    4
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00018-00000004.soi",
   "preflib_dataset": "minneapolis",
-  "notes": "PrefLib file 00018-00000004.soi (dataset 00018, 'minneapolis'). Counting rule, as far as we know: Minneapolis STV for multi-seat races. A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00018-00000004.soi (dataset 00018, 'minneapolis'). Counting rule, as far as we know: Minneapolis STV for multi-seat races. A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 2,
+  "slates": [
+    {
+      "name": "Minneapolis DFL",
+      "kind": "endorsement",
+      "members": [
+        0
+      ],
+      "source": "Wikipedia, \"2009 Minneapolis municipal election\", party endorsement tables, citing the Minneapolis DFL (http://www.mpls.dfl.org/endorsed-candidates), the Fifth District Green Party, and the Minneapolis City Republican Committee."
+    },
+    {
+      "name": "Independence Party (Fifth District)",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "Wikipedia, \"2009 Minneapolis municipal election\", party endorsement tables, citing the Minneapolis DFL (http://www.mpls.dfl.org/endorsed-candidates), the Fifth District Green Party, and the Minneapolis City Republican Committee."
+    },
+    {
+      "name": "Minneapolis City Republican Committee",
+      "kind": "endorsement",
+      "members": [
+        1
+      ],
+      "source": "Wikipedia, \"2009 Minneapolis municipal election\", party endorsement tables, citing the Minneapolis DFL (http://www.mpls.dfl.org/endorsed-candidates), the Fifth District Green Party, and the Minneapolis City Republican Committee."
+    }
+  ],
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "City of Minneapolis, 2009 election results (https://vote.minneapolismn.gov/results-data/election-results/2009/bet/).",
+    "date": "City of Minneapolis results page.",
+    "max_ranks": "City of Minneapolis results page: \"Voters were asked to rank up to 3 different candidates.\""
+  },
+  "label_notes": "Ballot party labels for this race could not be confirmed, so parties is null and the party endorsements are slates."
 }

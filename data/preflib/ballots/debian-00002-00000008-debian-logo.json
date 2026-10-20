@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "Debian Logo",
-  "date": null,
+  "date": "1999",
   "system": "unknown",
   "candidates": [
     "Ants",
@@ -14,10 +14,20 @@
     "Further Discussion"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    1
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 0,
   "preflib_file": "00002-00000008.soi",
   "preflib_dataset": "debian",
-  "notes": "PrefLib file 00002-00000008.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner."
+  "notes": "PrefLib file 00002-00000008.soi (dataset 00002, 'debian'). Counting rule, as far as we know: Debian uses a Condorcet method (Schulze), single-winner.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Debian vote page https://www.debian.org/vote/1999/vote_0004 (\"The winner is the Swirl\").",
+    "date": "Year of the vote (proposal dated May 3, 1999); exact voting dates not shown.",
+    "max_ranks": "Debian ballots let voters rank every option."
+  },
+  "label_notes": "Matched to Debian's 1999 'New Logo' vote because the options (ants, swirl, seal, old logo, fixed chicken, modified swirl, further discussion) are the same."
 }

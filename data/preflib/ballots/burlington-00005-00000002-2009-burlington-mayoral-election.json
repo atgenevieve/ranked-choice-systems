@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2009 Burlington Mayoral Election",
-  "date": "2009",
+  "date": "2009-03-03",
   "system": "unknown",
   "candidates": [
     "Bob Kiss",
@@ -11,11 +11,29 @@
     "Kurt Wright",
     "Write-In"
   ],
-  "parties": null,
-  "official_winners": null,
+  "parties": [
+    "Progressive",
+    "Democratic",
+    "Green",
+    null,
+    "Republican",
+    null
+  ],
+  "official_winners": [
+    0
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 6,
   "preflib_file": "00005-00000002.toi",
   "preflib_dataset": "burlington",
-  "notes": "PrefLib file 00005-00000002.toi (dataset 00005, 'burlington'). Counting rule, as far as we know: Instant runoff, single-winner. 6 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00005-00000002.toi (dataset 00005, 'burlington'). Counting rule, as far as we know: Instant runoff, single-winner. 6 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "party_source": "Wikipedia, \"2009 Burlington, Vermont mayoral election\", results table. Independents are null.",
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "Wikipedia, \"2009 Burlington mayoral election\".",
+    "date": "Wikipedia election infobox.",
+    "max_ranks": "Unknown; ballots in the file rank up to 5 of the 5 named candidates."
+  },
+  "label_notes": "Dan Smith ran as an independent."
 }

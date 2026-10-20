@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2010 San Francisco Board of Supervisors - District 6",
-  "date": "2010",
+  "date": "2010-11-02",
   "system": "unknown",
   "candidates": [
     "Dean Clark",
@@ -21,10 +21,19 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    3
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 183,
   "preflib_file": "00021-00000008.toi",
   "preflib_dataset": "sf",
-  "notes": "PrefLib file 00021-00000008.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 183 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00021-00000008.toi (dataset 00021, 'sf'). Counting rule, as far as we know: Instant runoff, single-winner. 183 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Wikipedia, \"2010 San Francisco Board of Supervisors election\" (winner boxes; cites the San Francisco Department of Elections).",
+    "date": "Wikipedia election infobox.",
+    "max_ranks": "Alameda County and San Francisco ranked-choice ballots allowed 3 rankings (every ballot in the file has 3 or fewer ranks)."
+  }
 }

@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "Aspen Mayor 2009",
-  "date": "2009",
+  "date": "2009-05-05",
   "system": "unknown",
   "candidates": [
     "Marilyn Marks",
@@ -11,10 +11,19 @@
     "Write In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    3
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 7,
   "preflib_file": "00016-00000002.toi",
   "preflib_dataset": "aspen",
-  "notes": "PrefLib file 00016-00000002.toi (dataset 00016, 'aspen'). Counting rule, as far as we know: Aspen's 2009 instant-runoff rules (the council race used a two-seat variant). 7 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00016-00000002.toi (dataset 00016, 'aspen'). Counting rule, as far as we know: Aspen's 2009 instant-runoff rules (the council race used a two-seat variant). 7 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "max_ranks": null,
+  "label_sources": {
+    "official_winners": "FairVote, \"Aspen releases full results\" (https://archive3.fairvote.org/aspen-releases-full-results).",
+    "date": "Aspen municipal election, 5 May 2009.",
+    "max_ranks": "Unknown; ballots in the file rank up to all 4 named candidates."
+  }
 }

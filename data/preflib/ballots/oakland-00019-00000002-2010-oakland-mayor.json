@@ -1,7 +1,7 @@
 {
   "source": "preflib",
   "election": "2010 Oakland Mayor",
-  "date": "2010",
+  "date": "2010-11-02",
   "system": "unknown",
   "candidates": [
     "Don Perata",
@@ -17,10 +17,30 @@
     "Write-In"
   ],
   "parties": null,
-  "official_winners": null,
+  "official_winners": [
+    4
+  ],
   "blank_ballots": 0,
   "tied_ballots_dropped": 361,
   "preflib_file": "00019-00000002.toi",
   "preflib_dataset": "oakland",
-  "notes": "PrefLib file 00019-00000002.toi (dataset 00019, 'oakland'). Counting rule, as far as we know: Instant runoff, single-winner. 361 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined."
+  "notes": "PrefLib file 00019-00000002.toi (dataset 00019, 'oakland'). Counting rule, as far as we know: Instant runoff, single-winner. 361 ballots with two or more candidates tied at one rank were left out (not counted as blank). A 'Write-In' candidate stands for all write-in votes combined.",
+  "seats": 1,
+  "slates": [
+    {
+      "name": "Quan-Kaplan second-choice pact",
+      "kind": "campaign",
+      "members": [
+        4,
+        9
+      ],
+      "source": "SFist, 11 Nov 2010 (https://sfist.com/2010/11/11/jean_quan_is_oaklands_first_female.php): Quan's \"pact with opponent and fellow Councilwoman Rebecca Kaplan\" to tell supporters \"to list each other as second or third choices\"."
+    }
+  ],
+  "max_ranks": 3,
+  "label_sources": {
+    "official_winners": "Wikipedia, \"2010 Oakland mayoral election\".",
+    "date": "Wikipedia election infobox.",
+    "max_ranks": "Wikipedia: \"Each voter could mark which candidates were the voter's first, second, and third choice.\""
+  }
 }
