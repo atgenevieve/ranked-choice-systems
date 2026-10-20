@@ -39,7 +39,8 @@ All settings live in a settings file in TOML, a simple text format of `name = va
 | `run.curve_ranks` | How many ranks of each curve to write. 0 means all | 0 |
 | `election.candidates` | Number of candidates | required |
 | `election.seats` | Seat counts to test, as a list such as `[1, 3, 10]` | required |
-| `election.voters` | Ballots per election | 10 × candidates, at least 100 (at least 1,000 for model version 0.1) |
+| `election.voters` | Expected ballots per election | 10 × candidates, at least 100 (at least 1,000 for model version 0.1) |
+| `election.turnout_spread` | How uncertain turnout is: each simulated election draws its number of voters from a bell curve centered on `voters`, with this standard deviation as a share of `voters` (cut off at 3 standard deviations). 0 gives every election exactly `voters`. Each results line records the voters drawn (`voters`: mean, min, 10th, 50th, and 90th percentiles, max). | 0.1 (0 for model version 0.1) |
 | `election.ranks` | The most ranks any ballot can hold | 100 |
 | `electorate.type` | `public` (tuned to Scotland) or `organization` (tuned to union and society elections). Sets how far voters naturally rank | `public` |
 | `electorate.length_scale`, `length_candidates_power`, `length_seats_power`, `length_bunching`, `length_complete_share`, `length_complete_fade` | Overrides for the natural ballot length | fitted for the electorate type |

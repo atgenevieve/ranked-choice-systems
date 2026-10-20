@@ -18,7 +18,7 @@
 | 2 | Slate sizes | Candidates split like voters | Set candidates and voters per slate separately; slates sized to the seats they expect to win | **Approved** |
 | 1 | Number of slates | 4 | Keep 4 as a default, and add candidates outside any slate | **Approved** |
 | 6 | Number of voters | 10 per candidate, at least 1,000 | Set from your organization's real numbers; lower the minimum | **Approved.** Numbers to come |
-| 7 | Quota rounding and turnout (found after the review) | One exact voter count; whole-vote quota | Turnout as a range; count with both the whole-vote and the exact quota | **Needed:** your counting rules; your turnout range |
+| 7 | Quota rounding and turnout (found after the review) | One exact voter count; whole-vote quota | Turnout as an expected number plus an uncertainty | **Approved:** 10% uncertainty by default; Scottish rules' quota |
 | – | Which real data to tune against | – | Scotland and ERS first, Portland for large fields, your organization's data if available | Can you get past ballots? |
 
 ## 5. Ballot length: how many candidates each voter ranks
@@ -243,7 +243,7 @@ Keep an optional table of closeness between slates for later, if real data from 
 
 **Proposal:** treat turnout as a range: each simulated election draws its voter count from the range expected, so the 95% confidence rank covers not knowing turnout. Count with both quotas until your organization's rules are known.
 
-**Needed from you:** your organization's counting rules, especially whether the quota is a whole number of votes, and the turnout range to plan for.
+**Your decision (October 20, 2026):** approved: an expected turnout plus an uncertainty, as a percentage that works like a standard deviation, defaulting to 10%. The quota isn't a model setting: it belongs to the voting method. Your organization uses Scottish STV, so the model counts with Scottish rules; other methods come later (milestone 7). The headline wording: "Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks."
 
 ## Factors still left out
 

@@ -2,7 +2,7 @@
 
 A web page for adjusting the voter model (`docs/model-spec.md`) and seeing, side by side:
 
-- **Your election:** how deep rankings matter, from simulated elections with the settings you choose: the rank where cutting ballots stops changing the winners (in fewer than 5 of 100 elections), the cutoff rank across elections, how many seats change hands, and how many votes run out.
+- **Your election:** how deep rankings matter, from simulated elections with the settings you choose, with turnout spread around the expected number ("Turnout uncertainty", default 10%), so the headline reads "Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks": the rank where cutting ballots stops changing the winners (in fewer than 5 of 100 elections), the cutoff rank across elections, how many seats change hands, and how many votes run out.
 - **Real elections:** a sample of real elections of one type, next to a simulated twin of each (same candidates, seats, voters, and ballot rules) with your settings, measured the same way, and labeled close, near, or off.
 - **Saving:** the settings as a settings file the engine runs (`stvsim run`), copied, saved as a file, or saved to the page's shared list, where Claude can read it back into the project.
 
