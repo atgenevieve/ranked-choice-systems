@@ -57,6 +57,9 @@ header p { margin: 4px 0 0; color: var(--ink-2); max-width: 70ch; }
 .setting + .setting { border-top: 1px dashed var(--grid); padding-top: 14px; }
 .setting-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .setting-head label, .setting-head .label { font-size: 14.5px; font-weight: 600; }
+.slider-row { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; align-items: start; }
+.slider-row output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; line-height: 1.3; padding-top: 1px; }
+.slider-track { display: grid; gap: 4px; min-width: 0; }
 .setting-head output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; text-align: right; }
 .what { margin: 0; font-size: 13.5px; color: var(--ink-2); }
 .yours { margin: 0; font-size: 13.5px; }

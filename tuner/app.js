@@ -552,6 +552,19 @@ use("downloads").then(downloads => {
   });
 });
 
+// ---------------------------------------------------------------- slider layout
+// Each slider's current value sits to its left; the real-election marks stay under the slider.
+for (const input of document.querySelectorAll('#controls input[type="range"]')) {
+  const out = $(`${input.id}-v`), scale = $(`${input.id}-scale`);
+  const row = document.createElement("div"); row.className = "slider-row";
+  const track = document.createElement("div"); track.className = "slider-track";
+  input.before(row);
+  if (out) row.append(out);
+  track.append(input);
+  if (scale) track.append(scale);
+  row.append(track);
+}
+
 // ---------------------------------------------------------------- start
 (async () => {
   let saved = null;
