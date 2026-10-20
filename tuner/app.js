@@ -95,6 +95,7 @@ function writeControls(c) {
     if (e.type === "checkbox") e.checked = !!c[id]; else e.value = c[id];
   }
   if (c.electorate) document.querySelector(`input[name="electorate"][value="${c.electorate}"]`).checked = true;
+  $("turnout-n").value = $("turnout").value;
 }
 
 /** The [model] section of a settings file, from the controls. */
@@ -179,7 +180,6 @@ function updateLabels(c) {
   // Turnout.
   {
     const v = int(c.voters, 10, 50000), t = int(c.turnout, 0, 30) / 100;
-    setText("turnout-v", `±${Math.round(t * 100)}%`);
     setText("turnout-yours", t ? `each simulated election draws its own turnout: about 2 in 3 have ${Math.round(v * (1 - t)).toLocaleString()} to ${Math.round(v * (1 + t)).toLocaleString()} voters, and 19 in 20 have ${Math.round(v * (1 - 2 * t)).toLocaleString()} to ${Math.round(v * (1 + 2 * t)).toLocaleString()}.` : `every election has exactly ${v.toLocaleString()} voters.`);
   }
   // Pull toward N.
@@ -677,6 +677,12 @@ for (const input of document.querySelectorAll('#controls input[type="range"]:not
   if (scale) track.append(scale);
   row.append(track);
 }
+
+// ---------------------------------------------------------------- turnout range
+// The typed box and the slider stay in step as either one changes.
+$("turnout").addEventListener("input", () => { $("turnout-n").value = $("turnout").value; });
+$("turnout-n").addEventListener("input", () => { if ($("turnout-n").value !== "") $("turnout").value = int($("turnout-n").value, 0, 30); });
+$("turnout-n").addEventListener("change", () => { $("turnout-n").value = $("turnout").value; });
 
 // ---------------------------------------------------------------- tabs
 // One tab per group of settings; the last one chosen is remembered in this browser.

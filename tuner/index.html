@@ -75,8 +75,9 @@ header p { margin: 4px 0 0; color: var(--ink-2); max-width: 70ch; }
 details.why summary { cursor: pointer; font-size: 13px; color: var(--model); width: fit-content; }
 details.why p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
 .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
-.inline-slider { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 8px; align-items: center; min-height: 36px; }
-.inline-slider output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; }
+.inline-slider { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.pctbox { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.pctbox input { width: 4.2em; }
 .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
 .field { display: grid; gap: 4px; min-width: 0; }
@@ -177,7 +178,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         <div class="setting">
           <div class="row2">
             <div class="field"><label for="voters">Expected voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
-            <div class="field"><label for="turnout">Turnout range</label><div class="inline-slider"><output id="turnout-v"></output><input type="range" id="turnout" class="compact" min="0" max="30" step="1" value="10"></div></div>
+            <div class="field"><label for="turnout">Turnout range</label><div class="inline-slider"><span class="pctbox"><span aria-hidden="true">±</span><input type="number" id="turnout-n" min="0" max="30" step="1" value="10" aria-label="Turnout range, percent, give or take"><span aria-hidden="true">%</span></span><input type="range" id="turnout" class="compact" min="0" max="30" step="1" value="10" aria-label="Turnout range slider"></div></div>
           </div>
           <p class="yours" id="turnout-yours"></p>
           <details class="why"><summary>What the turnout range does</summary><p>Each simulated election draws its own turnout around the expected number: about 2 in 3 land within the range, and 19 in 20 within twice the range. You can't know turnout to the voter, and under Scottish rules a few voters can change the answer a lot, because the quota (the votes needed to win a seat) is a whole number of votes, and the answer rises and drops with every step in it. Spreading turnout across the range you expect gives one steady answer. Set it to how far turnout has varied between your recent elections; 10% is the default. 0% plays out one exact number of voters.</p></details>
