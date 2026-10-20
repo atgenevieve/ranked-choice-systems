@@ -74,6 +74,9 @@ header p { margin: 4px 0 0; color: var(--ink-2); max-width: 70ch; }
 .yours:empty { display: none; }
 details.why summary { cursor: pointer; font-size: 13px; color: var(--model); width: fit-content; }
 details.why p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.inline-slider { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 8px; align-items: center; min-height: 36px; }
+.inline-slider output { font-family: var(--font-data); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; }
 .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
 .field { display: grid; gap: 4px; min-width: 0; }
@@ -167,17 +170,17 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
       <div class="tabs" role="tablist" aria-label="Settings" id="tabs"></div>
       <div class="tabpanel" role="tabpanel" data-tab="Election">
         <h2>Your election</h2>
-        <div class="row3">
+        <div class="row2">
           <div class="field"><label for="candidates">Candidates</label><input type="number" id="candidates" min="2" max="300" value="75"></div>
           <div class="field"><label for="seats">Seats</label><input type="number" id="seats" min="1" max="200" value="46"></div>
-          <div class="field"><label for="voters">Expected voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
         </div>
         <div class="setting">
-          <div class="setting-head"><label for="turnout">Turnout uncertainty</label><output id="turnout-v"></output></div>
-          <p class="what">Give or take this much, as a share of expected voters. Each simulated election draws its own turnout: about 2 in 3 land within this much of the expected number, and 19 in 20 within twice this much. Set it to 0 to play out one exact number of voters.</p>
-          <input type="range" id="turnout" min="0" max="30" step="1" value="10">
+          <div class="row2">
+            <div class="field"><label for="voters">Expected voters</label><input type="number" id="voters" min="10" max="20000" value="432"></div>
+            <div class="field"><label for="turnout">Turnout range</label><div class="inline-slider"><output id="turnout-v"></output><input type="range" id="turnout" class="compact" min="0" max="30" step="1" value="10"></div></div>
+          </div>
           <p class="yours" id="turnout-yours"></p>
-          <details class="why"><summary>Why change it</summary><p>You can't know turnout to the voter, and under Scottish rules a few voters can change the answer a lot: the quota (the votes needed to win a seat) is a whole number of votes, so the answer rises and drops with every step in it. Spreading turnout across the range you expect gives one steady answer. Set it to how far turnout has varied between your recent elections. 10% is the default.</p></details>
+          <details class="why"><summary>What the turnout range does</summary><p>Each simulated election draws its own turnout around the expected number: about 2 in 3 land within the range, and 19 in 20 within twice the range. You can't know turnout to the voter, and under Scottish rules a few voters can change the answer a lot, because the quota (the votes needed to win a seat) is a whole number of votes, and the answer rises and drops with every step in it. Spreading turnout across the range you expect gives one steady answer. Set it to how far turnout has varied between your recent elections; 10% is the default. 0% plays out one exact number of voters.</p></details>
         </div>
         <div class="setting">
           <div class="setting-head"><label for="sims">How many times to simulate it</label></div>
@@ -333,16 +336,16 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
           <div class="chart" id="chart-seats"></div>
         </div>
         <div class="chartcard">
-          <h3>Does the number of voters change the answer?</h3>
-          <p class="read">Plays out your election again at a range of voter counts, with every other setting the same, and plots the 95%, 80%, and 50% confidence ranks for each. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two voter counts fall inside each other's bands, the difference between them is noise, not an effect of voters. It runs your election once per point, at every interval from the fewest voters to the most (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask. Each point uses your turnout uncertainty, so the points are expected voters. To see the raw swing at each quota step, set "Turnout uncertainty" to 0% and try a narrow range that crosses a dotted line, with an interval of 5 voters or less.</p>
+          <h3>How turnout changes how many ranks matter</h3>
+          <p class="read">Plays out your election at a range of expected turnouts, from the lowest to the highest, with every other setting the same, including your turnout range around each one. For each expected turnout, it plots the same number as the headline: the rank by which 95 of 100 elections are decided, and the same for 80 and 50 of 100. A line that rises means a bigger turnout needs voters to rank further. The shaded band, around the 95% line, is the range that chance alone could give with this many simulated elections: if two points fall inside each other's bands, the difference between them could be luck. It runs your election once per point (a few seconds per point at 1,000 runs; at most 100 points), so it starts only when you ask.</p>
           <div class="sweep-fields">
-            <div class="field"><label for="sweep-from">Fewest voters</label><input type="number" id="sweep-from" min="10" max="50000"></div>
-            <div class="field"><label for="sweep-to">Most voters</label><input type="number" id="sweep-to" min="10" max="50000"></div>
+            <div class="field"><label for="sweep-from">Lowest turnout</label><input type="number" id="sweep-from" min="10" max="50000"></div>
+            <div class="field"><label for="sweep-to">Highest turnout</label><input type="number" id="sweep-to" min="10" max="50000"></div>
             <div class="field"><label for="sweep-step">Interval (voters)</label><input type="number" id="sweep-step" min="1" max="50000"></div>
             <button type="button" id="sweep-run">Run</button>
           </div>
           <p class="status" id="sweep-status"></p>
-          <div class="legend"><span><i class="swatch line" style="background:var(--model)"></i>95% confidence rank</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.8" stroke-dasharray="7 4"/></svg>80%</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.6" stroke-dasharray="2 3"/></svg>50%</span><span><i class="swatch" style="background:var(--model-soft)"></i>Range chance could give</span></div>
+          <div class="legend"><span><i class="swatch line" style="background:var(--model)"></i>95 of 100 elections decided</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.8" stroke-dasharray="7 4"/></svg>80 of 100</span><span><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="var(--model)" stroke-width="1.6" stroke-dasharray="2 3"/></svg>50 of 100</span><span><i class="swatch" style="background:var(--model-soft)"></i>Range chance could give</span></div>
           <div class="chart" id="chart-voters"></div>
           <p class="found" id="sweep-found"></p>
         </div>

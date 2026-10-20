@@ -179,8 +179,8 @@ function updateLabels(c) {
   // Turnout.
   {
     const v = int(c.voters, 10, 50000), t = int(c.turnout, 0, 30) / 100;
-    setText("turnout-v", `${Math.round(t * 100)}%`);
-    setText("turnout-yours", t ? `about 2 in 3 elections have ${Math.round(v * (1 - t)).toLocaleString()} to ${Math.round(v * (1 + t)).toLocaleString()} voters, and 19 in 20 have ${Math.round(v * (1 - 2 * t)).toLocaleString()} to ${Math.round(v * (1 + 2 * t)).toLocaleString()}.` : `every election has exactly ${v.toLocaleString()} voters.`);
+    setText("turnout-v", `±${Math.round(t * 100)}%`);
+    setText("turnout-yours", t ? `each simulated election draws its own turnout: about 2 in 3 have ${Math.round(v * (1 - t)).toLocaleString()} to ${Math.round(v * (1 + t)).toLocaleString()} voters, and 19 in 20 have ${Math.round(v * (1 - 2 * t)).toLocaleString()} to ${Math.round(v * (1 + 2 * t)).toLocaleString()}.` : `every election has exactly ${v.toLocaleString()} voters.`);
   }
   // Pull toward N.
   const pulls = c.wording === "up_to" || c.wording === "at_least";
@@ -409,24 +409,22 @@ function drawSweep(c) {
     { points: pts.map(p => [p.v, p.k80]), color: "--model", width: 1.8, dash: "7 4" },
     { points: pts.map(p => [p.v, p.k]), color: "--model", dots: true },
   ], {
-    xMin, xMax, xTicks, yMax: Math.ceil(top / step) * step || 1, yStep: step, yFmt: v => String(Math.round(v)), xTitle: "Voters",
+    xMin, xMax, xTicks, yMax: Math.ceil(top / step) * step || 1, yStep: step, yFmt: v => String(Math.round(v)), xTitle: sweep.spread ? "Expected voters" : "Voters",
     xLabel: x => x.toLocaleString(),
-    vlines: steps.length <= 40 ? steps : [],
+    vlines: !sweep.spread && steps.length <= 40 ? steps : [],
     bands: pts.length > 1 ? [{ points: pts.map(p => [p.v, p.lo, p.hi]), color: "--model-soft" }] : [],
-    marks: mine ? [{ x: mine.v, y: mine.k, label: `your ${mine.v} voters: rank ${mine.k}` }] : [],
-    aria: "The 95% confidence rank, at each number of voters",
+    marks: mine ? [{ x: mine.v, y: mine.k, label: `${mine.v} expected: rank ${mine.k}` }] : [],
+    aria: "The rank by which 95, 80, and 50 of 100 elections are decided, at each expected turnout",
   });
   const ks = pts.map(p => p.k), lo = Math.min(...ks), hi = Math.max(...ks);
   const overlap = Math.max(...pts.map(p => p.lo)) <= Math.min(...pts.map(p => p.hi));
   const q = v => Math.floor(v / per) + 1;
   const below = Math.floor(yours / per) * per, above = below + per;
-  setText("sweep-found", `${pts.length} voter counts from ${xMin.toLocaleString()} to ${xMax.toLocaleString()}, ${sweep.sims.toLocaleString()} simulated elections each: the rank runs from ${lo} to ${hi}. ` +
-    (overlap ? "Every point's band overlaps every other's, so these differences could all be chance. " :
-      "Some bands don't overlap, so not all of the change is chance. ") +
-    `${steps.length && steps.length <= 40 ? "The dotted lines" : "Every " + per + " voters"} mark where the quota, the whole number of votes a candidate needs to win a seat, goes up by one vote. ` +
-    (sweep.spread ? `Each point spreads turnout by ${Math.round(sweep.spread * 100)}%, which smooths out the jumps at these steps; set turnout uncertainty to 0% to see them. ` :
-      `With turnout fixed, the rank tends to be highest just before a step and drop sharply at it, so voter counts a few apart can give very different answers. `) +
-    `With your ${yours.toLocaleString()} voters the quota is ${q(yours)} votes; it steps up at ${below.toLocaleString()} and ${above.toLocaleString()} voters.`);
+  const first = pts[0], last = pts[pts.length - 1];
+  setText("sweep-found", `From ${first.v.toLocaleString()} to ${last.v.toLocaleString()} ${sweep.spread ? "expected " : ""}voters, ${sweep.sims.toLocaleString()} simulated elections each${sweep.spread ? `, turnout give or take ${Math.round(sweep.spread * 100)}%` : ""}: 95 of 100 elections are decided within the first ${first.k} ranks at the low end and ${last.k} at the high end, and between ${lo} and ${hi} across the chart. ` +
+    (overlap ? "Every point's band overlaps every other's, so the differences could all be chance: over this range, turnout doesn't clearly change how many ranks matter. " :
+      "Some bands don't overlap, so turnout does change how many ranks matter over this range. ") +
+    (sweep.spread ? "" : `With the turnout range at 0%, the dotted lines mark where the quota, the whole number of votes a candidate needs to win a seat, goes up by one vote; the answer jumps at each one. With your ${yours.toLocaleString()} voters the quota is ${q(yours)} votes; it steps up at ${below.toLocaleString()} and ${above.toLocaleString()} voters.`));
 }
 
 $("sweep-run").addEventListener("click", async () => {
@@ -669,7 +667,7 @@ use("downloads").then(downloads => {
 
 // ---------------------------------------------------------------- slider layout
 // Each slider's current value sits to its left; the real-election marks stay under the slider.
-for (const input of document.querySelectorAll('#controls input[type="range"]')) {
+for (const input of document.querySelectorAll('#controls input[type="range"]:not(.compact)')) {
   const out = $(`${input.id}-v`), scale = $(`${input.id}-scale`);
   const row = document.createElement("div"); row.className = "slider-row";
   const track = document.createElement("div"); track.className = "slider-track";
