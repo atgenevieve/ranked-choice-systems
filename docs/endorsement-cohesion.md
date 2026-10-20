@@ -2,7 +2,7 @@
 
 A method, and early findings, for measuring how much voters rank candidates together beyond what popularity alone explains, using ranked ballots. It started as part of the rank-depth project (tuning the voter model's slate settings), but it's useful on its own: for judging endorsements, slates, and candidate pacts in any ranked-choice election with published ballots.
 
-**Status:** working method, first findings, October 2026. Every grouping found so far, with its strength, is in `results/2026-10-20-clustering-strength/table.md`.
+**Status:** working method, first findings, October 2026. Every grouping found so far, with its strength, is in `results/2026-10-20-clustering-strength/table.md`, with charts at https://claude.ai/artifact/HXybC2mYLTUz4QsWoLtpvJ.
 
 ## What it measures
 

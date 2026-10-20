@@ -1,0 +1,330 @@
+<title>Clustering Strength</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a report figure set. One column of charts, each a grid of [label | plot] rows on one shared axis, with its table view folded underneath. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #7b7a75;
+  --grid: #e6e5e0;
+  --zero: #a3a29b;
+  --range: #c8c7c0;
+  --nyc: #2a78d6;
+  --portland: #eb6834;
+  --scotland: #1baf7a;
+  --other: #8c8b85;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+    --grid: #2d2d2b; --zero: #6b6a65; --range: #4a4a46;
+    --nyc: #3987e5; --portland: #d95926; --scotland: #199e70; --other: #8f8e88; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e88;
+  --grid: #2d2d2b; --zero: #6b6a65; --range: #4a4a46;
+  --nyc: #3987e5; --portland: #d95926; --scotland: #199e70; --other: #8f8e88; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { padding-block: 30px 10px; display: grid; gap: 10px; }
+h1 { font-size: 28px; margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
+.lede { margin: 0; color: var(--ink-2); max-width: 70ch; }
+.lede b { color: var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin: 4px 0 0; padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.legend .tick { width: 2px; height: 14px; background: var(--ink); display: inline-block; }
+.legend .rng { width: 18px; height: 2px; background: var(--range); display: inline-block; }
+main { padding-block: 10px 60px; display: grid; gap: 22px; }
+.figure { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 18px 18px 10px; display: grid; gap: 10px; min-width: 0; }
+.figure h2 { font-size: 18px; margin: 0; text-wrap: balance; }
+.figure .note { margin: 0; font-size: 13px; color: var(--ink-2); max-width: 72ch; }
+.group-head { margin: 10px 0 0; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.chart { display: grid; grid-template-columns: minmax(0, var(--label-w, 260px)) minmax(0, 1fr); column-gap: 14px; }
+.rlabel { padding-block: 6px; min-width: 0; font-size: 13.5px; line-height: 1.3; }
+.rlabel .t { font-weight: 600; overflow-wrap: anywhere; }
+.rlabel .s { color: var(--muted); font-size: 12px; }
+.rplot { min-width: 0; position: relative; }
+.rplot svg, .axis svg { display: block; width: 100%; overflow: visible; }
+.axis-label { grid-column: 2; font-size: 12px; color: var(--muted); text-align: center; padding-top: 2px; }
+.row-sep { grid-column: 1 / -1; height: 1px; background: var(--grid); }
+svg text { font-family: var(--font-data); font-size: 11.5px; fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+svg text.val { fill: var(--ink); font-weight: 500; }
+svg text.med { fill: var(--ink); font-weight: 600; }
+svg .hit { fill: transparent; cursor: pointer; }
+svg .hit:focus-visible { outline: none; stroke: var(--ink); stroke-width: 2; }
+details { font-size: 13px; }
+details summary { cursor: pointer; color: var(--ink-2); padding-block: 6px; }
+details summary:focus-visible { outline: 2px solid var(--nyc); outline-offset: 2px; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--grid); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.4; max-width: 300px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+#tip b { display: block; margin-bottom: 2px; }
+#tip .m { color: var(--ink-2); }
+#tip .k { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .chart { grid-template-columns: minmax(0, 1fr); }
+  .rlabel { padding-bottom: 0; }
+  .axis-label { grid-column: 1; }
+  .axis-spacer { display: none; }
+}
+</style>
+
+<header class="wrap">
+  <h1>Clustering strength</h1>
+  <p class="lede"><b>Clustering strength</b> is how many more percentage points of a group's voters ranked another of the group's candidates second than you'd expect if second choices followed popularity alone. 0 means the group adds nothing beyond its members being popular; below 0 means its voters ranked each other less than popularity predicts. These are associations, not effects: a strong grouping shows that voters treated the candidates as belonging together, not that an endorsement caused it.</p>
+  <ul class="legend" aria-label="Legend">
+    <li><span class="dot" style="background:var(--nyc)"></span>New York City</li>
+    <li><span class="dot" style="background:var(--portland)"></span>Portland</li>
+    <li><span class="dot" style="background:var(--scotland)"></span>Scotland</li>
+    <li><span class="dot" style="background:var(--other)"></span>Minneapolis, Oakland</li>
+    <li><span class="tick"></span>Median</li>
+    <li><span class="rng"></span>Range</li>
+  </ul>
+</header>
+<main class="wrap" id="figs"></main>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = /*DATA*/null;
+const TYPES = ["Party (on the ballot)", "Endorsing organization", "Found only in ballots", "Newspaper", "Candidate pact"];
+const TYPE_NAMES = { "Party (on the ballot)": "Party on the ballot", "Endorsing organization": "Endorsing organization",
+  "Found only in ballots": "Pair found only in ballots", "Newspaper": "Newspaper", "Candidate pact": "Candidate pact" };
+const PLACE_VAR = { nyc: "--nyc", portland: "--portland", scotland: "--scotland", other: "--other" };
+const PLACE_NAME = { nyc: "New York City", portland: "Portland", scotland: "Scotland", other: "Minneapolis or Oakland" };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const median = a => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+const fmt = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(0);
+const pct = x => (x * 100).toFixed(0) + "%";
+const short = s => s.replace("New York City", "NYC");
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.append(e); return e; };
+const X_MIN = -20, X_MAX = 70, TICKS = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70];
+const charts = [];   // {draw()} redrawn on resize
+
+const tip = document.getElementById("tip");
+function showTip(evt, it) {
+  tip.replaceChildren();
+  const b = document.createElement("b"); b.textContent = it.label; tip.append(b);
+  const m = document.createElement("div"); m.className = "m"; m.textContent = short(it.sub); tip.append(m);
+  if (it.members && it.members !== it.label) { const mm = document.createElement("div"); mm.className = "m"; mm.textContent = it.members; tip.append(mm); }
+  const k = document.createElement("div"); k.className = "k";
+  k.textContent = `${fmt(it.x)} points · observed ${pct(it.observed)} · popularity alone ${pct(it.popularity)} · ${it.voters.toLocaleString()} voters`;
+  tip.append(k);
+  tip.hidden = false;
+  const r = evt.target.getBoundingClientRect ? evt.target.getBoundingClientRect() : { left: evt.clientX, top: evt.clientY, width: 0 };
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let left = r.left + r.width / 2 - w / 2, top = r.top - h - 8;
+  if (top < 8) top = r.bottom + 8;
+  left = Math.max(8, Math.min(left, innerWidth - w - 8));
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+addEventListener("scroll", hideTip, { passive: true });
+
+function hit(svg, cx, cy, it) {
+  const c = el("circle", { cx, cy, r: 10, class: "hit", tabindex: 0, role: "img",
+    "aria-label": `${it.label}, ${short(it.sub)}: ${fmt(it.x)} points` }, svg);
+  c.addEventListener("pointerenter", e => showTip(e, it));
+  c.addEventListener("pointerleave", hideTip);
+  c.addEventListener("focus", e => showTip(e, it));
+  c.addEventListener("blur", hideTip);
+}
+
+function scaleFor(width, pad) { return x => pad + (x - X_MIN) / (X_MAX - X_MIN) * (width - 2 * pad); }
+
+function gridlines(svg, sx, h) {
+  for (const t of TICKS) el("line", { x1: sx(t), x2: sx(t), y1: 0, y2: h, stroke: css(t === 0 ? "--zero" : "--grid"), "stroke-width": 1 }, svg);
+}
+
+function axisRow(chart) {
+  const sp = document.createElement("div"); sp.className = "axis-spacer";
+  const box = document.createElement("div"); box.className = "rplot axis";
+  const lab = document.createElement("div"); lab.className = "axis-label"; lab.textContent = "Points above popularity alone";
+  chart.append(sp, box, lab);
+  return w => {
+    box.replaceChildren(); const svg = el("svg", { height: 18, viewBox: `0 0 ${w} 18` }, box);
+    const sx = scaleFor(w, 14);
+    for (const t of TICKS) { const tx = el("text", { x: sx(t), y: 13, "text-anchor": "middle" }, svg); tx.textContent = t > 0 ? "+" + t : String(t).replace("-", "−"); }
+  };
+}
+
+function figure(title, note) {
+  const f = document.createElement("section"); f.className = "figure";
+  const h = document.createElement("h2"); h.textContent = title; f.append(h);
+  if (note) { const p = document.createElement("p"); p.className = "note"; p.textContent = note; f.append(p); }
+  document.getElementById("figs").append(f);
+  return f;
+}
+
+function tableView(f, items, groupKey) {
+  const d = document.createElement("details");
+  const s = document.createElement("summary"); s.textContent = "Show as a table"; d.append(s);
+  const w = document.createElement("div"); w.className = "tablewrap";
+  const t = document.createElement("table");
+  t.innerHTML = `<thead><tr>${groupKey ? "<th>Group</th>" : ""}<th>Grouping</th><th>Race</th><th class="n">Strength</th><th class="n">Observed</th><th class="n">Popularity alone</th><th class="n">Voters</th></tr></thead>`;
+  const tb = document.createElement("tbody");
+  for (const it of items) {
+    const tr = document.createElement("tr");
+    const cells = [...(groupKey ? [it[groupKey]] : []), it.label, short(it.sub)];
+    for (const c of cells) { const td = document.createElement("td"); td.textContent = c; tr.append(td); }
+    for (const c of [fmt(it.x), pct(it.observed), pct(it.popularity), it.voters.toLocaleString()]) { const td = document.createElement("td"); td.className = "n"; td.textContent = c; tr.append(td); }
+    tb.append(tr);
+  }
+  t.append(tb); w.append(t); d.append(w); f.append(d);
+}
+
+// Strip chart: one row per group; dots for its groupings, a range line, a median tick.
+function stripChart(f, groups, labelW) {
+  const chart = document.createElement("div"); chart.className = "chart"; chart.style.setProperty("--label-w", labelW || "220px");
+  const rows = [];
+  groups.forEach((g, i) => {
+    if (i) { const sep = document.createElement("div"); sep.className = "row-sep"; chart.append(sep); }
+    const lab = document.createElement("div"); lab.className = "rlabel";
+    const t = document.createElement("div"); t.className = "t"; t.textContent = g.label;
+    const s = document.createElement("div"); s.className = "s"; s.textContent = g.sub; lab.append(t, s);
+    const box = document.createElement("div"); box.className = "rplot";
+    chart.append(lab, box);
+    rows.push({ g, box });
+  });
+  const drawAxis = axisRow(chart);
+  f.append(chart);
+  charts.push({ draw() {
+    const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
+    for (const { g, box } of rows) {
+      const H = 56, mid = 32; box.replaceChildren();
+      const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}` }, box);
+      gridlines(svg, sx, H);
+      const xs = g.items.map(it => it.x);
+      if (xs.length > 1) el("line", { x1: sx(Math.min(...xs)), x2: sx(Math.max(...xs)), y1: mid, y2: mid, stroke: css("--range"), "stroke-width": 2, "stroke-linecap": "round" }, svg);
+      // Spread dots up and down so overlapping values stay visible (fixed order, no randomness).
+      const sorted = g.items.map((it, k) => ({ it, k })).sort((a, b) => a.it.x - b.it.x);
+      const offsets = [0, -8, 8, -14, 14];
+      let lastX = -Infinity, run = 0;
+      const pos = new Map();
+      for (const { it, k } of sorted) { const px = sx(it.x); run = px - lastX < 9 ? run + 1 : 0; lastX = px; pos.set(k, [px, mid + offsets[run % offsets.length]]); }
+      g.items.forEach((it, k) => {
+        const [cx, cy] = pos.get(k);
+        el("circle", { cx, cy, r: 5, fill: css(PLACE_VAR[it.place]), stroke: css("--surface"), "stroke-width": 2 }, svg);
+      });
+      const m = median(xs);
+      el("line", { x1: sx(m), x2: sx(m), y1: mid - 17, y2: mid + 17, stroke: css("--ink"), "stroke-width": 2 }, svg);
+      const mt = el("text", { x: sx(m), y: 10, class: "med", "text-anchor": "middle" }, svg); mt.textContent = fmt(m);
+      g.items.forEach((it, k) => { const [cx, cy] = pos.get(k); hit(svg, cx, cy, it); });
+    }
+    drawAxis(w);
+  } });
+}
+
+// Lollipop chart: one row per grouping, a stem from 0, a dot at its strength, the value at the tip.
+function lollipopChart(f, items, labelW) {
+  const chart = document.createElement("div"); chart.className = "chart"; chart.style.setProperty("--label-w", labelW || "300px");
+  const rows = [];
+  items.forEach((it, i) => {
+    const lab = document.createElement("div"); lab.className = "rlabel";
+    const t = document.createElement("div"); t.className = "t"; t.textContent = it.label;
+    const s = document.createElement("div"); s.className = "s"; s.textContent = short(it.sub); lab.append(t, s);
+    const box = document.createElement("div"); box.className = "rplot";
+    chart.append(lab, box); rows.push({ it, box });
+  });
+  const drawAxis = axisRow(chart);
+  f.append(chart);
+  charts.push({ draw() {
+    const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
+    for (const { it, box } of rows) {
+      const H = 36, mid = 18; box.replaceChildren();
+      const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}` }, box);
+      gridlines(svg, sx, H);
+      const color = css(PLACE_VAR[it.place]);
+      el("line", { x1: sx(0), x2: sx(it.x), y1: mid, y2: mid, stroke: color, "stroke-width": 2, "stroke-linecap": "round" }, svg);
+      el("circle", { cx: sx(it.x), cy: mid, r: 5, fill: color, stroke: css("--surface"), "stroke-width": 2 }, svg);
+      const right = it.x >= 0;
+      const v = el("text", { x: sx(it.x) + (right ? 10 : -10), y: mid + 4, "text-anchor": right ? "start" : "end", class: "val" }, svg);
+      v.textContent = fmt(it.x);
+      hit(svg, sx(it.x), mid, it);
+    }
+    drawAxis(w);
+  } });
+}
+
+const items = DATA.items;
+const byType = TYPES.map(t => items.filter(i => i.type === t));
+
+// 1. Overview by type.
+{
+  const f = figure("Clustering strength by type of grouping",
+    "Each dot is one grouping, colored by place. Identical groupings in the same race count once. Pairs found only in ballots were picked for being strong (at least 10 points), so their typical value overstates how strongly voters cluster in general.");
+  stripChart(f, TYPES.map((t, i) => {
+    const xs = byType[i].map(x => x.x);
+    return { label: TYPE_NAMES[t], sub: `${xs.length} grouping${xs.length > 1 ? "s" : ""} · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}`, items: byType[i] };
+  }), "230px");
+  tableView(f, items.map(it => ({ ...it, group: TYPE_NAMES[it.type] })), "group");
+}
+
+// 2. Each type in detail.
+const TYPE_NOTES = {
+  "Party (on the ballot)": "Scottish parties, pooled over every ward where the party ran 2 or more candidates. The Greens rarely did, so they don't appear.",
+  "Endorsing organization": "Parties, unions, and political, advocacy, good-government, and business groups. Organizations that endorsed the same candidates in the same race share a row.",
+  "Found only in ballots": "Pairs whose voters ranked each other far more than popularity predicts, with no slate in our data naming them. Picked as the 5 strongest per race, so all are at least +10. Small races are noisy: check the voter count.",
+  "Newspaper": "Editorial board endorsements. Kept separate from organizations because a newspaper's endorsement comes with free communication to voters.",
+  "Candidate pact": "Candidates who asked voters to rank each other, or who campaigned together.",
+};
+TYPES.forEach((t, i) => {
+  const f = figure(`${TYPE_NAMES[t]}: every grouping`, TYPE_NOTES[t]);
+  const list = [...byType[i]].sort((a, b) => b.x - a.x);
+  lollipopChart(f, list);
+  tableView(f, list);
+});
+
+// 3. NYC endorsing organizations, by organization.
+{
+  const orgs = DATA.nyc_orgs;
+  const names = [...new Set(orgs.map(o => o.org))];
+  const groups = names.map(n => {
+    const its = orgs.filter(o => o.org === n);
+    const xs = its.map(o => o.x);
+    return { label: n, sub: its.length > 1 ? `${its.length} slates · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}` : "1 slate", items: its, m: median(xs) };
+  }).sort((a, b) => b.m - a.m);
+  const f = figure("New York City endorsing organizations",
+    "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that mostly endorsed single candidates (most council endorsements, and unions such as the UFT, 1199, 32BJ, and the Hotel Trades Council) appear with few slates or not at all.");
+  stripChart(f, groups, "260px");
+  tableView(f, orgs.map(o => ({ ...o })), "org");
+}
+
+// 4. Working Families Party in NYC.
+{
+  const wfp = DATA.nyc_orgs.filter(o => o.org === "Working Families Party").sort((a, b) => b.x - a.x);
+  const f = figure("Working Families Party in New York City",
+    "Every WFP slate of 2 or more candidates in the same race. The April 2021 mayoral ranking (Stringer, Morales, Wiley) was later withdrawn; the final 2021 pick was Wiley alone, which can't be measured.");
+  lollipopChart(f, wfp.map(o => ({ ...o, label: o.members.replace(/ · /g, ", "), sub: o.sub + (o.label.includes("April") ? " · April ranking, withdrawn" : "") })));
+  tableView(f, wfp);
+}
+
+// 5. Unions in NYC.
+{
+  const un = DATA.nyc_orgs.filter(o => DATA.unions_nyc.includes(o.org)).sort((a, b) => b.x - a.x);
+  const f = figure("Unions in New York City",
+    "Union slates of 2 or more candidates in the same race. Most NYC union endorsements were a single candidate, which can't be measured, so this is a small, mayoral-heavy set.");
+  lollipopChart(f, un.map(o => ({ ...o, label: o.org, sub: o.sub + " · " + o.members.replace(/ · /g, ", ") })));
+  tableView(f, un);
+}
+
+const drawAll = () => { hideTip(); for (const c of charts) c.draw(); };
+drawAll();
+let rt = null;
+new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(drawAll, 60); }).observe(document.getElementById("figs"));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
+new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>

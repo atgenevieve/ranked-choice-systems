@@ -35,3 +35,7 @@ These are associations, not effects. A strong grouping shows that voters treated
 - **Scottish parties are pooled** over every ward where the party ran 2 or more candidates. The Greens rarely did, so they don't appear.
 - **Slates of one candidate can't be measured,** so most NYC council endorsements are missing.
 - **NYC slates in 2021 are a January 2021 snapshot,** and several come from news trackers, not the endorser's own page (`data/nyc/README.md`).
+
+## Charts
+
+The charts page (https://claude.ai/artifact/HXybC2mYLTUz4QsWoLtpvJ) shows the types side by side, every grouping within each type, New York City endorsing organizations by organization, the Working Families Party in New York City, and unions in New York City. Each chart has a table view. Its data comes from `data/clustering_charts.py`, and its page template is `data/clustering_charts_page.html`.
