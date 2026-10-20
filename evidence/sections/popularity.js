@@ -1,56 +1,64 @@
 // Candidate popularity: how unequal first choices are, and the shape of that inequality.
+// Shown as plain ratios (how many times more first choices one candidate gets than another),
+// not as the model's spread setting, which only means something inside the model.
 window.SECTIONS.popularity = () => {
   decisionBox(DECISIONS.popularity);
-  const E = DATA.elections;
+  const E = DATA.elections.filter(e => e.top_ratio != null);
+  const M = DATA.model_7;
   const NAMES = { scotland: "Scotland", public: "Other public elections", org: "Other organizational", ers: "Union and society (ERS)", nyc: "NYC primaries", portland: "Portland", act: "Canberra" };
   const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+  const times = v => `${(+v).toFixed(v < 10 ? 1 : 0)}×`;
+  const model = s => M.find(m => m.spread === s).top_ratio;
 
   {
-    const f = figure("How unequal first choices are",
-      `The current setting, a spread of 1.0, sits near the middle of real multi-seat elections (Scotland ${med(E.filter(e => e.group === "scotland").map(e => e.spread)).toFixed(2)}). Single-seat US races are more lopsided, because a few front-runners dominate.`,
-      "Fitted popularity spread for each election: how widely first-choice shares scatter, on a scale where doubling and halving count as equal steps. 0 means every candidate equally popular. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row\'s tallest bar; hover for counts. The black line is the median. The method is in data/calibration.py.");
-    const order = ["scotland", "act", "ers", "org", "public", "portland", "nyc"];
+    const f = figure("How much more the top candidate gets than the middle one",
+      `In a typical Scottish ward, the most popular candidate gets about ${times(med(E.filter(e => e.group === "scotland").map(e => e.top_ratio)))} as many first choices as the middle candidate. Union and society elections look much the same. Single-seat US races and large fields are more lopsided: Canberra about ${times(med(E.filter(e => e.group === "act").map(e => e.top_ratio)))}, Portland about ${times(med(E.filter(e => e.group === "portland").map(e => e.top_ratio)))}.`,
+      `Top candidate's first choices divided by the middle candidate's (the median candidate), for each election. 1× means they got the same. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts. Elections above 16× are counted in the last bar. The model sets this with one "popularity spread" number; in a 7-candidate field, its current setting (1.0) gives about ${times(model(1))}, and the proposed 0.7 gives about ${times(model(0.7))}.`);
+    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
     strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
-      const v = E.filter(e => e.group === g).map(e => e.spread);
-      return { label: NAMES[g], sub: `${v.length} elections`, values: v, color: g === "scotland" ? "--scotland" : "--bar" };
-    }), { min: 0, max: 3.5, bin: 0.1, ticks: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], fmt: v => v.toFixed(1), xTitle: "Fitted popularity spread", aria: "Fitted popularity spread by group" });
+      const all = E.filter(e => e.group === g).map(e => e.top_ratio), v = all.map(x => Math.min(x, 15.99));
+      return { label: NAMES[g], sub: `${v.length} elections`, values: v, median: med(all), color: g === "scotland" ? "--scotland" : "--bar" };
+    }), { min: 0, max: 16, bin: 0.5, ticks: [0, 2, 4, 6, 8, 10, 12, 14, 16], fmt: v => `${v}×`, xTitle: "Top candidate's first choices, as a multiple of the middle candidate's", aria: "Top candidate against middle candidate, by group" });
   }
 
   {
-    const s7 = E.filter(e => e.group === "scotland" && e.candidates === 7 && e.gap_top != null && e.gap_bottom != null);
-    const f = figure("The shape: bunched leaders, a long tail",
-      "In the model, the top candidate sits as far above the middle candidate as the bottom one sits below. In real Scottish wards, the gap below the middle is usually bigger: leading candidates bunch together, and long shots trail far behind. That's why the proposal adds a separate share of long-shot candidates.",
-      `Scottish wards with exactly 7 candidates (${s7.length} wards). Across: how far the top candidate's first choices sit above the middle candidate's. Up: how far the middle candidate's sit above the bottom one's. Both are on a scale where doubling counts as one step (natural log). The line is where the current model puts every election, whatever its spread; dots above it have a longer tail than the model can make.`);
-    scatter(f, {
-      aria: "Gap above the middle candidate against gap below it, Scottish 7-candidate wards, with the model's line",
-      xMin: 0, xMax: 3, xTicks: [0, 0.5, 1, 1.5, 2, 2.5, 3], yMax: 4, yStep: 1,
-      xTitle: "Top candidate above the middle", yTitle: "Middle candidate above the bottom",
-      lines: [{ from: 0, to: 3, f: x => x, color: "--axis" }],
-      points: s7.map(e => ({ x: e.gap_top, y: e.gap_bottom, color: "--scotland", name: e.name,
-        lines: [`gap above the middle ${e.gap_top.toFixed(2)}`, `gap below the middle ${e.gap_bottom.toFixed(2)}`, `top candidate's share ${pct(e.top_share)}`] })),
-    });
+    const Lad = DATA.ladder_7, ord = ["Top", "2nd", "3rd", "4th", "5th", "6th", "Last"];
+    const P = Lad.model["0.7"], C = Lad.model["1.0"], R = Lad.real;
+    const f = figure("Candidate by candidate: close, except at the bottom",
+      `The proposed setting (0.7) tracks real Scottish wards closely for the top five candidates. The gap is at the bottom: real support holds up through the 4th candidate, then drops faster, so the last candidate typically gets about ${pct(R[6].median)}, against ${pct(P[6].median)} in the model. The current setting (1.0) gets the bottom right but gives the leader too much (${pct(C[0].median)} against a real ${pct(R[0].median)}). No single setting fits both ends, which is why the proposal adds a separate share of long-shot candidates.`,
+      `Each candidate's share of first choices, from the most popular to the least, in Scottish wards with exactly 7 candidates (${Lad.wards} wards). The green line is the typical (median) ward at each position; the shaded band holds the middle half of wards. The model lines use popularity alone, with no party loyalty. Hover a position for values.`);
+    ladder(f, [
+      { name: "Real Scottish wards", color: "--scotland", values: Lad.real, band: true },
+      { name: "Model, proposed setting (0.7)", color: "--public", values: Lad.model["0.7"] },
+      { name: "Model, current setting (1.0)", color: "--ers", values: Lad.model["1.0"], dash: "6 4" },
+    ], { yMax: 0.4, yStep: 0.1, xLabels: ord, xTitle: "Candidates, from most to least popular", yTitle: "Share of first choices", aria: "Share of first choices by candidate position: real Scottish wards against the model" });
   }
 
   {
-    const f = figure("Spread by number of candidates",
-      "Bigger fields tend to be more unequal: more long-shot candidates widen the spread. Portland's 17- to 31-candidate districts reach 1.1 to 1.6.",
-      "Each dot is one election. Range shown is the data's own: 2 to 34 candidates.");
+    const capY = 20, over = E.filter(e => e.top_ratio > capY).length;
+    const f = figure("By number of candidates",
+      "Bigger fields tend to be more lopsided: with more long-shot candidates, the middle candidate is weaker, so the top candidate is further ahead of it.",
+      `Each dot is one election, from 2 to 34 candidates. ${over} elections above ${capY}× are drawn at the top edge; hover for their values.`);
     legend(f, [["dot", "--scotland", "Scotland"], ["dot", "--public", "US and other public elections"], ["dot", "--ers", "Union, society, and other organizational elections"]]);
     const color = g => g === "scotland" ? "--scotland" : (g === "ers" || g === "org") ? "--ers" : "--public";
     scatter(f, {
-      aria: "Fitted spread against number of candidates",
-      xMin: 0, xMax: 35, xTicks: [0, 5, 10, 15, 20, 25, 30, 35], yMax: 3.5, yStep: 0.5,
-      xTitle: "Candidates in the election", yTitle: "Fitted popularity spread", lines: [],
-      points: E.map(e => ({ x: e.candidates, y: e.spread, color: color(e.group), name: e.name,
-        lines: [NAMES[e.group], `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `spread ${e.spread.toFixed(2)} · top share ${pct(e.top_share)}`] })),
+      aria: "Top-to-middle multiple against number of candidates",
+      xMin: 0, xMax: 35, xTicks: [0, 5, 10, 15, 20, 25, 30, 35], yMax: capY, yStep: 5, yFmt: v => `${v}×`,
+      xTitle: "Candidates in the election", yTitle: "Top candidate ÷ middle candidate", lines: [],
+      points: E.map(e => ({ x: e.candidates, y: e.top_ratio, color: color(e.group), name: e.name,
+        lines: [NAMES[e.group], `${e.candidates} candidates · ${e.seats} seat${e.seats > 1 ? "s" : ""}`, `top candidate ${times(e.top_ratio)} the middle one · top share ${pct(e.top_share)}`] })),
     });
   }
 
   {
-    const sc = E.filter(e => e.group === "scotland").map(e => e.top_share);
-    const f = figure("Scotland: the top candidate's share of first choices",
-      `In a typical Scottish ward, the most popular candidate gets about ${pct(med(sc))} of first choices.`,
-      "Share of each ward's first choices going to its most popular candidate.");
-    columns(f, binValues(sc, 0, 0.7, 0.05, v => pct(v)), { xTitle: "Top candidate's share of first choices", title: "Scottish wards", aria: "Histogram of the top candidate's share in Scottish wards" });
+    const share = g => med(E.filter(e => e.group === g).map(e => e.top_share));
+    const f = figure("The top candidate's share of first choices",
+      `In a typical Scottish ward, the most popular candidate gets about ${pct(share("scotland"))} of first choices; in union and society elections, about ${pct(share("ers"))}. Single-seat races concentrate support more: about ${pct(share("nyc"))} in NYC primaries. This share depends on how many candidates are running and how many seats there are, so it compares groups less fairly than the multiple above.`,
+      "Share of each election's first choices going to its most popular candidate. Each row shows how its elections are spread: taller bars where more elections fall, scaled to each row's tallest bar; hover for counts.");
+    const order = ["scotland", "ers", "org", "public", "nyc", "act", "portland"];
+    strips(f, order.filter(g => E.some(e => e.group === g)).map(g => {
+      const v = E.filter(e => e.group === g).map(e => e.top_share);
+      return { label: NAMES[g], sub: `${v.length} elections`, values: v, color: g === "scotland" ? "--scotland" : "--bar" };
+    }), { min: 0, max: 1, bin: 0.025, ticks: [0, 0.2, 0.4, 0.6, 0.8, 1], fmt: v => pct(v), xTitle: "Top candidate's share of first choices", aria: "Top candidate's share of first choices, by group" });
   }
 };

@@ -145,9 +145,41 @@ def popularity(rows):
             continue
         out.append({"name": d["election"], "group": g, "candidates": d["candidates"], "seats": d["seats"],
                     "spread": r4(fc["lognormal_spread"]), "top_share": r4(fc["top_share"]),
-                    "gap_top": r4(fc.get("log_gap_top_to_median")), "gap_bottom": r4(fc.get("log_gap_median_to_bottom"))})
-    model = [{"spread": s, "top": t, "bottom": b} for s in (0.5, 0.7, 1.0, 1.3, 1.6) for t, b in [model_gaps(7, s)]]
-    return {"elections": out, "model_7": model}
+                    "gap_top": r4(fc.get("log_gap_top_to_median")), "gap_bottom": r4(fc.get("log_gap_median_to_bottom")),
+                    # The same gaps as plain ratios: how many times more first choices the top candidate
+                    # gets than the middle one, and the middle one than the bottom one.
+                    "top_ratio": r4(fc.get("top_to_median_ratio")),
+                    "bottom_ratio": r4(math.exp(fc["log_gap_median_to_bottom"])) if fc.get("log_gap_median_to_bottom") is not None else None})
+    model = [{"spread": s, "top": t, "bottom": b, "top_ratio": round(math.exp(t), 2)}
+             for s in (0.5, 0.7, 1.0, 1.3, 1.6, 2.0) for t, b in [model_gaps(7, s)]]
+    # The candidate ladder: each candidate's share of first choices, most to least popular,
+    # in Scottish wards with exactly 7 candidates, next to what the model gives.
+    ladders = [sorted(d["first_choice"]["shares_by_candidate"], reverse=True)
+               for src, g, d, meta in rows if src == "scotland" and d["candidates"] == 7]
+    return {"elections": out, "model_7": model, "ladder_7": {
+        "wards": len(ladders), "real": quantiles_by_position(ladders),
+        "model": {str(s): quantiles_by_position(model_ladders(7, s)) for s in (0.7, 1.0)}}}
+
+
+def quantiles_by_position(ladders):
+    """Median and middle half (25th to 75th percentile) of the share at each position."""
+    out = []
+    for k in range(len(ladders[0])):
+        v = sorted(l[k] for l in ladders)
+        q = lambda p: round(v[min(len(v) - 1, int(p * len(v)))], 4)
+        out.append({"median": q(0.5), "lo": q(0.25), "hi": q(0.75)})
+    return out
+
+
+def model_ladders(n, spread, trials=4000, seed=7):
+    """First-choice shares from the model's popularity draw alone (no slates), sorted."""
+    rng = random.Random(seed)
+    out = []
+    for _ in range(trials):
+        w = [math.exp(rng.gauss(0, spread)) for _ in range(n)]
+        t = sum(w)
+        out.append(sorted((x / t for x in w), reverse=True))
+    return out
 
 
 # ---------------------------------------------------------------- slate sizes

@@ -206,7 +206,8 @@ function heatmap(f, rowLabels, colLabels, cells, opts = {}) {
 // Distribution rows: one row per group, a small histogram showing where its values fall
 // (taller bars where more values fall), with the median marked. Bars in each row are scaled
 // to that row's tallest bar, so rows compare by shape; counts are in the hover text.
-// groups: [{label, sub, values: [numbers], color}]; opts.bin sets the bar width in x units.
+// groups: [{label, sub, values: [numbers], color, median}]; median overrides the computed one
+// (for values capped at the chart edge). opts.bin sets the bar width in x units.
 function strips(f, groups, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const fmt = opts.fmt || String, bin = opts.bin;
@@ -214,7 +215,7 @@ function strips(f, groups, opts = {}) {
     const n = Math.round((opts.max - opts.min) / bin), counts = new Array(n).fill(0);
     for (const v of g.values) counts[Math.min(n - 1, Math.max(0, Math.floor((v - opts.min) / bin + 1e-9)))]++;
     const xs = [...g.values].sort((a, b) => a - b);
-    return { counts, median: xs[Math.floor(xs.length / 2)], n: xs.length };
+    return { counts, median: g.median ?? xs[Math.floor(xs.length / 2)], n: xs.length };
   });
   draws.push(() => {
     // On narrow screens each row's label sits above its bars instead of beside them.
@@ -248,7 +249,7 @@ function strips(f, groups, opts = {}) {
         hitArea(svg, { tag: "rect", attrs: { x: sx(lo), y: base - barMax, width: bw, height: barMax } }, g.label,
           [`${range}: ${c.toLocaleString()} of ${n.toLocaleString()} (${pct(c / n)})`], `${g.label}, ${range}: ${c}`);
       });
-      const mx = sx(median);
+      const mx = sx(Math.min(median, opts.max));
       el("line", { x1: mx, x2: mx, y1: base - barMax - 6, y2: base + 3, stroke: css("--ink"), "stroke-width": 2 }, svg);
       const right = mx > w - R - 110;
       txt(svg, mx + (right ? -5 : 5), base - barMax - 1, `median ${fmt(+median.toFixed(2))}`, { class: "val halo", "text-anchor": right ? "end" : "start" });
@@ -367,5 +368,43 @@ function densityLines(f, series, opts) {
       showTip(marker, `${opts.xTitle}: ${xs[i].toFixed(2)}`, curves.map(c => `${c.name}: ${pct(c.ys[i])}`));
     });
     area.addEventListener("pointerleave", () => { guide.setAttribute("visibility", "hidden"); hideTip(); });
+  });
+}
+
+// Ladder: a value at each of a few ordered positions (for example, candidates from most to least
+// popular), one line per series, with an optional shaded range (lo to hi) around a series.
+// series: [{name, color, values: [{median, lo, hi}], band, dash}]; hover shows every series at a position.
+function ladder(f, series, opts) {
+  legend(f, series.map(s => [s.band ? "dot" : "line", s.color, s.name]));
+  const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
+  const n = series[0].values.length;
+  draws.push(() => {
+    const w = plot.clientWidth || 600, H = opts.height || 320, L = 46, R = 16, T = 18, B = 38;
+    plot.replaceChildren();
+    const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
+    const sx = i => L + 14 + i / (n - 1) * (w - L - R - 28), sy = v => T + (1 - v / opts.yMax) * (H - T - B);
+    for (const t of niceTicks(opts.yMax, opts.yStep)) {
+      el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
+      txt(svg, L - 6, sy(t) + 4, pct(t), { "text-anchor": "end" });
+    }
+    for (let i = 0; i < n; i++) txt(svg, sx(i), H - B + 15, opts.xLabels[i], { "text-anchor": "middle" });
+    txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
+    txt(svg, L, T - 6, opts.yTitle || "", { class: "title" });
+    for (const s of series.filter(s => s.band)) {
+      const up = s.values.map((v, i) => `${sx(i)},${sy(v.hi)}`), down = s.values.map((v, i) => `${sx(i)},${sy(v.lo)}`).reverse();
+      el("polygon", { points: [...up, ...down].join(" "), fill: css(s.color), opacity: 0.15 }, svg);
+    }
+    for (const s of series) {
+      const d = s.values.map((v, i) => `${sx(i)},${sy(v.median)}`).join(" ");
+      el("polyline", { points: d, fill: "none", stroke: css("--surface"), "stroke-width": 6, "stroke-linejoin": "round" }, svg);
+      el("polyline", { points: d, fill: "none", stroke: css(s.color), "stroke-width": s.band ? 3 : 2.5, "stroke-dasharray": s.dash || "", "stroke-linejoin": "round" }, svg);
+      s.values.forEach((v, i) => el("circle", { cx: sx(i), cy: sy(v.median), r: s.band ? 4.5 : 3.5, fill: css(s.color), stroke: css("--surface"), "stroke-width": 1.5 }, svg));
+    }
+    for (let i = 0; i < n; i++) {
+      const half = (sx(1) - sx(0)) / 2;
+      hitArea(svg, { tag: "rect", attrs: { x: sx(i) - half, y: T, width: half * 2, height: H - T - B } }, opts.xLabels[i],
+        series.map(s => `${s.name}: ${pct(s.values[i].median)}` + (s.band ? ` (middle half ${pct(s.values[i].lo)} to ${pct(s.values[i].hi)})` : "")),
+        `${opts.xLabels[i]}: ` + series.map(s => `${s.name} ${pct(s.values[i].median)}`).join(", "));
+    }
   });
 }

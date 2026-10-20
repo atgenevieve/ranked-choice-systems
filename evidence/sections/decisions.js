@@ -18,8 +18,8 @@ const DECISIONS = {
   popularity: {
     title: "Candidate popularity",
     status: "Waiting on the owner",
-    now: "Each candidate's popularity is drawn from a lognormal distribution with spread 1.0.",
-    proposal: "Keep the lognormal for serious candidates, at a spread of about 0.7, and add a separate share of long-shot candidates drawn from a much lower range. Report every headline result across the real range of spreads (about 0.6 to 1.6).",
+    now: "One \"popularity spread\" number sets how unequal candidates are. The current setting (1.0) gives the top candidate about 3.6 times the middle candidate's first choices in a 7-candidate field.",
+    proposal: "Tune the serious candidates so the top one gets about 2 to 2.5 times the middle one's first choices, as in a typical Scottish ward (a spread of about 0.7), and add a separate share of long-shot candidates far below the rest. Report every headline result across the real range, from about 1.5 times to 8 times.",
     needed: "Approve. Anything you know about how lopsided first choices are in your organization.",
   },
   "slate-sizes": {
