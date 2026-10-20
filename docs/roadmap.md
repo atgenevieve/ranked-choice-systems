@@ -60,6 +60,12 @@ Build the model the owner approved in milestone 3. Don't add or change assumptio
 
 A local web page with a control for each model setting. For the chosen settings, it generates sample elections and shows their calibration statistics next to the real-data values, with clear labels for which are close and which are off.
 
+The owner wants to explore three open questions here, not settle them in advance (October 20, 2026). Give each its own control, with these defaults:
+
+- **Ballot wording:** "up to N", "at least N", or "exactly N", and N itself. Default: up to N, with N equal to the seats (the owner's organization).
+- **Loose or tight slates:** a slider from loose (like Portland's endorsement slates, about 10 to 15 points above popularity) to tight (like Scottish parties, about 60 above). Default: loose. Headline results are still run at both ends.
+- **Election numbers:** candidates, seats, and voters. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters).
+
 **Done when:** the owner can tune the model to match a real data source without editing code, and save the tuning as a named settings file.
 
 ## Milestone 6: Reproduce published findings

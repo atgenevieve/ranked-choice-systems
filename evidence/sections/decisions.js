@@ -6,14 +6,14 @@ const DECISIONS = {
     status: "Approved October 20, 2026",
     now: "Every simulated voter ranks every candidate, up to a cap of 100.",
     proposal: "Two settings. Electorate type (public voters, tuned to Scotland, or organization members, tuned to the union and society elections) sets how far each voter naturally ranks; it grows with the number of candidates, and much less with seats. Ballot rules set a maximum (none, equal to the seats, or another number) and an optional minimum instruction. Voters rank their own slate first, then continue to their natural length. A maximum cuts ballots and can pull voters up to it; a minimum pulls most voters up to it.",
-    needed: "Still open: the exact wording of your ballot: \"up to N\", \"at least N\", or \"exactly N\".",
+    needed: "Nothing for now. The ballot wording (\"up to N\", \"at least N\", or \"exactly N\") becomes a control in the model tuner, so you can try each. Default: up to N, with N equal to the seats.",
   },
   "slate-loyalty": {
     title: "Slate loyalty",
     status: "Approved October 20, 2026",
     now: "One loyalty number (0.15); slates sit in a line, and loyalty falls off with each step along it.",
     proposal: "Two settings: how strongly voters prefer their own slate, and how evenly they spread to everyone else. Drop the line. Tune both to overall clustering in real ballots, not to labeled lists.",
-    needed: "Still open: whether your organization's slates are loose (like Portland's endorsement slates) or tight (like Scottish parties). Until your organization's ballots show which, test both.",
+    needed: "Nothing for now. Loose or tight becomes a slider in the model tuner, so you can explore it. Default: loose; headline results are run at both ends.",
   },
   popularity: {
     title: "Candidate popularity",
@@ -41,6 +41,6 @@ const DECISIONS = {
     status: "Approved October 20, 2026",
     now: "10 voters per candidate, at least 1,000; candidates and seats set per run.",
     proposal: "Set candidates, seats, and voters from your organization's real elections, and test a range around them. Lower the 1,000-voter minimum so electorates of a few hundred (Metro DC DSA had 432) can be simulated. Expect about 1.5 to 2 candidates per seat in large elections.",
-    needed: "Typical numbers of candidates, seats, and voters in your organization's elections, when you have them.",
+    needed: "Nothing for now. Candidates, seats, and voters become controls in the model tuner. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters).",
   },
 };

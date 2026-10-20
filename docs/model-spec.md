@@ -86,7 +86,7 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **Built now:** one loyalty number, 0.15 (`model.slate_loyalty`); slates sit in a line, and a slate two steps away gets 0.15 × 0.15 of the weight.
 - **Evidence:** calibrated (Scotland; NYC and Portland endorsement slates). Tested for the built version.
 - **Sensitivity:** low for the built version (0 to 1 gave results within one rank). Not yet tested for the approved version.
-- **Still open:** whether the owner's organization's slates are loose or tight. Until its ballots show which, run every headline result at both, and across the range between.
+- **Adjustable in the tuner (milestone 5):** a slider from loose to tight, so the owner can explore it rather than decide it in advance. Default: loose. Every headline result is still run at both ends, and across the range between.
 - **Checks:** the built model must reproduce the clustering above popularity and the evenness of the spread at both reference points.
 
 ### 5. Ballot length
@@ -104,7 +104,7 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **Built now:** everyone fills in every rank up to the cap (`election.ranks`, default 100). Known to be unrealistic.
 - **Evidence:** calibrated (Scotland; union and society elections; NYC, Portland, San Francisco, Oakland, Minneapolis; Canberra 2024; Australian Senate, Tasmania 2016).
 - **Sensitivity:** not yet tested, but likely high. A vote can't travel past a voter's last rank.
-- **Still open:** the exact wording of the owner's organization's ballot ("up to N", "at least N", or "exactly N"), and organizational ballots with a limit to tune against. No dataset has a limit near 50.
+- **Adjustable in the tuner (milestone 5):** the ballot wording ("up to N", "at least N", or "exactly N") and N. Default: up to N, with N equal to the seats, as on the owner's organization's ballot. Still missing: organizational ballots with a limit to tune against. No dataset has a limit near 50.
 - **Checks:** the built model must reproduce the distribution of ballot lengths for each electorate type, and the share of voters who fill a limit or instruction.
 
 ### 6. Election size: candidates, seats, and voters
@@ -117,7 +117,7 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **Built now:** 10 voters per candidate, at least 1,000 (`election.voters`); candidates and seats set per run.
 - **Evidence:** calibrated (all real data; Metro DC DSA from `docs/large-elections.md`). Every election in the data has at most 12 seats, so 46-seat results are projections.
 - **Sensitivity:** low for voters at 3, 10, and 30 per candidate. Not yet tested at a few hundred voters, where single ballots matter more.
-- **Still open:** typical numbers of candidates, seats, and voters in the owner's organization's elections.
+- **Adjustable in the tuner (milestone 5):** candidates, seats, and voters. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters), until the owner's organization's numbers replace it.
 
 ## Factors the model leaves out
 
