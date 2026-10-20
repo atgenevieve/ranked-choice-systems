@@ -3,7 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: a column of settings beside a column of results (stacked on phones). Every setting
    reads the same way: name and value, what it is, the control with real elections marked on
@@ -21,32 +21,32 @@
   --model-soft: #9aabcb;
   --real: #a3a3a3;        /* the real elections */
   --real-ink: #555555;
-  --mark: #8b1a1a;        /* reference lines and crossing points */
-  --good: #2e6b3a; --good-bg: transparent;
-  --warn: #8a5a00; --warn-bg: transparent;
-  --bad: #8b1a1a; --bad-bg: transparent;
+  --mark: #111111;        /* reference lines and crossing points */
+  --good: #1f3b73; --good-bg: transparent;
+  --warn: #4a4a4a; --warn-bg: transparent;
+  --bad: #111111; --bad-bg: transparent;
   --focus: #1f3b73;
-  --font-text: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-ui: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
-  --font-data: "Source Code Pro", ui-monospace, Menlo, monospace;
+  --font-text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
-    --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #f08a7e;
-    --good: #8fd6a0; --warn: #f0c56b; --bad: #f08a7e; --focus: #8fb0ef; color-scheme: dark;
+    --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
+    --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
-  --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #f08a7e;
-  --good: #8fd6a0; --warn: #f0c56b; --bad: #f08a7e; --focus: #8fb0ef; color-scheme: dark;
+  --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
+  --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; counter-reset: fig; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
 .wrap { max-width: 1280px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
 header { border-bottom: 2px solid var(--ink); padding-bottom: 14px; }
-header h1 { font-family: var(--font-text); font-size: 32px; font-weight: 600; letter-spacing: -0.005em; margin: 0; text-wrap: balance; }
+header h1 { font-family: var(--font-text); font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
 header p { margin: 6px 0 0; color: var(--ink-2); max-width: 70ch; font-family: var(--font-text); font-size: 16px; }
 .layout { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 20px; align-items: start; }
 @media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } }
@@ -122,7 +122,6 @@ section.panel > h2 { font-family: var(--font-text); font-size: 24px; font-weight
 .figure .t { font-size: 13px; color: var(--ink-2); }
 .chartcard { display: grid; gap: 6px; min-width: 0; padding-top: 12px; border-top: 1px solid var(--grid); }
 .chartcard h3 { font-family: var(--font-text); font-size: 17px; font-weight: 600; margin: 0; }
-.chartcard h3::before { counter-increment: fig; content: "Figure " counter(fig) ". "; font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); margin-right: 4px; }
 .chartcard .read { margin: 0; font-family: var(--font-text); font-size: 14.5px; color: var(--ink-2); max-width: 72ch; }
 .chartcard .found { margin: 0; font-family: var(--font-text); font-size: 15px; }
 .chart { width: 100%; min-width: 0; }
@@ -135,7 +134,7 @@ section.panel > h2 { font-family: var(--font-text); font-size: 24px; font-weight
 .status.busy::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--model); margin-right: 6px; animation: pulse 1s infinite alternate; }
 @keyframes pulse { from { opacity: 0.25; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .status.busy::before { animation: none; } }
-.error { color: var(--bad); }
+.error { color: var(--bad); font-weight: 600; }
 .sweep-fields { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
 .sweep-fields .field { width: 120px; }
 .sweep-fields .field.sweep-turnout { width: 220px; }
