@@ -271,8 +271,9 @@ function chart(box, series, opts) {
   // takes the first spot around its point that crosses no data line and no other label.
   const lines = series.map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
   const taken = [];
-  const hits = r => taken.some(o => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1) ||
-    r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B ||
+  const clashes = r => taken.some(o => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1) ||
+    r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B;
+  const hits = r => clashes(r) ||
     lines.some(pts => pts.some((p, i) => {
       if (i === 0) return false;
       const [x0, y0] = pts[i - 1], [x1, y1] = p;
@@ -289,10 +290,11 @@ function chart(box, series, opts) {
     taken.push({ x1: x - 6, x2: x + 6, y1: y - 6, y2: y + 6 });
     const width = m.label.length * 7 + 4;
     const spots = [];
-    for (const dy of m.below ? [16, -8, 30, -22, -36, -50] : [-8, 16, -22, -36, 30, -50])
+    for (const dy of m.below ? [16, -8, 30, -22, 44, -36, 58, -50, 72] : [-8, 16, -22, 30, -36, 44, -50, 58, 72])
       for (const side of [1, -1]) spots.push({ dx: 9 * side, dy, side });
     const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 11, y2: y + s.dy + 3 });
-    const spot = spots.find(s => !hits(box(s))) || spots.find(s => { const b = box(s); return b.x1 >= L && b.x2 <= w - R; }) || spots[0];
+    // Best: clear of lines and labels. Next: clear of other labels, touching a line. Last resort: the first spot.
+    const spot = spots.find(s => !hits(box(s))) || spots.find(s => !clashes(box(s))) || spots[0];
     taken.push(box(spot));
     text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end" });
   }
@@ -345,7 +347,7 @@ function drawElection(r, c) {
   // Chart 1: elections that come out the same.
   chart($("chart-same"), [{ points: same.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
     xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-    marks: [{ x: k50, y: same[k50 - 1], label: `50%: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `80%: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }]
+    marks: [{ x: k50, y: same[k50 - 1], label: `50%: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `80%: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }, { x: kAll, y: same[kAll - 1], label: `100%: rank ${kAll}`, below: true }]
       .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
   });

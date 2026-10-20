@@ -325,12 +325,12 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         <div class="figures" id="figures"></div>
         <div class="chartcard">
           <h3>How many ranks affect election results</h3>
-          <p class="read">For each rank, the share of simulated elections where cutting every ballot after that rank, or after any deeper rank, elects exactly the same people as full ballots. The line rises to 100% at the rank past which no cut matters in any election. The marked points show where it crosses 50%, 80%, and 95% of elections: the 50%, 80%, and 95% confidence ranks.</p>
+          <p class="read">For each rank, the share of simulated elections where cutting every ballot after that rank has the same results as a full ballot. At 100%, no rank past this point matters in any election.</p>
           <div class="chart" id="chart-same"></div>
         </div>
         <div class="chartcard">
           <h3>How many winners change</h3>
-          <p class="read">If every ballot stopped at this rank, how many of the winners would be different.</p>
+          <p class="read">If every ballot stopped at this rank, how many winners would be different?</p>
           <div class="legend"><span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span></div>
           <div class="chart" id="chart-seats"></div>
         </div>
