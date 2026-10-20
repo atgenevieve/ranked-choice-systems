@@ -9,6 +9,8 @@ Real ranked ballots, one folder per source, all converted to the project's `.bal
 | [NYC](nyc/README.md) | 126 | 8.8 million | 1 | 125 | Endorsement slates in 56 contests |
 | [Portland](portland/README.md) | 6 | 780,000 | 3 (mayor and auditor: 1) | 6 | Endorsement slates in 5 contests |
 | [Cambridge](cambridge/README.md) | 10 races, no ballots | – | 9 or 6 | 10 | – |
+| [ACT](act/README.md) | 5 | 274,000 | 5 | 5 | Parties (ballot columns) |
+| [Australian Senate](ausenate/README.md) | 12 | 2.9 million | 2, 6, or 12 | 12 | Parties |
 
 **Engine check:** the engine picks the official winners in every election that has them and uses rules it can count: 1,093 Scottish wards, 125 NYC contests, 6 Portland contests, and 65 of 68 PrefLib elections. The 3 PrefLib misses used other counting rules. See `results/2026-10-20-real-data-counts/`.
 
@@ -123,8 +125,51 @@ Real ranked ballots, one folder per source, all converted to the project's `.bal
 - **Cambridge moves whole ballots chosen at intervals** instead of fractions of every ballot, so results depend on counting order. The engine doesn't model this yet.
 - **No results before 2017** in this folder.
 
+## ACT
+
+**Details**
+- ACT Legislative Assembly, October 2024: 5 electorates, each electing 5 members by Hare-Clark STV, with 24 to 34 candidates.
+- **The ballot's instruction equals the number of seats:** "Number five boxes from 1 to 5 in the order of your choice." Voters may number more (`min_ranks_instructed` 5, `max_ranks` null).
+- Ballots from Elections ACT's ballot paper preference data: every formal ballot, paper and electronic. Winners from the official distribution of preferences.
+- Party labels from the ballot's column headings.
+
+**Adjustments**
+- No cleanup needed: Elections ACT already cuts each ballot at the first missing or repeated number (the Hare-Clark savings rule), and leaves informal ballots out.
+- `blank_ballots` holds all informal ballots from the official statistics.
+- The site's Cloudflare check blocks scripted downloads, so the files were fetched through a browser and checked by SHA-256.
+
+**Shortcomings**
+- **Only 2024.** Elections ACT no longer publishes the 2008 to 2020 files.
+- **Ungrouped candidates have no party label.**
+- **ACT moves only the last parcel of a surplus,** unlike Scottish STV. The engine still picks the official winners in all 5 electorates.
+- **The electronic voting screens' wording** of the instruction wasn't found.
+
+## Australian Senate
+
+**Details**
+- Senate elections for Tasmania, the ACT, and the Northern Territory in 2016, 2019, 2022, and 2025: 12 contests, 2.9 million ballots. Tasmania elects 6 senators (12 in the 2016 double dissolution); each territory elects 2.
+- The ballot tells voters to number at least 6 party boxes above the line, or at least 12 candidate boxes below the line. **Tasmania 2016 is the one contest where the below-the-line instruction equals the number of seats.**
+- Ballots from the AEC's formal preferences files; winners, party labels, and informal counts from the AEC's Tally Room downloads. CC BY 4.0.
+- Each contest has three files: a full count with above-the-line votes expanded into candidates, below-the-line ballots as marked (`-btl`), and above-the-line ballots as rankings of party boxes (`-atl`). The `ballot_set` field says which.
+
+**Adjustments**
+- Cleanup follows the Commonwealth Electoral Act: a below-the-line vote with at least 1 to 6 takes precedence; otherwise the above-the-line marks count; preferences stop at the first missing or repeated number. In 2016, ticks and crosses count as a 1.
+- Above-the-line votes expanded into each group's candidates in ballot order, as the official count does, in the full-count files only.
+- `blank_ballots` holds all informal ballots.
+
+**Shortcomings**
+- **Only the three smallest contests.** The five states (0.9 to 4.8 million ballots each) can be fetched and converted with the same scripts.
+- **The full-count files aren't committed** (63 MB); `convert.py` rebuilds them. The committed `-btl` and `-atl` files aren't whole elections.
+- **Don't measure ballot length on the full-count files:** expanded above-the-line votes look much longer than what voters wrote.
+- **Below-the-line ballots with fewer than 6 numbers can't be seen,** because they aren't formal below the line.
+
+## Not available
+
+- **Tasmanian House of Assembly** (Hare-Clark, 5 seats per division 1998 to 2021, 7 since 2024, with an instruction to number at least that many). The Tasmanian Electoral Commission counts these ballots by hand and publishes only results: first preferences by polling place and the count sheets. We found no ballot-level data on its site for 2024 or 2025.
+
 ## Across all datasets
 
 - **Ballot rank limits shape ballot length.** NYC allows 5 ranks, Portland 6, and many PrefLib cities 3. Scotland and the ERS elections allow ranking every candidate. Compare ballot lengths only alongside the limit (`max_ranks`).
+- **So do instructions.** The ACT and the Senate have no limit but tell voters a minimum (`min_ranks_instructed`). Most voters stop exactly there: 69% of ACT voters numbered exactly 5 boxes, and 60% of Senate below-the-line voters numbered exactly 12.
 - **Party labels and slates mean different things.** `parties` holds real party labels; `slates` holds endorsement groups in nonpartisan races (`docs/ballot-format.md`).
-- **None of these is a large organizational election.** The largest public ballot here is about 31 candidates for 3 seats. Past ballots from the organization this study is for would be the closest match.
+- **None of these is a large organizational election.** The largest public ballots here are 31 candidates for 3 seats (Portland), 34 for 5 (ACT), and 58 for 12 (Tasmania's 2016 Senate election). Past ballots from the organization this study is for would be the closest match.

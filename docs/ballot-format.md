@@ -42,6 +42,10 @@ Each `.ballots` file has a matching `.json` file with the same name:
 
 `parties` holds only real party labels: what the ballot printed, or the candidate's official party affiliation. Use `null` for a candidate with no known party. Record where the labels came from in an optional `party_source` field (a URL or short description).
 
+### Ballot instructions
+
+Two optional fields record what the ballot told voters about how many candidates to rank. `instruction` holds the ballot's own words about how many to number, quoted as closely as the source allows (with `instruction_source` saying where the text came from). `min_ranks_instructed` is the number voters were told to rank at least, such as `5` on an ACT ballot that says "Number five boxes from 1 to 5", or `null` when the ballot sets no minimum. An instructed minimum is not a rank limit: `max_ranks` can still be `null` when voters may number every box.
+
 ### Slates
 
 In nonpartisan races, and in primaries where every candidate is in the same party, voters may still sort candidates into groups, such as candidates endorsed by the same organization. Record these in an optional `slates` list, not in `parties`:
