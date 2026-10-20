@@ -336,6 +336,21 @@ function drawElection(r, c) {
     marks: k5 <= xMax ? [{ x: k5, y: p[k5 - 1] ?? 0, label: `below 5 in 100 from rank ${k5}` }] : [],
     aria: "Share of elections where cutting ballots at each rank changes the winners",
   });
+  // Chart 3: seats that change hands. The average mixes elections where the cut changes
+  // nothing with those where it does, so a second line shows the seats swapped when it does.
+  const kNone = holdsFrom(most, x => x === 0);
+  const whenChanged = p.slice(0, xMax).map((x, i) => [i + 1, x > 0 ? mean[i] / x : null]).filter(([, y]) => y != null);
+  const top = Math.max(1, ...most.slice(0, xMax));
+  const step = niceStep(top);
+  chart($("chart-seats"), [
+    { points: most.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
+    { points: whenChanged, color: "--model", width: 2, dash: "7 4" },
+    { points: mean.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 },
+  ], {
+    xMin: 1, xMax, xTicks, yMax: Math.ceil(top / step) * step, yStep: step, yFmt: v => (step < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
+    marks: kNone <= xMax ? [{ x: kNone, y: 0, label: `none from rank ${kNone}`, below: false }] : [],
+    aria: "Seats that change hands when ballots are cut after each rank: average over all elections, average when the cut changes anything, and most in any election",
+  });
   const what = { up_to: `rank up to ${N}`, at_least: `rank at least ${N}`, exactly: `rank exactly ${N}`, none: "rank as many as they like" }[c.wording];
   setText("election-lede", `${sims.toLocaleString()} simulated elections: ${cand} candidates, ${seats} seats, ${spread ? `about ${r.settings.election.voters.toLocaleString()} voters, give or take ${Math.round(spread * 100)}% (from ${r.voters.min.toLocaleString()} to ${r.voters.max.toLocaleString()} across these elections)` : `${r.settings.election.voters.toLocaleString()} voters`} (${c.electorate === "organization" ? "organization members" : "public voters"}), told to ${what}. Each is counted with full ballots, then again with every ballot cut short after rank 1, after rank 2, and so on. These depend on the model's settings, which are still being tuned: treat them as a way to compare settings, not as findings.`);
 }
