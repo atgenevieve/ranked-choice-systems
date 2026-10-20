@@ -273,7 +273,8 @@ function chart(box, series, opts) {
   }
   // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label. Each label
   // takes the first spot around its point that crosses no data line and no other label.
-  const lines = series.map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
+  // Light background lines (--model-soft) may run under a label; the main lines may not.
+  const lines = series.filter(s => s.color !== "--model-soft").map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
   const taken = [];
   const clashes = r => taken.some(o => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1) ||
     r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B;
@@ -291,15 +292,20 @@ function chart(box, series, opts) {
     const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax));
     el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
     el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: css("--mark"), "stroke-width": 2 }, svg);
-    taken.push({ x1: x - 6, x2: x + 6, y1: y - 6, y2: y + 6 });
+    taken.push({ x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 });
     const width = m.label.length * 7 + 4;
     const spots = [];
     for (const dy of m.below ? [16, -8, 30, -22, 44, -36, 58, -50, 72] : [-8, 16, -22, 30, -36, 44, -50, 58, 72])
       for (const side of [1, -1]) spots.push({ dx: 9 * side, dy, side });
-    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 11, y2: y + s.dy + 3 });
+    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 10, y2: y + s.dy + 2 });
     // Best: clear of lines and labels. Next: clear of other labels, touching a line. Last resort: the first spot.
     const spot = spots.find(s => !hits(box(s))) || spots.find(s => !clashes(box(s))) || spots[0];
     taken.push(box(spot));
+    // A label that had to move away from its point gets a thin line back to it.
+    if (Math.abs(spot.dy) > 16) {
+      const b = box(spot), lx = spot.side > 0 ? b.x1 : b.x2, ly = spot.dy < 0 ? b.y2 : b.y1;
+      el("line", { x1: x, y1: y + (spot.dy < 0 ? -5 : 5), x2: lx, y2: ly, stroke: css("--mark"), "stroke-width": 1 }, svg);
+    }
     text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end" });
   }
 }

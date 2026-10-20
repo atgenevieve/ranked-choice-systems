@@ -92,10 +92,12 @@ function redrawBranches() {
     const r = got.r, f = branchFigures(r), seats = r.seats, len = r.truncation.p_changed.length, x = Math.min(xMax, len);
     const sec = document.createElement("section"); sec.className = "branch";
     const h = document.createElement("h3"); h.textContent = b.name;
-    const meta = document.createElement("p"); meta.className = "meta";
-    meta.textContent = `${b.candidates} candidates for ${seats} seats; about ${Number(b.voters).toLocaleString()} ballots, give or take ${Math.round((r.settings.election.turnout_spread || 0) * 100)}% (${r.voters.min.toLocaleString()} to ${r.voters.max.toLocaleString()} across ${r.settings.run.sims.toLocaleString()} simulated elections).`;
+    const stats = document.createElement("div"); stats.className = "stats";
+    for (const line of [`Candidates: ${b.candidates}`, `Seats: ${seats}`, `Voters: ${Number(b.voters).toLocaleString()} (±${Math.round((r.settings.election.turnout_spread || 0) * 100)}%)`]) {
+      const p = document.createElement("p"); p.className = "says"; p.textContent = line; stats.append(p);
+    }
     const says = document.createElement("p"); says.className = "says";
-    says.textContent = `95 of 100 elections are decided within the first ${f.k95} ranks; half within ${f.k50}. From rank ${f.kOne}, 1 or fewer winners change on average.`;
+    says.textContent = `95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change on average.`;
     const pair = document.createElement("div"); pair.className = "pair";
     const half = (title, legendHtml) => {
       const d = document.createElement("div");
@@ -107,7 +109,7 @@ function redrawBranches() {
     };
     const c1 = half("How many ranks affect election results");
     const c2 = half("How many winners change", '<span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
-    sec.append(h, meta, says, pair);
+    sec.append(h, stats, says, pair);
     box.append(sec);
     chart(c1, [{ points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }], {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
