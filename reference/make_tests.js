@@ -14,7 +14,8 @@ for (const [C, S] of cfgs) {
     const B = electorate(300, C, 4, 0.08, s * 101 + C);
     const curve = decay(B, C, S);
     const key = `${C}_${S}_${s}`;
-    fs.writeFileSync(path.join(out, `ballots_${key}.txt`), `${C} ${B.length}\n` + B.map(r => r.join(" ")).join("\n") + "\n");
+    // one voter per line, in the format of docs/ballot-format.md
+    fs.writeFileSync(path.join(out, `ballots_${key}.ballots`), `candidates ${C}\nseats ${S}\n` + B.map(r => "1 " + r.join(" ")).join("\n") + "\n");
     fs.writeFileSync(path.join(out, `reference_${key}.txt`), curve.map(x => x.toFixed(9)).join(" "));
   }
 }

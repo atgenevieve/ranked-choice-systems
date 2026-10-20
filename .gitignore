@@ -2,3 +2,4 @@ engine/target/
 validation-run/
 __pycache__/
 .DS_Store
+.claude/worktrees/

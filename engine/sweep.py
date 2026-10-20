@@ -7,41 +7,62 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 
 BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "target", "release", "stvsim")
 plan, out = sys.argv[1], sys.argv[2]
 
 
-def key(d):
-    return (d["cands"], d["seats"], d.get("voters"), d.get("ranks"), d.get("factions", 4), d.get("rho", 0.15), d.get("pop", 1.0))
+def key(cands, seats, voters, ranks, slates, loyalty, spread):
+    return (cands, seats, voters, min(ranks, cands), slates, loyalty, spread)
 
 
 done = set()
 if os.path.exists(out):
     for line in open(out):
         try:
-            done.add(key(json.loads(line)))
+            d = json.loads(line)
+            e, m = d["settings"]["election"], d["settings"]["model"]
+            done.add(key(e["candidates"], d["seats"], e["voters"], e["ranks"], m["slates"], m["slate_loyalty"], m["popularity_spread"]))
         except Exception:
             pass
 
 
-def run(cands, seats_list, sims, voters=None, ranks=100, factions=4, rho=0.15, pop=1.0, threads=2, curve=0):
+def run(cands, seats_list, sims, voters=None, ranks=100, factions=4, rho=0.15, pop=1.0, threads=2, curve=0, truncation=False):
     voters = voters or max(1000, 10 * cands)
-    todo = [s for s in seats_list if 0 < s < cands and (cands, s, voters, min(ranks, cands), factions, rho, pop) not in done]
+    todo = [s for s in seats_list if 0 < s < cands and key(cands, s, voters, ranks, factions, rho, pop) not in done]
     if not todo:
         return
-    cmd = [BIN, "--cands", str(cands), "--seats", ",".join(map(str, todo)), "--sims", str(sims), "--voters", str(voters),
-           "--ranks", str(ranks), "--factions", str(factions), "--rho", str(rho), "--pop", str(pop), "--threads", str(threads),
-           "--curve", str(curve)]
+    settings = f"""[run]
+name = "{plan}"
+sims = {sims}
+threads = {threads}
+truncation = {str(truncation).lower()}
+curve_ranks = {curve}
+
+[election]
+candidates = {cands}
+seats = {todo}
+voters = {voters}
+ranks = {ranks}
+
+[model]
+slates = {factions}
+slate_loyalty = {rho}
+popularity_spread = {pop}
+"""
+    with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as f:
+        f.write(settings)
+    cmd = [BIN, "run", f.name]
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True) as p:
         for line in p.stdout:
             d = json.loads(line)
-            d.update(factions=factions, rho=rho, pop=pop)
-            with open(out, "a") as f:
-                f.write(json.dumps(d) + "\n")
-            print(f"{d['cands']} cands, {d['seats']} seats, f={factions} rho={rho} pop={pop} v={voters}: 5%={d['t5']['avg']} ({d['secs']:.0f}s)", flush=True)
+            with open(out, "a") as fo:
+                fo.write(line)
+            print(f"{cands} cands, {d['seats']} seats, f={factions} rho={rho} pop={pop} v={voters}: 5%={d['reach']['t5']['avg']} ({d['secs']:.0f}s)", flush=True)
+    os.unlink(f.name)
     if p.returncode != 0:
-        print(f"FAILED: {' '.join(cmd)} exit {p.returncode}", flush=True)
+        print(f"FAILED: {settings} exit {p.returncode}", flush=True)
 
 
 SHARES = [0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99]

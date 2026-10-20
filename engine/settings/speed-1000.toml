@@ -1,0 +1,9 @@
+# Speed check at 1,000 candidates.
+[run]
+name = "speed-1000"
+sims = 8
+truncation = true
+
+[election]
+candidates = 1000
+seats = [10, 100, 500]

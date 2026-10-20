@@ -12,11 +12,11 @@ python3 reference/validate.py
 
 This generates 24 test elections, counts each with both programs, and compares. Expected output: `24 of 24 elections match.`
 
-Two intentional differences from Scottish law, shared by both programs, are listed under "Known issues" in `CLAUDE.md`. When fixing them, update both programs, or replace this check with hand-checked test elections.
+The reference counter doesn't follow Scottish law exactly: it uses full precision instead of 5 decimal places, and breaks ties by candidate number. The engine has a matching `reference` rule set for this check only. The engine's Scottish rules are checked instead by hand-checked test elections (`cargo test --release` in `engine/`) and against officially declared winners in real Scottish data.
 
 ## Hand-checked example: reach versus truncation
 
-A single-winner ranked-choice election with 100 voters and 4 candidates. Use it as a test case for truncation in milestone 1.
+A single-winner ranked-choice election with 100 voters and 4 candidates. The engine tests check it (`hundred_voter_example` in `engine/src/count.rs`).
 
 | Voters | Rank 1 | Rank 2 | Rank 3 |
 |---|---|---|---|

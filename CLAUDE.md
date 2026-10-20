@@ -61,14 +61,13 @@ These are defaults, not decisions. Raise alternatives if something works better.
 
 ## Known issues in the current engine
 
-These came from the first exploratory phase. Fix them in milestone 1.
+Fixed in milestone 1: Scottish rounding (5 decimal places), Scottish tie-breaking (look back, then lot), and truncation. See `engine/README.md` for the counting rules as built.
 
-- **Scottish rounding.** Scottish rules cut transfer values to 5 decimal places. The engine uses full precision.
-- **Tie-breaking.** The engine eliminates the lowest-numbered candidate when tied for last. Scottish rules look back at earlier rounds' totals, then decide by lot.
-- **Surplus order.** Default is largest surplus first, which matches Scottish rules. The `--fifo` flag (order of election) exists only to match the reference implementation during validation.
-- **Only reach is measured.** Truncation isn't implemented yet.
-- **Everyone ranks to the maximum.** Every simulated voter fills every rank up to the ballot cap (default 100). Real voters stop early. This needs a ballot-length setting in the model.
-- **One voting system.** Only Scottish STV.
+Still open:
+
+- **Everyone ranks to the maximum.** Every simulated voter fills every rank up to the ballot cap (default 100). Real voters stop early. This needs a ballot-length setting in the model, set from real data and approved by the owner (milestones 2 to 4).
+- **One voting system.** Only Scottish STV (milestone 7).
+- **Truncation reports only whether the set of winners changes,** not how many seats change. In large multi-seat elections, a single seat swapping counts as a change.
 
 ## What's been learned so far
 
@@ -87,6 +86,8 @@ All of this was measured with **reach**. Truncation results will differ, and the
 
 - `docs/roadmap.md`: milestones, in order, with how to tell each is done.
 - `docs/model-spec.md`: the voter model, assumption by assumption.
+- `docs/ballot-format.md`: the `.ballots` file format shared by the engine and the real-data scripts.
+- `data/`: real ballot data, one folder per source, each with a README describing where it came from.
 - `docs/literature.md`: published research, and the findings this project should reproduce.
 - `engine/`: Rust simulator. See `engine/README.md`.
 - `reference/`: the original JavaScript counter, used as the validation reference.

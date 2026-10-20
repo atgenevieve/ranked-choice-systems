@@ -6,6 +6,7 @@ Usage, from the project folder:
 Requires Node.js and a release build of the engine.
 """
 import glob
+import json
 import os
 import subprocess
 import sys
@@ -22,13 +23,12 @@ subprocess.run(["node", os.path.join(root, "reference", "make_tests.js"), run], 
 worst, n, bad = 0.0, 0, 0
 for ref_path in sorted(glob.glob(os.path.join(run, "reference_*.txt"))):
     key = os.path.basename(ref_path)[len("reference_"):-4]
-    seats = key.split("_")[1]
-    ballots = os.path.join(run, f"ballots_{key}.txt")
-    # --fifo matches the reference's surplus order (order of election)
-    out = subprocess.run([engine, "--ballots-file", ballots, "--seats", seats, "--fifo"],
-                         check=True, capture_output=True, text=True).stdout
+    ballots = os.path.join(run, f"ballots_{key}.ballots")
+    # The reference rules and surplus order (order of election) match decay.js.
+    out = subprocess.run([engine, "count", "--rules", "reference", "--surplus-order", "election",
+                          "--no-truncation", ballots], check=True, capture_output=True, text=True).stdout
     ref = list(map(float, open(ref_path).read().split()))
-    got = list(map(float, out.split()))
+    got = json.loads(out)["reach_pct"]
     diff = max(abs(a - b) for a, b in zip(ref, got)) if len(ref) == len(got) else float("inf")
     worst = max(worst, diff)
     n += 1

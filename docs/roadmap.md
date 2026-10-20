@@ -2,6 +2,8 @@
 
 Each milestone ends with a check. Don't start the next one until its check passes.
 
+**Status:** milestones 0 and 1 are done. Milestone 2 (real data) is in progress.
+
 ## Milestone 0: Set up
 
 - Initialize a git repository, so every change to code and model is recorded.

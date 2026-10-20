@@ -1,44 +1,126 @@
 # Simulation engine
 
-A fast simulator for Scottish-style STV, written in Rust. For each simulated election it measures **reach**: for every rank on the ballot, the share of all votes that traveled that far down.
+A fast simulator for Scottish-style STV (single transferable vote), written in Rust. For each election it measures two things:
 
-## Build
+- **Reach:** for every rank on the ballot, the share of all votes that traveled that far down, because every candidate the voter ranked higher had already won or been excluded.
+- **Truncation:** for every cutoff rank *k*, whether cutting every ballot after rank *k* and recounting changes who wins. From this it finds the election's **cutoff rank**: the smallest *k* where keeping *k* or more ranks always gives the full-ballot winners.
+
+`CLAUDE.md` explains both measures and why truncation is the headline.
+
+## Build and test
 
 Install Rust from https://rustup.rs, then from this folder:
 
 ```
 cargo build --release
+cargo test --release
 ```
 
-The program is created at `target/release/stvsim`.
+The program is created at `target/release/stvsim`. The tests are hand-checked elections with known answers (see [Tests](#tests)).
 
-## Run
+## Simulate elections
 
 ```
-target/release/stvsim --cands 1000 --seats 100,500 --sims 100 --curve 60
+target/release/stvsim run settings/test-truncation.toml > results.jsonl
 ```
 
-| Flag | Meaning | Default |
+All settings live in a settings file in TOML, a simple text format of `name = value` lines grouped under headings. `settings/test-truncation.toml` is a commented example.
+
+| Setting | Meaning | Default |
 |---|---|---|
-| `--cands` | Number of candidates | 100 |
-| `--seats` | Seat counts to test, comma-separated | 10 |
-| `--sims` | Simulated elections per seat count | 100 |
-| `--voters` | Ballots per election | 10 × candidates, at least 1,000 |
-| `--ranks` | Ballot length cap | 100 |
-| `--factions` | Number of slates | 4 |
-| `--rho` | Slate loyalty (see model spec) | 0.15 |
-| `--pop` | Popularity spread (see model spec) | 1.0 |
-| `--seed` | Starting value for random numbers | 1 |
-| `--threads` | Processor cores to use | all |
-| `--curve` | How many ranks of the average reach curve to print | 0 |
-| `--fifo` | Move surpluses in order of election instead of largest first. Only for validation | off |
-| `--ballots-file` | Count ballots from a file instead of simulating. Used by validation | — |
+| `run.name` | A short name for the run | required |
+| `run.seed` | Starting value for random numbers. The same seed gives the same results | 1 |
+| `run.sims` | Simulated elections per seat count | required |
+| `run.threads` | Processor cores to use. 0 means all | 0 |
+| `run.rules` | `scottish`, or `reference` (validation only; see below) | `scottish` |
+| `run.surplus_order` | `largest` (largest surplus first, as Scottish rules require), or `election` (order of election; validation only) | `largest` |
+| `run.truncation` | Whether to measure truncation as well as reach | `true` |
+| `run.curve_ranks` | How many ranks of each curve to write. 0 means all | 0 |
+| `election.candidates` | Number of candidates | required |
+| `election.seats` | Seat counts to test, as a list such as `[1, 3, 10]` | required |
+| `election.voters` | Ballots per election | 10 × candidates, at least 1,000 |
+| `election.ranks` | Ballot length cap | 100 |
+| `model.slates` | Number of slates (see model spec) | 4 |
+| `model.slate_loyalty` | Slate loyalty (see model spec) | 0.15 |
+| `model.popularity_spread` | Popularity spread (see model spec) | 1.0 |
 
-Output is one line of JSON per seat count. For each threshold (20, 10, 5, 2, and 1 in 100 votes), it gives the rank where reach drops below the threshold:
+`docs/model-spec.md` explains each `model` setting.
 
-- `avg`: read from the average curve across all simulated elections.
-- `p10`, `p50`, `p90`: the 10th, 50th, and 90th percentile across elections, so 8 in 10 elections fall between `p10` and `p90`.
-- `censored`: how many elections never dropped below the threshold within the ballot cap. If this isn't 0, the true answer is deeper than `--ranks`.
+### Output
+
+Each seat count writes one line of JSON. Every line records the full settings, the engine version and git commit (`engine.dirty` is `true` if the engine had uncommitted changes when it was built), and the model version. Fields:
+
+- `reach`: for each threshold (`t20`, `t10`, `t5`, `t2`, `t1`: 20, 10, 5, 2, and 1 in 100 votes), the rank where reach drops below the threshold:
+  - `avg`: read from the average curve across all simulated elections.
+  - `p10`, `p50`, `p90`: the 10th, 50th, and 90th percentile across elections, so 8 in 10 elections fall between `p10` and `p90`.
+  - `censored`: how many elections never dropped below the threshold within the ballot cap. If this isn't 0, the true answer is deeper than the cap.
+  - `curve`: the average reach, in votes out of 100, at each rank.
+- `truncation`:
+  - `p_changed`: for each cutoff rank *k*, the share of elections where keeping only *k* ranks changes the set of winners. This is the **truncation curve**.
+  - `threshold_rank`: for each threshold (`t5` means 5 in 100 elections), the smallest rank *k* where the truncation curve stays below the threshold for *k* and every deeper rank.
+  - `cutoff_rank`: the spread of cutoff ranks across elections: `mean`, `p10`, `p50`, `p90`, `max`, and `counts` (how many elections had each cutoff rank, starting at rank 1).
+- `exhaustion`: average share of voting weight (`votes_pct_mean`) and of ballots (`ballots_pct_mean`), out of 100, that ran out of candidates still in the race.
+
+## Count real ballots
+
+```
+target/release/stvsim count data/scotland/ballots/*.ballots
+```
+
+This reads files in the format in `docs/ballot-format.md` and writes one line of JSON per election: the winners, the order candidates were elected and excluded, the reach curve, exhaustion, and truncation (`changed` and `winners_at` for each cutoff rank, and `cutoff_rank`). If a metadata file lists the officially declared winners, `matches_official` says whether the engine agrees.
+
+Options: `--rules scottish|reference`, `--surplus-order largest|election`, `--seed N` (the seed for decisions by lot), and `--no-truncation`.
+
+## Counting rules
+
+Scottish rules, from the Scottish Local Government Elections Order 2011 (SSI 2011/399), Schedule 1, rules 47 to 53:
+
+- **Quota:** valid ballots divided by (seats + 1), with any fraction dropped, plus 1. A candidate who reaches it is elected.
+- **Surpluses:** every ballot of an elected candidate moves on to its next choice. It carries the candidate's surplus × the ballot's current value ÷ the candidate's total, **cut to 5 decimal places** (any remainder is dropped, not rounded). The engine counts in whole units of 0.00001 votes, so this is exact.
+- **Surplus order:** largest surplus first. Equal surpluses: the candidate who had more votes at the most recent stage where their totals differed goes first. If they were equal at every stage, lot decides.
+- **Exclusion:** when no surplus is left, the candidate with the fewest votes is excluded and their ballots move on at their current values. Ties: the candidate with fewer votes at the most recent stage where their totals differed goes first. If they were equal at every stage, lot decides.
+- **End:** when the candidates still in the race equal the seats left, they're all elected.
+
+A **stage** is one transfer: of a surplus, or of an excluded candidate's ballots. The first count of first choices is stage 0.
+
+**Decisions by lot** use a random draw with a fixed seed, so they're repeatable. Truncated recounts of an election use the same draw as its full count.
+
+**Interpretation for ties among three or more candidates.** The rules describe two candidates. With three or more, the engine compares them two at a time by the rule above, which puts them in a consistent order. When candidates' totals all differ at the same earlier stage, this gives the same answer as reading the rule literally.
+
+The rule for manual counts that elects a leading candidate early (rule 53(1A)) is left out. It ends the count sooner but never changes who wins.
+
+### Reference rules
+
+`rules = "reference"` matches the original JavaScript counter in `reference/decay.js`: full precision instead of 5 decimal places, and ties go to the lowest-numbered candidate. It exists only for the validation check below.
+
+## Validation
+
+From the project folder:
+
+```
+python3 reference/validate.py
+```
+
+This counts 24 test elections with both the engine (reference rules) and `reference/decay.js`, and compares the reach curves. Expected output: `24 of 24 elections match.`
+
+## Tests
+
+`cargo test --release` runs hand-checked elections in `src/count.rs`:
+
+- The 100-voter example in `reference/README.md`: reach and truncation at every cutoff.
+- A surplus transfer where cutting to 5 decimal places changes the totals.
+- Two exclusion ties that Scottish rules settle by looking back, where the reference rule gives a different answer, including one where it changes the winner.
+- Ties settled by lot: repeatable for a given seed, and different seeds reach both outcomes.
+- The truncation shortcut (below) gives the same winners as a from-scratch recount at every cutoff, on 48 simulated elections under both rule sets.
+
+## How truncation is made fast
+
+A truncated count is identical to the full count until the first stage where some vote would have landed on a cut rank. So the engine:
+
+1. Runs the full count once, and notes the first stage at which a vote landed on each rank.
+2. Skips every cutoff deeper than the deepest rank any vote reached, since nothing changes there.
+3. Runs the full count again, and at the stage where each cutoff first matters, copies the count and finishes the copy with the cut ballots.
+4. Stops a copy as soon as it elects someone who didn't win the full count, or excludes someone who did.
 
 ## Sweeps
 
@@ -50,11 +132,11 @@ python3 sweep.py sweep sweep.jsonl   # 10 to 100,000 candidates
 python3 sweep.py huge huge.jsonl     # 1,000,000 candidates (slow: about 8 minutes per run on one core)
 ```
 
-Milestone 1 replaces this with settings files.
+These plans reproduce the exploratory reach runs, so truncation is off. Milestone 8 replaces this script with a settings-file-driven sweep runner.
 
 ## Speed and memory
 
-Measured on a 2-core cloud machine:
+Reach only, measured on a 2-core cloud machine:
 
 | Candidates | Voters | Seconds per election | Peak memory |
 |---|---|---|---|
@@ -63,4 +145,6 @@ Measured on a 2-core cloud machine:
 | 100,000 | 1,000,000 | 23 | about 450 MB |
 | 1,000,000 | 10,000,000 | about 450 | several GB |
 
-Elections run in parallel, one per core, so a laptop with 8 to 12 cores runs sweeps 4 to 6 times faster.
+With truncation, on a 4-core cloud machine: 200 elections of 30 candidates take about 0.1 seconds per seat count, and 8 elections of 1,000 candidates about 0.6 seconds per seat count.
+
+Elections run in parallel, one per core, so a laptop with 8 to 12 cores runs sweeps 2 to 6 times faster.

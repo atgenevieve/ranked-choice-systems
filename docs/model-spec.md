@@ -7,7 +7,7 @@ A **model** is the set of assumptions the simulation makes about how voters fill
 Each assumption lists:
 
 - **What it means** in plain language.
-- **Current setting**, and the command-line flag that controls it.
+- **Current setting**, and the setting in the settings file that controls it.
 - **Why:** the reason for the current setting.
 - **Evidence:** one of *assumed* (chosen by judgment), *tested* (sensitivity measured), or *calibrated* (set from real data). Nothing is calibrated yet.
 - **Sensitivity:** how much changing it moved the results.
@@ -27,7 +27,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 ### 1. Number of slates
 
 - **What it means:** how many groups voters and candidates split into.
-- **Current setting:** 4 (`--factions`).
+- **Current setting:** 4 (`model.slates`).
 - **Why:** a typical number of organized tendencies in a membership organization.
 - **Evidence:** tested.
 - **Sensitivity:** low. Results with 1, 2, 8, and 16 slates were within one rank of each other at 1,000 candidates.
@@ -44,7 +44,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 ### 3. Candidate popularity
 
 - **What it means:** how unequal support is among candidates. With high spread, a few stars attract most first choices. With zero spread, every candidate is equally popular.
-- **Current setting:** each candidate's popularity is drawn from a lognormal distribution (a common pattern where most values are moderate and a few are very large) with spread 1.0 (`--pop`). At this spread, the most popular candidate in a field of 100 is typically around 10 to 20 times more popular than the median candidate.
+- **Current setting:** each candidate's popularity is drawn from a lognormal distribution (a common pattern where most values are moderate and a few are very large) with spread 1.0 (`model.popularity_spread`). At this spread, the most popular candidate in a field of 100 is typically around 10 to 20 times more popular than the median candidate.
 - **Why:** a moderate middle value.
 - **Evidence:** tested.
 - **Sensitivity:** **high. This is the most important setting.** At 1,000 candidates:
@@ -62,7 +62,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 ### 4. Slate loyalty
 
 - **What it means:** how strongly voters prefer their own slate. A candidate on a slate one step away gets their tickets multiplied by this number, two steps away by its square, and so on. At 0, voters rank only their own slate until it runs out. At 1, slates don't matter.
-- **Current setting:** 0.15 (`--rho`).
+- **Current setting:** 0.15 (`model.slate_loyalty`).
 - **Why:** strong but not total loyalty.
 - **Evidence:** tested.
 - **Sensitivity:** low. Results from 0 to 1 were within one rank of each other.
@@ -71,7 +71,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 ### 5. Ballot length
 
 - **What it means:** how many ranks each voter fills in.
-- **Current setting:** everyone fills in every rank up to the cap (`--ranks`, default 100).
+- **Current setting:** everyone fills in every rank up to the cap (`election.ranks`, default 100).
 - **Why:** a simplification during exploration, and needed to measure how deep votes could travel.
 - **Evidence:** assumed. **Known to be unrealistic.**
 - **Sensitivity:** not yet tested, but likely high. Real voters often rank only a few candidates. A vote can't travel past a voter's last rank.
@@ -80,7 +80,7 @@ This drawing method is a standard one in voting research, called the **Plackettâ
 ### 6. Number of voters
 
 - **What it means:** how many ballots are cast.
-- **Current setting:** 10 per candidate, at least 1,000 (`--voters`).
+- **Current setting:** 10 per candidate, at least 1,000 (`election.voters`).
 - **Why:** enough ballots that each candidate gets a meaningful number of first choices.
 - **Evidence:** tested.
 - **Sensitivity:** low. 3, 10, and 30 voters per candidate gave results within one rank.
