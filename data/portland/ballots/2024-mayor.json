@@ -92,7 +92,7 @@
   "official_winners": [
     0
   ],
-  "blank_ballots": 22955,
+  "blank_ballots": 23006,
   "max_ranks": 6,
-  "notes": "Multnomah County cast vote record cvr-mayor.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 3855; with a skipped rank: 6608; with a repeated candidate: 2581; remade ballots: 13808. Blank: 21473 with no marks (estimated from precinct styles), 1482 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-mayor.json (Multnomah County Elections, certified December 2, 2024). Our first-choice totals differ from the official first round by 291 votes in all; see checks.json."
+  "notes": "Multnomah County cast vote record cvr-mayor.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 4192; with a skipped rank: 6608; with a repeated candidate: 2577; remade ballots: 13808. Blank: 21473 with no marks (estimated from precinct styles), 1533 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-mayor.json (Multnomah County Elections, certified December 2, 2024)."
 }

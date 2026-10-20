@@ -34,8 +34,7 @@ def convert(path):
     reader = csv.reader(f)
     header = next(reader)
     style_col = header.index("PrecinctStyleName")
-    cols, contest, seats, parties = [], None, None, {}
-    ignored_writein_cols = 0
+    cols, raw_cols, contest, seats, parties = [], [], None, None, {}
     for i, h in enumerate(header):
         if not h.startswith("Choice_"):
             continue
@@ -45,14 +44,18 @@ def convert(path):
         seats = int(p[3].rsplit(" ", 1)[1])
         cand, party = ":".join(p[4:-1]), p[-1]
         if re.fullmatch(r"Write-in-\d+", cand):
-            # Raw write-in bubble positions. The adjudicated result of each
+            # Raw write-in bubble positions. The adjudicated result of a
             # write-in is marked separately (in a candidate's column or in
-            # "Uncertified Write In"), so these are left out; counting both
-            # would turn every write-in into an overvote.
-            ignored_writein_cols += 1
+            # "Uncertified Write In"), and adjudication clears the raw bubble,
+            # so a raw bubble never counts as a vote by itself. But a raw
+            # bubble left at a rank where another candidate is also marked
+            # makes that rank an overvote. This rule reproduces the official
+            # first round exactly in all six contests (see README.md).
+            raw_cols.append((i, rank))
             continue
         parties[cand] = party
         cols.append((i, rank, cand))
+    ignored_writein_cols = len(raw_cols)
     max_rank = max(r for _, r, _ in cols)
 
     ballots = collections.Counter()
@@ -65,6 +68,7 @@ def convert(path):
         for i, rank, cand in cols:
             if row[i] == "1":
                 marks[rank].append(cand)
+        raw_marks = {rank for i, rank in raw_cols if row[i] == "1"}
         style = row[style_col]
         if not marks:
             unmarked_by_style[style] += 1
@@ -81,8 +85,10 @@ def convert(path):
             if skipped:
                 flags.add("skipped")
             skipped = False
-            if len(m) > 1:
+            if len(m) > 1 or rank in raw_marks:
                 flags.add("overvote")  # City Code 2.08: skip the overvoted rank, go on to the next
+                if len(m) == 1:
+                    flags.add("overvote_with_raw_writein")
                 continue
             if m[0] in ballot:
                 flags.add("duplicate")  # counted at its highest rank only

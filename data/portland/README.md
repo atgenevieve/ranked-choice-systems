@@ -14,16 +14,16 @@ Portland reaches into Washington and Clackamas counties. The official results ar
 
 ## Contents
 
-6 contests, 780,037 ballots (counting each voter once per contest), 2.7 MB. All of it is committed.
+6 contests, 779,853 ballots (counting each voter once per contest), 2.7 MB. All of it is committed.
 
 | Contest | Seats | `system` | Ballots | Distinct rankings | Blank | Official winners |
 | --- | ---: | --- | ---: | ---: | ---: | --- |
-| Council District 1 | 3 | `portland-stv` | 42,881 | 18,897 | 12,258 | Candace Avalos, Jamie Dunphy, Loretta Smith |
-| Council District 2 | 3 | `portland-stv` | 77,163 | 41,109 | 10,916 | Sameer Kanal, Dan Ryan, Elana Pirtle-Guiney |
-| Council District 3 | 3 | `portland-stv` | 84,520 | 40,704 | 13,434 | Steve Novick, Angelita Morillo, Tiffany Koyama Lane |
-| Council District 4 | 3 | `portland-stv` | 76,720 | 38,257 | 15,077 | Olivia Clark, Mitch Green, Eric Zimmerman |
-| Mayor | 1 | `irv` | 310,014 | 53,006 | 22,955 | Keith Wilson |
-| Auditor | 1 | `irv` | 188,739 | 4 | 144,230 | Simone Rede (unopposed) |
+| Council District 1 | 3 | `portland-stv` | 42,871 | 18,894 | 12,268 | Candace Avalos, Jamie Dunphy, Loretta Smith |
+| Council District 2 | 3 | `portland-stv` | 77,157 | 41,108 | 10,922 | Sameer Kanal, Dan Ryan, Elana Pirtle-Guiney |
+| Council District 3 | 3 | `portland-stv` | 84,515 | 40,703 | 13,439 | Steve Novick, Angelita Morillo, Tiffany Koyama Lane |
+| Council District 4 | 3 | `portland-stv` | 76,717 | 38,257 | 15,080 | Olivia Clark, Mitch Green, Eric Zimmerman |
+| Mayor | 1 | `irv` | 309,963 | 53,012 | 23,006 | Keith Wilson |
+| Auditor | 1 | `irv` | 188,630 | 4 | 144,339 | Simone Rede (unopposed) |
 
 `official_winners` lists winners in the order they were elected. `parties` is `null`, because the county lists every candidate as "NON" (nonpartisan). Each metadata file has an extra field `max_ranks` (6).
 
@@ -52,7 +52,7 @@ From City Code 2.08:
 - **Overvote** (two or more candidates marked at the same rank): that rank is skipped and the ballot goes on to its next rank (2.08.030.A.4 and 2.08.010.G). This differs from NYC, where an overvote ends the ballot.
 - **Skipped rank:** passed over; the next marked rank counts (2.08.030.A.3).
 - **Repeated candidate:** the code doesn't address it. We count the candidate at their highest rank and pass over later repeats. This is the usual tabulator setting, but we haven't seen Portland's RCTab settings.
-- **Write-ins:** only write-ins for people on the City's certified write-in list count for that person (2.08.080). The CVR records adjudicated write-ins in two ways: a vote for a certified write-in candidate is marked in that candidate's column, and every other write-in is marked in a column called "Uncertified Write In". We keep "Uncertified Write In" as one candidate, because the official count does the same (it is eliminated early). The CVR also has columns named "Write-in-120", "Write-in-121", and so on, which record the raw write-in bubble. We ignore those, because counting them too would turn every adjudicated write-in into an overvote. Ignoring them brought our first-round totals from 86 ballots off to 10 ballots off in District 1.
+- **Write-ins:** only write-ins for people on the City's certified write-in list count for that person (2.08.080). The CVR records adjudicated write-ins in two ways: a vote for a certified write-in candidate is marked in that candidate's column, and every other write-in is marked in a column called "Uncertified Write In". We keep "Uncertified Write In" as one candidate, because the official count does the same (it is eliminated early). The CVR also has columns named "Write-in-120", "Write-in-121", and so on, which record the raw write-in bubble. A raw bubble never counts as a vote by itself: when election workers adjudicate a write-in, they mark the result in a candidate's column or in "Uncertified Write In" and clear the raw bubble. But when a raw bubble is still marked at a rank where the voter also marked a candidate, that rank counts as an **overvote** and is skipped, as the official count does. This rule reproduces the official first round exactly in all six contests (see "Checks against official results"). It affects 6 to 41 ballots per council district, 386 for mayor, and 113 for auditor.
 - **Blank ballots:** a ballot with no marks in the contest, or with only overvoted ranks. The code says a blank ballot (an "undervote") counts as neither active nor inactive.
 - **Rows outside the contest:** each CVR file has a row for every ballot in the election (332,969 rows), including ballots from other districts. We count an unmarked row as blank only if its precinct style (`PrecinctStyleName`) carried the contest, judged by whether any other ballot of that style marked it.
 - **Remade ballots:** the CVR has `Status` and `Remade` columns. 14,311 rows have `Status` -1 and `Remade` 1, which we take to be ballots that election workers remade (for example, damaged ballots copied onto a new ballot). We keep every row: leaving these out put District 1 about 2,000 ballots below the official first round, while keeping them matches it to within 10.
@@ -65,14 +65,25 @@ Candidates are numbered by first-round votes, highest first, with "Uncertified W
 
 | Contest | Official round 1 | Ours | Total of differences |
 | --- | ---: | ---: | ---: |
-| District 1 | 42,871 | 42,881 | 10 |
-| District 2 | 77,157 | 77,163 | 26 |
-| District 3 | 84,515 | 84,520 | 11 |
-| District 4 | 76,717 | 76,720 | 3 |
-| Mayor | 309,963 | 310,014 | 291 |
-| Auditor | 188,630 | 188,739 | 109 |
+| District 1 | 42,871 | 42,871 | 0 |
+| District 2 | 77,157 | 77,157 | 0 |
+| District 3 | 84,515 | 84,515 | 0 |
+| District 4 | 76,717 | 76,717 | 0 |
+| Mayor | 309,963 | 309,963 | 0 |
+| Auditor | 188,630 | 188,630 | 0 |
 
-The differences are under 0.1% everywhere. A plain instant-runoff count of our files picks the official mayor and auditor. We haven't checked the council winners, because that needs a Portland-rules STV count, which the engine doesn't have yet.
+Every candidate's first-round total matches the official count exactly. A plain instant-runoff count of our files picks the official mayor and auditor, and our mayor count's final round (Keith Wilson 153,522, Carmen Rubio 106,431) matches the official final round. We haven't checked the council winners, because that needs a Portland-rules STV count, which the engine doesn't have yet.
+
+**How we got to an exact match (October 2026).** An earlier version of `convert.py` ignored the raw write-in columns completely, and our totals were 3 to 291 votes too high. We checked several possible causes:
+
+- **Remade ballots** (`Status` −1, `Remade` 1): leaving them out puts every contest thousands of ballots short, so they belong in the count.
+- **Duplicate ballots:** every `BallotID` in each file is unique.
+- **Washington and Clackamas county ballots:** 1,178 rows have `WASH-` or `CLACK-` precinct styles. They're already in the CVR and in our count.
+- **The raw write-in bubble.** The auditor race settled it: with one candidate, cleanup rules can't change who a vote counts for, yet we had exactly 109 too many votes for Simone Rede and exactly the right number of write-ins. Each of those 109 ballots marks Rede and a raw write-in bubble at the same rank, and has no other rank where Rede is marked alone. Treating such a rank as an overvote matched the auditor race, then all five other contests, to the vote.
+
+We found no county documentation that states this rule; it's inferred from the exact match. It's what a counting program would do if it saw two marks at one rank, which is what the raw columns show.
+
+**Candidate numbers changed slightly.** Candidates are numbered by first-round votes, so the fix swapped two neighbors near the bottom of the list in District 3 (Jaclyn Smith-Moore and Patrick Hilton) and District 4 (Lee Odell and Tony Schwartz). Earlier results that refer to those candidates by number used the old order.
 
 ## Slates
 
@@ -136,7 +147,7 @@ All URLs are in `slates.json`. The main ones:
 
 ## Known problems
 
-- **First-round totals are close but not exact,** as the table shows. Likely causes: the posted CVR may be from a slightly different point in the count than the certified results, or a few remade or adjudicated ballots are recorded differently. We haven't found the cause.
+- **The raw write-in rule is inferred, not documented.** First-round totals now match exactly (see "Checks against official results"), but the rule that made them match comes from the data, not from Multnomah County's RCTab settings, which we haven't seen.
 - **Blank ballots are estimates,** because of the rows-outside-the-contest problem above.
 - **The Auditor race had one certified candidate,** so it isn't useful for studying rankings. It's included for completeness.
 - **Google Drive links can change.** If `download.py` fails, download the six CVR files by hand from the county page and save them as `raw/cvr-<contest>.csv` (for example `raw/cvr-councilor-district-1.csv`).

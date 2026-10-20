@@ -31,8 +31,8 @@
     "Kelly Doyle",
     "Brandon Farley",
     "Patrick Cashman",
-    "Tony Schwartz",
     "Lee Odell",
+    "Tony Schwartz",
     "L Christopher Regis",
     "Uncertified Write In"
   ],
@@ -206,7 +206,7 @@
     1,
     3
   ],
-  "blank_ballots": 15077,
+  "blank_ballots": 15080,
   "max_ranks": 6,
-  "notes": "Multnomah County cast vote record cvr-councilor-district-4.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 965; with a skipped rank: 671; with a repeated candidate: 490; remade ballots: 3476. Blank: 14522 with no marks (estimated from precinct styles), 555 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-4.json (Multnomah County Elections, certified December 2, 2024). Our first-choice totals differ from the official first round by 3 votes in all; see checks.json."
+  "notes": "Multnomah County cast vote record cvr-councilor-district-4.csv. Ballot allowed 6 ranks. Cleanup follows Portland City Code 2.08 (see data/portland/README.md). Ballots with an overvote: 968; with a skipped rank: 671; with a repeated candidate: 490; remade ballots: 3476. Blank: 14522 with no marks (estimated from precinct styles), 558 with only overvoted ranks. 'Uncertified Write In' stands for all write-ins for people not on the City's certified write-in list, combined; the official count treats it as one candidate. Official winners from the final RCTab summary official/city-of-portland-councilor-district-4.json (Multnomah County Elections, certified December 2, 2024)."
 }
