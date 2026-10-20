@@ -306,7 +306,6 @@ function drawElection(r, c) {
   t.cutoff_rank.counts.reduce((acc, n, i) => { same[i] = (acc + n) / sims; return acc + n; }, 0);
   const at = level => same.findIndex(x => x >= level - 1e-9) + 1;
   const k50 = at(0.5), k80 = at(0.8), k95 = at(0.95), kAll = at(1);
-  const k5 = holdsFrom(p, x => x < 0.05);
   // Seats that change hands at the 50% confidence rank: how many, in the elections where the cut changes anything.
   const pMid = p[k50 - 1] ?? 0, perChange = pMid ? (mean[k50 - 1] ?? 0) / pMid : 0;
   const xMax = Math.min(p.length, Math.max(kAll + 3, N ? Math.min(N + 2, p.length) : 0, 8));
@@ -328,13 +327,6 @@ function drawElection(r, c) {
     marks: [{ x: k50, y: same[k50 - 1], label: `50%: rank ${k50}`, below: true }, { x: k80, y: same[k80 - 1], label: `80%: rank ${k80}`, below: true }, { x: k95, y: same[k95 - 1], label: `95%: rank ${k95}`, below: true }]
       .filter((m, i, a) => a.findIndex(o => o.x === m.x) === i),
     aria: "Share of simulated elections that elect the same people when ballots are cut after each rank",
-  });
-  // Chart 2: one cut changes the winners.
-  chart($("chart-changed"), [{ points: p.slice(0, xMax).map((y, i) => [i + 1, y]), color: "--model", dots: xMax <= 40 }], {
-    xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-    hlines: [{ y: 0.05, label: "5 in 100" }],
-    marks: k5 <= xMax ? [{ x: k5, y: p[k5 - 1] ?? 0, label: `below 5 in 100 from rank ${k5}` }] : [],
-    aria: "Share of elections where cutting ballots at each rank changes the winners",
   });
   // Chart 3: seats that change hands. The average mixes elections where the cut changes
   // nothing with those where it does, so a second line shows the seats swapped when it does.
