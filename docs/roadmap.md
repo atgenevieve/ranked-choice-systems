@@ -2,7 +2,7 @@
 
 Each milestone ends with a check. Don't start the next one until its check passes.
 
-**Status:** milestones 0 and 1 are done. Milestone 2 (real data) is in progress.
+**Status:** milestones 0 to 2 are done. Milestone 3 (owner review) is waiting on the owner: see `docs/model-review.md`.
 
 ## Milestone 0: Set up
 

@@ -86,6 +86,8 @@ All of this was measured with **reach**. Truncation results will differ, and the
 
 - `docs/roadmap.md`: milestones, in order, with how to tell each is done.
 - `docs/model-spec.md`: the voter model, assumption by assumption.
+- `docs/model-review.md`: the milestone 3 review: what real data shows for each model assumption, with proposals and decisions.
+- `docs/real-data-findings.md`: detailed findings from real ballots.
 - `docs/large-elections.md`: how common elections with many seats are, and how voters behave on long ballots.
 - `docs/ballot-format.md`: the `.ballots` file format shared by the engine and the real-data scripts.
 - `data/`: real ballot data, one folder per source. `data/README.md` sums up each dataset's details, adjustments, and shortcomings.
