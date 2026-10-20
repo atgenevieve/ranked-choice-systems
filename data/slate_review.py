@@ -38,6 +38,19 @@ PLACES = {"nyc": "New York City", "portland": "Portland, OR", "irish": "Ireland"
           "sf": "San Francisco", "sl": "San Leandro, CA", "aspen": "Aspen, CO", "berkley": "Berkeley, CA",
           "pierce": "Pierce County, WA", "takomapark": "Takoma Park, MD"}
 
+# The type of each grouping, so the owner can set one rule per type for each
+# place and year. Every organization or party that endorsed a slate is one
+# type; the owner can override any row.
+def category(kind, name):
+    if kind == "campaign":
+        return "Candidate pact"
+    if kind == "media" or "(media)" in name:
+        return "Newspaper editorial board"
+    if kind == "found-in-ballots":
+        return "Found only in ballots"
+    return "Endorsing organization"
+
+
 def read_ballots(path):
     nc = ns = None
     ballots = []
@@ -98,6 +111,7 @@ def review(path):
         groups.append({
             "id": f"slate-{i}",
             "kind": kind,
+            "category": category(kind, s["name"]),
             "name": s["name"],
             "members": [names[c] for c in s["members"]],
             "source": s.get("source"),
@@ -142,7 +156,7 @@ def review(path):
             })
     found.sort(key=lambda g: g["observed"] - g["popularity"], reverse=True)
     for i, g in enumerate(found[:FOUND_PER_ELECTION]):
-        groups.append({"id": f"found-{i}", **g})
+        groups.append({"id": f"found-{i}", "category": category(g["kind"], g["name"]), **g})
     base = os.path.basename(path)
     src = os.path.basename(os.path.dirname(os.path.dirname(path)))
     place = PLACES.get(src) or PLACES.get(base.split("-")[0], base.split("-")[0])
