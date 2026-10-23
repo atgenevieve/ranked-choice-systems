@@ -261,7 +261,7 @@ function updateLabels(c) {
 // ---------------------------------------------------------------- charts
 /** A chart on linear scales. series: [{points: [[x, y]], color, width, dots, dash}];
  *  opts: {xMin, xMax, xTicks, yMax, yStep, yFmt, xTitle, hlines: [{y, label}],
- *  marks: [{x, y, label}], vlines: [x] (faint dotted), bars: [{x, y}] and bands: [{points: [[x, low, high]], color}]
+ *  marks: [{x, y, label, color}] (color: a CSS variable; default --mark), vlines: [x] (faint dotted), bars: [{x, y}] and bands: [{points: [[x, low, high]], color}]
  *  (both drawn behind the lines)}. */
 function chart(box, series, opts) {
   box.replaceChildren();
@@ -315,9 +315,9 @@ function chart(box, series, opts) {
       return false;
     }));
   for (const m of opts.marks || []) {
-    const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax));
-    el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
-    el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: css("--mark"), "stroke-width": 2 }, svg);
+    const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax)), ink = css(m.color || "--mark");
+    el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: ink, "stroke-width": m.color ? 1.5 : 1, "stroke-dasharray": "2 3" }, svg);
+    el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: ink, "stroke-width": 2 }, svg);
     taken.push({ x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 });
     const width = m.label.length * 7 + 4;
     const spots = [];
@@ -330,9 +330,9 @@ function chart(box, series, opts) {
     // A label that had to move away from its point gets a thin line back to it.
     if (Math.abs(spot.dy) > 16) {
       const b = box(spot), lx = spot.side > 0 ? b.x1 : b.x2, ly = spot.dy < 0 ? b.y2 : b.y1;
-      el("line", { x1: x, y1: y + (spot.dy < 0 ? -5 : 5), x2: lx, y2: ly, stroke: css("--mark"), "stroke-width": 1 }, svg);
+      el("line", { x1: x, y1: y + (spot.dy < 0 ? -5 : 5), x2: lx, y2: ly, stroke: ink, "stroke-width": 1 }, svg);
     }
-    text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end" });
+    text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end", ...(m.color ? { style: `fill:${ink}` } : {}) });
   }
 }
 

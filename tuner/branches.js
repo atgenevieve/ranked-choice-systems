@@ -187,9 +187,11 @@ function drawBranches() {
       return { points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
     }), {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-      marks: !one ? [] : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
-        .map(([k, l]) => ({ x: k, y: f0.same[k - 1], label: `${l}: rank ${k}`, below: true })),
-      hlines: many ? [{ y: 0.95, label: "95%" }] : [],
+      // One system: its 50, 80, 95, and 100% ranks. Several: each system's 95% rank, in its color.
+      marks: !one
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: f.same[f.k95 - 1], label: `95%: rank ${f.k95}`, color: sys.color, below: true }; })
+        : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
+          .map(([k, l]) => ({ x: k, y: f0.same[k - 1], label: `${l}: rank ${k}`, below: true })),
       aria: `${b.name}: share of simulated elections with the same results when ballots are cut after each rank`,
     });
     chart(c2, got.flatMap(({ sys, g }) => {
@@ -201,7 +203,10 @@ function drawBranches() {
            { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }];
     }), {
       xMin: 1, xMax, xTicks, yMax: Math.ceil(topSeats / seatStep) * seatStep, yStep: seatStep, yFmt: v => (seatStep < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-      marks: !one ? [] : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mean[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
+      // Several systems: where each gets down to 1 seat changing on average, in its color.
+      marks: !one
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kOne <= xMax && { x: f.kOne, y: f.mean[f.kOne - 1] ?? 0, label: `1 seat: rank ${f.kOne}`, color: sys.color }; }).filter(Boolean)
+        : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mean[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
         ...(f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
       aria: `${b.name}: winners who change when every ballot stops at each rank`,
     });
