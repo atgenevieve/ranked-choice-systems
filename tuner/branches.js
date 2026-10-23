@@ -164,7 +164,7 @@ function drawBranches() {
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
-      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points. ${many ? "Shaded bands" : "Thin lines"} show the likely range.` +
+      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points.` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
       card.append(t);
@@ -222,10 +222,10 @@ function worthMeans(w) {
 }
 
 let worthCharts = [];
-/** The worth charts, on one scale across branches: bars for one system, lines with shaded
- *  95% ranges when comparing systems. */
+/** The worth charts, on one scale across branches: bars for one system, lines when
+ *  comparing systems. */
 function drawWorthCharts() {
-  const peak = Math.max(1, ...worthCharts.flatMap(({ ms }) => ms.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.hi))));
+  const peak = Math.max(1, ...worthCharts.flatMap(({ ms }) => ms.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.m))));
   const step = niceStep(peak), yMax = Math.ceil(peak / step) * step;
   for (const { box, ms, name } of worthCharts) {
     const aria = `${name}: what each ballot position is worth to a candidate`;
@@ -238,12 +238,11 @@ function drawWorthCharts() {
     chart(box, ms.map(({ sys, m }) => ({ points: m.any.map((v, i) => v && [i + 1, v.m - lo]).filter(Boolean), color: sys.color, width: 2 })), {
       xMin: 1, xMax: Math.max(2, n), xTicks: rankTicks(n), yMax: yMax - lo, yStep: step, yFmt: v => { const y = +(v + lo).toFixed(2); return y ? `${y > 0 ? "+" : "−"}${Math.abs(y)}` : "0"; },
       xTitle: "Position on one voter's ballot", aria,
-      bands: ms.map(({ sys, m }) => ({ points: m.any.map((v, i) => v && [i + 1, Math.max(0, v.lo - lo), v.hi - lo]).filter(Boolean), color: sys.color, opacity: 0.18 })),
     });
   }
 }
 
-/** Bars from 0, one per position, with error lines that stay visible over the bars. */
+/** Bars from 0, one per position. */
 function barChart(box, vals, opts) {
   box.replaceChildren();
   const w = Math.max(280, box.clientWidth || 800), H = 240, L = 56, R = 10, T = 12, B = 38;
@@ -259,12 +258,6 @@ function barChart(box, vals, opts) {
     if ((i + 1) % every === 0 || i === 0) text(svg, sx(i), H - B + 15, String(i + 1), { "text-anchor": "middle" });
     if (!v) return;
     el("rect", { x: sx(i) - bw * 0.36, y: sy(v.m), width: bw * 0.72, height: Math.max(0.5, sy(0) - sy(v.m)), fill: css("--model") }, svg);
-    if (v.hi - v.lo < 1e-9) return;
-    // A plain line, no end caps (owner's preference), outlined so it shows over the bar.
-    const lo = sy(v.lo), hi = sy(v.hi);
-    for (const [stroke, width] of [[css("--surface"), 3], [css("--ink"), 1]]) {
-      el("line", { x1: sx(i), x2: sx(i), y1: lo, y2: hi, stroke, "stroke-width": width, "stroke-linecap": "round" }, svg);
-    }
   });
   text(svg, (L + w - R) / 2, H - 4, "Position on one voter's ballot", { "text-anchor": "middle", class: "title" });
 }
