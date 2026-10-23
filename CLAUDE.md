@@ -93,6 +93,7 @@ All of this was measured with **reach**. Truncation results will differ, and the
 - `evidence/`: the model evidence page (one tab per model decision), and how to rebuild its data.
 - `docs/model-check.md`: how simulated elections compare with real ones (milestone 4).
 - `tuner/`: the model tuner, a web page that runs the engine (compiled to WebAssembly) to adjust the model and compare it with real elections. See `tuner/README.md`.
+- `web/`: the public simulator on genevieverand.com/projects/ranked-choice-simulator: shared settings, the browser engine client, and results precomputed from a fixed seed so the page needn't run the engine for its defaults. See `web/README.md`.
 - `docs/model-review.md`: the milestone 3 review: what real data shows for each model assumption, with proposals and decisions.
 - `docs/real-data-findings.md`: detailed findings from real ballots.
 - `docs/endorsement-cohesion.md`: a reusable method for measuring how voters follow endorsements, slates, and pacts on ranked ballots, with early findings. Keep it usable outside this project.
