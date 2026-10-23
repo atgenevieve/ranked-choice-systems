@@ -162,15 +162,9 @@ function drawBranches() {
       const card = document.createElement("div"); card.className = "worthcard";
       const t = document.createElement("h4"); t.textContent = "What each ballot position is worth to a candidate";
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
-      const close = ms.map(({ sys, m }) => {
-        const times = m.anyTop > 0 ? Math.round(m.edgeTop / m.anyTop) : null;
-        return times ? `${many ? `${sys.name}: ` : ""}about ${times} times more` : null;
-      }).filter(Boolean);
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
-      read.textContent = `How many percentage points more likely a candidate is to win when one more voter ranks them at this position instead of leaving them off${many ? " (the scale on the left)" : ""}.` +
-        (close.length ? ` In a close race, every position is worth ${close.join("; ")}.` : "") +
-        ` ${many ? "Shaded bands" : "Error bars"}: the range the average could fall in by chance (95%).` +
+      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points. ${many ? "Shaded bands" : "Thin lines"} show the likely range.` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
       card.append(t);
