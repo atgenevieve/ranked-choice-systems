@@ -213,17 +213,25 @@ window.runBranches = async (c, alive) => {
     requestAnimationFrame(() => { pendingDraw = false; if (alive()) window.redrawBranches(); });
   };
   const sims = int(c.sims, 10, 1000);
-  let jobs = 0, done = 0;
-  const progress = () => { if (alive()) setStatus("branches-status", done < jobs ? `Playing out the branches: ${Math.round(100 * done / jobs)}% done, on ${POOL_SIZE} processor cores…` : "", done < jobs); };
+  // Two parts, reported separately: the branches' elections (the line charts) come back first;
+  // what each position is worth takes about 12 times as long, since every simulated election
+  // is recounted once per position for 8 candidates.
+  let elections = 0, electionsDone = 0, chunks = 0, chunksDone = 0;
+  const progress = () => {
+    if (!alive()) return;
+    if (electionsDone < elections) setStatus("branches-status", `Playing out the branches: ${electionsDone} of ${elections} done, on ${POOL_SIZE} processor cores…`, true);
+    else if (chunksDone < chunks) setStatus("branches-status", `Line charts done. Working out what each ballot position is worth: ${Math.round(100 * chunksDone / chunks)}% done, on ${POOL_SIZE} processor cores…`, true);
+    else setStatus("branches-status", "");
+  };
   const all = [];
   const plans = branchList.map(b => {
     const cand = int(b.candidates, 2, 300), seats = int(b.seats, 1, cand - 1);
     return { b, settings: electionSettings({ ...c, candidates: cand, seats, voters: b.voters }) };
   });
   for (const { b, settings } of plans) {
-    jobs++;
+    elections++;
     all.push(engine({ task: "election", settings }, alive).then(reply => {
-      done++; progress();
+      electionsDone++; progress();
       if (!alive() || reply.stale) return;
       if (reply.error || !reply.results?.length) {
         setStatus("branches-status", `The engine refused ${b.name}'s numbers: ${reply.error || "seats must be fewer than candidates"}.`, false, true);
@@ -238,9 +246,9 @@ window.runBranches = async (c, alive) => {
     branchWorth.set(b.name, { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
     for (let first = 0; first < sims; first += WORTH_CHUNK) {
       const count = Math.min(WORTH_CHUNK, sims - first);
-      jobs++;
+      chunks++;
       all.push(engine({ task: "worth", settings, first, count }, alive).then(reply => {
-        done++; progress();
+        chunksDone++; progress();
         if (!alive() || reply.stale || reply.error) return;
         const w = branchWorth.get(b.name);
         add(w.any, reply.any); add(w.edge, reply.edge);

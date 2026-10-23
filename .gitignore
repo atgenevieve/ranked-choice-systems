@@ -5,3 +5,4 @@ __pycache__/
 .claude/worktrees/
 data/*/raw/
 .claude/settings.local.json
+node_modules/

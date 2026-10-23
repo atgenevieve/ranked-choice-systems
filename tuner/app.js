@@ -38,7 +38,17 @@ function dispatch() {
   }
 }
 /** Sends a request to the engine. `alive`, if given, is checked just before the request starts. */
-const engine = (request, alive) => new Promise(resolve => { queue.push({ request, resolve, alive }); dispatch(); });
+const runEngine = (request, alive) => new Promise(resolve => { queue.push({ request, resolve, alive }); dispatch(); });
+// The branch page ships the engine's replies for its default settings (branches-defaults.json,
+// built by precompute.mjs from the same engine and seed), so it opens with results instead of
+// minutes of simulating. A request found there is answered at once; any other goes to the engine.
+const precomputed = PAGE === "branches"
+  ? fetch("branches-defaults.json").then(r => r.ok ? r.json() : {}).catch(() => ({}))
+  : Promise.resolve({});
+const engine = async (request, alive) => {
+  const saved = (await precomputed)[JSON.stringify(request)];
+  return saved || runEngine(request, alive);
+};
 
 // ---------------------------------------------------------------- formatting
 const pct = v => v == null ? "–" : v > 0 && v < 0.01 ? "under 1%" : `${(v * 100).toFixed(v < 0.1 && v > 0 ? 1 : 0)}%`;
