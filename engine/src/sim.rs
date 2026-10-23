@@ -303,6 +303,19 @@ mod tests {
     }
 
     #[test]
+    fn position_worth_skips_voters_who_ranked_only_the_candidate() {
+        // Short "up to 5" ballots: some voters rank only one candidate. Without that candidate
+        // their ballot would be blank, which once crashed the count.
+        let mut s: crate::settings::Settings = serde_json::from_str(r#"{"run":{"name":"t","seed":1,"sims":100},
+            "election":{"candidates":12,"seats":[5],"voters":200,"turnout_spread":0.1,"ranks":12},
+            "electorate":{"type":"organization"},"ballot":{"wording":"up_to","n":"seats","pull":0.1}}"#).unwrap();
+        s.finish().unwrap();
+        let (a, e) = super::position_worth(&s, 5, 50, 50);
+        assert_eq!(a.n[0], 200.0);
+        assert_eq!(e.n[0], 200.0);
+    }
+
+    #[test]
     fn turnout_draw() {
         // No spread: always the expected number.
         assert!((0..50).all(|i| draw_voters(432, 0.0, i) == 432));
@@ -368,9 +381,22 @@ pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) ->
         studied.extend(full.elected_order.iter().rev().take(2).map(|&x| (x, true)));
         studied.extend(full.excluded_order.iter().rev().take(2).map(|&x| (x, true)));
         for (cand, is_edge) in studied {
-            let row = (r.next_u64() % b.rows() as u64) as usize;
-            let orig: Vec<u32> = b.row(row).to_vec();
-            let others: Vec<u32> = orig.iter().copied().filter(|&x| x != NONE && x != cand).collect();
+            // A voter who ranked only this candidate would cast a blank ballot without them,
+            // which the count can't take, so draw another voter. Elections where no voter
+            // ranked only this candidate draw exactly as before.
+            let mut tries = 0;
+            let (row, orig, others) = loop {
+                let row = (r.next_u64() % b.rows() as u64) as usize;
+                let orig: Vec<u32> = b.row(row).to_vec();
+                let others: Vec<u32> = orig.iter().copied().filter(|&x| x != NONE && x != cand).collect();
+                tries += 1;
+                if !others.is_empty() || tries == 100 {
+                    break (row, orig, others);
+                }
+            };
+            if others.is_empty() {
+                continue;
+            }
             let set = |b: &mut Ballots, vals: &[u32]| {
                 let w = b.len;
                 for (j, x) in b.prefs[row * w..(row + 1) * w].iter_mut().enumerate() {
