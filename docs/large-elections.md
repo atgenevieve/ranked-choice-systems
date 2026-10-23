@@ -4,10 +4,10 @@ Research gathered October 2026 for organizers who run a large ranked (STV) elect
 
 ## Bottom line
 
-- **Filling 50 or more seats in a single ranked count is very unusual.** I found no public election anywhere, now or in the past, that fills 50 seats in one single transferable vote (STV) count. The largest current public example is the **Western Australian Legislative Council, which has filled 37 seats in one statewide count since 2025**. Next come the New South Wales Legislative Council (21 seats) and a few Irish and Indian examples (10 to 19 seats).
+- **Filling 50 or more seats in a single ranked count is very unusual.** I found no public election anywhere, now or in the past, that fills 50 seats in one single transferable vote (STV) count. The largest current public example is the **Western Australian Legislative Council, which has filled 37 seats in one statewide count since 2025**. Next come the New South Wales Legislative Council (21 seats) and a few Irish and Indian examples (10 to 19 seats). Counts where legislators, not the public, were the voters went a little higher: Uttar Pradesh filled 31 Rajya Sabha seats in 1952, and the Irish Dáil filled 30 Seanad seats in one count in 1922.
 - **Most public STV elections fill 3 to 7 seats per count.** Ireland, Malta, Scotland, Northern Ireland, Tasmania, the ACT and Victoria all sit in that range. Reform bodies and researchers often recommend that range too.
 - **Bodies with 100 or more seats almost always do something else.** They split the electorate into smaller districts that each run their own count, or they use party lists, as in the Netherlands (150 seats) and Israel (120). Party-list voters pick a party, not a ranked list of people.
-- **In member organizations, counts of 30 to 50 seats do happen, mostly for convention delegates and student councils.** Metro DC DSA filled **46 delegate seats in one STV count** in 2025, from 75 candidates and 432 ballots. The University of Sydney's student council filled **39 seats in one count** in 2021. Well-documented organizational counts of 50 or more seats were not found, but organizational elections are poorly documented online, so they may exist.
+- **In member organizations, counts of 30 to 80 seats do happen, mostly for convention delegates and student councils.** The largest found is **DSA-LA, which filled 77 delegate seats in one Scottish STV count in 2021**, from 150 candidates and 593 voters. Metro DC DSA filled **46 delegate seats in one STV count** in 2025, from 75 candidates and 432 ballots. The University of Sydney's student council filled **39 seats in one count** in 2021. Organizational elections are poorly documented online, so larger counts may exist.
 - **So your election is not unheard of, but it sits at the far end of what anyone does.** The count still works mathematically. What changes is the voter's experience: the ballot is long, and most voters rank only a handful of names. See [How voters behave on very long ballots](#how-voters-behave-on-very-long-ballots).
 
 ## Terms used here
@@ -46,12 +46,14 @@ Research gathered October 2026 for organizers who run a large ranked (STV) elect
 | Portland, Oregon city council (since 2024) | 3 per district (4 districts) | STV | [FairVote](https://fairvote.org/ranked-choice-voting-debuts-in-portland-vast-majority-ranked-their-ballots-and-elected-a-candidate-of-choice/) |
 | Albany, California (2022); Arlington, Virginia Democratic primary (2023) | 2 | STV | [FairVote](https://fairvote.org/proportional-rcv-improves-diversity-in-its-first-use-in-albany-ca/), [Arlington Democrats](https://www.arlingtondemocrats.org/post/maureen-coffey-and-susan-cunningham-secure-democratic-primary-victory-for-arlington-county-board-in) |
 | **Historical public elections** | | | |
+| India, Rajya Sabha, Uttar Pradesh, 1952 (first election) | 31 (electors were the state's legislators) | STV, required by the constitution | [Constitution, original Fourth Schedule](https://www.constitutionofindia.net/schedules/allocation-of-seats-in-the-council-of-states), [Rajya Sabha Secretariat, *Fifty Years of Rajya Sabha*](https://cms.rajyasabha.nic.in/UploadedFiles/ElectronicPublications/fifty_rs.pdf) |
+| Irish Seanad, 1922 (half the first Senate) | **30** in one contest (112 candidates, 81 Dáil members voting, 35 counts) | STV | [Wikipedia: 1922 Seanad election](https://en.wikipedia.org/wiki/1922_Seanad_election) |
 | New York City Council, 1937 to 1945 | Borough-wide; 17 to 26 seats citywide, with seats set by turnout | STV | [Wikipedia: Electoral quota](https://en.wikipedia.org/wiki/Electoral_quota), [FairVote PDF](https://www.fairvote.org/wp-content/uploads/2024/03/Proportional-Representation-in-NYC.pdf) |
 | **Large public elections without ranked ballots (for contrast)** | | | |
 | Japan House of Councillors national district, 1947 to about 1980 | 50 per election | Single non-transferable vote: one vote, no ranking, no transfers | [Wikipedia](https://en.wikipedia.org/wiki/House_of_Councillors_national_district) |
 | Netherlands House of Representatives; Israel Knesset | 150; 120 (one nationwide count) | Party list | General knowledge, not re-verified here |
 | **Organizations** | | | |
-| DSA-LA national convention delegates, 2021 | 77 delegates, 15 alternates | Method not confirmed (page blocked) | [DSA-LA](https://dsa-la.org/results-2021-national-convention-delegate-elections/) |
+| **DSA-LA national convention delegates, 2021** | **77** delegates, plus 15 alternates taken as runners-up (150 candidates, 593 voters, 109 rounds) | Scottish STV on OpaVote, one count | [DSA-LA](https://dsa-la.org/results-2021-national-convention-delegate-elections/) |
 | NYC-DSA convention delegates (next cycle) | "Hundreds," split across 7 branches | Ranked ballot per branch, method not named | [NYC-DSA development page](https://convention.internal-dev.socialists.nyc/) |
 | **Metro DC DSA convention delegates, 2025** | **46** (75 candidates, 432 ballots) | STV | [Washington Socialist](https://washingtonsocialist.mdcdsa.org/ws-articles/2025-03-mdc-eclectic-delegation) |
 | University of Sydney Students' Representative Council, 2021 | **39** (quota 128 votes) | Quota-based preferential count, which appears to be STV | [SRC 2021 declaration (PDF)](https://honisoit.com/wp-content/uploads/2021/09/SRC2021-Declaration-of-Provisional-Results.pdf) |
@@ -87,7 +89,8 @@ Almost every public STV election in use today fills **3 to 7 seats per count**:
 3. **Irish Seanad, 1925, 19 seats.** The whole country was one 19-seat constituency, with 76 candidates and 23% turnout. It was the only time the public elected the Seanad directly, and it was not repeated.
 4. **New York City Council, 1937 to 1945.** Each borough elected as many members as it had blocks of 75,000 votes, so seat totals rose and fell with turnout. The council had 26 seats in 1937 and 17 in 1943.
 5. **Australian Senate.** A normal election fills 6 seats per state, and a double dissolution (a full Senate election called to break a deadlock) fills 12. The 2016 New South Wales double-dissolution ballot had 151 candidates.
-6. **Others in the 10 to 14 range:** the Irish Seanad's Agricultural and Labour panels (11 each, voted on by about 1,000 politicians), South Australia's Legislative Council (11), India's Rajya Sabha (Uttar Pradesh fills 10 at once, voted on by 403 state legislators), Dunedin City Council (14 at-large), and Birkirkara's local council in Malta (13).
+6. **Counts where legislators were the voters.** In 1922 the Irish Dáil elected 30 of the first 60 senators "as a single 30-member contest" by STV: 112 candidates, 81 voters, 35 counts ([Wikipedia](https://en.wikipedia.org/wiki/1922_Seanad_election)). In 1952 Uttar Pradesh's legislators filled the state's 31 Rajya Sabha seats ([original Fourth Schedule](https://www.constitutionofindia.net/schedules/allocation-of-seats-in-the-council-of-states)). The constitution requires STV, and terms were split into retirement groups only after that first election, which points to one 31-seat count. No published count sheet was found, so treat this one as likely, not confirmed. Madras (27) and Bihar (21) were in the same position.
+7. **Others in the 10 to 14 range:** the Irish Seanad's Agricultural and Labour panels (11 each, voted on by about 1,000 politicians), South Australia's Legislative Council (11), India's Rajya Sabha (Uttar Pradesh fills 10 at once, voted on by 403 state legislators), Dunedin City Council (14 at-large), and Birkirkara's local council in Malta (13).
 
 **No public STV election I found has filled 50 seats in one count.**
 
@@ -106,7 +109,8 @@ Organizations are where your election finds company. They are also much harder t
 ### Examples near or above 50 seats
 
 - **Metro DC DSA, 2025:** 46 national convention delegates elected by STV in one count. There were 75 candidates on three slates plus independents, and 432 valid ballots. The result split 21 / 14 / 6 / 1 / 4 across slates and independents ([Washington Socialist](https://washingtonsocialist.mdcdsa.org/ws-articles/2025-03-mdc-eclectic-delegation)). With 432 ballots and 46 seats, the quota is only about 10 votes.
-- **DSA-LA, 2021:** 77 delegates and 15 alternates. I could not confirm the method because the results page blocked automated access.
+- **DSA-LA, 2021: 77 delegates in one count, the largest organizational STV count found.** The chapter used Scottish STV on OpaVote. 150 candidates ran, 593 members voted, and the count took 109 rounds. The 15 alternates were the runners-up outside the top 77 ([DSA-LA](https://dsa-la.org/results-2021-national-convention-delegate-elections/)). With 593 ballots and 77 seats, the quota is about 8 votes.
+- **NYC-DSA, 2021:** about 130 delegates, the largest DSA delegation ([Tempest](https://tempestmag.org/2021/06/dsa-chapter-delegate-results/)). How they were elected, in one count or by branch, was not found.
 - **NYC-DSA:** a development page for the next convention says there will be "hundreds of delegates," divided among seven geographic branches. Each branch elects its own delegates on an electronic ranked ballot. That is the split-into-districts approach described later.
 - **University of Sydney Students' Representative Council, 2021:** 39 councillors in one count. The first 17 winners reached the 128-vote quota, and the rest were filled as votes transferred. The council's size is set at one councillor per 1,000 undergraduates.
 
@@ -186,6 +190,9 @@ Public elections:
 - NSW Parliament, "The 1999 Tablecloth Election." https://parliament.nsw.gov.au/about/Pages/Unlocking-the-House-exhibition-The-1999-Tablecloth-Election.aspx
 - NSW Parliament research paper, *Prospects for the 2003 Legislative Council election*. https://www.parliament.nsw.gov.au/researchpapers/Pages/prospects-for-the-2003-legislative-council-elect.aspx
 - Wikipedia, 1925 Seanad election. https://en.wikipedia.org/wiki/1925_Seanad_election
+- Wikipedia, 1922 Seanad election. https://en.wikipedia.org/wiki/1922_Seanad_election
+- Constitution of India, Fourth Schedule as originally enacted. https://www.constitutionofindia.net/schedules/allocation-of-seats-in-the-council-of-states
+- Rajya Sabha Secretariat, *Fifty Years of Rajya Sabha (1952-2002)*. https://cms.rajyasabha.nic.in/UploadedFiles/ElectronicPublications/fifty_rs.pdf
 - Wikipedia, 2025 Seanad election. https://en.wikipedia.org/wiki/2025_Seanad_election
 - Oireachtas, "How the Seanad is Elected." https://laois.ie/sites/default/files/2024-08/How%20the%20Seanad%20is%20Elected.pdf
 - Wikipedia, Single transferable vote. https://en.wikipedia.org/wiki/Single_transferable_vote
@@ -216,6 +223,7 @@ Organizations:
 - East Bay DSA, "Statement on Delegate Elections" (2019). http://www.eastbaydsa.org/archive/blog/statement-delegate-elections
 - DSA-LA, "Approval-STV Voting for Upcoming Delegate Elections." https://dsa-la.org/approvalstvdelegatevoting/
 - DSA-LA, "Results: 2021 National Convention Delegate Elections." https://dsa-la.org/results-2021-national-convention-delegate-elections/
+- Tempest, "DSA chapter delegate results" (2021). https://tempestmag.org/2021/06/dsa-chapter-delegate-results/
 - Socialist Call, "Defending the Big Tent." https://socialistcall.com/?p=4199
 - NYC-DSA convention page (development site). https://convention.internal-dev.socialists.nyc/
 - Cosmonaut, "The Party Echoes at the 2025 DSA Convention." https://cosmonautmag.com/2025/09/the-party-echoes-at-the-2025-dsa-convention/
