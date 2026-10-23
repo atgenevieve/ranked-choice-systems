@@ -1,0 +1,27 @@
+[run]
+name = "cbk"
+seed = 1
+sims = 1000
+truncation = true
+curve_ranks = 0
+[election]
+candidates = 132
+seats = [83]
+voters = 838
+turnout_spread = 0.1
+ranks = 132
+[electorate]
+type = "organization"
+[ballot]
+wording = "up_to"
+n = "seats"
+[model]
+version = "0.2"
+slates = 4
+slate_candidates = "expected_seats"
+slate_strength = 4.03
+unaffiliated_share = 0.15
+other_slate_spread = 1.2
+popularity_spread = "auto"
+long_shot_share = "auto"
+long_shot_gap = 2

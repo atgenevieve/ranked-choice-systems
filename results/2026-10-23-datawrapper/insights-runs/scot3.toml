@@ -1,0 +1,27 @@
+[run]
+name = "scot3"
+seed = 1
+sims = 1000
+truncation = true
+curve_ranks = 0
+[election]
+candidates = 7
+seats = [3]
+voters = 4900
+turnout_spread = 0.1
+ranks = 7
+[electorate]
+type = "public"
+[ballot]
+wording = "none"
+n = "seats"
+[model]
+version = "0.2"
+slates = 4
+slate_candidates = "expected_seats"
+slate_strength = "tight"
+unaffiliated_share = 0.15
+other_slate_spread = 1.2
+popularity_spread = "auto"
+long_shot_share = "auto"
+long_shot_gap = 2

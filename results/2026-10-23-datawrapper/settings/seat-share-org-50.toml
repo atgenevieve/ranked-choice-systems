@@ -25,3 +25,4 @@ wording = "none"
 
 [model]
 version = "0.2"
+slate_strength = 4.03
