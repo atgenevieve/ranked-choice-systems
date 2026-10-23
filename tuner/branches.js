@@ -249,7 +249,7 @@ function drawWorthCharts() {
   }
 }
 
-/** Bars from 0, one per position, with error bars that stay visible over the bars. */
+/** Bars from 0, one per position, with error lines that stay visible over the bars. */
 function barChart(box, vals, opts) {
   box.replaceChildren();
   const w = Math.max(280, box.clientWidth || 800), H = 240, L = 56, R = 10, T = 12, B = 38;
@@ -266,10 +266,10 @@ function barChart(box, vals, opts) {
     if (!v) return;
     el("rect", { x: sx(i) - bw * 0.36, y: sy(v.m), width: bw * 0.72, height: Math.max(0.5, sy(0) - sy(v.m)), fill: css("--model") }, svg);
     if (v.hi - v.lo < 1e-9) return;
-    const tw = Math.max(2, bw * 0.22), lo = sy(v.lo), hi = sy(v.hi);
-    for (const [stroke, width] of [[css("--surface"), 3.5], [css("--ink"), 1.3]]) {
+    // A plain line, no end caps (owner's preference), outlined so it shows over the bar.
+    const lo = sy(v.lo), hi = sy(v.hi);
+    for (const [stroke, width] of [[css("--surface"), 3], [css("--ink"), 1]]) {
       el("line", { x1: sx(i), x2: sx(i), y1: lo, y2: hi, stroke, "stroke-width": width, "stroke-linecap": "round" }, svg);
-      for (const y of [lo, hi]) el("line", { x1: sx(i) - tw, x2: sx(i) + tw, y1: y, y2: y, stroke, "stroke-width": width, "stroke-linecap": "round" }, svg);
     }
   });
   text(svg, (L + w - R) / 2, H - 4, "Position on one voter's ballot", { "text-anchor": "middle", class: "title" });
