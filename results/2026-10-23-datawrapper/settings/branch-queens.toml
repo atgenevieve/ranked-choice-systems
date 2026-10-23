@@ -1,0 +1,28 @@
+# Queens: 113 candidates, 67 seats, about 706 ballots.
+# Organization members, a ballot that says "rank up to N" with N equal to the seats,
+# and the model's default loose slates (model version 0.2), as on the branch page.
+
+[run]
+name = "branch-queens"
+seed = 1
+sims = 2000
+threads = 0
+truncation = true
+curve_ranks = 0
+
+[election]
+candidates = 113
+seats = [67]
+voters = 706
+turnout_spread = 0.1
+ranks = 113
+
+[electorate]
+type = "organization"
+
+[ballot]
+wording = "up_to"
+n = "seats"
+
+[model]
+version = "0.2"

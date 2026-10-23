@@ -1,0 +1,28 @@
+# South Brooklyn + Staten Island: 78 candidates, 51 seats, about 461 ballots.
+# Organization members, a ballot that says "rank up to N" with N equal to the seats,
+# and the model's default loose slates (model version 0.2), as on the branch page.
+
+[run]
+name = "branch-south-brooklyn-staten-island"
+seed = 1
+sims = 2000
+threads = 0
+truncation = true
+curve_ranks = 0
+
+[election]
+candidates = 78
+seats = [51]
+voters = 461
+turnout_spread = 0.1
+ranks = 78
+
+[electorate]
+type = "organization"
+
+[ballot]
+wording = "up_to"
+n = "seats"
+
+[model]
+version = "0.2"

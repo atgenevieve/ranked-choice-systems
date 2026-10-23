@@ -1,0 +1,27 @@
+# How the share of candidates who win changes the answer: 50 candidates, 500 ballots,
+# organization members with no limit on how many they rank (they stop where they naturally
+# would), model version 0.2. No "up to N" limit, so the limit itself doesn't set the answer.
+
+[run]
+name = "seat-share-org-50"
+seed = 1
+sims = 1000
+threads = 0
+truncation = true
+curve_ranks = 0
+
+[election]
+candidates = 50
+seats = [1, 2, 3, 5, 8, 10, 15, 20, 25, 30, 35, 40, 45, 48]
+voters = 500
+turnout_spread = 0.1
+ranks = 50
+
+[electorate]
+type = "organization"
+
+[ballot]
+wording = "none"
+
+[model]
+version = "0.2"

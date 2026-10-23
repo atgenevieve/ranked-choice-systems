@@ -1,0 +1,28 @@
+# Bronx/Upper Manhattan: 120 candidates, 65 seats, about 626 ballots.
+# Organization members, a ballot that says "rank up to N" with N equal to the seats,
+# and the model's default loose slates (model version 0.2), as on the branch page.
+
+[run]
+name = "branch-bronx-upper-manhattan"
+seed = 1
+sims = 2000
+threads = 0
+truncation = true
+curve_ranks = 0
+
+[election]
+candidates = 120
+seats = [65]
+voters = 626
+turnout_spread = 0.1
+ranks = 120
+
+[electorate]
+type = "organization"
+
+[ballot]
+wording = "up_to"
+n = "seats"
+
+[model]
+version = "0.2"
