@@ -164,7 +164,7 @@ function drawBranches() {
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
-      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points (+5% means 5 points more likely).` +
+      read.textContent = `How much each vote at this rank increases a candidate's chance of winning, on average.` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
       card.append(t);
