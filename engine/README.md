@@ -126,6 +126,16 @@ A **stage** is one transfer: of a surplus, or of an excluded candidate's ballots
 
 The rule for manual counts that elects a leading candidate early (rule 53(1A)) is left out. It ends the count sooner but never changes who wins.
 
+### Other voting systems
+
+`run.system` picks the voting system: `scottish_stv` (the default, the rules above), `cambridge_stv`, `borda`, or `approval` (`src/systems.rs`). Each is measured the same way: winners with full ballots, and winners when every ballot is cut after rank *k*. Truncation for these systems is a full recount at every cutoff where some ballot was counted past rank *k*.
+
+- **Cambridge STV**, as Cambridge, Massachusetts counts it: the same quota as Scottish rules, but whole ballots move, never fractions. Surpluses move only after the first count, largest first, by the Cincinnati method: of the winner's ballots, in the order counted, every n-th ballot with a continuing choice moves on, where n is the winner's votes ÷ surplus, rounded to the nearest whole number. Past the last ballot, the count goes round again from the n-th ballot. After the first count, a candidate who reaches the quota is elected and keeps exactly the ballots they have; ballots that would reach them later skip them. Exclusions are one at a time, lowest first, ties by lot. Left out: Cambridge's rule that drops every candidate under 50 votes at once, because simulated branch elections are far smaller than Cambridge's and it would drop candidates who could win.
+- **Borda count:** a candidate at rank r gets (candidates − r) points; unranked candidates get none. The seats go to the highest totals, ties by lot. Every rank counts, so reach is the share of ballots with a name at each rank.
+- **Approval:** each voter approves every candidate they ranked (model spec, assumption 7). The seats go to the most approved, ties by lot. Cutting after rank *k* means approving only the first *k*.
+
+Borda and approval are block systems: the most broadly supported candidates take every seat, so a majority slate can win all of them. Hand-checked tests: `borda_by_hand`, `approval_by_hand`, `cambridge_by_hand`, and `cambridge_skips_elected` in `src/systems.rs`. Position worth (`sim::position_worth`) works for every system.
+
 ### Exact quota
 
 `quota = "exact"` replaces the whole-vote quota with ballots ÷ (seats + 1), not rounded: a candidate is elected on any total above it (in practice, 0.00001 votes above it, the smallest step the count uses). Everything else follows Scottish rules. It isn't a voting system anyone uses as such; it shows how much the rounding of the quota alone changes results. With few votes per seat, the rounding changes how deep rankings matter by up to 2 times, in a sawtooth as the number of voters grows (see the quota-rounding tab of the model evidence page, `evidence/`). The test `exact_quota_is_not_rounded` is a hand-checked election where the two quotas elect different people.

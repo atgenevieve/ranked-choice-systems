@@ -8,7 +8,7 @@
 
 use serde_json::{json, Value};
 use std::io::Write;
-use stvsim::count::{analyze, Options, Quota, Rules, SurplusOrder, Truncation};
+use stvsim::count::{analyze, Options, System, Quota, Rules, SurplusOrder, Truncation};
 use stvsim::sim::{election_seed, engine_info, simulate};
 use stvsim::{ballots, model, settings};
 
@@ -34,7 +34,7 @@ fn main() {
 // ---------------------------------------------------------------- count real ballots
 
 fn count_files(args: &[String]) {
-    let mut opt = Options { rules: Rules::Scottish, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 };
+    let mut opt = Options { system: System::ScottishStv, rules: Rules::Scottish, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 };
     let mut trunc = Truncation::Winners;
     let mut files = Vec::new();
     let mut i = 0;

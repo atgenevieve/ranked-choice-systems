@@ -48,8 +48,20 @@ pub enum Quota {
     Exact,
 }
 
+/// The voting system. Everything but Scottish STV is counted in `systems.rs`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum System {
+    #[default]
+    ScottishStv,
+    CambridgeStv,
+    Borda,
+    Approval,
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct Options {
+    pub system: System,
     pub rules: Rules,
     pub surplus: SurplusOrder,
     pub quota: Quota,
@@ -592,6 +604,9 @@ fn sorted(v: &[u32]) -> Vec<u32> {
 }
 
 pub fn analyze(bal: &Ballots, seats: usize, opt: Options, trunc: Truncation) -> Analysis {
+    if opt.system != System::ScottishStv {
+        return crate::systems::analyze_other(bal, seats, opt.system, opt.lot_seed, trunc);
+    }
     match opt.rules {
         Rules::Scottish => analyze_with::<Fixed>(bal, seats, opt, trunc),
         Rules::Reference => analyze_with::<f64>(bal, seats, opt, trunc),
@@ -690,7 +705,7 @@ mod tests {
     }
 
     fn opt(rules: Rules) -> Options {
-        Options { rules, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 }
+        Options { system: System::ScottishStv, rules, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 }
     }
 
     /// The hand-checked example in reference/README.md.

@@ -146,6 +146,14 @@ The drawing method in step 4 is a standard one in voting research, called the **
 - **As built:** the default number of voters is 10 per candidate, at least 100 (version 0.1 keeps its old minimum of 1,000). Any number can be set.
 - **Adjustable in the tuner (milestone 5):** candidates, seats, and voters. Default: Metro DC DSA's 2025 delegate election (46 seats, 75 candidates, 432 voters), until the owner's organization's numbers replace it.
 
+### 7. Approval ballots
+
+- **What it means:** how a simulated voter fills in an approval ballot, where they mark every candidate they support instead of ranking. Used only when an election is counted by approval (`run.system = "approval"`).
+- **Approved setting (October 23, 2026):** a voter approves every candidate they would have ranked, so approval ballots have the same lengths as the ranked ballots in assumption 5. Cutting ballots after rank *k* means a voter approves only their first *k*.
+- **Why:** it adds no new guess about voters. The project has no real approval ballots to fit anything else. Alternatives the owner considered: approving only as many as there are seats, or only the top half of a ranking.
+- **Evidence:** none yet. Real approval elections would show whether approval voters mark fewer candidates than ranked-ballot voters rank.
+- **Sensitivity:** not yet tested, but likely high for approval results, since every mark counts fully.
+
 ## Factors the model leaves out
 
 Each is a possible extension. The report must give the reason for leaving each out.
@@ -182,3 +190,4 @@ These need the owner's decision before the model changes.
 - **0.2 (October 20, 2026):** the owner approved six decisions from the milestone 3 review (`docs/model-review.md`): candidates outside slates; slate sizes set by expected seats; popularity set by type of election, tuned to the quota, with a separate long-shot share; two slate-loyalty settings with no line; ballot length from electorate type and ballot rules; election size from the organization's real numbers, with a lower voter minimum. Not built yet (milestone 4).
 - **0.2, built (October 20, 2026):** milestone 4 built version 0.2 in the engine and fitted its settings: ballot length (a Conway–Maxwell–Poisson count plus a fading share who rank everyone, in place of the unspecified distribution), the pull toward a limit (about 23% for every limit), slate strength (loose 4, tight 100) and spread to other slates (1.2), and popularity by type of election. Version 0.1 stays available for repeating earlier runs.
 - **0.2, turnout (October 20, 2026):** the owner approved turnout uncertainty: each simulated election draws its number of voters around the expected number, with a 10% standard deviation by default (`election.turnout_spread`). Found because Scottish rules' whole-vote quota makes results swing with exact turnout (open question 3). Version 0.1 and `turnout_spread = 0` keep one exact number of voters.
+- **0.2, approval ballots (October 23, 2026):** the owner approved assumption 7: a voter approves every candidate they would have ranked. Added with three new voting systems (Cambridge STV, Borda count, approval; see `engine/README.md`). The voting system belongs to the count, not the model, so the model version stays 0.2.

@@ -17,8 +17,19 @@ const BRANCH_DEFAULTS = [
 const BRANCH_KEY = "rank-depth-branches-list-v1";
 let branchList = BRANCH_DEFAULTS.map(b => ({ ...b }));
 try { const saved = JSON.parse(localStorage.getItem(BRANCH_KEY) || "null"); if (Array.isArray(saved) && saved.length) branchList = saved; } catch { /* storage may be blocked */ }
-const branchResults = new Map();  // name -> {b, r}
-const branchWorth = new Map();    // name -> {any, edge (summed WorthSums), done, total (elections)}
+const branchResults = new Map();  // "name|system" -> {b, r, total}
+const branchWorth = new Map();    // "name|system" -> {any, edge (summed WorthSums), done, total (elections)}
+const key = (b, sys) => `${b.name}|${sys}`;
+
+// The voting systems the page can compare, each with its own color (from the research charts'
+// palette). Scottish STV is the organization's own system.
+const SYSTEMS = [
+  { id: "scottish_stv", name: "Scottish STV", color: "--sys-scottish" },
+  { id: "cambridge_stv", name: "Cambridge STV", color: "--sys-cambridge" },
+  { id: "borda", name: "Borda count", color: "--sys-borda" },
+  { id: "approval", name: "Approval", color: "--sys-approval" },
+];
+let shown = [SYSTEMS[0]];  // the systems ticked when the results were asked for
 const WORTH_CHUNK = 50;           // simulated elections per worth request, so the pool can share them out
 
 function drawBranchTable() {
@@ -61,48 +72,76 @@ function branchFigures(r) {
 }
 
 function drawSummary() {
-  const body = $("summary").tBodies[0];
+  const table = $("summary");
+  // Two header rows: the branch's numbers, then each system's two figures.
+  const head = table.tHead;
+  head.replaceChildren();
+  const r1 = document.createElement("tr"), r2 = document.createElement("tr");
+  const th = (row, txt, cls, span) => { const t = document.createElement("th"); t.textContent = txt; if (cls) t.className = cls; if (span) t.colSpan = span; row.append(t); return t; };
+  for (const [txt, cls] of [["Branch", ""], ["Candidates", "n"], ["Seats", "n"], [`Voters (±${$("turnout").value}%)`, "n"]]) { th(r1, txt, cls).rowSpan = shown.length > 1 ? 2 : 1; }
+  if (shown.length > 1) {
+    for (const sys of shown) {
+      const t = th(r1, "", "n sys", 2);
+      t.innerHTML = `<span class="legend"><span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span></span>`;
+      th(r2, "95% threshold", "n"); th(r2, "1 seat or less", "n");
+    }
+    head.append(r1, r2);
+  } else {
+    th(r1, "95% threshold", "n k95"); th(r1, "1 seat or less", "n");
+    head.append(r1);
+  }
+  const body = table.tBodies[0];
   body.replaceChildren();
   for (const b of branchList) {
-    const got = branchResults.get(b.name);
-    const f = got && branchFigures(got.r);
     const tr = document.createElement("tr");
-    const cells = [b.name, b.candidates, b.seats, Number(b.voters).toLocaleString(), ...(f ? [f.k95, f.kOne] : ["…", "…"])];
+    const cells = [b.name, b.candidates, b.seats, Number(b.voters).toLocaleString()];
+    for (const sys of shown) {
+      const got = branchResults.get(key(b, sys.id));
+      const f = got && branchFigures(got.r);
+      cells.push(...(f ? [f.k95, f.kOne] : ["…", "…"]));
+    }
     cells.forEach((v, i) => {
       const td = document.createElement("td"); td.textContent = v;
-      if (i > 0) td.className = i === 4 ? "n k95" : "n";
+      if (i > 0) td.className = "n";
       tr.append(td);
     });
     body.append(tr);
   }
 }
 
-/** Every branch's two charts, on the same rank axis so the branches can be compared. */
+/** Every branch's two charts, on the same rank axis so the branches can be compared, with one
+ *  line per voting system. */
 function drawBranches() {
   worthCharts = [];
   drawSummary();
   const box = $("branches");
   box.replaceChildren();
-  const done = branchList.map(b => branchResults.get(b.name)).filter(Boolean);
-  if (!done.length) return;
-  const xMax = Math.max(8, ...done.map(({ r }) => Math.min(branchFigures(r).kAll + 3, r.truncation.p_changed.length)));
+  const all = branchList.flatMap(b => shown.map(sys => branchResults.get(key(b, sys.id)))).filter(Boolean);
+  if (!all.length) return;
+  const many = shown.length > 1;
+  const xMax = Math.max(8, ...all.map(({ r }) => Math.min(branchFigures(r).kAll + 3, r.truncation.p_changed.length)));
   const xTicks = rankTicks(xMax);
-  const topSeats = Math.max(1, ...done.map(({ r }) => Math.max(...branchFigures(r).most.slice(0, xMax))));
+  const topSeats = Math.max(1, ...all.map(({ r }) => Math.max(...branchFigures(r).most.slice(0, xMax))));
   const seatStep = niceStep(topSeats);
   for (const b of branchList) {
-    const got = branchResults.get(b.name);
-    if (!got) continue;
-    const r = got.r, f = branchFigures(r), seats = r.seats, len = r.truncation.p_changed.length, x = Math.min(xMax, len);
+    const got = shown.map(sys => ({ sys, g: branchResults.get(key(b, sys.id)) })).filter(x => x.g);
+    if (!got.length) continue;
+    const seats = got[0].g.r.seats;
     const sec = document.createElement("section"); sec.className = "branch";
     const h = document.createElement("h3"); h.textContent = b.name;
     const stats = document.createElement("div"); stats.className = "stats";
-    for (const line of [`Candidates: ${b.candidates}`, `Seats: ${seats} (${Math.round(100 * seats / b.candidates)}% win)`, `Voters: ${Number(b.voters).toLocaleString()} (±${Math.round((r.settings.election.turnout_spread || 0) * 100)}%)`]) {
+    for (const line of [`Candidates: ${b.candidates}`, `Seats: ${seats} (${Math.round(100 * seats / b.candidates)}% win)`, `Voters: ${Number(b.voters).toLocaleString()} (±${Math.round((got[0].g.r.settings.election.turnout_spread || 0) * 100)}%)`]) {
       const p = document.createElement("p"); p.className = "says"; p.textContent = line; stats.append(p);
     }
-    const says = document.createElement("p"); says.className = "says";
-    says.textContent = `95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change on average.`;
-    const ran = r.settings.run.sims, wanted = got.total || ran;
-    if (ran < wanted) says.textContent += ` Still running: these are from the first ${ran.toLocaleString()} of ${wanted.toLocaleString()} simulated elections so far.`;
+    sec.append(h, stats);
+    for (const { sys, g } of got) {
+      const f = branchFigures(g.r);
+      const says = document.createElement("p"); says.className = "says";
+      says.textContent = `${many ? `${sys.name}: ` : ""}95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change on average.`;
+      const ran = g.r.settings.run.sims, wanted = g.total || ran;
+      if (ran < wanted) says.textContent += ` Still running: these are from the first ${ran.toLocaleString()} of ${wanted.toLocaleString()} simulated elections so far.`;
+      sec.append(says);
+    }
     const pair = document.createElement("div"); pair.className = "pair";
     const half = (title, legendHtml) => {
       const d = document.createElement("div");
@@ -112,39 +151,58 @@ function drawBranches() {
       pair.append(d);
       return c;
     };
-    const c1 = half("How many ranks affect election results");
-    const c2 = half("How many winners change", '<span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
-    sec.append(h, stats, says, pair);
-    const worth = branchWorth.get(b.name);
-    if (worth && worth.done) {
+    const sysLegend = many ? got.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join("") : "";
+    const c1 = half("How many ranks affect election results", sysLegend);
+    const c2 = half("How many winners change", many
+      ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>Average</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
+      : '<span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
+    sec.append(pair);
+    const worths = got.map(({ sys }) => ({ sys, w: branchWorth.get(key(b, sys.id)) })).filter(x => x.w && x.w.done);
+    if (worths.length) {
       const card = document.createElement("div"); card.className = "worthcard";
       const t = document.createElement("h4"); t.textContent = "What each ballot position is worth to a candidate";
-      const m = worthMeans(worth);
-      const edgeTimes = m.anyTop > 0 ? Math.round(m.edgeTop / m.anyTop) : null;
+      const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
+      const close = ms.map(({ sys, m }) => {
+        const times = m.anyTop > 0 ? Math.round(m.edgeTop / m.anyTop) : null;
+        return times ? `${many ? `${sys.name}: ` : ""}about ${times} times more` : null;
+      }).filter(Boolean);
+      const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
-      read.textContent = `How many percentage points more likely a candidate is to win when one more voter ranks them at this position instead of leaving them off.` +
-        (edgeTimes ? ` In a close race, every position is worth about ${edgeTimes} times more.` : "") +
-        ` Error bars: the range the average could fall in by chance (95%).` +
-        (worth.done < worth.total ? ` Still running: ${worth.done.toLocaleString()} of ${worth.total.toLocaleString()} simulated elections so far.` : "");
+      read.textContent = `How many percentage points more likely a candidate is to win when one more voter ranks them at this position instead of leaving them off${many ? " (the scale on the left)" : ""}.` +
+        (close.length ? ` In a close race, every position is worth ${close.join("; ")}.` : "") +
+        ` ${many ? "Shaded bands" : "Error bars"}: the range the average could fall in by chance (95%).` +
+        (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
-      card.append(t, read, c3);
+      card.append(t);
+      if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
+      card.append(read, c3);
       sec.append(card);
-      worthCharts.push({ box: c3, m, name: b.name });
+      worthCharts.push({ box: c3, ms, name: b.name });
     }
     box.append(sec);
-    chart(c1, [{ points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }], {
+    const one = !many && got[0];
+    const f0 = one && branchFigures(one.g.r);
+    chart(c1, got.map(({ sys, g }) => {
+      const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
+      return { points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
+    }), {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-      marks: [[f.k50, "50%"], [f.k80, "80%"], [f.k95, "95%"], [f.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
-        .map(([k, l]) => ({ x: k, y: f.same[k - 1], label: `${l}: rank ${k}`, below: true })),
+      marks: !one ? [] : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
+        .map(([k, l]) => ({ x: k, y: f0.same[k - 1], label: `${l}: rank ${k}`, below: true })),
+      hlines: many ? [{ y: 0.95, label: "95%" }] : [],
       aria: `${b.name}: share of simulated elections with the same results when ballots are cut after each rank`,
     });
-    chart(c2, [
-      { points: f.most.slice(0, x).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
-      { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 },
-    ], {
+    chart(c2, got.flatMap(({ sys, g }) => {
+      const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
+      return many
+        ? [{ points: f.most.slice(0, x).map((y, i) => [i + 1, y]), color: sys.color, width: 1.2, dash: "4 3" },
+           { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: sys.color }]
+        : [{ points: f.most.slice(0, x).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
+           { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }];
+    }), {
       xMin: 1, xMax, xTicks, yMax: Math.ceil(topSeats / seatStep) * seatStep, yStep: seatStep, yFmt: v => (seatStep < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-      marks: [...(f.kOne <= xMax ? [{ x: f.kOne, y: f.mean[f.kOne - 1] ?? 0, label: `1 seat: rank ${f.kOne}` }] : []),
-        ...(f.kZero <= xMax && f.kZero !== f.kOne ? [{ x: f.kZero, y: 0, label: `0 seats: rank ${f.kZero}` }] : [])],
+      marks: !one ? [] : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mean[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
+        ...(f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
       aria: `${b.name}: winners who change when every ballot stops at each rank`,
     });
   }
@@ -165,11 +223,25 @@ function worthMeans(w) {
 }
 
 let worthCharts = [];
-/** The worth bar charts, one bar per ballot position, on one scale across branches. */
+/** The worth charts, on one scale across branches: bars for one system, lines with shaded
+ *  95% ranges when comparing systems. */
 function drawWorthCharts() {
-  const peak = Math.max(1, ...worthCharts.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.hi)));
+  const peak = Math.max(1, ...worthCharts.flatMap(({ ms }) => ms.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.hi))));
   const step = niceStep(peak), yMax = Math.ceil(peak / step) * step;
-  for (const { box, m, name } of worthCharts) barChart(box, m.any, { yMax, yStep: step, aria: `${name}: what each ballot position is worth to a candidate` });
+  for (const { box, ms, name } of worthCharts) {
+    const aria = `${name}: what each ballot position is worth to a candidate`;
+    if (ms.length === 1 && shown.length === 1) { barChart(box, ms[0].m.any, { yMax, yStep: step, aria }); continue; }
+    const n = Math.max(...ms.map(({ m }) => m.any.length));
+    // Below 0 only if some average is (a band dipping under 0 is cut off at the axis).
+    const yMin = Math.min(0, ...ms.flatMap(({ m }) => m.any.filter(Boolean).map(v => v.m)));
+    const lo = Math.floor(yMin / step) * step;
+    // chart() draws from 0 up; shift everything by -lo so negative values fit.
+    chart(box, ms.map(({ sys, m }) => ({ points: m.any.map((v, i) => v && [i + 1, v.m - lo]).filter(Boolean), color: sys.color, width: 2 })), {
+      xMin: 1, xMax: Math.max(2, n), xTicks: rankTicks(n), yMax: yMax - lo, yStep: step, yFmt: v => { const y = +(v + lo).toFixed(2); return y ? `${y > 0 ? "+" : "−"}${Math.abs(y)}` : "0"; },
+      xTitle: "Position on one voter's ballot", aria,
+      bands: ms.map(({ sys, m }) => ({ points: m.any.map((v, i) => v && [i + 1, Math.max(0, v.lo - lo), v.hi - lo]).filter(Boolean), color: sys.color, opacity: 0.18 })),
+    });
+  }
 }
 
 /** Bars from 0, one per position, with error bars that stay visible over the bars. */
@@ -206,7 +278,9 @@ function barChart(box, vals, opts) {
 window.runBranches = async (c, alive) => {
   setText("sims-count", int(c.sims, 10, 1000).toLocaleString());
   setText("slates-count", String(int(c.slates, 1, 12)));
-  setText("turnout-head", String(int(c.turnout, 0, 30)));
+  shown = SYSTEMS.filter(sys => c[`sys-${sys.id}`]);
+  if (!shown.length) shown = [SYSTEMS[0]];
+  setText("systems-named", shown.length > 1 ? `${shown.slice(0, -1).map(x => x.name).join(", ")} and ${shown[shown.length - 1].name}` : shown[0].name);
   branchResults.clear();
   branchWorth.clear();
   window.redrawBranches();
@@ -218,8 +292,8 @@ window.runBranches = async (c, alive) => {
   };
   const sims = int(c.sims, 10, 1000);
   // Two parts, reported separately: the branches' elections (the line charts) come back first;
-  // what each position is worth takes about 12 times as long, since every simulated election
-  // is recounted once per position for 8 candidates.
+  // what each position is worth takes longer, since every simulated election is recounted once
+  // per position for 8 candidates.
   let elections = 0, electionsDone = 0, chunks = 0, chunksDone = 0;
   const progress = () => {
     if (!alive()) return;
@@ -228,13 +302,14 @@ window.runBranches = async (c, alive) => {
     else setStatus("branches-status", "");
   };
   const all = [];
-  const plans = branchList.map(b => {
+  const plans = branchList.flatMap(b => {
     const cand = int(b.candidates, 2, 300), seats = int(b.seats, 1, cand - 1);
-    return { b, settings: electionSettings({ ...c, candidates: cand, seats, voters: b.voters }) };
+    const base = electionSettings({ ...c, candidates: cand, seats, voters: b.voters });
+    return shown.map(sys => ({ b, sys, settings: { ...base, run: { ...base.run, system: sys.id } } }));
   });
   const stages = [...new Set([50, 200, sims].filter(n => n <= sims))];
   for (const n of stages) {
-    for (const { b, settings } of plans) {
+    for (const { b, sys, settings } of plans) {
       if (n === sims) elections++;
       const staged = { ...settings, run: { ...settings.run, sims: n } };
       all.push(engine({ task: "election", settings: n === sims ? settings : staged }, alive).then(reply => {
@@ -245,24 +320,24 @@ window.runBranches = async (c, alive) => {
           return;
         }
         // A bigger run can come back before a smaller one; keep whichever covers more elections.
-        const had = branchResults.get(b.name);
+        const had = branchResults.get(key(b, sys.id));
         if (had && had.r.settings.run.sims >= n) return;
-        branchResults.set(b.name, { b, r: reply.results[0], total: sims });
+        branchResults.set(key(b, sys.id), { b, r: reply.results[0], total: sims });
         redraw();
       }));
     }
   }
   const add = (into, from) => { for (const k of ["sum", "sq", "n"]) from[k].forEach((x, i) => { into[k][i] = (into[k][i] || 0) + x; }); };
-  for (const { b } of plans) branchWorth.set(b.name, { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
-  // A small first chunk, so every branch's bars show early; the sums add up exactly either way.
+  for (const { b, sys } of plans) branchWorth.set(key(b, sys.id), { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
+  // A small first chunk, so every branch's chart shows early; the sums add up exactly either way.
   for (let first = 0, count; first < sims; first += count) {
     count = Math.min(first === 0 ? 10 : WORTH_CHUNK, sims - first);
-    for (const { b, settings } of plans) {
+    for (const { b, sys, settings } of plans) {
       chunks++;
       all.push(engine({ task: "worth", settings, first, count }, alive).then(reply => {
         chunksDone++; progress();
         if (!alive() || reply.stale || reply.error) return;
-        const w = branchWorth.get(b.name);
+        const w = branchWorth.get(key(b, sys.id));
         add(w.any, reply.any); add(w.edge, reply.edge);
         w.done += count;
         redraw();

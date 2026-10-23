@@ -29,18 +29,22 @@
   --font-text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
   --font-ui: "Public Sans", "Helvetica Neue", Arial, sans-serif;
   --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* The voting systems, in the research charts' colors. */
+  --sys-scottish: #1baf7a; --sys-cambridge: #2a78d6; --sys-borda: #eb6834; --sys-approval: #6250d6;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
     --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
     --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
+    --sys-scottish: #199e70; --sys-cambridge: #3987e5; --sys-borda: #d95926; --sys-approval: #9085e9;
   }
 }
 :root[data-theme="dark"] {
   --bg: #161616; --surface: #161616; --panel: #1c1c1c; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c;
   --model: #8fb0ef; --model-soft: #445a85; --real: #6b6b6b; --real-ink: #b0b0b0; --mark: #ececec;
   --good: #8fb0ef; --warn: #b4b4b4; --bad: #ececec; --focus: #8fb0ef; color-scheme: dark;
+  --sys-scottish: #199e70; --sys-cambridge: #3987e5; --sys-borda: #d95926; --sys-approval: #9085e9;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
@@ -142,6 +146,9 @@ section.panel > h2 { font-family: var(--font-text); font-size: 24px; font-weight
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .swatch { width: 14px; height: 10px; border-radius: 0; display: inline-block; }
 .swatch.line { height: 3px; }
+.swatch.line.dashed { background: repeating-linear-gradient(90deg, var(--ink-2) 0 4px, transparent 4px 7px); }
+.summary th.sys { text-align: center; border-bottom: 1px solid var(--grid); }
+.summary th.sys .legend { justify-content: center; color: var(--ink); }
 
 .tablewrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 14px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
@@ -206,6 +213,21 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
         <div class="setting">
           <div class="field"><label for="turnout">Turnout range</label><div class="inline-slider"><span class="pctbox"><span aria-hidden="true">±</span><input type="number" id="turnout-n" min="0" max="30" step="1" value="10" aria-label="Turnout range, percent, give or take"><span aria-hidden="true">%</span></span><input type="range" id="turnout" class="compact" min="0" max="30" step="1" value="10" aria-label="Turnout range slider"></div></div>
           <p class="what">Each simulated election draws its own turnout around the branch's expected ballots: about 2 in 3 land within this range, and 19 in 20 within twice it.</p>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><span class="label">Voting systems to compare</span></div>
+          <p class="what">Each system counts the same simulated ballots. Pick more than one to draw them on the same charts, one color each.</p>
+          <label class="check" for="sys-scottish_stv"><input type="checkbox" id="sys-scottish_stv" checked><i class="swatch line" style="background:var(--sys-scottish)"></i> Scottish STV (your organization's system)</label>
+          <label class="check" for="sys-cambridge_stv"><input type="checkbox" id="sys-cambridge_stv" checked><i class="swatch line" style="background:var(--sys-cambridge)"></i> Cambridge STV</label>
+          <label class="check" for="sys-borda"><input type="checkbox" id="sys-borda" checked><i class="swatch line" style="background:var(--sys-borda)"></i> Borda count</label>
+          <label class="check" for="sys-approval"><input type="checkbox" id="sys-approval" checked><i class="swatch line" style="background:var(--sys-approval)"></i> Approval</label>
+          <details class="why"><summary>How each system uses the ranks</summary>
+            <p><b>Scottish STV</b>: your vote goes to your top choice. If they win with more votes than they need, or are knocked out, your vote moves down to your next choice. A winner's extra votes move on as a fraction of every one of their ballots.</p>
+            <p><b>Cambridge STV</b>: the same idea, as Cambridge, Massachusetts counts it, but whole ballots move, never fractions. A winner's extra votes move on only after the first count, by taking every so-many-th ballot. After that, a candidate who reaches the quota keeps the ballots they have, and later ballots skip them.</p>
+            <p><b>Borda count</b>: every rank earns points at once. First place gets one fewer point than there are candidates, and each rank below gets one fewer. Candidates you leave off get none. The seats go to the highest totals. Cutting ballots after rank k takes away the points below k.</p>
+            <p><b>Approval</b>: there are no ranks. You mark the candidates you support, and the seats go to the most marked. Here, each simulated voter approves everyone they would have ranked, and cutting after rank k means they approve only their first k.</p>
+            <p>Borda and approval give every seat to the most broadly supported candidates, so a slate with a majority can win every seat. STV shares the seats out in proportion to support.</p>
+          </details>
         </div>
         <div class="setting">
           <div class="setting-head"><label for="sims">How many times to simulate each branch</label></div>
@@ -341,9 +363,9 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
     <div class="results">
       <section class="panel" id="branches-panel" aria-live="polite">
         <h2>How many ranks matter in each branch</h2>
-        <p class="lede" id="branches-lede">Results are based on <span id="sims-count">1,000</span> simulations of branch elections with <span id="slates-count">4</span> slates, using a Scottish STV Ranked Choice model tuned on publicly available union, organization, and government ballots available at <a href="https://www.preflib.org/" target="_blank" rel="noopener">PrefLib</a>.</p>
+        <p class="lede" id="branches-lede">Results are based on <span id="sims-count">1,000</span> simulations of branch elections with <span id="slates-count">4</span> slates, counted with <span id="systems-named">Scottish STV</span>, using a Ranked Choice voter model tuned on publicly available union, organization, and government ballots available at <a href="https://www.preflib.org/" target="_blank" rel="noopener">PrefLib</a>.</p>
         <p class="status" id="branches-status"></p>
-        <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Branch</th><th class="n">Candidates</th><th class="n">Seats</th><th class="n">Voters (±<span id="turnout-head">10</span>%)</th><th class="n k95">95% threshold</th><th class="n">1 seat or less</th></tr></thead><tbody></tbody></table></div>
+        <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Branch</th><th class="n">Candidates</th><th class="n">Seats</th><th class="n">Voters (±10%)</th><th class="n k95">95% threshold</th><th class="n">1 seat or less</th></tr></thead><tbody></tbody></table></div>
         <div class="branches" id="branches"></div>
       </section>
     </div>

@@ -107,7 +107,8 @@ function cellLike(c) {
 
 // ---------------------------------------------------------------- controls
 const FIELDS = ["candidates", "seats", "voters", "turnout", "sims", "seed", "wording", "n", "n-seats", "pull-auto", "pull", "slates", "sizing", "unaff",
-  "loyalty", "evenness", "spread-auto", "spread", "longshot-auto", "longshot", "gap", "cell"];
+  "loyalty", "evenness", "spread-auto", "spread", "longshot-auto", "longshot", "gap", "cell",
+  "sys-scottish_stv", "sys-cambridge_stv", "sys-borda", "sys-approval"];
 
 function readControls() {
   const c = {};
@@ -284,7 +285,7 @@ function chart(box, series, opts) {
   for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: sy(0), stroke: css("--ink-2"), "stroke-width": 1, "stroke-dasharray": "2 3", opacity: 0.6 }, svg);
   for (const b of opts.bands || []) {
     const edge = [...b.points.map(([x, , hi]) => [x, hi]), ...b.points.map(([x, lo]) => [x, lo]).reverse()];
-    el("polygon", { points: edge.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" "), fill: css(b.color), opacity: 0.55 }, svg);
+    el("polygon", { points: edge.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" "), fill: css(b.color), opacity: b.opacity ?? 0.55 }, svg);
   }
   for (const h of opts.hlines || []) {
     el("line", { x1: L, x2: w - R, y1: sy(h.y), y2: sy(h.y), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "5 4", opacity: 0.7 }, svg);

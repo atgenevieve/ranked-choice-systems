@@ -135,7 +135,7 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
     let spread = s.election.turnout_spread.unwrap_or(0.0);
     let len = s.election.ranks;
     let sims = s.run.sims;
-    let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
+    let opt = Options { system: s.run.system, rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
     let trunc = if s.run.truncation { Truncation::Winners } else { Truncation::Off };
     let show = if s.run.curve_ranks == 0 { len } else { s.run.curve_ranks.min(len) };
     let next = AtomicUsize::new(0);
@@ -355,7 +355,7 @@ pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) ->
     let c = s.election.candidates;
     let len = s.election.ranks;
     let limit = s.ballot.max_ranks(seats).unwrap_or(len).min(len);
-    let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
+    let opt = Options { system: s.run.system, rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
     let (mut any, mut edge) = (WorthSums::new(limit), WorthSums::new(limit));
     for i in first..first + count {
         let es = election_seed(s.run.seed, c, seats, i);
