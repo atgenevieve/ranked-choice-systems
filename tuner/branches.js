@@ -101,6 +101,8 @@ function drawBranches() {
     }
     const says = document.createElement("p"); says.className = "says";
     says.textContent = `95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change on average.`;
+    const ran = r.settings.run.sims, wanted = got.total || ran;
+    if (ran < wanted) says.textContent += ` Still running: these are from the first ${ran.toLocaleString()} of ${wanted.toLocaleString()} simulated elections so far.`;
     const pair = document.createElement("div"); pair.className = "pair";
     const half = (title, legendHtml) => {
       const d = document.createElement("div");
@@ -196,9 +198,11 @@ function barChart(box, vals, opts) {
   text(svg, (L + w - R) / 2, H - 4, "Position on one voter's ballot", { "text-anchor": "middle", class: "title" });
 }
 
-/** Plays out every branch at once across the engine pool: first each branch's election (the
- *  two line charts), then what each ballot position is worth, in chunks of elections. Requests
- *  queued when the settings change are dropped unstarted. */
+/** Plays out every branch at once across the engine pool, so the charts fill in as it goes:
+ *  each branch's election (the two line charts) first from its first 50, then 200, then all
+ *  simulated elections (election i always gets the same seed, so a smaller run is exactly the
+ *  start of the full one); then what each ballot position is worth, in chunks of elections taken
+ *  in turn across the branches. Requests queued when the settings change are dropped unstarted. */
 window.runBranches = async (c, alive) => {
   setText("sims-count", int(c.sims, 10, 1000).toLocaleString());
   setText("slates-count", String(int(c.slates, 1, 12)));
@@ -228,24 +232,32 @@ window.runBranches = async (c, alive) => {
     const cand = int(b.candidates, 2, 300), seats = int(b.seats, 1, cand - 1);
     return { b, settings: electionSettings({ ...c, candidates: cand, seats, voters: b.voters }) };
   });
-  for (const { b, settings } of plans) {
-    elections++;
-    all.push(engine({ task: "election", settings }, alive).then(reply => {
-      electionsDone++; progress();
-      if (!alive() || reply.stale) return;
-      if (reply.error || !reply.results?.length) {
-        setStatus("branches-status", `The engine refused ${b.name}'s numbers: ${reply.error || "seats must be fewer than candidates"}.`, false, true);
-        return;
-      }
-      branchResults.set(b.name, { b, r: reply.results[0] });
-      redraw();
-    }));
+  const stages = [...new Set([50, 200, sims].filter(n => n <= sims))];
+  for (const n of stages) {
+    for (const { b, settings } of plans) {
+      if (n === sims) elections++;
+      const staged = { ...settings, run: { ...settings.run, sims: n } };
+      all.push(engine({ task: "election", settings: n === sims ? settings : staged }, alive).then(reply => {
+        if (n === sims) { electionsDone++; progress(); }
+        if (!alive() || reply.stale) return;
+        if (reply.error || !reply.results?.length) {
+          setStatus("branches-status", `The engine refused ${b.name}'s numbers: ${reply.error || "seats must be fewer than candidates"}.`, false, true);
+          return;
+        }
+        // A bigger run can come back before a smaller one; keep whichever covers more elections.
+        const had = branchResults.get(b.name);
+        if (had && had.r.settings.run.sims >= n) return;
+        branchResults.set(b.name, { b, r: reply.results[0], total: sims });
+        redraw();
+      }));
+    }
   }
-  for (const { b, settings } of plans) {
-    const add = (into, from) => { for (const k of ["sum", "sq", "n"]) from[k].forEach((x, i) => { into[k][i] = (into[k][i] || 0) + x; }); };
-    branchWorth.set(b.name, { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
-    for (let first = 0; first < sims; first += WORTH_CHUNK) {
-      const count = Math.min(WORTH_CHUNK, sims - first);
+  const add = (into, from) => { for (const k of ["sum", "sq", "n"]) from[k].forEach((x, i) => { into[k][i] = (into[k][i] || 0) + x; }); };
+  for (const { b } of plans) branchWorth.set(b.name, { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
+  // A small first chunk, so every branch's bars show early; the sums add up exactly either way.
+  for (let first = 0, count; first < sims; first += count) {
+    count = Math.min(first === 0 ? 10 : WORTH_CHUNK, sims - first);
+    for (const { b, settings } of plans) {
       chunks++;
       all.push(engine({ task: "worth", settings, first, count }, alive).then(reply => {
         chunksDone++; progress();
