@@ -164,7 +164,7 @@ function drawBranches() {
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
-      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points.` +
+      read.textContent = `How much one vote at this position raises a candidate's chance of winning, in percentage points (+5% means 5 points more likely).` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
       card.append(t);
@@ -236,7 +236,7 @@ function drawWorthCharts() {
     const lo = Math.floor(yMin / step) * step;
     // chart() draws from 0 up; shift everything by -lo so negative values fit.
     chart(box, ms.map(({ sys, m }) => ({ points: m.any.map((v, i) => v && [i + 1, v.m - lo]).filter(Boolean), color: sys.color, width: 2 })), {
-      xMin: 1, xMax: Math.max(2, n), xTicks: rankTicks(n), yMax: yMax - lo, yStep: step, yFmt: v => { const y = +(v + lo).toFixed(2); return y ? `${y > 0 ? "+" : "−"}${Math.abs(y)}` : "0"; },
+      xMin: 1, xMax: Math.max(2, n), xTicks: rankTicks(n), yMax: yMax - lo, yStep: step, yFmt: v => { const y = +(v + lo).toFixed(2); return y ? `${y > 0 ? "+" : "−"}${Math.abs(y)}%` : "0%"; },
       xTitle: "Position on one voter's ballot", aria,
     });
   }
@@ -251,7 +251,7 @@ function barChart(box, vals, opts) {
   const sx = i => L + i * bw + bw / 2, sy = v => T + (1 - Math.max(0, Math.min(v, opts.yMax)) / opts.yMax) * (H - T - B);
   for (let y = 0; y <= opts.yMax + 1e-9; y += opts.yStep) {
     el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
-    text(svg, L - 6, sy(y) + 4, y ? `+${+y.toFixed(2)} pts` : "0", { "text-anchor": "end" });
+    text(svg, L - 6, sy(y) + 4, y ? `+${+y.toFixed(2)}%` : "0%", { "text-anchor": "end" });
   }
   const every = n <= 20 ? 1 : n <= 50 ? 5 : 10;
   vals.forEach((v, i) => {
