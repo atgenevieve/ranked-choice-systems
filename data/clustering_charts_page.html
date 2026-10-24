@@ -238,9 +238,8 @@ function stripChart(f, groups, labelW) {
   return c;
 }
 
-// "New York City 2021 · Mayor" → "2021 Mayor"; a list of them, oldest first, comma-separated.
-const raceOf = s => s.replace(/^.*?(\d{4}) · /, "$1 ");
-const races = its => [...new Set(its.map(it => raceOf(it.sub)))].sort().join(", ");
+// The years a row's races were in, oldest first, comma-separated.
+const races = its => [...new Set(its.map(it => it.sub.match(/\d{4}/)[0]))].sort().join(", ");
 
 // One row per endorser: every race it endorsed in, as dots on a range.
 function byEndorser(list) {
