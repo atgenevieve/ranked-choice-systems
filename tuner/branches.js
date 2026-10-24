@@ -205,9 +205,9 @@ function drawBranches() {
       // The share still undecided (cutting at this rank or a deeper one can still change the winners).
       // One system: where 50, 20, 5, and 0% are left. Several: each system's 5% rank, in its color.
       marks: !one
-        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: 1 - f.same[f.k95 - 1], label: `5%: rank ${f.k95}`, color: sys.color }; })
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: 1 - f.same[f.k95 - 1], label: `5% undecided: rank ${f.k95}`, color: sys.color }; })
         : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
-          .map(([k, l]) => ({ x: k, y: 1 - f0.same[k - 1], label: `${100 - parseInt(l)}%: rank ${k}` })),
+          .map(([k, l]) => ({ x: k, y: 1 - f0.same[k - 1], label: `${100 - parseInt(l)}% undecided: rank ${k}` })),
       aria: `${b.name}: share of simulated elections still undecided when ballots are cut after each rank`,
     });
     chart(c2, got.flatMap(({ sys, g }) => {
