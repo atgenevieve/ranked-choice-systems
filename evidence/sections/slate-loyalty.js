@@ -12,9 +12,9 @@ window.SECTIONS["slate-loyalty"] = () => {
     const T = D.types;
     strips(f, [
       { label: "Scottish parties", sub: `${wardExcess.length} wards`, values: wardExcess, color: "--scotland" },
-      { label: "Endorsing organizations", sub: `${T["Endorsing organization"].length} groupings`, values: T["Endorsing organization"] },
-      { label: "Candidate pacts", sub: `${T["Candidate pact"].length} groupings`, values: T["Candidate pact"] },
-      { label: "Newspapers", sub: `${T["Newspaper"].length} groupings`, values: T["Newspaper"] },
+      { label: "Endorsing organizations", sub: `${T["Endorsing organization"].length} slates`, values: T["Endorsing organization"] },
+      { label: "Candidate pacts", sub: `${T["Candidate pact"].length} cross-endorsers`, values: T["Candidate pact"] },
+      { label: "Newspapers", sub: `${T["Newspaper"].length} slates`, values: T["Newspaper"] },
       { label: "Pairs found only in ballots", sub: `${T["Found only in ballots"].length} pairs`, values: T["Found only in ballots"] },
     ], { min: -20, max: 80, bin: 2, ticks: [-20, 0, 20, 40, 60, 80], fmt: v => (v > 0 ? "+" : "") + v, xTitle: "Points above popularity alone", aria: "Clustering strength by type of grouping" });
     const p = document.createElement("p"); p.className = "note";
