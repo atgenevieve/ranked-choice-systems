@@ -221,8 +221,7 @@ function drawBranches() {
       // Several systems: where each gets down to 1 seat changing (median or average), in its color.
       marks: !one
         ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kSeat <= xMax && { x: f.kSeat, y: f.mid[f.kSeat - 1] ?? 0, label: seatMark(f.kSeat), color: sys.color }; }).filter(Boolean)
-        : [...(f0.kSeat <= xMax ? [{ x: f0.kSeat, y: f0.mid[f0.kSeat - 1] ?? 0, label: seatMark(f0.kSeat) }] : []),
-        ...(seatStat !== "median" && f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
+        : f0.kSeat <= xMax ? [{ x: f0.kSeat, y: f0.mid[f0.kSeat - 1] ?? 0, label: seatMark(f0.kSeat) }] : [],
       aria: `${b.name}: winners who change when every ballot stops at each rank`,
     });
   }
