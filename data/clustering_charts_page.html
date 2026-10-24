@@ -231,13 +231,14 @@ function stripChart(f, groups, labelW) {
       let lastX = -Infinity, run = 0;
       const pos = new Map();
       for (const { it, k } of sorted) { const px = sx(it.x); run = px - lastX < 9 ? run + 1 : 0; lastX = px; pos.set(k, [px, mid + offsets[run % offsets.length]]); }
+      const m = median(xs);
+      el("line", { x1: sx(m), x2: sx(m), y1: 14, y2: H, stroke: css("--ink"), "stroke-width": 2 }, svg);
+      const mt = el("text", { x: sx(m), y: 10, class: "med", "text-anchor": "middle" }, svg); mt.textContent = fmt(m);
+      // Dots go on top of the median bar.
       g.items.forEach((it, k) => {
         const [cx, cy] = pos.get(k);
         el("circle", { cx, cy, r: 5, fill: css(PLACE_VAR[it.place]), stroke: css("--surface"), "stroke-width": 2 }, svg);
       });
-      const m = median(xs);
-      el("line", { x1: sx(m), x2: sx(m), y1: 14, y2: H, stroke: css("--ink"), "stroke-width": 2 }, svg);
-      const mt = el("text", { x: sx(m), y: 10, class: "med", "text-anchor": "middle" }, svg); mt.textContent = fmt(m);
       g.items.forEach((it, k) => { const [cx, cy] = pos.get(k); hit(svg, cx, cy, it); });
     }
     drawAxis(w);
