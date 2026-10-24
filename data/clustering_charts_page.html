@@ -375,7 +375,7 @@ TYPES.forEach((t, i) => {
     return { label: n, sub: its.length > 1 ? `${its.length} slates · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}` : "1 slate", items: its, m: median(xs) };
   }).sort((a, b) => b.m - a.m);
   const f = figure("New York City endorsing organizations",
-    "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that endorsed one candidate aren't measured here.");
+    "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that endorsed one candidate aren't shown here.");
   stripChart(f, groups, "260px");
   tableView(f, orgs.map(o => ({ ...o })), "org");
 }
