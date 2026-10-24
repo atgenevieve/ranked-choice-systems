@@ -389,7 +389,7 @@ TYPES.forEach((t, i) => {
     const xs = its.map(o => o.x);
     return { label: n, sub: races(its), items: its, m: median(xs) };
   }).sort((a, b) => b.m - a.m);
-  const f = figure("New York City endorsing organizations",
+  const f = figure("New York City endorsers' correlation with voter behavior",
     "Each dot is one slate an organization endorsed in one race. Only slates of 2 or more candidates in the same race can have their correlation measured, so organizations that endorsed one candidate aren't shown here.");
   stripChart(f, groups, "260px");
   tableView(f, orgs.map(o => ({ ...o })), "org");
