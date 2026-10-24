@@ -307,6 +307,8 @@ function splitNames(s) {
 // Shorter display names.
 for (const list of [DATA.items, DATA.nyc_orgs]) for (const it of list) for (const k of ["label", "org", "named_by"])
   if (typeof it[k] === "string") it[k] = it[k].replace("Planned Parenthood of Greater NY Votes PAC", "Planned Parenthood of Greater NY");
+// "NYC 2025 · Mayor" → "2025 · NYC Mayor".
+for (const o of DATA.nyc_orgs) o.sub = o.sub.replace(/^NYC (\d{4}) · /, "$1 · NYC ");
 const JOINT = { "Alexandria Ocasio-Cortez and Nydia Velázquez": ["Alexandria Ocasio-Cortez", "Nydia Velázquez"] };
 DATA.nyc_orgs = DATA.nyc_orgs.flatMap(o => (JOINT[o.org] || [o.org]).map(n => n === o.org ? o : { ...o, org: n, label: n, named_by: n }));
 const unshare = list => list.flatMap(it => it.type === "Endorsing organization" && it.label === it.named_by
