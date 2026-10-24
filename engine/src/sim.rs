@@ -28,6 +28,8 @@ struct Totals {
     changed: Vec<usize>,
     seats_changed: Vec<u64>,
     seats_changed_max: Vec<u32>,
+    /// seats_hist[k][x] = elections where cutting after rank k + 1 changes x seats (for medians).
+    seats_hist: Vec<Vec<u64>>,
     /// Rank worth: for each rank k, the winners that rank decides in one election, d_k =
     /// (winners wrong when ballots stop one rank earlier) − (winners wrong when they stop at k),
     /// with rank 1 deciding seats − (winners wrong at rank 1). Sums, sums of squares, and sums
@@ -50,6 +52,7 @@ impl Totals {
             changed: vec![0; len],
             seats_changed: vec![0; len],
             seats_changed_max: vec![0; len],
+            seats_hist: vec![Vec::new(); len],
             worth_sum: vec![0.0; len],
             worth_sq: vec![0.0; len],
             worth_next: vec![0.0; len],
@@ -83,6 +86,14 @@ impl Totals {
         }
         for (a, b) in self.seats_changed_max.iter_mut().zip(o.seats_changed_max) {
             *a = (*a).max(b);
+        }
+        for (a, b) in self.seats_hist.iter_mut().zip(o.seats_hist) {
+            if a.len() < b.len() {
+                a.resize(b.len(), 0);
+            }
+            for (x, y) in a.iter_mut().zip(b) {
+                *x += y;
+            }
         }
         self.cutoffs.extend(o.cutoffs);
         self.voters.extend(o.voters);
@@ -172,6 +183,11 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
                         for (k, &x) in sc.iter().enumerate() {
                             local.seats_changed[k] += x as u64;
                             local.seats_changed_max[k] = local.seats_changed_max[k].max(x);
+                            let h = &mut local.seats_hist[k];
+                            if h.len() <= x as usize {
+                                h.resize(x as usize + 1, 0);
+                            }
+                            h[x as usize] += 1;
                         }
                         let worth = |k: usize| if k == 0 { seats as f64 - sc[0] as f64 } else { sc[k - 1] as f64 - sc[k] as f64 };
                         for k in 0..sc.len() {
@@ -248,11 +264,18 @@ pub fn simulate(s: &Settings, seats: usize, threads: usize) -> Value {
         let mean = t.cutoffs.iter().sum::<usize>() as f64 / n;
         let mean_seats: Vec<f64> = t.seats_changed.iter().map(|&x| x as f64 / n).collect();
         let share: Vec<f64> = mean_seats.iter().map(|x| x / seats as f64).collect();
+        // The middle election's seats changed: the smallest x with at least half of elections at
+        // or below it.
+        let median_seats: Vec<u32> = t.seats_hist.iter().map(|h| {
+            let mut cum = 0;
+            h.iter().position(|&c| { cum += c; 2 * cum >= sims as u64 }).unwrap_or(0) as u32
+        }).collect();
         line["truncation"] = json!({
             "p_changed": round4(&p[..show]),
             "seats_changed": {
                 "mean": round4(&mean_seats[..show]),
                 "share_mean": round4(&share[..show]),
+                "median": median_seats[..show],
                 "max": t.seats_changed_max[..show],
             },
             "rank_worth": {

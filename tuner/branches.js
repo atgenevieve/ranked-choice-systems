@@ -66,9 +66,10 @@ function branchFigures(r) {
   const same = [];
   t.cutoff_rank.counts.reduce((acc, n, i) => { same[i] = (acc + n) / sims; return acc + n; }, 0);
   const at = level => same.findIndex(x => x >= level - 1e-9) + 1;
-  const mean = t.seats_changed.mean, most = t.seats_changed.max;
-  return { same, mean, most, k50: at(0.5), k80: at(0.8), k95: at(0.95), kAll: at(1),
-    kOne: holdsFrom(mean, x => x <= 1), kZero: holdsFrom(mean, x => x === 0) };
+  // Seats changed in the middle (median) election at each cutoff, as the owner asked.
+  const mid = t.seats_changed.median, most = t.seats_changed.max;
+  return { same, mid, most, k50: at(0.5), k80: at(0.8), k95: at(0.95), kAll: at(1),
+    kOne: holdsFrom(mid, x => x <= 1), kZero: holdsFrom(mid, x => x === 0) };
 }
 
 function drawSummary() {
@@ -137,7 +138,7 @@ function drawBranches() {
     for (const { sys, g } of got) {
       const f = branchFigures(g.r);
       const says = document.createElement("p"); says.className = "says";
-      says.textContent = `${many ? `${sys.name}: ` : ""}95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change on average.`;
+      says.textContent = `${many ? `${sys.name}: ` : ""}95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change in the median election.`;
       const ran = g.r.settings.run.sims, wanted = g.total || ran;
       if (ran < wanted) says.textContent += ` Still running: these are from the first ${ran.toLocaleString()} of ${wanted.toLocaleString()} simulated elections so far.`;
       sec.append(says);
@@ -154,8 +155,8 @@ function drawBranches() {
     const sysLegend = many ? got.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join("") : "";
     const c1 = half("How many ranks affect election results", sysLegend);
     const c2 = half("How many winners change", many
-      ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>Average</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
-      : '<span><i class="swatch line" style="background:var(--model)"></i>Average</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
+      ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>Median</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
+      : '<span><i class="swatch line" style="background:var(--model)"></i>Median</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>');
     sec.append(pair);
     const worths = got.map(({ sys }) => ({ sys, w: branchWorth.get(key(b, sys.id)) })).filter(x => x.w && x.w.done);
     if (worths.length) {
@@ -192,15 +193,15 @@ function drawBranches() {
       const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
       return many
         ? [{ points: f.most.slice(0, x).map((y, i) => [i + 1, y]), color: sys.color, width: 1.2, dash: "4 3" },
-           { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: sys.color }]
+           { points: f.mid.slice(0, x).map((y, i) => [i + 1, y]), color: sys.color }]
         : [{ points: f.most.slice(0, x).map((y, i) => [i + 1, y]), color: "--model-soft", width: 1.8 },
-           { points: f.mean.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }];
+           { points: f.mid.slice(0, x).map((y, i) => [i + 1, y]), color: "--model", dots: x <= 40 }];
     }), {
       xMin: 1, xMax, xTicks, yMax: Math.ceil(topSeats / seatStep) * seatStep, yStep: seatStep, yFmt: v => (seatStep < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
-      // Several systems: where each gets down to 1 seat changing on average, in its color.
+      // Several systems: where each gets down to 1 seat changing in the median election, in its color.
       marks: !one
-        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kOne <= xMax && { x: f.kOne, y: f.mean[f.kOne - 1] ?? 0, label: `1 seat: rank ${f.kOne}`, color: sys.color }; }).filter(Boolean)
-        : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mean[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kOne <= xMax && { x: f.kOne, y: f.mid[f.kOne - 1] ?? 0, label: `1 seat: rank ${f.kOne}`, color: sys.color }; }).filter(Boolean)
+        : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mid[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
         ...(f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
       aria: `${b.name}: winners who change when every ballot stops at each rank`,
     });
