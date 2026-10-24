@@ -398,7 +398,7 @@ TYPES.forEach((t, i) => {
 // 4. Working Families Party in NYC.
 {
   const wfp = DATA.nyc_orgs.filter(o => o.org === "Working Families Party").sort((a, b) => b.x - a.x);
-  const f = figure("Working Families Party in New York City",
+  const f = figure("New York Working Families Party Slates",
     "Every WFP slate of 2 or more candidates in the same race. The April 2021 mayoral ranking (Stringer, Morales, Wiley) was later withdrawn. NYWFP's final endorsement of Maya Wiley alone can't be measured.");
   lollipopChart(f, wfp.map(o => ({ ...o, label: o.members.replace(/ · /g, ", "), sub: o.sub + (o.label.includes("April") ? " · April ranking, withdrawn" : "") })));
   tableView(f, wfp);
