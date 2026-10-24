@@ -36,7 +36,7 @@ let seatStat = "mean";
 try { if (localStorage.getItem(SEAT_STAT_KEY) === "median") seatStat = "median"; } catch { /* storage may be blocked */ }
 const statWord = () => seatStat === "median" ? "Median" : "Average";
 const seatHead = () => seatStat === "median" ? "Under 1 seat after rank" : "1 seat or less";
-const seatMark = k => seatStat === "median" ? `under 1 after rank ${k}` : `1 seat: rank ${k}`;
+const seatMark = k => seatStat === "median" ? `under 1 seat after rank ${k}` : `1 seat: rank ${k}`;
 for (const input of document.querySelectorAll('input[name="seat-stat"]')) {
   input.checked = input.value === seatStat;
   input.addEventListener("change", () => {
