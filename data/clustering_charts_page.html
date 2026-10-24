@@ -74,6 +74,14 @@ td.n { text-align: right; font-family: var(--font-data); font-variant-numeric: t
 #tip b { display: block; margin-bottom: 2px; }
 #tip .m { color: var(--ink-2); }
 #tip .k { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; }
+.filter .flabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--grid); border-radius: 6px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink); padding: 4px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.seg button + button { border-left: 1px solid var(--grid); }
+.seg button[aria-pressed="true"] { background: var(--grid); font-weight: 600; }
+.seg button:focus-visible { outline: 2px solid var(--nyc); outline-offset: -2px; }
+.filter .count { color: var(--muted); }
 @media (max-width: 640px) {
   .chart { grid-template-columns: minmax(0, 1fr); }
   .rlabel { padding-bottom: 0; }
@@ -106,7 +114,7 @@ const PLACE_VAR = { nyc: "--nyc", portland: "--portland", scotland: "--scotland"
 const PLACE_NAME = { nyc: "New York City", portland: "Portland", scotland: "Scotland", other: "Minneapolis or Oakland" };
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const median = a => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
-const fmt = x => { const r = Math.round(x); return (r > 0 ? "+" : r < 0 ? "−" : "") + Math.abs(r); };
+const fmt = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(0);
 const pct = x => (x * 100).toFixed(0) + "%";
 const short = s => s.replace("New York City", "NYC");
 const NS = "http://www.w3.org/2000/svg";
@@ -201,7 +209,7 @@ function stripChart(f, groups, labelW) {
   });
   const drawAxis = axisRow(chart);
   f.append(chart);
-  charts.push({ draw() {
+  const c = { draw() {
     const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
     for (const { g, box } of rows) {
       const H = 56, mid = 32; box.replaceChildren();
@@ -225,7 +233,22 @@ function stripChart(f, groups, labelW) {
       g.items.forEach((it, k) => { const [cx, cy] = pos.get(k); hit(svg, cx, cy, it); });
     }
     drawAxis(w);
-  } });
+  } };
+  charts.push(c);
+  return c;
+}
+
+// "New York City 2021 · Mayor" → "2021 Mayor"; a list of them, oldest first, comma-separated.
+const raceOf = s => s.replace(/^.*?(\d{4}) · /, "$1 ");
+const races = its => [...new Set(its.map(it => raceOf(it.sub)))].sort().join(", ");
+
+// One row per endorser: every race it endorsed in, as dots on a range.
+function byEndorser(list) {
+  const names = [...new Set(list.map(it => it.label))];
+  return names.map(n => {
+    const its = list.filter(it => it.label === n), xs = its.map(it => it.x);
+    return { label: n, sub: races(its), items: its, m: median(xs) };
+  }).sort((a, b) => b.m - a.m || a.label.localeCompare(b.label));
 }
 
 // Lollipop chart: one row per grouping, a stem from 0, a dot at its strength, the value at the tip.
@@ -241,7 +264,7 @@ function lollipopChart(f, items, labelW) {
   });
   const drawAxis = axisRow(chart);
   f.append(chart);
-  charts.push({ draw() {
+  const c = { draw() {
     const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
     for (const { it, box } of rows) {
       const H = 36, mid = 18; box.replaceChildren();
@@ -256,7 +279,63 @@ function lollipopChart(f, items, labelW) {
       hit(svg, sx(it.x), mid, it);
     }
     drawAxis(w);
-  } });
+  } };
+  charts.push(c);
+  return c;
+}
+
+// Split a row that several organizations share ("A, B (x, y), C") into one row per organization.
+function splitNames(s) {
+  const out = []; let depth = 0, cur = "";
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (ch === "(") depth++; else if (ch === ")") depth--;
+    if (ch === "," && depth === 0 && s[i + 1] === " ") { out.push(cur); cur = ""; i++; } else cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+const unshare = list => list.flatMap(it => it.type === "Endorsing organization" && it.label === it.named_by
+  ? splitNames(it.label).map(n => ({ ...it, label: n, named_by: n })) : [it]);
+
+// A row of place buttons that redraws a chart and its table with only that place's groupings.
+function placeFilter(f, list, grouped) {
+  const places = Object.keys(PLACE_NAME).filter(p => list.some(it => it.place === p));
+  const holder = document.createElement("div"); holder.style.display = "grid"; holder.style.gap = "10px"; holder.style.minWidth = "0";
+  let current = null;
+  const count = document.createElement("span"); count.className = "count";
+  const render = place => {
+    if (current) charts.splice(charts.indexOf(current), 1);
+    holder.replaceChildren();
+    const shown = place === "all" ? list : list.filter(it => it.place === place);
+    if (grouped) {
+      const groups = byEndorser(shown);
+      current = stripChart(holder, groups, "300px");
+      tableView(holder, groups.flatMap(g => g.items));
+      count.textContent = `${groups.length} endorser${groups.length === 1 ? "" : "s"} · ${shown.length} slate${shown.length === 1 ? "" : "s"}`;
+    } else {
+      current = lollipopChart(holder, shown);
+      tableView(holder, shown);
+      count.textContent = `${shown.length} grouping${shown.length === 1 ? "" : "s"}`;
+    }
+    hideTip(); current.draw();
+  };
+  if (places.length > 1) {
+    const bar = document.createElement("div"); bar.className = "filter";
+    const lab = document.createElement("span"); lab.className = "flabel"; lab.textContent = "Place";
+    const seg = document.createElement("span"); seg.className = "seg"; seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "Filter by place");
+    for (const p of ["all", ...places]) {
+      const b = document.createElement("button"); b.type = "button"; b.dataset.p = p;
+      if (p !== "all") { const d = document.createElement("span"); d.className = "dot"; d.style.background = `var(${PLACE_VAR[p]})`; b.append(d); }
+      b.append(p === "all" ? "All places" : PLACE_NAME[p]);
+      b.setAttribute("aria-pressed", String(p === "all"));
+      b.addEventListener("click", () => { for (const o of seg.children) o.setAttribute("aria-pressed", String(o === b)); render(p); });
+      seg.append(b);
+    }
+    bar.append(lab, seg, count); f.append(bar);
+  }
+  f.append(holder);
+  render("all");
 }
 
 const items = DATA.items;
@@ -276,66 +355,16 @@ const byType = TYPES.map(t => items.filter(i => i.type === t));
 // 2. Each type in detail.
 const TYPE_NOTES = {
   "Party (on the ballot)": "Scottish parties, pooled over every ward where the party ran 2 or more candidates. The Greens rarely did, so they don't appear.",
-  "Endorsing organization": "Parties, unions, and political, advocacy, good-government, and business groups. Each row is one organization: each dot is one slate it endorsed in one race, with a line across its range when it has several. Organizations that endorsed the same candidates in the same race each get their own row.",
+  "Endorsing organization": "Parties, unions, and political, advocacy, good-government, and business groups. Each row is one endorser; each dot is one race where it endorsed 2 or more candidates, with a tick at its median. Organizations that endorsed the same candidates in the same race each get their own row.",
   "Found only in ballots": "Pairs whose voters ranked each other far more than popularity predicts, with no slate in our data naming them. Picked as the 5 strongest per race, so all are at least +10. Small races are noisy: check the voter count.",
   "Newspaper": "Editorial board endorsements. Kept separate from organizations because a newspaper's endorsement comes with free communication to voters.",
   "Candidate pact": "Candidates who asked voters to rank each other, or who campaigned together.",
 };
 TYPES.forEach((t, i) => {
   const f = figure(`${TYPE_NAMES[t]}: every grouping`, TYPE_NOTES[t]);
-  if (t === "Endorsing organization") return endorserFigure(f, byType[i]);
-  const list = [...byType[i]].sort((a, b) => b.x - a.x);
-  lollipopChart(f, list);
-  tableView(f, list);
+  const list = unshare(byType[i]).sort((a, b) => b.x - a.x);
+  placeFilter(f, list, t === "Endorsing organization");
 });
-
-// Endorsing organizations: one row per organization, its slates as dots across their range,
-// with a filter by place. A grouping named by several organizations (they endorsed the same
-// candidates in the same race) is split so each organization gets its own row.
-function endorserFigure(f, list) {
-  // Split "A, B" into organizations, but not at commas inside parentheses.
-  const names = label => {
-    const out = []; let depth = 0, cur = "";
-    for (const ch of label) {
-      if (ch === "(") depth++;
-      if (ch === ")") depth--;
-      if (ch === "," && depth === 0) { out.push(cur.trim()); cur = ""; } else cur += ch;
-    }
-    return [...out, cur.trim()].filter(Boolean);
-  };
-  // Rows group by the name before any note in parentheses, such as "(April 2021 ranking, later
-  // withdrawn)" or United for Portland's "(Spotlight)" and "(Green Light, including Spotlight)"
-  // tiers; the dot and the table keep the full name.
-  const base = n => n.replace(/\s*\(.*\)\s*$/, "");
-  const all = list.flatMap(it => names(it.label).map(n => ({ ...it, label: n, endorser: base(n), sharedWith: names(it.label).filter(o => o !== n).join(", ") })));
-  const places = [...new Set(all.map(it => it.place))];
-  const pick = document.createElement("label"); pick.className = "note";
-  pick.append("Place: ");
-  const sel = document.createElement("select");
-  for (const [v, t] of [["all", "All places"], ...places.map(p => [p, PLACE_NAME[p]])]) { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.append(o); }
-  pick.append(sel); f.append(pick);
-  const box = document.createElement("div"); box.style.display = "grid"; box.style.gap = "10px"; f.append(box);
-  let drawn = null;
-  const render = () => {
-    const items = all.filter(it => sel.value === "all" || it.place === sel.value);
-    const byName = new Map();
-    for (const it of items) { if (!byName.has(it.endorser)) byName.set(it.endorser, []); byName.get(it.endorser).push(it); }
-    const groups = [...byName].map(([name, its]) => {
-      const xs = its.map(o => o.x);
-      return { label: name, items: its, m: median(xs),
-        sub: its.length > 1 ? `${its.length} slates · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}` : short(its[0].sub) + (its[0].sharedWith ? ` · same slate as ${its[0].sharedWith}` : "") };
-    }).sort((a, b) => b.m - a.m);
-    if (drawn) charts.splice(charts.indexOf(drawn), 1);
-    box.replaceChildren();
-    const n = charts.length;
-    stripChart(box, groups, "300px");
-    drawn = charts[n];
-    tableView(box, [...items].sort((a, b) => a.endorser.localeCompare(b.endorser) || b.x - a.x));
-    drawn.draw();
-  };
-  sel.addEventListener("change", render);
-  render();
-}
 
 // 3. NYC endorsing organizations, by organization.
 {
@@ -344,10 +373,10 @@ function endorserFigure(f, list) {
   const groups = names.map(n => {
     const its = orgs.filter(o => o.org === n);
     const xs = its.map(o => o.x);
-    return { label: n, sub: its.length > 1 ? `${its.length} slates · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}` : "1 slate", items: its, m: median(xs) };
+    return { label: n, sub: races(its), items: its, m: median(xs) };
   }).sort((a, b) => b.m - a.m);
   const f = figure("New York City endorsing organizations",
-    "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that mostly endorsed single candidates (most council endorsements, and unions such as the UFT, 1199, 32BJ, and the Hotel Trades Council) appear with few slates or not at all.");
+    "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that endorsed one candidate aren't shown here.");
   stripChart(f, groups, "260px");
   tableView(f, orgs.map(o => ({ ...o })), "org");
 }
@@ -377,3 +406,5 @@ new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(drawAll, 60); }).ob
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
 new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 </script>
+
+</body></html>
