@@ -10,7 +10,7 @@ window.SECTIONS["slate-loyalty"] = () => {
     const endorse = ["Endorsing organization", "Candidate pact", "Newspaper"].map(k => +med(D.types[k]).toFixed(0)).sort((x, y) => x - y).filter((x, i, a) => i === 0 || i === a.length - 1);
     const f = figure("How strongly voters stick to a group",
       `Parties printed on the ballot are noticeably more correlated with voters' candidate groupings (+${med(wardExcess).toFixed(0)} points) than external endorsements (+${endorse[0]}–${endorse[1]} points) or natural ideological sorting (+${med(D.types["Found only in ballots"]).toFixed(0)} points).`,
-      "Clustering strength: of voters whose first choice is in the group and who ranked a second, the share whose second choice is also in the group, minus the share expected if second choices followed popularity alone, in percentage points. Each row shows how its values are spread: taller bars where more wards (Scottish parties) or groupings (the other rows) fall. Bars are 2 points wide and scaled to each row\'s tallest bar; hover for counts. Pairs found only in ballots were picked for being strong, so they start at +10.");
+      "Ranked-choice ballot data from Scotland, New York City, Portland OR, Minneapolis MN, and Oakland CA, along with publicly archived endorsement data from the American elections, shows partisan identity having much higher and more consistent impact on vote clustering than other methods of drawing similarities between candidates.");
     const T = D.types;
     strips(f, [
       { label: "Scottish parties", sub: `${wardExcess.length} wards`, values: wardExcess, color: "--scotland" },
