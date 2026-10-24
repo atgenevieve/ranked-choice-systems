@@ -173,7 +173,7 @@ function drawBranches() {
       return c;
     };
     const sysLegend = many ? got.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join("") : "";
-    const c1 = half("How many ranks affect election results", sysLegend);
+    const c1 = half("How many elections are still undecided", sysLegend);
     const c2 = half("How many winners change", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`);
@@ -199,15 +199,16 @@ function drawBranches() {
     const f0 = one && branchFigures(one.g.r);
     chart(c1, got.map(({ sys, g }) => {
       const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
-      return { points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
+      return { points: f.same.slice(0, x).map((y, i) => [i + 1, 1 - y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
     }), {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-      // One system: its 50, 80, 95, and 100% ranks. Several: each system's 95% rank, in its color.
+      // The share still undecided (cutting at this rank or a deeper one can still change the winners).
+      // One system: where 50, 20, 5, and 0% are left. Several: each system's 5% rank, in its color.
       marks: !one
-        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: f.same[f.k95 - 1], label: `95%: rank ${f.k95}`, color: sys.color, below: true }; })
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: 1 - f.same[f.k95 - 1], label: `5% undecided: rank ${f.k95}`, color: sys.color }; })
         : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
-          .map(([k, l]) => ({ x: k, y: f0.same[k - 1], label: `${l}: rank ${k}`, below: true })),
-      aria: `${b.name}: share of simulated elections with the same results when ballots are cut after each rank`,
+          .map(([k, l]) => ({ x: k, y: 1 - f0.same[k - 1], label: `${100 - parseInt(l)}% undecided: rank ${k}` })),
+      aria: `${b.name}: share of simulated elections still undecided when ballots are cut after each rank`,
     });
     chart(c2, got.flatMap(({ sys, g }) => {
       const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
