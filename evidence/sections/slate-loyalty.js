@@ -6,8 +6,10 @@ window.SECTIONS["slate-loyalty"] = () => {
   const wardExcess = D.wards.filter(w => w.popularity != null).map(w => pts(w.observed - w.popularity));
 
   {
+    // Typical (median) strength of each kind of endorsement, lowest and highest, for the takeaway.
+    const endorse = ["Endorsing organization", "Candidate pact", "Newspaper"].map(k => +med(D.types[k]).toFixed(0)).sort((x, y) => x - y).filter((x, i, a) => i === 0 || i === a.length - 1);
     const f = figure("How strongly voters stick to a group",
-      `Parties printed on the ballot are in a different league: in a typical Scottish ward, voters' second choices go to a running mate about ${med(wardExcess).toFixed(0)} points more often than popularity alone predicts. Endorsement slates, candidate pacts, and newspaper picks typically add only 4 to 14 points, with wide ranges.`,
+      `Parties printed on the ballot are noticeably more correlated with voters' candidate groupings (+${med(wardExcess).toFixed(0)} points) than external endorsements (+${endorse[0]}–${endorse[1]} points) or natural ideological sorting (+${med(D.types["Found only in ballots"]).toFixed(0)} points).`,
       "Clustering strength: of voters whose first choice is in the group and who ranked a second, the share whose second choice is also in the group, minus the share expected if second choices followed popularity alone, in percentage points. Each row shows how its values are spread: taller bars where more wards (Scottish parties) or groupings (the other rows) fall. Bars are 2 points wide and scaled to each row\'s tallest bar; hover for counts. Pairs found only in ballots were picked for being strong, so they start at +10.");
     const T = D.types;
     strips(f, [
