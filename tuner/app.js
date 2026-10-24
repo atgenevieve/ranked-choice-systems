@@ -298,42 +298,64 @@ function chart(box, series, opts) {
     if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 2.6, fill: css(s.color) }, svg);
   }
   // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label. Each label
-  // takes the first spot around its point that crosses no data line and no other label.
-  // Light background lines (--model-soft) may run under a label; the main lines may not.
+  // takes the first spot around its point that crosses no data line, no ring, no other label, and
+  // no other label's leader line, with its own leader line (when it had to move away) crossing no
+  // label either. Light background lines (--model-soft) may run under a label; the main lines may
+  // not. Labels are drawn last, so their outline covers anything they still overlap.
   const lines = series.filter(s => s.color !== "--model-soft").map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
-  const taken = [];
-  const clashes = r => taken.some(o => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1) ||
-    r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B;
-  const hits = r => clashes(r) ||
-    lines.some(pts => pts.some((p, i) => {
-      if (i === 0) return false;
-      const [x0, y0] = pts[i - 1], [x1, y1] = p;
-      for (let t = 0; t <= 1; t += 0.1) {
-        const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
-        if (x > r.x1 - 2 && x < r.x2 + 2 && y > r.y1 - 2 && y < r.y2 + 2) return true;
-      }
-      return false;
-    }));
-  for (const m of opts.marks || []) {
-    const x = sx(m.x), y = sy(Math.min(m.y, opts.yMax)), ink = css(m.color || "--mark");
-    el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: ink, "stroke-width": m.color ? 1.5 : 1, "stroke-dasharray": "2 3" }, svg);
-    el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: ink, "stroke-width": 2 }, svg);
-    taken.push({ x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 });
-    const width = m.label.length * 7 + 4;
-    const spots = [];
-    for (const dy of m.below ? [16, -8, 30, -22, 44, -36, 58, -50, 72] : [-8, 16, -22, 30, -36, 44, -50, 58, 72])
-      for (const side of [1, -1]) spots.push({ dx: 9 * side, dy, side });
-    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 10, y2: y + s.dy + 2 });
-    // Best: clear of lines and labels. Next: clear of other labels, touching a line. Last resort: the first spot.
-    const spot = spots.find(s => !hits(box(s))) || spots.find(s => !clashes(box(s))) || spots[0];
-    taken.push(box(spot));
-    // A label that had to move away from its point gets a thin line back to it.
-    if (Math.abs(spot.dy) > 16) {
-      const b = box(spot), lx = spot.side > 0 ? b.x1 : b.x2, ly = spot.dy < 0 ? b.y2 : b.y1;
-      el("line", { x1: x, y1: y + (spot.dy < 0 ? -5 : 5), x2: lx, y2: ly, stroke: ink, "stroke-width": 1 }, svg);
+  const marks = (opts.marks || []).map(m => ({ m, x: sx(m.x), y: sy(Math.min(m.y, opts.yMax)), ink: css(m.color || "--mark") }));
+  const rings = marks.map(({ x, y }) => ({ x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 }));
+  const labels = [], leaders = [];
+  const overlap = (r, o) => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1;
+  const segHits = ([x0, y0, x1, y1], r, pad = 2) => {
+    for (let t = 0; t <= 1; t += 0.05) {
+      const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
+      if (x > r.x1 - pad && x < r.x2 + pad && y > r.y1 - pad && y < r.y2 + pad) return true;
     }
+    return false;
+  };
+  const clashes = (r, own) => labels.some(o => overlap(r, o)) || rings.some((o, i) => i !== own && overlap(r, o)) ||
+    leaders.some(seg => segHits(seg, r)) || r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B;
+  const hits = (r, own) => clashes(r, own) ||
+    lines.some(pts => pts.some((p, i) => i > 0 && segHits([...pts[i - 1], ...p], r)));
+  for (const { x, y, ink } of marks) el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: ink, "stroke-width": ink === css("--mark") ? 1 : 1.5, "stroke-dasharray": "2 3" }, svg);
+  // Rightmost first: the last crossing usually sits lowest, with the least room around it.
+  const order = marks.map((_, i) => i).sort((i, j) => marks[j].x - marks[i].x);
+  const placed = order.map(own => { const { m, x, y, ink } = marks[own];
+    // The label's real width, measured once drawn (an estimate if the chart isn't on screen yet).
+    const probe = text(svg, 0, -100, m.label, { class: "marklab" });
+    const width = (probe.getComputedTextLength?.() || m.label.length * 7) + 4;
+    probe.remove();
+    // Candidate spots, nearest first: up or down from the point (down first for `below`), and
+    // shifted sideways when the near ones are taken.
+    const spots = [];
+    for (const dy of [-8, 16, -22, 30, -36, 44, -50, 58, -64, 72, -78, 86, -92, 100, -106, -120])
+      for (const dx of [9, 40, 80, 120]) for (const side of [1, -1]) spots.push({ dx: dx * side, dy, side });
+    const far = s => Math.abs(s.dy + (m.below ? -4 : 4)) + 0.6 * Math.abs(s.dx);
+    spots.sort((p, q) => far(p) - far(q));
+    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 10, y2: y + s.dy + 2 });
+    // A label that had to move away from its point gets a thin line back to it.
+    const leader = s => {
+      if (Math.abs(s.dy) <= 16 && Math.abs(s.dx) <= 9) return null;  // right beside its point
+      const b = box(s);
+      return [x, y + (s.dy < 0 ? -5 : 5), s.side > 0 ? b.x1 : b.x2, s.dy < 0 ? b.y2 : b.y1];
+    };
+    const leaderClear = s => { const seg = leader(s); return !seg || !labels.some(o => segHits(seg, o, 4)); };
+    // Best: a near spot clear of everything, leader included. Next: the nearest spot clear of
+    // labels and leaders, even over a data line (the label's outline covers it). Last resort:
+    // the first spot.
+    const near = s => far(s) <= 40;
+    const spot = spots.find(s => near(s) && !hits(box(s), own) && leaderClear(s)) || spots.find(s => !clashes(box(s), own) && leaderClear(s)) ||
+      spots.find(s => !clashes(box(s), own)) || spots[0];
+    labels.push(box(spot));
+    const seg = leader(spot);
+    if (seg) leaders.push(seg);
+    return { m, x, y, ink, spot, seg };
+  });
+  for (const { ink, seg } of placed) if (seg) el("line", { x1: seg[0], y1: seg[1], x2: seg[2], y2: seg[3], stroke: ink, "stroke-width": 1 }, svg);
+  for (const { x, y, ink } of placed) el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: ink, "stroke-width": 2 }, svg);
+  for (const { m, x, y, ink, spot } of placed)
     text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end", ...(m.color ? { style: `fill:${ink}` } : {}) });
-  }
 }
 
 function niceStep(max) {
