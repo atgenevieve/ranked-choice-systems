@@ -238,15 +238,16 @@ function stripChart(f, groups, labelW) {
   return c;
 }
 
+// "New York City 2021 · Mayor" → "2021 Mayor"; a list of them, oldest first, comma-separated.
+const raceOf = s => s.replace(/^.*?(\d{4}) · /, "$1 ");
+const races = its => [...new Set(its.map(it => raceOf(it.sub)))].sort().join(", ");
+
 // One row per endorser: every race it endorsed in, as dots on a range.
 function byEndorser(list) {
   const names = [...new Set(list.map(it => it.label))];
   return names.map(n => {
     const its = list.filter(it => it.label === n), xs = its.map(it => it.x);
-    const sub = its.length > 1
-      ? `${its.length} races · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}`
-      : short(its[0].sub);
-    return { label: n, sub, items: its, m: median(xs) };
+    return { label: n, sub: races(its), items: its, m: median(xs) };
   }).sort((a, b) => b.m - a.m || a.label.localeCompare(b.label));
 }
 
@@ -372,7 +373,7 @@ TYPES.forEach((t, i) => {
   const groups = names.map(n => {
     const its = orgs.filter(o => o.org === n);
     const xs = its.map(o => o.x);
-    return { label: n, sub: its.length > 1 ? `${its.length} slates · median ${fmt(median(xs))} · range ${fmt(Math.min(...xs))} to ${fmt(Math.max(...xs))}` : "1 slate", items: its, m: median(xs) };
+    return { label: n, sub: races(its), items: its, m: median(xs) };
   }).sort((a, b) => b.m - a.m);
   const f = figure("New York City endorsing organizations",
     "Each dot is one slate an organization endorsed in one race, 2021 and 2025. Only slates of 2 or more candidates in the same race can be measured, so organizations that endorsed one candidate aren't shown here.");
