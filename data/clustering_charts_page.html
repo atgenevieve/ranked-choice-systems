@@ -151,6 +151,14 @@ function hit(svg, cx, cy, it) {
   c.addEventListener("blur", hideTip);
 }
 
+// A plot as tall as its row, so gridlines and median ticks run the row's full height.
+// When the label stacks above the plot (narrow screens), the plot keeps its own height.
+function rowHeight(lab, box, min) {
+  box.replaceChildren();
+  const sideBySide = Math.abs(lab.getBoundingClientRect().top - box.getBoundingClientRect().top) < 2;
+  return sideBySide ? Math.max(min, Math.ceil(lab.getBoundingClientRect().height)) : min;
+}
+
 function scaleFor(width, pad) { return x => pad + (x - X_MIN) / (X_MAX - X_MIN) * (width - 2 * pad); }
 
 function gridlines(svg, sx, h) {
@@ -205,14 +213,14 @@ function stripChart(f, groups, labelW) {
     const s = document.createElement("div"); s.className = "s"; s.textContent = g.sub; lab.append(t, s);
     const box = document.createElement("div"); box.className = "rplot";
     chart.append(lab, box);
-    rows.push({ g, box });
+    rows.push({ g, box, lab });
   });
   const drawAxis = axisRow(chart);
   f.append(chart);
   const c = { draw() {
     const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
-    for (const { g, box } of rows) {
-      const H = 56, mid = 32; box.replaceChildren();
+    for (const { g, box, lab } of rows) {
+      const H = rowHeight(lab, box, 56), mid = H / 2 + 4; box.replaceChildren();
       const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}` }, box);
       gridlines(svg, sx, H);
       const xs = g.items.map(it => it.x);
@@ -228,7 +236,7 @@ function stripChart(f, groups, labelW) {
         el("circle", { cx, cy, r: 5, fill: css(PLACE_VAR[it.place]), stroke: css("--surface"), "stroke-width": 2 }, svg);
       });
       const m = median(xs);
-      el("line", { x1: sx(m), x2: sx(m), y1: mid - 17, y2: mid + 17, stroke: css("--ink"), "stroke-width": 2 }, svg);
+      el("line", { x1: sx(m), x2: sx(m), y1: 14, y2: H, stroke: css("--ink"), "stroke-width": 2 }, svg);
       const mt = el("text", { x: sx(m), y: 10, class: "med", "text-anchor": "middle" }, svg); mt.textContent = fmt(m);
       g.items.forEach((it, k) => { const [cx, cy] = pos.get(k); hit(svg, cx, cy, it); });
     }
@@ -259,14 +267,14 @@ function lollipopChart(f, items, labelW) {
     const t = document.createElement("div"); t.className = "t"; t.textContent = it.label;
     const s = document.createElement("div"); s.className = "s"; s.textContent = short(it.sub); lab.append(t, s);
     const box = document.createElement("div"); box.className = "rplot";
-    chart.append(lab, box); rows.push({ it, box });
+    chart.append(lab, box); rows.push({ it, box, lab });
   });
   const drawAxis = axisRow(chart);
   f.append(chart);
   const c = { draw() {
     const w = rows[0].box.clientWidth || 600; const sx = scaleFor(w, 14);
-    for (const { it, box } of rows) {
-      const H = 36, mid = 18; box.replaceChildren();
+    for (const { it, box, lab } of rows) {
+      const H = rowHeight(lab, box, 36), mid = H / 2; box.replaceChildren();
       const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}` }, box);
       gridlines(svg, sx, H);
       const color = css(PLACE_VAR[it.place]);
@@ -295,6 +303,9 @@ function splitNames(s) {
   return out.flatMap(n => JOINT[n] || [n]);
 }
 // Endorsers who published one ranking together, shown as separate rows.
+// Shorter display names.
+for (const list of [DATA.items, DATA.nyc_orgs]) for (const it of list) for (const k of ["label", "org", "named_by"])
+  if (typeof it[k] === "string") it[k] = it[k].replace("Planned Parenthood of Greater NY Votes PAC", "Planned Parenthood of Greater NY");
 const JOINT = { "Alexandria Ocasio-Cortez and Nydia Velázquez": ["Alexandria Ocasio-Cortez", "Nydia Velázquez"] };
 DATA.nyc_orgs = DATA.nyc_orgs.flatMap(o => (JOINT[o.org] || [o.org]).map(n => n === o.org ? o : { ...o, org: n, label: n, named_by: n }));
 const unshare = list => list.flatMap(it => it.type === "Endorsing organization" && it.label === it.named_by
