@@ -35,6 +35,8 @@ const SEAT_STAT_KEY = "rank-depth-branches-seat-stat";
 let seatStat = "mean";
 try { if (localStorage.getItem(SEAT_STAT_KEY) === "median") seatStat = "median"; } catch { /* storage may be blocked */ }
 const statWord = () => seatStat === "median" ? "Median" : "Average";
+const seatHead = () => seatStat === "median" ? "Under 1 seat after rank" : "1 seat or less";
+const seatMark = k => seatStat === "median" ? `under 1 after rank ${k}` : `1 seat: rank ${k}`;
 for (const input of document.querySelectorAll('input[name="seat-stat"]')) {
   input.checked = input.value === seatStat;
   input.addEventListener("change", () => {
@@ -83,7 +85,11 @@ function branchFigures(r) {
   // switch above the table. The engine sends both.
   const mid = seatStat === "median" && t.seats_changed.median ? t.seats_changed.median : t.seats_changed.mean, most = t.seats_changed.max;
   return { same, mid, most, k50: at(0.5), k80: at(0.8), k95: at(0.95), kAll: at(1),
-    kOne: holdsFrom(mid, x => x <= 1), kZero: holdsFrom(mid, x => x === 0) };
+    kOne: holdsFrom(mid, x => x <= 1), kZero: holdsFrom(mid, x => x === 0),
+    // The rank the page reports for winners changed. Average: the first rank from which 1 or
+    // fewer change. Median (whole seats): the last rank where 1 still changes, so the page can
+    // say "after rank N, under 1" (owner's request).
+    get kSeat() { return seatStat === "median" ? Math.max(1, this.kZero - 1) : this.kOne; } };
 }
 
 function drawSummary() {
@@ -98,11 +104,11 @@ function drawSummary() {
     for (const sys of shown) {
       const t = th(r1, "", "n sys", 2);
       t.innerHTML = `<span class="legend"><span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span></span>`;
-      th(r2, "95% threshold", "n"); th(r2, "1 seat or less", "n");
+      th(r2, "95% threshold", "n"); th(r2, seatHead(), "n");
     }
     head.append(r1, r2);
   } else {
-    th(r1, "95% threshold", "n k95"); th(r1, "1 seat or less", "n");
+    th(r1, "95% threshold", "n k95"); th(r1, seatHead(), "n");
     head.append(r1);
   }
   const body = table.tBodies[0];
@@ -113,7 +119,7 @@ function drawSummary() {
     for (const sys of shown) {
       const got = branchResults.get(key(b, sys.id));
       const f = got && branchFigures(got.r);
-      cells.push(...(f ? [f.k95, f.kOne] : ["…", "…"]));
+      cells.push(...(f ? [f.k95, f.kSeat] : ["…", "…"]));
     }
     cells.forEach((v, i) => {
       const td = document.createElement("td"); td.textContent = v;
@@ -152,7 +158,7 @@ function drawBranches() {
     for (const { sys, g } of got) {
       const f = branchFigures(g.r);
       const says = document.createElement("p"); says.className = "says";
-      says.textContent = `${many ? `${sys.name}: ` : ""}95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. Below rank ${f.kOne}, 1 or fewer winners change ${seatStat === "median" ? "in the median election" : "on average"}.`;
+      says.textContent = `${many ? `${sys.name}: ` : ""}95% of elections are decided within the first ${f.k95} ranks; 50% within ${f.k50}. ${seatStat === "median" ? `After rank ${f.kSeat}, under 1 winner changes in the median election.` : `Below rank ${f.kOne}, 1 or fewer winners change on average.`}`;
       const ran = g.r.settings.run.sims, wanted = g.total || ran;
       if (ran < wanted) says.textContent += ` Still running: these are from the first ${ran.toLocaleString()} of ${wanted.toLocaleString()} simulated elections so far.`;
       sec.append(says);
@@ -214,9 +220,9 @@ function drawBranches() {
       xMin: 1, xMax, xTicks, yMax: Math.ceil(topSeats / seatStep) * seatStep, yStep: seatStep, yFmt: v => (seatStep < 1 ? v.toFixed(1) : String(Math.round(v))), xTitle: "Ballots cut after this rank",
       // Several systems: where each gets down to 1 seat changing (median or average), in its color.
       marks: !one
-        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kOne <= xMax && { x: f.kOne, y: f.mid[f.kOne - 1] ?? 0, label: `1 seat: rank ${f.kOne}`, color: sys.color }; }).filter(Boolean)
-        : [...(f0.kOne <= xMax ? [{ x: f0.kOne, y: f0.mid[f0.kOne - 1] ?? 0, label: `1 seat: rank ${f0.kOne}` }] : []),
-        ...(f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return f.kSeat <= xMax && { x: f.kSeat, y: f.mid[f.kSeat - 1] ?? 0, label: seatMark(f.kSeat), color: sys.color }; }).filter(Boolean)
+        : [...(f0.kSeat <= xMax ? [{ x: f0.kSeat, y: f0.mid[f0.kSeat - 1] ?? 0, label: seatMark(f0.kSeat) }] : []),
+        ...(seatStat !== "median" && f0.kZero <= xMax && f0.kZero !== f0.kOne ? [{ x: f0.kZero, y: 0, label: `0 seats: rank ${f0.kZero}` }] : [])],
       aria: `${b.name}: winners who change when every ballot stops at each rank`,
     });
   }
