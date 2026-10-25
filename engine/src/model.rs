@@ -68,7 +68,8 @@ fn default_unaffiliated() -> f64 {
     0.15
 }
 fn default_long_shot_gap() -> f64 {
-    2.0
+    // Fitted with the share on single-seat public races (data/fits/long-shot-tuning.json).
+    2.5
 }
 fn default_other_spread() -> f64 {
     // Gives Scottish twins an evenness of 0.84 for votes leaving a party, as in real wards.

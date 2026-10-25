@@ -4,6 +4,12 @@
 // the page builds for a preset are exactly the ones that were precomputed.
 // The model defaults are the tuner's branch page defaults (tuner/branches.html).
 
+/** How far behind long shots are, fitted on single-seat public races (the engine's default). */
+export const GAP_FITTED = 2.5;
+
+/** Whether the fitted model has long shots for this election: only single-seat public races. */
+export const fittedLongShots = (c) => c.electorate === "public" && c.seats === 1;
+
 /** Every setting a visitor can change, with its default. */
 export const DEFAULTS = {
   // Election tab
@@ -29,7 +35,8 @@ export const DEFAULTS = {
   spread: 1,
   longshotAuto: true,
   longshot: 0,
-  gap: 2,
+  gapAuto: true,
+  gap: GAP_FITTED,
   // Seed tab
   seed: 1,
 };
@@ -113,7 +120,7 @@ export function clean(choice) {
   c.longshot = num(c.longshot, 0, 0.4);
   c.gap = num(c.gap, -3, 4);
   c.seed = int(c.seed, ...LIMITS.seed);
-  for (const k of ["pullAuto", "spreadAuto", "longshotAuto"]) c[k] = !!c[k];
+  for (const k of ["pullAuto", "spreadAuto", "longshotAuto", "gapAuto"]) c[k] = !!c[k];
   return c;
 }
 
@@ -137,7 +144,7 @@ export function engineSettings(choice, curves) {
       other_slate_spread: Number(spreadFor(curves, c.evenness).toFixed(3)),
       popularity_spread: c.spreadAuto ? "auto" : c.spread,
       long_shot_share: c.longshotAuto ? "auto" : c.longshot,
-      long_shot_gap: c.gap,
+      long_shot_gap: c.gapAuto ? GAP_FITTED : c.gap,
     },
   };
 }

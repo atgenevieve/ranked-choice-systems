@@ -1,0 +1,67 @@
+{
+ "sample": 400,
+ "cell": "Public, 1 seat",
+ "popularity_spread": 1.0,
+ "long_shot_share": 0.1,
+ "long_shot_gap": 2.5,
+ "score": 0.0028,
+ "real": {
+  "clustering": 0.3717,
+  "complete": 0.22388904613642796,
+  "even_last": 0.247844,
+  "even_next_last": 0.306825,
+  "even_top": 1.9448759999999998,
+  "evenness": 0.7668,
+  "fills_limit": 0.36451784762919553,
+  "length_mean": 2.280675608544461,
+  "no_slate": 0.14285714285714285,
+  "only_candidate": 0.8571428571428571,
+  "quota": 0.883846,
+  "running_mate": 0.0
+ },
+ "simulated": {
+  "complete": 0.16146895948703002,
+  "even_last": 0.2544,
+  "even_next_last": 0.3288,
+  "even_top": 1.827,
+  "evenness": 0.8272,
+  "fills_limit": 0.3332,
+  "length_mean": 2.2462,
+  "no_slate": 0.25,
+  "only_candidate": 0.75,
+  "quota": 0.8768,
+  "running_mate": 0.0
+ },
+ "runners_up": [
+  {
+   "popularity_spread": 1.2,
+   "long_shot_share": 0.05,
+   "long_shot_gap": 1.0,
+   "score": 0.00356
+  },
+  {
+   "popularity_spread": 1.2,
+   "long_shot_share": 0.05,
+   "long_shot_gap": 1.5,
+   "score": 0.00356
+  },
+  {
+   "popularity_spread": 1.2,
+   "long_shot_share": 0.05,
+   "long_shot_gap": 2.0,
+   "score": 0.00356
+  },
+  {
+   "popularity_spread": 1.1,
+   "long_shot_share": 0.1,
+   "long_shot_gap": 2.5,
+   "score": 0.00364
+  },
+  {
+   "popularity_spread": 1.2,
+   "long_shot_share": 0.05,
+   "long_shot_gap": 2.5,
+   "score": 0.00419
+  }
+ ]
+}

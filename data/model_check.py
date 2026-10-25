@@ -121,6 +121,8 @@ def stats(res, meta, merge_last):
         "quota": shares[0] * (seats + 1),
         "even_top": shares[0] * c,
         "even_last": shares[-1] * c,
+        # Second-to-last separates how many long shots there are from how far behind they are.
+        "even_next_last": shares[-2] * c if c >= 4 else None,
         "length_mean": sum(l * v for l, v in counts.items()) / n,
         "complete": sum(v for l, v in counts.items() if l >= full) / n,
     }
@@ -239,6 +241,32 @@ def tune_popularity(sample, cells):
     return best
 
 
+def tune_long_shots(sample, cell="Public, 1 seat"):
+    """For the one type of election with long shots, fits the long-shot share and gap together
+    with the spread: the top candidate against the quota, and the last two candidates against an
+    even split. The last candidate alone can't tell many mild long shots from a few far-off ones."""
+    import math
+    scored = []
+    for spread in (0.9, 1.0, 1.1, 1.2, 1.3):
+        for share in (0.05, 0.1, 0.15, 0.2, 0.3):
+            for gap in (1.0, 1.5, 2.0, 2.5, 3.0):
+                r = run(sample, [cell], {cell: {"popularity_spread": spread, "long_shot_share": share, "long_shot_gap": gap}})[0]
+                sim, real = r["simulated"], r["real"]
+                q = math.log(sim["quota"] / real["quota"])
+                l = math.log(sim["even_last"] / real["even_last"])
+                n = math.log(sim["even_next_last"] / real["even_next_last"])
+                scored.append((q * q + 0.5 * l * l + 0.5 * n * n, spread, share, gap, r))
+                print(f"spread {spread} share {share} gap {gap}: score {scored[-1][0]:.5f}", flush=True)
+    scored.sort(key=lambda x: x[0])
+    score, spread, share, gap, r = scored[0]
+    print(f"{cell}: spread {spread}, long shots {share}, gap {gap}; quota real {r['real']['quota']:.3f} model {r['simulated']['quota']:.3f}; "
+          f"last real {r['real']['even_last']:.3f} model {r['simulated']['even_last']:.3f}; "
+          f"next to last real {r['real']['even_next_last']:.3f} model {r['simulated']['even_next_last']:.3f}", flush=True)
+    return {"cell": cell, "popularity_spread": spread, "long_shot_share": share, "long_shot_gap": gap, "score": round(score, 5),
+            "real": r["real"], "simulated": r["simulated"],
+            "runners_up": [{"popularity_spread": s2, "long_shot_share": s3, "long_shot_gap": g, "score": round(sc, 5)} for sc, s2, s3, g, _ in scored[1:6]]}
+
+
 def curves(sample):
     """What the slate settings produce, in the units the tuner shows them in, measured on twins
     of Scottish multi-seat wards (the elections with real values for both): clustering above
@@ -282,11 +310,17 @@ def main():
     ap.add_argument("--cells", default="")
     ap.add_argument("--set", action="append", default=[])
     ap.add_argument("--tune-popularity", action="store_true", help="search popularity settings for each type of election")
+    ap.add_argument("--tune-long-shots", action="store_true", help="fit the long-shot share and gap for single-seat public elections")
     ap.add_argument("--curves", action="store_true", help="measure what the slate settings produce, for the tuner's sliders")
     args = ap.parse_args()
     if args.curves:
         with open(args.output, "w", encoding="utf-8") as f:
             json.dump({"sample": args.sample, **curves(args.sample)}, f, indent=1)
+            f.write("\n")
+        return
+    if args.tune_long_shots:
+        with open(args.output, "w", encoding="utf-8") as f:
+            json.dump({"sample": args.sample, **tune_long_shots(args.sample)}, f, indent=1)
             f.write("\n")
         return
     if args.tune_popularity:
