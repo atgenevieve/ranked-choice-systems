@@ -91,8 +91,8 @@ window.SECTIONS["ballot-length"] = () => {
 
 // ---------- 3b. Same seats, more candidates ----------
 {
-  const f = figure("More candidates means more ranks, even with the same number of seats",
-    "Even with the number of seats held the same, more candidates means more ranks. Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%.");
+  const f = figure("More candidates means more ranks, even with the same number of seats", null,
+    "Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%.");
   const pts = chartPts();
   // One row per group, under the group's name; each panel is titled by its seats.
   const boxes = {};
