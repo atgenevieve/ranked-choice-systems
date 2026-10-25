@@ -313,7 +313,7 @@ function drawBranches() {
     const ranksSaid = many
       ? `Beyond rank ${got.map((x, i) => `${i && i === got.length - 1 ? "and " : ""}${beyond(x)} for ${lower(x.sys.name)}`).join(got.length > 2 ? ", " : " ")}`
       : `Beyond rank ${beyond(got[0])}`;
-    const changeTitle = `${ranksSaid}, cutting ballots changes ${seatStat === "median" ? "no winners in the median election" : "less than 1 winner on average"}.`;
+    const changeTitle = `${ranksSaid}, ${seatStat === "median" ? `no winners change in the median ${seats}-seat election` : `less than 1 winner changes in the average ${seats}-seat election`}.`;
     const c2 = half(changeTitle, many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
