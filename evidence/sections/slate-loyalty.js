@@ -9,8 +9,7 @@ window.SECTIONS["slate-loyalty"] = () => {
     // Typical (median) strength of each kind of endorsement, lowest and highest, for the takeaway.
     const endorse = ["Endorsing organization", "Candidate pact", "Newspaper"].map(k => +med(D.types[k]).toFixed(0)).sort((x, y) => x - y).filter((x, i, a) => i === 0 || i === a.length - 1);
     const f = figure("How strongly voters stick to a group",
-      `Parties printed on the ballot are noticeably more correlated with voters' candidate groupings (+${med(wardExcess).toFixed(0)} points) than external endorsements (+${endorse[0]}–${endorse[1]} points) or natural ideological sorting (+${med(D.types["Found only in ballots"]).toFixed(0)} points).`,
-      "Ranked-choice ballot data from Scotland, New York City, Portland OR, Minneapolis MN, and Oakland CA. Endorsement data sourced from public media on American elections.");
+      `Parties printed on the ballot are noticeably more correlated with voters' candidate groupings (+${med(wardExcess).toFixed(0)} points) than external endorsements (+${endorse[0]}–${endorse[1]} points) or natural ideological sorting (+${med(D.types["Found only in ballots"]).toFixed(0)} points).`);
     const T = D.types;
     strips(f, [
       { label: "Scottish parties", sub: `${wardExcess.length} wards`, values: wardExcess, color: "--scotland" },
@@ -20,7 +19,7 @@ window.SECTIONS["slate-loyalty"] = () => {
       { label: "Pairs found only in ballots", sub: `${T["Found only in ballots"].length} pairs`, values: T["Found only in ballots"] },
     ], { min: -20, max: 80, bin: 2, ticks: [-20, 0, 20, 40, 60, 80], fmt: v => (v > 0 ? "+" : "") + v, xTitle: "Points above popularity alone", aria: "Clustering strength by type of grouping" });
     const p = document.createElement("p"); p.className = "note";
-    p.textContent = "These are associations, not effects: a strong grouping shows voters treated the candidates as belonging together, not that an endorsement caused it. Every grouping, by name, is on the separate clustering-strength page.";
+    p.textContent = "These are associations, not effects: a strong grouping shows voters treated the candidates as belonging together, not that an endorsement caused it. Ranked-choice ballot data from Scotland, New York City, Portland OR, Minneapolis MN, and Oakland CA. Endorsement data sourced from public media on American elections.";
     f.append(p);
   }
 
