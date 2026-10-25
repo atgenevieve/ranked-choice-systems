@@ -280,7 +280,7 @@ function drawBranches() {
         return [k, ...fs.map(({ f, x }) => k <= x ? r2(f.mid[k - 1]) : ""), ...fs.map(({ f, x }) => k <= x ? f.most[k - 1] : "")];
       }),
     ];
-    const c1 = half("How many elections are still undecided?", sysLegend, undecidedRows);
+    const c1 = half("How many elections are decided by each rank position?", sysLegend, undecidedRows);
     const c2 = half("How many winners change when ballots get trimmed?", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
