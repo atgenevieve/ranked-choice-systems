@@ -32,7 +32,7 @@ pub struct Run {
     /// Processor cores to use. 0 means all.
     #[serde(default)]
     pub threads: usize,
-    /// The voting system: `scottish_stv` (default), `cambridge_stv`, `meek_stv`, `borda`, or `approval`.
+    /// The voting system: `scottish_stv` (default), `cambridge_stv`, `meek_stv`, `expanding_approvals`, `borda`, or `approval`.
     #[serde(default)]
     pub system: System,
     #[serde(default)]

@@ -35,7 +35,7 @@
   --font-ui: "Public Sans", ui-sans-serif, system-ui, sans-serif;
   --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   /* The voting systems, in the research charts' colors: the one place the page needs more than ink. */
-  --sys-scottish: #1baf7a; --sys-meek: #2a78d6; --sys-borda: #eb6834; --sys-approval: #6250d6;
+  --sys-scottish: #1baf7a; --sys-meek: #2a78d6; --sys-expanding: #c2338a; --sys-borda: #eb6834; --sys-approval: #6250d6;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
@@ -220,11 +220,13 @@ textarea.copybox { width: 100%; font-family: var(--font-data); font-size: 12px; 
           <p class="what">Each system counts the same simulated ballots. Pick more than one to draw them on the same charts, one color each.</p>
           <label class="check" for="sys-scottish_stv"><input type="checkbox" id="sys-scottish_stv" checked><i class="swatch line" style="background:var(--sys-scottish)"></i> Scottish STV (your organization's system)</label>
           <label class="check" for="sys-meek_stv"><input type="checkbox" id="sys-meek_stv" checked><i class="swatch line" style="background:var(--sys-meek)"></i> Meek STV</label>
+          <label class="check" for="sys-expanding_approvals"><input type="checkbox" id="sys-expanding_approvals" checked><i class="swatch line" style="background:var(--sys-expanding)"></i> Expanding approvals</label>
           <label class="check" for="sys-borda"><input type="checkbox" id="sys-borda" checked><i class="swatch line" style="background:var(--sys-borda)"></i> Borda count</label>
           <label class="check" for="sys-approval"><input type="checkbox" id="sys-approval" checked><i class="swatch line" style="background:var(--sys-approval)"></i> Approval</label>
           <details class="why"><summary>How each system uses the ranks</summary>
             <p><b>Scottish STV</b>: your vote goes to your top choice. If they win with more votes than they need, or are knocked out, your vote moves down to your next choice. A winner's extra votes move on as a fraction of every one of their ballots.</p>
             <p><b>Meek STV</b>: the same idea, as New Zealand counts it, but more thorough. Every winner keeps just the share of each vote they need to reach the quota and passes the rest on, from every ballot that reached them, even ballots that arrived late. Your vote skips no one: it passes through winners and knocked-out candidates alike. The quota shrinks as ballots run out of names, and the shares are worked out again after every step. Its "what each position is worth" line uses 200 simulated elections per branch, because Meek takes far longer to count.</p>
+            <p><b>Expanding approvals</b>: a proportional system that reads ballots in layers. Everyone starts with one vote to spend. First it counts only first choices; once a candidate's supporters have a quota between them, that candidate wins, and those supporters spend a quota's worth of their votes. When no one else can reach a quota, it adds everyone's second choices, then third, and so on. Your lower choices count while your top choices are still in the race, so ranking more people can occasionally cost your favorite a seat. STV never does that, which is also why STV rarely uses your lower ranks.</p>
             <p><b>Borda count</b>: every rank earns points at once. First place gets one fewer point than there are candidates, and each rank below gets one fewer. Candidates you leave off get none. The seats go to the highest totals. Cutting ballots after rank k takes away the points below k.</p>
             <p><b>Approval</b>: there are no ranks. You mark the candidates you support, and the seats go to the most marked. Here, each simulated voter approves everyone they would have ranked, and cutting after rank k means they approve only their first k.</p>
             <p>Borda and approval give every seat to the most broadly supported candidates, so a slate with a majority can win every seat. STV shares the seats out in proportion to support.</p>

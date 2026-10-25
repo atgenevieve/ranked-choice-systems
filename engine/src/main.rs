@@ -14,7 +14,7 @@ use stvsim::{ballots, model, settings};
 
 fn usage() -> ! {
     eprintln!(
-        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--system scottish_stv|cambridge_stv|meek_stv|borda|approval] [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
+        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--system scottish_stv|cambridge_stv|meek_stv|expanding_approvals|borda|approval] [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
     );
     std::process::exit(2)
 }
@@ -70,6 +70,7 @@ fn count_files(args: &[String]) {
                     "scottish_stv" => System::ScottishStv,
                     "cambridge_stv" => System::CambridgeStv,
                     "meek_stv" => System::MeekStv,
+                    "expanding_approvals" => System::ExpandingApprovals,
                     "borda" => System::Borda,
                     "approval" => System::Approval,
                     _ => usage(),

@@ -108,7 +108,7 @@ function cellLike(c) {
 // ---------------------------------------------------------------- controls
 const FIELDS = ["candidates", "seats", "voters", "turnout", "sims", "seed", "wording", "n", "n-seats", "pull-auto", "pull", "slates", "sizing", "unaff",
   "loyalty", "evenness", "spread-auto", "spread", "longshot-auto", "longshot", "gap", "cell",
-  "sys-scottish_stv", "sys-meek_stv", "sys-borda", "sys-approval"];
+  "sys-scottish_stv", "sys-meek_stv", "sys-expanding_approvals", "sys-borda", "sys-approval"];
 
 function readControls() {
   const c = {};

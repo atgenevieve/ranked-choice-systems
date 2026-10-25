@@ -23,6 +23,16 @@
 //!   votes). Then everyone above the quota is elected; if no one is, the lowest hopeful is
 //!   excluded, ties by lot. Exclusions undo themselves: an excluded candidate's ballots are
 //!   counted again as if they had never been ranked.
+//! - `ExpandingApprovals`: the expanding approvals rule (Aziz and Lee, 2020), a proportional
+//!   method that reads ballots in layers. Every voter starts with 1 vote to spend. At layer j,
+//!   each hopeful's support is the unspent votes of everyone who ranks them in their top j.
+//!   While some hopeful's support reaches the quota (Scottish rules' whole-vote quota: votes
+//!   ÷ (seats + 1), fraction dropped, plus 1), the one with the most is elected (ties by lot),
+//!   and their supporters pay the quota between them, each the same share of what they have
+//!   left. Then the next layer. If seats remain after the last rank, the hopeful with the most
+//!   support is elected and their supporters spend everything, until the seats are filled.
+//!   Unlike STV, a voter's lower ranks count while their higher choices are still hopeful, so
+//!   ranking more candidates can cost a higher choice (it fails later-no-harm).
 //! - `Borda`: a candidate at rank r on a ballot gets (candidates − r) points; candidates left
 //!   off get none. The seats go to the highest totals, ties by lot. Cutting a ballot after rank
 //!   k takes away the points below k.
@@ -66,6 +76,7 @@ pub fn analyze_other(bal: &Ballots, seats: usize, system: System, lot_seed: u64,
     let count = |limit: usize| match system {
         System::CambridgeStv => cambridge(bal, seats, &lots, limit),
         System::MeekStv => meek(bal, seats, &lots, limit, Some(&trace), None),
+        System::ExpandingApprovals => expanding(bal, seats, &lots, limit),
         System::Borda | System::Approval => scores(bal, seats, &lots, limit, system),
         System::ScottishStv => unreachable!("Scottish STV is counted in count.rs"),
     };
@@ -119,6 +130,74 @@ pub fn analyze_other(bal: &Ballots, seats: usize, system: System, lot_seed: u64,
 /// the same ballots if given, and recording this count's trace if asked.
 pub fn meek_winners(bal: &Ballots, seats: usize, lot_seed: u64, start: Option<&MeekTrace>, trace: Option<&mut MeekTrace>) -> Vec<u32> {
     meek(bal, seats, &lot(lot_seed, bal.c), bal.len, start, trace).elected
+}
+
+/// The expanding approvals rule, reading only the first `limit` ranks of each ballot.
+fn expanding(bal: &Ballots, seats: usize, lots: &[u64], limit: usize) -> Outcome {
+    let (c, len) = (bal.c, bal.len);
+    let limit = limit.min(len);
+    let quota = (bal.voters() / (seats as u64 + 1) + 1) as f64;
+    let eps = 1e-9 * quota;
+    // Each candidate's ballots: (row, rank index).
+    let mut on: Vec<Vec<(usize, usize)>> = vec![Vec::new(); c];
+    for row in 0..bal.rows() {
+        for (j, &x) in bal.row(row).iter().take(limit).enumerate() {
+            if x == NONE {
+                break;
+            }
+            on[x as usize].push((row, j));
+        }
+    }
+    let mut left = vec![1.0f64; bal.rows()]; // unspent share of each voter's vote
+    let mut support = vec![0.0f64; c];
+    let mut hopeful = vec![true; c];
+    let mut elected: Vec<u32> = Vec::new();
+    let mut deepest = vec![0usize; bal.rows()];
+    // Most support first; equal support, highest lot first.
+    let strongest = |hopeful: &[bool], support: &[f64]| (0..c).filter(|&x| hopeful[x]).max_by_key(|&x| (OrdF(support[x]), lots[x]));
+    // Elects x at layer `depth` (rank indexes up to it); x's supporters pay `pay` of their unspent votes in all.
+    let elect = |x: usize, depth: usize, all: bool, left: &mut Vec<f64>, support: &mut Vec<f64>, hopeful: &mut Vec<bool>, elected: &mut Vec<u32>| {
+        hopeful[x] = false;
+        elected.push(x as u32);
+        let share = if all || support[x] <= 0.0 { 1.0 } else { (quota / support[x]).min(1.0) };
+        for &(row, j) in &on[x] {
+            if j > depth || left[row] <= 0.0 {
+                continue;
+            }
+            let paid = left[row] * share;
+            left[row] -= paid;
+            let m = bal.mult(row) as f64;
+            for &y in bal.row(row).iter().take(depth + 1).take_while(|&&y| y != NONE) {
+                support[y as usize] -= m * paid;
+            }
+        }
+    };
+    for depth in 0..limit {
+        for row in 0..bal.rows() {
+            let x = bal.prefs[row * len + depth];
+            if x != NONE && left[row] > 0.0 {
+                support[x as usize] += bal.mult(row) as f64 * left[row];
+                deepest[row] = depth;
+            }
+        }
+        while elected.len() < seats {
+            match strongest(&hopeful, &support) {
+                Some(x) if support[x] >= quota - eps => elect(x, depth, false, &mut left, &mut support, &mut hopeful, &mut elected),
+                _ => break,
+            }
+        }
+    }
+    // Past the last rank: the most supported hopeful, whose supporters spend everything.
+    while elected.len() < seats {
+        let Some(x) = strongest(&hopeful, &support) else { break };
+        elect(x, limit.saturating_sub(1), true, &mut left, &mut support, &mut hopeful, &mut elected);
+    }
+    // Losers, weakest first.
+    let mut excluded: Vec<usize> = (0..c).filter(|&x| hopeful[x]).collect();
+    excluded.sort_by_key(|&x| (OrdF(support[x]), lots[x]));
+    let unspent: f64 = (0..bal.rows()).map(|r| bal.mult(r) as f64 * left[r]).sum();
+    let untouched = (0..bal.rows()).filter(|&r| left[r] > 1.0 - 1e-9).map(|r| bal.mult(r)).sum();
+    Outcome { elected, excluded: excluded.into_iter().map(|x| x as u32).collect(), deepest, exhausted_votes: unspent, exhausted_papers: untouched }
 }
 
 /// Borda or approval, reading only the first `limit` ranks of each ballot.
@@ -610,5 +689,33 @@ mod tests {
         assert_eq!(three.winners, vec![0, 1, 3]);
         assert_eq!(three.excluded_order, vec![2]);
         assert_eq!(three.reach_pct[2], 100.0 * 14.0 / 30.0);
+    }
+
+    /// Expanding approvals, 1 seat, 100 voters, quota 100 ÷ 2 + 1 = 51 (the example for the
+    /// owner). 40 rank A B, 35 rank B, 25 rank C A. First choices: A 40, B 35, C 25, nobody
+    /// at 51. First two choices: B 75, A 65, so B wins. If A's voters rank only A, A has 65
+    /// and B 35, so A wins: ranking B second cost A the seat. Cut after rank 1: nobody reaches
+    /// the quota, so the most supported, A (40), wins.
+    #[test]
+    fn expanding_by_hand() {
+        let b = ballots(3, &[(40, &[0, 1]), (35, &[1]), (25, &[2, 0])]);
+        let a = analyze_other(&b, 1, System::ExpandingApprovals, 1, Truncation::Winners);
+        assert_eq!(a.winners, vec![1]);
+        assert_eq!(a.winners_at, Some(vec![vec![0], vec![1]]));
+        assert_eq!(a.cutoff_rank, Some(2));
+        let only_a = ballots(3, &[(40, &[0]), (35, &[1]), (25, &[2, 0])]);
+        assert_eq!(analyze_other(&only_a, 1, System::ExpandingApprovals, 1, Truncation::Off).winners, vec![0]);
+    }
+
+    /// Expanding approvals is proportional: 5 seats, 60 voters rank A1 to A5, 40 rank B1 to B5.
+    /// Quota 100 ÷ 6 + 1 = 17. First choices: A1 (60) is elected, and A's voters pay 17, leaving
+    /// 43; then B1 (40), leaving B's voters 23. Second choices: A2 (43), leaving 26; B2 (23),
+    /// leaving 6. Third choices: A3 (26). Winners A1, B1, A2, B2, A3: 3 seats to 2.
+    #[test]
+    fn expanding_is_proportional() {
+        let b = ballots(10, &[(60, &[0, 1, 2, 3, 4]), (40, &[5, 6, 7, 8, 9])]);
+        let a = analyze_other(&b, 5, System::ExpandingApprovals, 1, Truncation::Off);
+        assert_eq!(a.elected_order, vec![0, 5, 1, 6, 2]);
+        assert!((a.exhausted_votes_pct - 15.0).abs() < 1e-9, "{}", a.exhausted_votes_pct);
     }
 }

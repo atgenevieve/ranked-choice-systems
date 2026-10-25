@@ -26,6 +26,7 @@ const key = (b, sys) => `${b.name}|${sys}`;
 const SYSTEMS = [
   { id: "scottish_stv", name: "Scottish STV", color: "--sys-scottish" },
   { id: "meek_stv", name: "Meek STV", color: "--sys-meek" },
+  { id: "expanding_approvals", name: "Expanding approvals", color: "--sys-expanding" },
   { id: "borda", name: "Borda count", color: "--sys-borda" },
   { id: "approval", name: "Approval", color: "--sys-approval" },
 ];

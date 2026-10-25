@@ -56,6 +56,7 @@ pub enum System {
     ScottishStv,
     CambridgeStv,
     MeekStv,
+    ExpandingApprovals,
     Borda,
     Approval,
 }
