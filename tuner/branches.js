@@ -327,7 +327,7 @@ function drawBranches() {
     const worths = got.map(({ sys }) => ({ sys, w: branchWorth.get(key(b, sys.id)) })).filter(x => x.w && x.w.done);
     if (worths.length) {
       const card = document.createElement("div"); card.className = "worthcard";
-      const t = document.createElement("h4"); t.textContent = "What each ballot position is worth to a candidate";
+      const t = document.createElement("h4"); t.textContent = `What each rank position is worth in a ${seats}-seat election`;
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
