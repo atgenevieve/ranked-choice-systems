@@ -80,20 +80,17 @@ export const PULL_MEASURED = { up_to: 0.23, at_least: 0.97, exactly: 1 };
  *  projections (tuner/branches.js). The public elections are real contests in data/: candidates
  *  on the ballot (write-ins left out), seats, ballots that ranked anyone, and the rank limit. */
 export const PRESETS = [
-  { id: "bronx-upper-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "Bronx/Upper Manhattan", candidates: 120, seats: 65, voters: 626 },
-  { id: "central-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "Central Brooklyn", candidates: 132, seats: 83, voters: 838 },
-  { id: "flatbush", group: "NYC DSA branch delegate elections, 2026", name: "Flatbush", candidates: 55, seats: 32, voters: 477 },
-  { id: "lower-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "Lower Manhattan", candidates: 87, seats: 61, voters: 437 },
-  { id: "north-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "North Brooklyn", candidates: 105, seats: 76, voters: 731 },
-  { id: "queens", group: "NYC DSA branch delegate elections, 2026", name: "Queens", candidates: 113, seats: 67, voters: 706 },
-  { id: "south-brooklyn-staten-island", group: "NYC DSA branch delegate elections, 2026", name: "South Brooklyn + Staten Island", candidates: 78, seats: 51, voters: 461 },
+  { id: "bronx-upper-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: Bronx/Upper Manhattan Delegates", candidates: 120, seats: 65, voters: 626 },
+  { id: "central-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: Central Brooklyn Delegates", candidates: 132, seats: 83, voters: 838 },
+  { id: "flatbush", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: Flatbush Delegates", candidates: 55, seats: 32, voters: 477 },
+  { id: "lower-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: Lower Manhattan Delegates", candidates: 87, seats: 61, voters: 437 },
+  { id: "north-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: North Brooklyn Delegates", candidates: 105, seats: 76, voters: 731 },
+  { id: "queens", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: Queens Delegates", candidates: 113, seats: 67, voters: 706 },
+  { id: "south-brooklyn-staten-island", group: "NYC DSA branch delegate elections, 2026", name: "NYC-DSA: South Brooklyn + Staten Island Delegates", candidates: 78, seats: 51, voters: 461 },
   // data/nyc/ballots/2025-dem-mayor-citywide: 11 candidates and a write-in line, rank up to 5.
-  { id: "nyc-mayor-2025", group: "Recent public elections", name: "NYC mayoral primary, 2025", candidates: 11, seats: 1, voters: 1071730, slots: 5, electorate: "public" },
-  // data/portland/ballots/2024-mayor: 20 candidates and a write-in line, rank up to 6.
-  { id: "portland-mayor-2024", group: "Recent public elections", name: "Portland mayor, 2024", candidates: 20, seats: 1, voters: 309963, slots: 6, electorate: "public" },
+  { id: "nyc-mayor-2025", group: "Recent public elections", name: "NYC: Democratic Mayoral Primary, 2025", candidates: 11, seats: 1, voters: 1071730, slots: 5, electorate: "public" },
   // data/portland/ballots/2024-councilor-district-3: 30 candidates and a write-in line, 3 seats, rank up to 6.
-  { id: "portland-council-3-2024", group: "Recent public elections", name: "Portland Council District 3, 2024", candidates: 30, seats: 3, voters: 84515, slots: 6, electorate: "public" },
-  { id: "metro-dc-2025", group: "Other DSA elections", name: "Metro DC DSA delegates, 2025", candidates: 75, seats: 46, voters: 432 },
+  { id: "portland-council-3-2024", group: "Recent public elections", name: "Portland: City Council District 3, 2024", candidates: 30, seats: 3, voters: 84515, slots: 6, electorate: "public" },
 ];
 export const DEFAULT_PRESET = "queens";
 
