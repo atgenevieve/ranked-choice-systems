@@ -25,7 +25,6 @@ const key = (b, sys) => `${b.name}|${sys}`;
 // palette). Scottish STV is the organization's own system.
 const SYSTEMS = [
   { id: "scottish_stv", name: "Scottish STV", color: "--sys-scottish" },
-  { id: "meek_stv", name: "Meek STV", color: "--sys-meek" },
   { id: "expanding_approvals", name: "Expanding approvals", color: "--sys-expanding" },
   { id: "borda", name: "Borda count", color: "--sys-borda" },
   { id: "approval", name: "Approval", color: "--sys-approval" },
@@ -47,9 +46,9 @@ for (const input of document.querySelectorAll('input[name="seat-stat"]')) {
   });
 }  // the systems ticked when the results were asked for
 const WORTH_CHUNK = 50;           // simulated elections per worth request, so the pool can share them out
-// Meek STV is far slower to count, so its worth comes from the first 200 simulated elections
-// (owner's decision, October 25, 2026). The line charts use them all.
-const WORTH_SIMS = { meek_stv: 200 };
+// Simulated elections for a system's worth line, where fewer than all (a slow system). None now:
+// Meek STV used 200 until the owner took it off the page (October 25, 2026).
+const WORTH_SIMS = {};
 
 function drawBranchTable() {
   const body = $("branch-table").tBodies[0];
