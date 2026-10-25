@@ -1,4 +1,4 @@
-// Runs the engine once for every preset election with the default settings and saves each
+// Runs the engine once for every public preset election with the default settings and saves each
 // simulated election's record, so the web page can play the presets back (ballots flying into
 // the charts) without running the engine. When a visitor's settings match a preset's, the page
 // uses the saved records; otherwise it runs the engine in their browser.
@@ -42,7 +42,8 @@ if (!isMainThread) {
   }
   mkdirSync(outDir, { recursive: true });
   const curves = JSON.parse(readFileSync(referencePath, "utf8")).slate_curves;
-  const plans = PRESETS.map(p => ({ p, settings: engineSettings(presetChoice(p), curves) }));
+  // Only the public elections: the DSA branch elections run in the browser in under a minute.
+  const plans = PRESETS.filter(p => p.electorate === "public").map(p => ({ p, settings: engineSettings(presetChoice(p), curves) }));
   const jobs = [];
   for (const [pi, { settings }] of plans.entries())
     for (let first = 0; first < SIMS; first += BATCH) jobs.push({ pi, first, request: streamRequest(settings, first, Math.min(BATCH, SIMS - first)) });
@@ -88,5 +89,5 @@ if (!isMainThread) {
     presets[p.id] = { key, file: `${p.id}.json` };
   }
   writeFileSync(`${outDir}/meta.json`, JSON.stringify({ made_by, curves, presets }));
-  console.error(`Saved ${PRESETS.length} presets to ${outDir}`);
+  console.error(`Saved ${plans.length} presets to ${outDir}`);
 }

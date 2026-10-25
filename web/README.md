@@ -6,7 +6,7 @@ A visitor picks an election (candidates, seats, ballot slots, and expected voter
 
 ## Saved results
 
-Simulating a large election 1,000 times takes about a minute and a half on one processor core. So the results for the preset elections with the default settings are worked out once, from a fixed seed, and saved in `dist/`, one file per preset. The page plays saved results back as soon as it loads, without downloading the engine. Only when a visitor changes a setting does the page download the engine (`stvsim.wasm`, the same file as the tuner's) and run it in their browser.
+Simulating a large election 1,000 times takes about a minute and a half on one processor core. So the results for the public preset elections (hundreds of thousands of voters) with the default settings are worked out once, from a fixed seed, and saved in `dist/`, one file per preset. The DSA branch elections are small enough to run in the browser in under a minute, so they have no saved file. For anything without one, the page downloads the engine (`stvsim.wasm`, the same file as the tuner's) and run it in their browser.
 
 The engine's `stream` task returns one small record per simulated election: its cutoff rank, the seats changed at each shallower cut, its voter count, and what each ballot position was worth to 4 candidates drawn at random. The page adds records up as they arrive (the charts' ranges come from the running totals), so a saved file and a fresh run give identical charts. Each saved file is stored under the settings' key, built by the same code the page uses (`settings.js`), so when a visitor's settings match a preset, they get exactly what their browser would have computed.
 
@@ -17,7 +17,7 @@ The engine's `stream` task returns one small record per simulated election: its 
 - `settings.js`: the presets, the model defaults (the branch page's), and how a visitor's choices become engine settings and requests. Shared by the page and the precompute.
 - `client.js`: the page's engine: saved replies first, then a pool of workers, one per spare processor core.
 - `worker.js`: runs `stvsim.wasm` off the page's main thread.
-- `precompute.mjs`: runs every preset's requests on every core, in Node, and saves one file per preset in `dist/`, plus `dist/meta.json`.
+- `precompute.mjs`: runs every public preset's requests on every core, in Node, and saves one file per preset in `dist/`, plus `dist/meta.json`.
 - `build.sh`: runs the precompute.
 - `sync-site.sh`: copies the engine, worker, saved results, and shared code into the website.
 
