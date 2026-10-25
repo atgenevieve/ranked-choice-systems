@@ -483,7 +483,7 @@ function lineChart(f, series, opts) {
 // ---------- "Copy as image" ----------
 // The same picture as the NYC DSA branch page's button: the chart's title, takeaway, key, and
 // chart on a light bone card (12px corners, a 1px edge of ink at 10%, 28px of padding) at twice
-// screen resolution, outside the corners transparent. The button, the note, and the table view
+// screen resolution, outside the corners transparent. The button and the table view
 // are left out. Uses html-to-image, loaded by the page.
 const CARD = "#fffcf6";
 // Cuts empty rows (all card color) off the bottom of a canvas, up to `most` rows.
@@ -508,7 +508,7 @@ async function chartPng(node) {
   const box = document.createElement("div");
   box.style.cssText = `position: fixed; left: -10000px; top: 0; width: ${node.offsetWidth}px;`;
   const copy = node.cloneNode(true);
-  copy.querySelectorAll(".copy, .note, details, img.copyimg").forEach(e => e.remove());
+  copy.querySelectorAll(".copy, details, img.copyimg").forEach(e => e.remove());
   Object.assign(copy.style, { border: "0", borderRadius: "0", background: "transparent", padding: "0", paddingBottom: `${spare}px` });
   box.append(copy); document.body.append(box);
   // Text can come out a little taller in the image than on the page: render with room to
