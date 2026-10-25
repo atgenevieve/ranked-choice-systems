@@ -8,19 +8,19 @@
    charts, each with its takeaway above it and the reason below. */
 :root {
   --bg: #ffffff; --ink: #111111; --ink-2: #4a4a4a; --rule: #bdbdbd; --grid: #e4e4e4; --panel: #fafaf8;
-  --mark: #111111;
+  --mark: #111111; --model: #1f3b73;
   --sys-scottish: #1baf7a; --sys-borda: #eb6834; --sys-approval: #6250d6;
   --font-text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
   --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec;
+    --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec; --model: #8fb0ef;
     --sys-scottish: #199e70; --sys-borda: #d95926; --sys-approval: #9085e9; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec;
+  --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec; --model: #8fb0ef;
   --sys-scottish: #199e70; --sys-borda: #d95926; --sys-approval: #9085e9; color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -67,6 +67,15 @@ td.num, th.num { text-align: right; }
 tr.total td { border-top: 1.5px solid var(--ink); border-bottom: 0; font-weight: 700; }
 .win { color: var(--sys-borda); font-weight: 700; }
 .ballot { font-family: var(--font-data); font-size: 13px; }
+.plain { margin: 0; padding-left: 20px; display: grid; gap: 4px; max-width: 66ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.slider { display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); min-width: 0; }
+.slider output { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.slider input { width: min(280px, 100%); accent-color: var(--ink); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.fact { border: 1px solid var(--rule); padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.fact b { font-size: 24px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.fact span { font-size: 14px; color: var(--ink-2); }
 .takeaway { font-size: 17px; font-weight: 600; max-width: 66ch; }
 </style>
 <div class="wrap" data-seats="5">
@@ -186,9 +195,36 @@ tr.total td { border-top: 1.5px solid var(--ink); border-bottom: 0; font-weight:
       <span class="s50">Slate A does best running 30 to 40 candidates under either method. Past that, Borda drops it from 22 seats to 9, while STV slips only to 21.</span></p>
   </section>
 
+  <section id="strategy">
+    <div class="label">Playing it out · Perfectly loyal slates choosing a strategy</div>
+    <h2>Under Borda, ranking order and slate size become the strategy</h2>
+    <p>Every voter is perfectly loyal and ranks only their own slate, with as many slots as seats. The majority runs one candidate per seat. The minority picks how many candidates to run, and always ranks them in the same order, which is its best choice. The majority picks one of two orders:</p>
+    <ul class="plain">
+      <li><b>Fixed order:</b> every majority voter ranks the slate in the same order the slate hands out.</li>
+      <li><b>Rotated order:</b> the majority splits its voters into groups that each rank the slate in a shifted order, so every candidate ends up with the same points.</li>
+    </ul>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Seats in the strategy example">
+        <button type="button" id="strat-5" data-strat-seats="5" aria-pressed="true">5 seats</button>
+        <button type="button" id="strat-50" data-strat-seats="50" aria-pressed="false">50 seats</button>
+      </div>
+      <label class="slider" for="strat-share">Minority's share of voters <output id="strat-share-out">40%</output>
+        <input type="range" id="strat-share" min="10" max="50" step="1" value="40">
+      </label>
+    </div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--sys-borda)"></i>Majority uses a fixed order</span>
+      <span><i class="swatch" style="background:var(--model)"></i>Majority rotates its order</span>
+      <span><i class="swatch dash"></i>Minority's fair share</span>
+    </div>
+    <div class="chart" id="strat-chart"></div>
+    <div class="facts" id="strat-facts"></div>
+    <p class="why">Seats are worked out exactly from the points, not simulated. When candidates tie for the last seat, the chart splits the seat between them, as a draw by lot would on average. Running more names than there are seats only hurts the minority further, so the chart stops at one per seat.</p>
+  </section>
+
   <section>
     <div class="label">What it means</div>
-    <p class="takeaway">Under Borda, a slate's seats depend on a choice that has nothing to do with what voters want: how many names it puts on the ballot. Whether more names help or hurt depends on how many candidates voters rank, which no slate controls.</p>
+    <p class="takeaway">Under Borda, a slate's seats depend on a choice that has nothing to do with what voters want: how many names it puts on the ballot. Whether more names help or hurt depends on how many candidates voters rank. And when voters follow their slate exactly, the order a slate tells its voters to rank in can matter more than the votes: a majority that rotates its order can take nearly every seat.</p>
     <p class="why">STV doesn't work by position points, so an extra candidate only matters if voters actually move their votes to them. A slate that badly over-runs still loses a little under STV (votes leak to the other slate as its candidates are eliminated), but nothing like the Borda swing.</p>
   </section>
 
@@ -215,7 +251,7 @@ const wrap = document.querySelector(".wrap");
 function draw(seats) {
   const fair = seats * 2 / 5, step = seats / 5;
   wrap.dataset.seats = seats;
-  document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.seats == seats)));
+  document.querySelectorAll("button[data-seats]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.seats == seats)));
   document.querySelectorAll("[data-legend]").forEach(box => {
     const ids = SHOW[box.dataset.legend];
     box.innerHTML = SYS.filter(s => ids.includes(s.id)).map(s => `<span><i class="swatch" style="background:var(${s.color})"></i>${s.name}</span>`).join("")
@@ -268,6 +304,60 @@ function draw(seats) {
     svg.addEventListener("pointerleave", () => { tip.hidden = true; guide.setAttribute("visibility", "hidden"); });
   });
 }
-document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => draw(+b.dataset.seats)));
+document.querySelectorAll("button[data-seats]").forEach(b => b.addEventListener("click", () => draw(+b.dataset.seats)));
 draw(location.hash === "#seats50" ? 50 : 5);
+// Perfectly loyal slates, worked out exactly. The majority runs one candidate per seat; the
+// minority runs m (ranked in a fixed order); each voter ranks only their own slate. With N
+// running, rank r is worth N − r points, so per voter share: minority's k-th gets p(N − k);
+// majority's k-th gets (1 − p)(N − k) in a fixed order, or (1 − p)(N − (S + 1)/2) when rotated.
+function minoritySeats(S, p, m, rotate) {
+  const N = S + m, eps = 1e-9;
+  const a = Array.from({ length: m }, (_, i) => p * (N - i - 1));
+  const b = Array.from({ length: S }, (_, i) => (1 - p) * (rotate ? N - (S + 1) / 2 : N - i - 1));
+  const all = [...a.map(v => [v, 1]), ...b.map(v => [v, 0])].sort((x, y) => y[0] - x[0]);
+  const cut = all[S - 1][0];
+  const above = all.filter(x => x[0] > cut + eps), tied = all.filter(x => Math.abs(x[0] - cut) <= eps);
+  const left = S - above.length;
+  return above.filter(x => x[1]).length + left * tied.filter(x => x[1]).length / tied.length;
+}
+let stratSeats = 5;
+function drawStrategy() {
+  const S = stratSeats, p = +document.getElementById("strat-share").value / 100, fair = p * S;
+  document.getElementById("strat-share-out").textContent = Math.round(p * 100) + "%";
+  document.querySelectorAll("[data-strat-seats]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.stratSeats === S)));
+  const fixed = [], rot = [];
+  for (let m = 1; m <= S; m++) { fixed.push(minoritySeats(S, p, m, false)); rot.push(minoritySeats(S, p, m, true)); }
+  const box = document.getElementById("strat-chart"); box.textContent = "";
+  const W = 760, H = 320, mg = { l: 52, r: 16, t: 14, b: 50 };
+  const x = m => mg.l + (S === 1 ? 0 : (m - 1) / (S - 1)) * (W - mg.l - mg.r);
+  const yMax = S / 2, y = v => mg.t + (1 - v / yMax) * (H - mg.t - mg.b);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Minority seats by how many candidates it runs" }, box);
+  const tick = S / 10;
+  for (let v = 0; v <= yMax + 1e-9; v += tick) {
+    el("line", { x1: mg.l, x2: W - mg.r, y1: y(v), y2: y(v), stroke: `var(${v ? "--grid" : "--rule"})`, "stroke-width": 1 }, svg);
+    el("text", { x: mg.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = +v.toFixed(1);
+  }
+  const xt = S === 5 ? [1, 2, 3, 4, 5] : [1, 10, 20, 30, 40, 50];
+  for (const m of xt) el("text", { x: x(m), y: H - mg.b + 20, "text-anchor": "middle" }, svg).textContent = m;
+  el("text", { x: (mg.l + W - mg.r) / 2, y: H - 6, "text-anchor": "middle", class: "axis-title" }, svg).textContent = "Candidates the minority runs";
+  el("text", { x: 14, y: (mg.t + H - mg.b) / 2, "text-anchor": "middle", class: "axis-title", transform: `rotate(-90 14 ${(mg.t + H - mg.b) / 2})` }, svg).textContent = "Seats the minority wins";
+  el("line", { x1: mg.l, x2: W - mg.r, y1: y(fair), y2: y(fair), stroke: "var(--mark)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, svg);
+  for (const [vals, color] of [[fixed, "--sys-borda"], [rot, "--model"]]) {
+    el("polyline", { points: vals.map((v, i) => `${x(i + 1)},${y(v)}`).join(" "), fill: "none", stroke: `var(${color})`, "stroke-width": 2.5, "stroke-linejoin": "round" }, svg);
+    if (S <= 10) vals.forEach((v, i) => el("circle", { cx: x(i + 1), cy: y(v), r: 3.5, fill: `var(${color})` }, svg));
+  }
+  const best = vals => { let k = 0; vals.forEach((v, i) => { if (v > vals[k] + 1e-9) k = i; }); return k; };
+  const bf = best(fixed), br = best(rot);
+  const fmt = v => (Math.abs(v - Math.round(v)) < 0.005 ? String(Math.round(v)) : v.toFixed(1)) + (Math.abs(v - 1) < 0.005 ? " seat" : " seats");
+  const pct = v => Math.round(100 * v / S) + "%";
+  const fact = (big, text) => `<div class="fact"><b>${big}</b><span>${text}</span></div>`;
+  document.getElementById("strat-facts").innerHTML =
+    fact(fmt(fair), `The minority's fair share (${Math.round(p * 100)}% of ${S}).`) +
+    fact(fmt(fixed[S - 1]), `Both slates run ${S}, majority in a fixed order: ${pct(fixed[S - 1])} of seats.`) +
+    fact(fmt(fixed[bf]), `Minority's best against a fixed order: run ${bf + 1}, win ${pct(fixed[bf])} of seats.`) +
+    fact(fmt(rot[br]), `Minority's best against a rotated order: run ${br + 1}, win ${pct(rot[br])} of seats.`);
+}
+document.querySelectorAll("[data-strat-seats]").forEach(b => b.addEventListener("click", () => { stratSeats = +b.dataset.stratSeats; drawStrategy(); }));
+document.getElementById("strat-share").addEventListener("input", drawStrategy);
+drawStrategy();
 </script>
