@@ -1,0 +1,163 @@
+<title>Borda and Slate Size</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column, like the project's research pages. A short setup, then three
+   charts, each with its takeaway above it and the reason below. */
+:root {
+  --bg: #ffffff; --ink: #111111; --ink-2: #4a4a4a; --rule: #bdbdbd; --grid: #e4e4e4; --panel: #fafaf8;
+  --mark: #111111;
+  --sys-scottish: #1baf7a; --sys-borda: #eb6834; --sys-approval: #6250d6;
+  --font-text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec;
+    --sys-scottish: #199e70; --sys-borda: #d95926; --sys-approval: #9085e9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161616; --ink: #ececec; --ink-2: #b4b4b4; --rule: #4a4a4a; --grid: #2c2c2c; --panel: #1c1c1c; --mark: #ececec;
+  --sys-scottish: #199e70; --sys-borda: #d95926; --sys-approval: #9085e9; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-text); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 36px; }
+header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; line-height: 1.2; }
+header p { margin: 10px 0 0; color: var(--ink-2); max-width: 66ch; font-size: 17px; }
+h2 { font-size: 21px; font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.3; }
+p { margin: 0; max-width: 66ch; }
+section { display: grid; gap: 12px; min-width: 0; }
+.setup { background: var(--panel); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 10px; }
+.setup ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; max-width: 66ch; }
+.label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.swatch { width: 18px; height: 3px; display: inline-block; }
+.swatch.dash { height: 0; border-top: 2px dashed var(--mark); }
+.chart { position: relative; min-width: 0; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { font-family: var(--font-text); fill: var(--ink-2); font-size: 12px; }
+.chart .axis-title { fill: var(--ink); font-weight: 600; font-size: 13px; }
+.tip { position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--rule); padding: 8px 10px; font-size: 13px; line-height: 1.4; min-width: 200px; max-width: 260px; }
+.tip b { font-weight: 600; }
+.tip .row { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.why { color: var(--ink-2); font-size: 15px; }
+.note { font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 14px; display: grid; gap: 8px; }
+code { font-family: var(--font-data); font-size: 13px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Borda counts change when a slate runs more candidates</h1>
+    <p>The same voters, with the same loyalties, can win a different number of seats under the Borda count just because one slate runs more or fewer candidates. Scottish STV holds steady. These charts show how big the swing is.</p>
+  </header>
+
+  <div class="setup">
+    <div class="label">The test election</div>
+    <ul>
+      <li>1,000 voters elect 5 seats.</li>
+      <li><b>Slate A</b> has 40% of voters. Its fair share is 2 seats (40% of 5).</li>
+      <li><b>Slate B</b> has 60% of voters and always runs 5 candidates.</li>
+      <li>Slate A runs anywhere from 1 to 12 candidates. Nothing else changes: running more candidates splits a slate's support among them, but doesn't win it new supporters.</li>
+      <li>Each point is 1,000 simulated elections. Hover or tap a point to see how often slate A won each number of seats.</li>
+    </ul>
+    <p class="why">The <b>Borda count</b> gives a candidate points for each ballot: the more candidates are running, the more points a first choice is worth, down to 0 for anyone left off. The 5 highest totals win. <b>Approval</b> here counts every candidate a voter ranked as approved, and the 5 most approved win.</p>
+  </div>
+
+  <section>
+    <div class="label">Chart 1 · Disciplined slates, everyone ranks every candidate</div>
+    <h2>Under Borda, slate A wins more seats the more candidates it runs</h2>
+    <div class="legend" data-legend="tight/all"></div>
+    <div class="chart" data-chart="tight/all"></div>
+    <p class="why">Each extra candidate from slate A lands between A's favorites and slate B on every A voter's ballot. That widens the points gap between A's favorites and B's candidates on every A ballot. On B's ballots, the extra candidate lands below everyone who matters, so it costs A nothing there. Running 12 candidates instead of 2 nearly doubles slate A's seats, with no change in what voters want. STV stays at exactly 2 seats however many candidates A runs. Approval is left out of this chart: if every voter ranks everyone, every candidate is approved by every voter.</p>
+  </section>
+
+  <section>
+    <div class="label">Chart 2 · Disciplined slates, each voter ranks 5 candidates</div>
+    <h2>With short ballots, the same extra candidates push slate A out</h2>
+    <div class="legend" data-legend="tight/up_to_5"></div>
+    <div class="chart" data-chart="tight/up_to_5"></div>
+    <p class="why">When voters rank only 5, each extra candidate on the field raises the points every ranked candidate gets, for every voter. Slate B has more voters, so it gains more from each raise. Once slate A runs 8 candidates, it wins nothing under Borda. The direction of the effect flips with ballot length, which is part of the problem: a slate can't know in advance whether running more helps or hurts. Approval gives the majority slate every seat here, whatever slate A does.</p>
+  </section>
+
+  <section>
+    <div class="label">Chart 3 · Loose slates, each voter ranks 5 candidates</div>
+    <h2>With loose slates, every method rewards a slate that runs about as many candidates as it can win</h2>
+    <div class="legend" data-legend="loose/up_to_5"></div>
+    <div class="chart" data-chart="loose/up_to_5"></div>
+    <p class="why">Here voters lean toward their own slate (4 times as likely to pick it at each rank) but often rank the other slate's candidates too, closer to how members vote in real organizations. Every method peaks when slate A runs 3 or 4 candidates. Running more spreads A's votes too thin. Under STV the loss is gradual, from 2.1 to 1.4 seats at 12 candidates, as votes leak to slate B and ballots run out. Under Borda and approval, slate A drops to under 1 seat.</p>
+  </section>
+
+  <div class="note">
+    <p><b>What this shows and doesn't.</b> These elections use two slates and a simplified voter (each voter picks one candidate at a time, favoring their slate and popular candidates). They show how each counting method reacts to slate size. They don't predict a real election's numbers.</p>
+    <p>Run with fixed seed 1 by <code>engine/examples/slate_size.rs</code>, using the engine's own Scottish STV, Borda, and approval counts. Results: <code>results/2026-10-25-slate-size/</code>.</p>
+  </div>
+</div>
+
+<script>
+const DATA = {"loose/up_to_5":{"scottish_stv":[[0,1000,0,0,0,0],[0,16,984,0,0,0],[0,6,834,160,0,0],[0,5,863,132,0,0],[0,16,915,69,0,0],[0,53,913,34,0,0],[0,123,861,16,0,0],[0,234,761,5,0,0],[0,315,681,4,0,0],[0,436,561,3,0,0],[1,559,438,2,0,0],[2,648,349,1,0,0]],"borda":[[0,1000,0,0,0,0],[0,65,935,0,0,0],[0,47,675,278,0,0],[0,81,697,218,4,0],[0,224,681,95,0,0],[7,425,529,39,0,0],[36,565,383,16,0,0],[97,686,214,3,0,0],[153,681,163,3,0,0],[243,649,107,1,0,0],[307,625,67,1,0,0],[375,578,46,1,0,0]],"approval":[[0,1000,0,0,0,0],[0,170,830,0,0,0],[0,93,722,185,0,0],[0,100,699,195,6,0],[0,244,668,88,0,0],[10,452,503,35,0,0],[42,580,363,15,0,0],[105,692,200,3,0,0],[161,691,145,3,0,0],[257,641,100,2,0,0],[316,623,60,1,0,0],[390,564,45,1,0,0]]},"loose/all":{"scottish_stv":[[0,1000,0,0,0,0],[0,13,987,0,0,0],[0,1,826,173,0,0],[0,5,894,101,0,0],[0,13,939,48,0,0],[0,34,935,31,0,0],[0,102,882,16,0,0],[0,178,812,10,0,0],[0,257,741,2,0,0],[0,339,660,1,0,0],[0,453,547,0,0,0],[0,562,438,0,0,0]],"borda":[[0,1000,0,0,0,0],[0,72,928,0,0,0],[0,63,722,215,0,0],[0,117,752,131,0,0],[0,205,710,85,0,0],[5,321,598,76,0,0],[13,405,540,42,0,0],[25,510,442,23,0,0],[35,573,380,12,0,0],[51,634,306,9,0,0],[77,655,264,4,0,0],[151,637,206,6,0,0]],"approval":[[164,836,0,0,0,0],[52,486,462,0,0,0],[12,260,547,181,0,0],[14,171,473,311,31,0],[4,106,395,390,100,5],[1,77,332,440,137,13],[1,35,301,441,196,26],[0,25,234,443,262,36],[0,13,193,422,312,60],[0,14,134,425,328,99],[0,12,124,381,369,114],[0,7,115,345,404,129]]},"tight/up_to_5":{"scottish_stv":[[0,1000,0,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,4,996,0,0,0],[0,13,987,0,0,0]],"borda":[[161,839,0,0,0,0],[439,547,14,0,0,0],[656,340,4,0,0,0],[797,203,0,0,0,0],[903,97,0,0,0,0],[970,30,0,0,0,0],[995,5,0,0,0,0],[996,4,0,0,0,0],[997,3,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0]],"approval":[[998,2,0,0,0,0],[999,1,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[998,2,0,0,0,0],[999,1,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0],[1000,0,0,0,0,0]]},"tight/all":{"scottish_stv":[[0,1000,0,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0],[0,0,1000,0,0,0]],"borda":[[154,846,0,0,0,0],[203,765,32,0,0,0],[192,768,40,0,0,0],[167,777,56,0,0,0],[130,766,104,0,0,0],[98,744,157,1,0,0],[82,716,199,3,0,0],[63,690,244,3,0,0],[49,612,335,4,0,0],[41,555,387,17,0,0],[26,469,476,29,0,0],[33,416,507,43,1,0]],"approval":[[164,836,0,0,0,0],[52,486,462,0,0,0],[12,260,547,181,0,0],[14,171,473,311,31,0],[4,106,395,390,100,5],[1,77,332,440,137,13],[1,35,301,441,196,26],[0,25,234,443,262,36],[0,13,193,422,312,60],[0,14,134,425,328,99],[0,12,124,381,369,114],[0,7,115,345,404,129]]}};
+const SYS = [
+  { id: "scottish_stv", name: "Scottish STV", color: "--sys-scottish" },
+  { id: "borda", name: "Borda count", color: "--sys-borda" },
+  { id: "approval", name: "Approval", color: "--sys-approval" },
+];
+const SHOW = { "tight/all": ["scottish_stv", "borda"], "tight/up_to_5": ["scottish_stv", "borda", "approval"], "loose/up_to_5": ["scottish_stv", "borda", "approval"] };
+const mean = d => d.reduce((s, n, k) => s + n * k, 0) / d.reduce((s, n) => s + n, 0);
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.append(e); return e; };
+
+document.querySelectorAll("[data-legend]").forEach(box => {
+  const ids = SHOW[box.dataset.legend];
+  box.innerHTML = SYS.filter(s => ids.includes(s.id)).map(s => `<span><i class="swatch" style="background:var(${s.color})"></i>${s.name}</span>`).join("")
+    + `<span><i class="swatch dash"></i>Slate A's fair share (2 seats)</span>`;
+});
+
+document.querySelectorAll("[data-chart]").forEach(box => {
+  const key = box.dataset.chart, ids = SHOW[key];
+  const W = 760, H = 340, m = { l: 52, r: 16, t: 14, b: 50 };
+  const x = n => m.l + (n - 1) / 11 * (W - m.l - m.r);
+  const y = v => m.t + (1 - v / 5) * (H - m.t - m.b);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": box.previousElementSibling.previousElementSibling.textContent }, box);
+  for (let v = 0; v <= 5; v++) {
+    el("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: `var(${v ? "--grid" : "--rule"})`, "stroke-width": 1 }, svg);
+    el("text", { x: m.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = v;
+  }
+  for (let n = 1; n <= 12; n++) el("text", { x: x(n), y: H - m.b + 20, "text-anchor": "middle" }, svg).textContent = n;
+  el("text", { x: (m.l + W - m.r) / 2, y: H - 6, "text-anchor": "middle", class: "axis-title" }, svg).textContent = "Candidates slate A runs";
+  el("text", { x: 14, y: (m.t + H - m.b) / 2, "text-anchor": "middle", class: "axis-title", transform: `rotate(-90 14 ${(m.t + H - m.b) / 2})` }, svg).textContent = "Seats slate A wins (average)";
+  el("line", { x1: m.l, x2: W - m.r, y1: y(2), y2: y(2), stroke: "var(--mark)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, svg);
+  const series = SYS.filter(s => ids.includes(s.id)).map(s => ({ ...s, d: DATA[key][s.id] }));
+  for (const s of series) {
+    el("polyline", { points: s.d.map((d, i) => `${x(i + 1)},${y(mean(d))}`).join(" "), fill: "none", stroke: `var(${s.color})`, "stroke-width": 2.5, "stroke-linejoin": "round" }, svg);
+    s.d.forEach((d, i) => el("circle", { cx: x(i + 1), cy: y(mean(d)), r: 3.5, fill: `var(${s.color})` }, svg));
+  }
+  // Hover: a column per slate size.
+  const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; box.append(tip);
+  const guide = el("line", { y1: m.t, y2: H - m.b, stroke: "var(--rule)", "stroke-width": 1, visibility: "hidden" }, svg);
+  const show = n => {
+    guide.setAttribute("x1", x(n)); guide.setAttribute("x2", x(n)); guide.setAttribute("visibility", "visible");
+    tip.innerHTML = `<b>Slate A runs ${n} candidate${n > 1 ? "s" : ""}</b>` + series.map(s => {
+      const d = s.d[n - 1], tot = d.reduce((a, b) => a + b, 0), fair = d.slice(2).reduce((a, b) => a + b, 0);
+      return `<div style="margin-top:6px;color:var(${s.color});font-weight:600">${s.name}</div>`
+        + `<div class="row"><span>Average seats</span><span>${mean(d).toFixed(2)}</span></div>`
+        + `<div class="row"><span>2 seats or more</span><span>${Math.round(100 * fair / tot)} in 100</span></div>`
+        + `<div class="row"><span>No seats</span><span>${Math.round(100 * d[0] / tot)} in 100</span></div>`;
+    }).join("");
+    tip.hidden = false;
+    const bw = box.clientWidth, px = x(n) / W * bw;
+    tip.style.top = "8px";
+    tip.style.left = (px + 14 + tip.offsetWidth > bw ? Math.max(0, px - 14 - tip.offsetWidth) : px + 14) + "px";
+  };
+  for (let n = 1; n <= 12; n++) {
+    const r = el("rect", { x: x(n) - (W - m.l - m.r) / 22, y: m.t, width: (W - m.l - m.r) / 11, height: H - m.t - m.b, fill: "transparent", tabindex: 0 }, svg);
+    r.addEventListener("pointerenter", () => show(n)); r.addEventListener("focus", () => show(n));
+    r.addEventListener("click", () => show(n));
+  }
+  svg.addEventListener("pointerleave", () => { tip.hidden = true; guide.setAttribute("visibility", "hidden"); });
+});
+</script>
