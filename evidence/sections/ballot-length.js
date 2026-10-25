@@ -212,7 +212,7 @@ window.SECTIONS["ballot-length"] = () => {
 // ---------- 4. Rank my party, then stop ----------
 {
   const d = DATA.party_then_stop;
-  const f = figure("Scotland: voters who rank their party's candidates, then stop", null,
+  const f = figure("Scottish voters who rank their party's candidates, then stop", null,
     `About ${pct(d.all)} of Scottish voters whose first choice's party ran 2 or more candidates ranked exactly that party's candidates and no one else.`);
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
