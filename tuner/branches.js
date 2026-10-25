@@ -130,6 +130,34 @@ function drawSummary() {
   }
 }
 
+/** A "Copy data" button: copies a chart's numbers as tab-separated rows, which paste straight
+ *  into Datawrapper's data table (or a spreadsheet). rows() is called on click, so the button
+ *  copies whatever the chart shows at that moment. If the browser blocks the clipboard, the
+ *  numbers appear in a box, selected, to copy by hand. */
+function copyButton(rows) {
+  const wrap = document.createElement("span"); wrap.className = "copywrap";
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiet copy"; btn.textContent = "Copy data";
+  wrap.append(btn);
+  btn.addEventListener("click", async () => {
+    const tsv = rows().map(r => r.join("\t")).join("\n");
+    let ok = false;
+    try { await navigator.clipboard.writeText(tsv); ok = true; } catch { /* clipboard may be blocked in the frame */ }
+    if (!ok) {
+      const ta = document.createElement("textarea"); ta.value = tsv; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch { /* fall through to the box */ }
+      ta.remove();
+    }
+    if (ok) { btn.textContent = "Copied"; setTimeout(() => { btn.textContent = "Copy data"; }, 1500); return; }
+    let box = wrap.parentElement.parentElement.querySelector("textarea.copybox");
+    if (!box) { box = document.createElement("textarea"); box.className = "copybox"; box.readOnly = true; box.rows = 6; wrap.parentElement.after(box); }
+    box.value = tsv; box.select();
+    btn.textContent = "Select all and copy below";
+  });
+  return wrap;
+}
+const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100;
+
 /** Every branch's two charts, on the same rank axis so the branches can be compared, with one
  *  line per voting system. */
 function drawBranches() {
@@ -164,19 +192,36 @@ function drawBranches() {
       sec.append(says);
     }
     const pair = document.createElement("div"); pair.className = "pair";
-    const half = (title, legendHtml) => {
+    const half = (title, legendHtml, rows) => {
       const d = document.createElement("div");
-      const t = document.createElement("h4"); t.textContent = title; d.append(t);
+      const head = document.createElement("div"); head.className = "charthead";
+      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows)); d.append(head);
       if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; d.append(l); }
       const c = document.createElement("div"); c.className = "chart"; d.append(c);
       pair.append(d);
       return c;
     };
     const sysLegend = many ? got.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join("") : "";
-    const c1 = half("How many elections are still undecided", sysLegend);
+    // What each chart's "Copy data" button copies: the ranks drawn, one column per line.
+    const xOf = g => Math.min(xMax, g.r.truncation.p_changed.length);
+    const ranks = () => Array.from({ length: Math.max(...got.map(({ g }) => xOf(g))) }, (_, i) => i + 1);
+    const undecidedRows = () => [
+      ["Ballots cut after rank", ...got.map(({ sys }) => many ? sys.name : "Elections still undecided (%)")],
+      ...ranks().map(k => [k, ...got.map(({ g }) => { const f = branchFigures(g.r); return k <= xOf(g) ? r1(100 * (1 - f.same[k - 1])) : ""; })]),
+    ];
+    const changeRows = () => [
+      ["Ballots cut after rank", ...got.map(({ sys }) => many ? `${sys.name}: ${statWord().toLowerCase()}` : `${statWord()} winners changed`),
+        ...got.map(({ sys }) => many ? `${sys.name}: most in any election` : "Most in any simulated election")],
+      ...ranks().map(k => {
+        const fs = got.map(({ g }) => ({ f: branchFigures(g.r), x: xOf(g) }));
+        return [k, ...fs.map(({ f, x }) => k <= x ? r2(f.mid[k - 1]) : ""), ...fs.map(({ f, x }) => k <= x ? f.most[k - 1] : "")];
+      }),
+    ];
+    const c1 = half("How many elections are still undecided", sysLegend, undecidedRows);
     const c2 = half("How many winners change", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
-      : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`);
+      : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
+      changeRows);
     sec.append(pair);
     const worths = got.map(({ sys }) => ({ sys, w: branchWorth.get(key(b, sys.id)) })).filter(x => x.w && x.w.done);
     if (worths.length) {
@@ -188,7 +233,13 @@ function drawBranches() {
       read.textContent = `How much each vote at this rank increases a candidate's chance of winning, on average.` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
-      card.append(t);
+      const worthRows = () => {
+        const n = Math.max(...ms.map(({ m }) => m.any.length));
+        return [["Position on one voter's ballot", ...ms.map(({ sys }) => many ? sys.name : "Added chance of winning (percentage points)")],
+          ...Array.from({ length: n }, (_, i) => [i + 1, ...ms.map(({ m }) => m.any[i] ? r2(m.any[i].m) : "")])];
+      };
+      const head = document.createElement("div"); head.className = "charthead"; head.append(t, copyButton(worthRows));
+      card.append(head);
       if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
       card.append(read, c3);
       sec.append(card);
