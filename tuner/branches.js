@@ -165,14 +165,17 @@ function copyButton(rows, chartNode) {
 const CARD = "#fffcf6";  // the card: a lighter bone than the Substack page
 async function chartPng(node) {
   const pad = 28, radius = 12, scale = 2;
-  // Hide the buttons while drawing, so the title gets the full width.
-  const hidden = [...node.querySelectorAll(".copywrap, .copybox, .copyimg")];
-  hidden.forEach(e => { e.style.display = "none"; });
-  // Charts side by side stretch to the taller one; draw this one at its own height.
-  node.style.alignSelf = "start";
+  // Draw an off-screen copy without the buttons, so the page itself doesn't change. The copy
+  // sits in a box with the same class as the chart's parent, so rules like ".pair h4" still apply.
+  const box = document.createElement("div");
+  box.className = node.parentElement.className;
+  box.style.cssText = `position: fixed; left: -10000px; top: 0; display: block; width: ${node.offsetWidth}px;`;
+  const copy = node.cloneNode(true);
+  copy.querySelectorAll(".copywrap, .copybox, .copyimg").forEach(e => e.remove());
+  box.append(copy); document.body.append(box);
   let shot;
-  try { shot = await htmlToImage.toCanvas(node, { backgroundColor: CARD, pixelRatio: scale }); }
-  finally { hidden.forEach(e => { e.style.display = ""; }); node.style.alignSelf = ""; }
+  try { shot = await htmlToImage.toCanvas(copy, { backgroundColor: CARD, pixelRatio: scale }); }
+  finally { box.remove(); }
   const c = document.createElement("canvas");
   c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
   const g = c.getContext("2d");
