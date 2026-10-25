@@ -36,7 +36,9 @@ function hitArea(svg, shape, title, lines, label) {
 
 function figure(title, takeaway, note) {
   const f = document.createElement("section"); f.className = "figure";
-  const h = document.createElement("h2"); h.textContent = title; f.append(h);
+  const head = document.createElement("div"); head.className = "fighead";
+  const h = document.createElement("h2"); h.textContent = title;
+  head.append(h, imageButton(f)); f.append(head);
   if (takeaway) { const p = document.createElement("p"); p.className = "takeaway"; p.textContent = takeaway; f.append(p); }
   if (note) { const p = document.createElement("p"); p.className = "note"; p.textContent = note; f.append(p); }
   document.getElementById("figs").append(f);
@@ -462,4 +464,76 @@ function lineChart(f, series, opts) {
     });
     area.addEventListener("pointerleave", () => { guide.setAttribute("visibility", "hidden"); hideTip(); });
   });
+}
+
+
+// ---------- "Copy as image" ----------
+// The same picture as the NYC DSA branch page's button: the chart's title, takeaway, key, and
+// chart on a light bone card (12px corners, a 1px edge of ink at 10%, 28px of padding) at twice
+// screen resolution, outside the corners transparent. The button, the note, and the table view
+// are left out. Uses html-to-image, loaded by the page.
+const CARD = "#fffcf6";
+// Cuts empty rows (all card color) off the bottom of a canvas, up to `most` rows.
+function trimBottom(canvas, most) {
+  const { width: w, height: h } = canvas;
+  const px = canvas.getContext("2d").getImageData(0, h - most, w, most).data;
+  const bg = [1, 3, 5].map(i => parseInt(CARD.slice(i, i + 2), 16));
+  let keep = most;
+  rows: for (; keep > 0; keep--) {
+    for (let i = (keep - 1) * w * 4; i < keep * w * 4; i += 4) {
+      if (Math.abs(px[i] - bg[0]) > 3 || Math.abs(px[i + 1] - bg[1]) > 3 || Math.abs(px[i + 2] - bg[2]) > 3) break rows;
+    }
+  }
+  const out = document.createElement("canvas");
+  out.width = w; out.height = h - most + keep;
+  out.getContext("2d").drawImage(canvas, 0, 0);
+  return out;
+}
+async function chartPng(node) {
+  const pad = 28, radius = 12, scale = 2, spare = 40;
+  // Draw an off-screen copy, so the page itself doesn't change.
+  const box = document.createElement("div");
+  box.style.cssText = `position: fixed; left: -10000px; top: 0; width: ${node.offsetWidth}px;`;
+  const copy = node.cloneNode(true);
+  copy.querySelectorAll(".copy, .note, details, img.copyimg").forEach(e => e.remove());
+  Object.assign(copy.style, { border: "0", borderRadius: "0", background: "transparent", padding: "0", paddingBottom: `${spare}px` });
+  box.append(copy); document.body.append(box);
+  // Text can come out a little taller in the image than on the page: render with room to
+  // spare, then trim the empty rows at the bottom.
+  let shot;
+  try { shot = await htmlToImage.toCanvas(copy, { backgroundColor: CARD, pixelRatio: scale }); }
+  finally { box.remove(); }
+  shot = trimBottom(shot, spare * scale);
+  const c = document.createElement("canvas");
+  c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
+  const g = c.getContext("2d");
+  g.beginPath(); g.roundRect(0, 0, c.width, c.height, radius * scale); g.fillStyle = CARD; g.fill();
+  const e = scale / 2;
+  g.beginPath(); g.roundRect(e, e, c.width - 2 * e, c.height - 2 * e, radius * scale - e);
+  g.strokeStyle = "rgba(18, 16, 17, 0.1)"; g.lineWidth = scale; g.stroke();
+  g.drawImage(shot, pad * scale, pad * scale);
+  return new Promise(res => c.toBlob(res, "image/png"));
+}
+// Puts the chart on the clipboard as a PNG. If the browser won't allow that, shows the image
+// under the chart to copy by hand.
+function imageButton(node) {
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "copy"; btn.textContent = "Copy as image";
+  const flash = t => { btn.textContent = t; setTimeout(() => { btn.textContent = "Copy as image"; }, 1800); };
+  btn.addEventListener("click", async () => {
+    btn.textContent = "Copying…";
+    // The clipboard write has to start during the click, with the image still being drawn.
+    const png = chartPng(node);
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": png })]);
+      flash("Copied");
+    } catch {
+      try {
+        let shown = node.querySelector("img.copyimg");
+        if (!shown) { shown = document.createElement("img"); shown.className = "copyimg"; shown.alt = "The chart as an image"; node.append(shown); }
+        shown.src = URL.createObjectURL(await png);
+        btn.textContent = "Right-click the image below to copy";
+      } catch { flash("Couldn't copy"); }
+    }
+  });
+  return btn;
 }

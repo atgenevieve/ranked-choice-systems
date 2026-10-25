@@ -110,3 +110,8 @@ svg text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; 
 :root[data-theme="dark"] { --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; }
 
 .figure h3 { font-size: 15px; font-weight: 600; margin: 10px 0 0; }
+.fighead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+button.copy { font: inherit; font-size: 12px; font-weight: 500; padding: 4px 12px; border: 1px solid var(--grid); border-radius: 6px; background: transparent; color: var(--ink-2); cursor: pointer; white-space: nowrap; flex: none; }
+button.copy:hover { color: var(--ink); border-color: var(--axis); }
+button.copy:focus-visible { outline: 2px solid var(--public); outline-offset: 2px; }
+img.copyimg { display: block; max-width: 100%; margin-top: 8px; }
