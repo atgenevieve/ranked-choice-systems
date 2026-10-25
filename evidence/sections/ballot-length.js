@@ -94,7 +94,7 @@ window.SECTIONS["ballot-length"] = () => {
   const f = figure("Same number of seats, more candidates",
     "Even with the number of seats held the same, more candidates means more ranks. Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%.",
     `Each panel holds only elections with the same number of seats, so the trend inside a panel comes from the number of candidates alone. Panels need at least 15 elections. Taking candidates and seats together, seats matter much less: with the candidates held the same, doubling the seats adds about ${Math.round((2 ** DATA.both.scotland.c2 - 1) * 100)}% more ranks in Scotland and ${Math.round((2 ** DATA.both.ers.c2 - 1) * 100)}% in union and society elections, while doubling the candidates adds ${Math.round((2 ** DATA.both.scotland.c1 - 1) * 100)}% and ${Math.round((2 ** DATA.both.ers.c1 - 1) * 100)}%.`);
-  const box = document.createElement("div"); box.className = "multiples"; f.append(box);
+  const box = document.createElement("div"); box.className = "multiples three"; f.append(box);
   const pts = chartPts();
   for (const p of DATA.same_seats) {
     const panel = document.createElement("div"); panel.className = "panel";

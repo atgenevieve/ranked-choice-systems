@@ -115,3 +115,5 @@ button.copy { font: inherit; font-size: 12px; font-weight: 500; padding: 4px 12p
 button.copy:hover { color: var(--ink); border-color: var(--axis); }
 button.copy:focus-visible { outline: 2px solid var(--public); outline-offset: 2px; }
 img.copyimg { display: block; max-width: 100%; margin-top: 8px; }
+.multiples.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .multiples.three { grid-template-columns: minmax(0, 1fr); } }
