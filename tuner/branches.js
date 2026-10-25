@@ -25,7 +25,7 @@ const key = (b, sys) => `${b.name}|${sys}`;
 // palette). Scottish STV is the organization's own system.
 const SYSTEMS = [
   { id: "scottish_stv", name: "Scottish STV", color: "--sys-scottish" },
-  { id: "cambridge_stv", name: "Cambridge STV", color: "--sys-cambridge" },
+  { id: "meek_stv", name: "Meek STV", color: "--sys-meek" },
   { id: "borda", name: "Borda count", color: "--sys-borda" },
   { id: "approval", name: "Approval", color: "--sys-approval" },
 ];
@@ -46,6 +46,9 @@ for (const input of document.querySelectorAll('input[name="seat-stat"]')) {
   });
 }  // the systems ticked when the results were asked for
 const WORTH_CHUNK = 50;           // simulated elections per worth request, so the pool can share them out
+// Meek STV is far slower to count, so its worth comes from the first 200 simulated elections
+// (owner's decision, October 25, 2026). The line charts use them all.
+const WORTH_SIMS = { meek_stv: 200 };
 
 function drawBranchTable() {
   const body = $("branch-table").tBodies[0];
@@ -293,8 +296,11 @@ function drawBranches() {
       const ms = worths.map(({ sys, w }) => ({ sys, w, m: worthMeans(w) }));
       const left = ms.filter(({ w }) => w.done < w.total);
       const read = document.createElement("p"); read.className = "read";
+      const slow = left.reduce((a, x) => (!a || x.w.done / x.w.total < a.w.done / a.w.total ? x : a), null);
+      const fewer = ms.filter(({ w }) => w.total < Math.max(...ms.map(x => x.w.total)));
       read.textContent = `How much each vote at this rank increases a candidate's chance of winning, on average.` +
-        (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
+        fewer.map(({ sys, w }) => ` ${sys.name}: from ${w.total.toLocaleString()} simulated elections, because it takes far longer to count.`).join("") +
+        (slow ? ` Still running: ${slow.w.done.toLocaleString()} of ${slow.w.total.toLocaleString()} simulated elections so far${ms.length > 1 ? ` for ${slow.sys.name}` : ""}.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
       const worthRows = () => {
         const n = Math.max(...ms.map(({ m }) => m.any.length));
@@ -455,11 +461,14 @@ window.runBranches = async (c, alive) => {
     }
   }
   const add = (into, from) => { for (const k of ["sum", "sq", "n"]) from[k].forEach((x, i) => { into[k][i] = (into[k][i] || 0) + x; }); };
-  for (const { b, sys } of plans) branchWorth.set(key(b, sys.id), { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: sims });
+  const worthSims = sys => Math.min(sims, WORTH_SIMS[sys.id] || sims);
+  for (const { b, sys } of plans) branchWorth.set(key(b, sys.id), { any: { sum: [], sq: [], n: [] }, edge: { sum: [], sq: [], n: [] }, done: 0, total: worthSims(sys) });
   // A small first chunk, so every branch's chart shows early; the sums add up exactly either way.
-  for (let first = 0, count; first < sims; first += count) {
-    count = Math.min(first === 0 ? 10 : WORTH_CHUNK, sims - first);
+  for (let first = 0, step; first < sims; first += step) {
+    step = Math.min(first === 0 ? 10 : WORTH_CHUNK, sims - first);
     for (const { b, sys, settings } of plans) {
+      const count = Math.min(step, worthSims(sys) - first);
+      if (count <= 0) continue;
       chunks++;
       all.push(engine({ task: "worth", settings, first, count }, alive).then(reply => {
         chunksDone++; progress();

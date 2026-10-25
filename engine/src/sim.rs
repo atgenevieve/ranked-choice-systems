@@ -1,7 +1,8 @@
 //! Simulates elections and measures reach and truncation: the shared core of `stvsim run`
 //! and the model tuner (which runs it in a web page, on one thread).
 
-use crate::count::{analyze, Options, Truncation};
+use crate::count::{analyze, Options, System, Truncation};
+use crate::systems::{meek_winners, MeekTrace};
 use crate::model;
 use crate::rng::Rng;
 use crate::settings::Settings;
@@ -386,6 +387,12 @@ pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) ->
         let mut b = model::generate(c, seats, v, len, &s.electorate, &s.ballot, &s.model, es).ballots;
         let o = Options { lot_seed: es ^ 0x5851F42D4C957F2D, ..opt };
         let full = analyze(&b, seats, o, Truncation::Off);
+        // Meek recounts of one changed ballot start from this count's keep shares.
+        let meek = o.system == System::MeekStv;
+        let mut trace = MeekTrace::new();
+        if meek {
+            meek_winners(&b, seats, o.lot_seed, None, Some(&mut trace));
+        }
         let mut r = Rng::new(es ^ 0x776F_7274_6821);
         let mut studied: Vec<(u32, bool)> = (0..4).map(|_| ((r.next_u64() % c as u64) as u32, false)).collect();
         studied.extend(full.elected_order.iter().rev().take(2).map(|&x| (x, true)));
@@ -400,7 +407,10 @@ pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) ->
                     *x = *vals.get(j).unwrap_or(&NONE);
                 }
             };
-            let wins = |b: &Ballots| analyze(b, seats, o, Truncation::Off).winners.contains(&cand) as i32 as f64;
+            let wins = |b: &Ballots| {
+                let winners = if meek { meek_winners(b, seats, o.lot_seed, Some(&trace), None) } else { analyze(b, seats, o, Truncation::Off).winners };
+                winners.contains(&cand) as i32 as f64
+            };
             set(&mut b, &others);
             let base = wins(&b);
             for k in 1..=limit.min(others.len() + 1) {

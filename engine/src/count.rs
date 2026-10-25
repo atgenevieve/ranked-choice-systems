@@ -55,6 +55,7 @@ pub enum System {
     #[default]
     ScottishStv,
     CambridgeStv,
+    MeekStv,
     Borda,
     Approval,
 }

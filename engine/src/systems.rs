@@ -11,6 +11,18 @@
 //!   at a time, lowest first, ties by lot. Cambridge's rule that drops every candidate under 50
 //!   votes at once is left out: these elections are far smaller than Cambridge's, and it would
 //!   drop candidates who could win.
+//! - `MeekStv`: STV by Meek's method, as New Zealand's rules for local elections count it.
+//!   Every candidate has a keep share: hopefuls keep all of each vote that reaches them,
+//!   excluded candidates keep none, and winners keep just enough to sit at the quota. A ballot
+//!   gives each candidate in turn their keep share of what is left of it, and passes the rest
+//!   on, so a winner's surplus moves on from every ballot that reached them, even ballots that
+//!   reached them late. Whatever is left after the last continuing choice is exhausted. The
+//!   quota is (votes − exhausted) ÷ (seats + 1), with no rounding, so it falls as ballots
+//!   exhaust; a candidate is elected on any total above it. After every change, the winners'
+//!   keep shares are adjusted until each sits at the quota (to within a billionth of the
+//!   votes). Then everyone above the quota is elected; if no one is, the lowest hopeful is
+//!   excluded, ties by lot. Exclusions undo themselves: an excluded candidate's ballots are
+//!   counted again as if they had never been ranked.
 //! - `Borda`: a candidate at rank r on a ballot gets (candidates − r) points; candidates left
 //!   off get none. The seats go to the highest totals, ties by lot. Cutting a ballot after rank
 //!   k takes away the points below k.
@@ -45,12 +57,19 @@ struct Outcome {
 
 pub fn analyze_other(bal: &Ballots, seats: usize, system: System, lot_seed: u64, trunc: Truncation) -> Analysis {
     let lots = lot(lot_seed, bal.c);
+    // Meek recounts start from the full count's keep shares, which are usually close.
+    let mut trace = MeekTrace::new();
+    let full = match system {
+        System::MeekStv => meek(bal, seats, &lots, bal.len, None, Some(&mut trace)),
+        _ => Outcome { elected: vec![], excluded: vec![], deepest: vec![], exhausted_votes: 0.0, exhausted_papers: 0 },
+    };
     let count = |limit: usize| match system {
         System::CambridgeStv => cambridge(bal, seats, &lots, limit),
+        System::MeekStv => meek(bal, seats, &lots, limit, Some(&trace), None),
         System::Borda | System::Approval => scores(bal, seats, &lots, limit, system),
         System::ScottishStv => unreachable!("Scottish STV is counted in count.rs"),
     };
-    let full = count(bal.len);
+    let full = if system == System::MeekStv { full } else { count(bal.len) };
     let v = bal.voters() as f64;
     let winners = sorted(&full.elected);
     let mut reach = vec![0.0; bal.len];
@@ -94,6 +113,12 @@ pub fn analyze_other(bal: &Ballots, seats: usize, system: System, lot_seed: u64,
         out.winners_at = Some(winners_at);
     }
     out
+}
+
+/// Winners by Meek STV (in order of election), starting from the trace of a count of nearly
+/// the same ballots if given, and recording this count's trace if asked.
+pub fn meek_winners(bal: &Ballots, seats: usize, lot_seed: u64, start: Option<&MeekTrace>, trace: Option<&mut MeekTrace>) -> Vec<u32> {
+    meek(bal, seats, &lot(lot_seed, bal.c), bal.len, start, trace).elected
 }
 
 /// Borda or approval, reading only the first `limit` ranks of each ballot.
@@ -239,6 +264,200 @@ fn cambridge(bal: &Ballots, seats: usize, lots: &[u64], limit: usize) -> Outcome
     Outcome { elected, excluded, deepest, exhausted_votes, exhausted_papers }
 }
 
+/// Each stage of a Meek count: who was elected or out, and the keep shares it settled on. A
+/// recount of nearly the same ballots starts each matching stage from these keep shares.
+pub type MeekTrace = Vec<(Vec<u8>, Vec<f64>)>;
+
+/// Meek STV, reading only the first `limit` ranks of each ballot. `start` is the trace of a
+/// count of nearly the same ballots, if any; `trace` records this count's.
+fn meek(bal: &Ballots, seats: usize, lots: &[u64], limit: usize, start: Option<&MeekTrace>, mut trace: Option<&mut MeekTrace>) -> Outcome {
+    const HOPEFUL: u8 = 0;
+    const ELECTED: u8 = 1;
+    const OUT: u8 = 2;
+    let (c, len) = (bal.c, bal.len);
+    let limit = limit.min(len);
+    let v = bal.voters() as f64;
+    let parts = seats as f64 + 1.0;
+    // Convergence and election margin, in votes.
+    let tol = 1e-9 * v.max(1.0);
+    let mut st = vec![HOPEFUL; c];
+    let mut keep = vec![1.0f64; c];
+    let mut deepest = vec![0usize; bal.rows()];
+    let mut elected: Vec<u32> = Vec::new();
+    let mut excluded = Vec::new();
+    // One pass over the ballots: each candidate's votes, the votes and ballots exhausted, and
+    // which hopefuls could gain from a winner's surplus (those ranked after a winner, before
+    // any other hopeful).
+    let tally = |st: &[u8], keep: &[f64], deepest: &mut Vec<usize>| {
+        let mut votes = vec![0.0; c];
+        let mut exposed = vec![false; c];
+        let (mut gone, mut gone_papers) = (0.0, 0u64);
+        for row in 0..bal.rows() {
+            let m = bal.mult(row) as f64;
+            let mut left = 1.0;
+            let mut via = false;
+            for (j, &x) in bal.row(row).iter().take(limit).enumerate() {
+                if x == NONE {
+                    break;
+                }
+                let x = x as usize;
+                if left <= 1e-12 {
+                    // Nothing reaches x now, but would if a winner before x kept less.
+                    if via && st[x] == HOPEFUL {
+                        exposed[x] = true;
+                    }
+                    if !via || st[x] == HOPEFUL {
+                        break;
+                    }
+                    continue;
+                }
+                let k = keep[x];
+                if k > 0.0 {
+                    votes[x] += m * left * k;
+                    left *= 1.0 - k;
+                    deepest[row] = deepest[row].max(j);
+                }
+                match st[x] {
+                    ELECTED => via = true,
+                    HOPEFUL => exposed[x] |= via,
+                    _ => {}
+                }
+            }
+            gone += m * left;
+            if left > 1.0 - 1e-9 {
+                gone_papers += bal.mult(row);
+            }
+        }
+        (votes, gone, gone_papers, exposed)
+    };
+    let by_votes = |votes: &[f64], x: &usize| (std::cmp::Reverse(OrdF(votes[*x])), std::cmp::Reverse(lots[*x]));
+    for stage in 0.. {
+        if let Some((s, k)) = start.and_then(|t| t.get(stage)) {
+            if *s == st {
+                keep.clone_from(k);
+            }
+        }
+        // Adjust the winners' keep shares until each sits at the quota, or until what is left
+        // of their surpluses can no longer change the next step.
+        let (mut votes, mut gone, mut gone_papers, mut exposed);
+        let mut quota;
+        let mut rounds = 0;
+        loop {
+            (votes, gone, gone_papers, exposed) = tally(&st, &keep, &mut deepest);
+            quota = (v - gone) / parts;
+            rounds += 1;
+            if elected.len() >= seats || rounds > 1000 {
+                break;
+            }
+            let (mut surplus, mut under) = (0.0, false);
+            for &e in &elected {
+                let d = votes[e as usize] - quota;
+                surplus += d.abs();
+                under |= d < -tol;
+            }
+            if surplus <= tol {
+                break;
+            }
+            // With every winner at or over the quota, keep shares only come down from here,
+            // so hopefuls only gain. The winners free at most `freed` votes in all: their
+            // surplus, plus what the quota's fall takes off each of them; the quota falls by
+            // at most freed ÷ (seats + 1).
+            if !under {
+                let freed = surplus * parts / (parts - elected.len() as f64);
+                if next_step_is_certain(&st, &votes, &exposed, lots, quota, freed, quota - freed / parts - tol, tol, seats - elected.len()) {
+                    break;
+                }
+            }
+            for &e in &elected {
+                let e = e as usize;
+                if votes[e] > 0.0 {
+                    keep[e] = (keep[e] * quota / votes[e]).min(1.0);
+                }
+            }
+        }
+        if let Some(t) = trace.as_deref_mut() {
+            t.push((st.clone(), keep.clone()));
+        }
+        if elected.len() >= seats {
+            return finish(st, votes, gone, gone_papers, elected, excluded, deepest, lots);
+        }
+        let mut over: Vec<usize> = (0..c).filter(|&x| st[x] == HOPEFUL && votes[x] > quota + tol).collect();
+        if !over.is_empty() {
+            over.sort_by_key(|x| by_votes(&votes, x));
+            for x in over.into_iter().take(seats - elected.len()) {
+                st[x] = ELECTED;
+                elected.push(x as u32);
+            }
+            continue;
+        }
+        let mut rest: Vec<usize> = (0..c).filter(|&x| st[x] == HOPEFUL).collect();
+        if rest.len() + elected.len() <= seats {
+            rest.sort_by_key(|x| by_votes(&votes, x));
+            for x in rest {
+                st[x] = ELECTED;
+                elected.push(x as u32);
+            }
+            return finish(st, votes, gone, gone_papers, elected, excluded, deepest, lots);
+        }
+        // Lowest total first; equal totals, lowest lot first.
+        let x = *rest.iter().min_by_key(|&&x| (OrdF(votes[x]), lots[x])).unwrap();
+        st[x] = OUT;
+        keep[x] = 0.0;
+        excluded.push(x as u32);
+    }
+    unreachable!();
+
+    /// Whether the rest of the winners' surpluses can no longer change the next step. Hopefuls
+    /// gain at most `freed` votes, and only those ranked after a winner (`exposed`) gain at
+    /// all; the quota falls no lower than `floor`. Certain if everyone who could end up over
+    /// the quota is over it already and fits in the seats left (they will be elected, now or a
+    /// step later), or, if no one could end up over it, the lowest hopeful (lowest lot on equal
+    /// votes) will stay lowest.
+    #[allow(clippy::too_many_arguments)]
+    fn next_step_is_certain(st: &[u8], votes: &[f64], exposed: &[bool], lots: &[u64], quota: f64, freed: f64, floor: f64, tol: f64, seats_left: usize) -> bool {
+        let most = |x: usize| if exposed[x] { votes[x] + freed } else { votes[x] };
+        let hopeful = || (0..st.len()).filter(|&x| st[x] == HOPEFUL);
+        let over = hopeful().filter(|&x| votes[x] > quota + tol).count();
+        let could = hopeful().filter(|&x| most(x) > floor).count();
+        if over > 0 {
+            return could <= seats_left;
+        }
+        if could > 0 {
+            return false;
+        }
+        let Some(low) = hopeful().min_by_key(|&x| (OrdF(votes[x]), lots[x])) else { return true };
+        hopeful().all(|y| y == low || most(low) < votes[y] - tol || (!exposed[low] && votes[y] == votes[low] && lots[low] < lots[y]))
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn finish(st: Vec<u8>, votes: Vec<f64>, gone: f64, gone_papers: u64, elected: Vec<u32>, mut excluded: Vec<u32>, deepest: Vec<usize>, lots: &[u64]) -> Outcome {
+        // Candidates never excluded or elected count as the strongest losers, strongest last.
+        let mut rest: Vec<usize> = (0..st.len()).filter(|&x| st[x] == HOPEFUL).collect();
+        rest.sort_by_key(|&x| (OrdF(votes[x]), lots[x]));
+        excluded.extend(rest.into_iter().map(|x| x as u32));
+        Outcome { elected, excluded, deepest, exhausted_votes: gone, exhausted_papers: gone_papers }
+    }
+}
+
+/// Orders vote totals, which are never NaN.
+struct OrdF(f64);
+impl PartialEq for OrdF {
+    fn eq(&self, o: &Self) -> bool {
+        self.cmp(o).is_eq()
+    }
+}
+impl Eq for OrdF {}
+impl PartialOrd for OrdF {
+    fn partial_cmp(&self, o: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(o))
+    }
+}
+impl Ord for OrdF {
+    fn cmp(&self, o: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&o.0)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -331,5 +550,65 @@ mod tests {
             assert!(a.winners.contains(&0), "seed {seed}: {:?}", a.winners);
             assert!(a.winners.contains(&2), "seed {seed}: {:?}", a.winners);
         }
+    }
+
+    /// Meek STV, 3 seats, 24 voters: 12 rank A B C, 4 rank B, 3 rank C, 5 rank D.
+    /// No ballots exhaust at first, so the quota is 24 ÷ 4 = 6. A (12) is elected and keeps
+    /// half of each vote (6), passing 6 to B: 10, so B is elected too. B keeps 0.6 (6 of 10),
+    /// passing 12 × 0.5 × 0.4 = 2.4 to C: 5.4. D has 5, so D is excluded, and C is the only
+    /// hopeful left for the last seat. Winners A, B, C.
+    /// Cut after rank 2: B's votes from A now stop at B, and whatever B doesn't keep exhausts.
+    /// With A and B at the quota q, everyone else's votes are 3 + 5, so q = (2q + 8) ÷ 4 = 4.
+    /// D (5) is over it and wins; C (3) is not. Winners A, B, D.
+    /// Cut after rank 1: A's surplus exhausts. q = (q + 12) ÷ 4 = 4, so D (5) is elected, B (4)
+    /// is not yet; then q = (2q + 7) ÷ 4 = 3.5, and B (4) is elected. Winners A, B, D.
+    #[test]
+    fn meek_by_hand() {
+        let b = ballots(4, &[(12, &[0, 1, 2]), (4, &[1]), (3, &[2]), (5, &[3])]);
+        let a = analyze_other(&b, 3, System::MeekStv, 1, Truncation::Winners);
+        assert_eq!(a.winners, vec![0, 1, 2]);
+        assert_eq!(a.elected_order, vec![0, 1, 2]);
+        assert_eq!(a.excluded_order, vec![3]);
+        assert_eq!(a.winners_at, Some(vec![vec![0, 1, 3], vec![0, 1, 3], vec![0, 1, 2]]));
+        assert_eq!(a.seats_changed, Some(vec![1, 1, 0]));
+        assert_eq!(a.cutoff_rank, Some(3));
+        assert_eq!(a.reach_pct, vec![100.0, 50.0, 50.0]);
+    }
+
+    /// Meek and Cambridge agree where whole ballots can move exactly: the 2-seat election from
+    /// `cambridge_by_hand`. Quota 12 ÷ 3 = 4. A (8) keeps half: B 1 + 3 = 4, C 2 + 1 = 3, D 1.
+    /// B is at the quota, not over it, so D is excluded, and D's ballot takes B to 5. Winners
+    /// A and B. Cut after rank 1: A's surplus exhausts, q = (q + 4) ÷ 3 = 2. C (2) is not over
+    /// it; B and D tie at 1 and one goes by lot. Then q = (q + 3) ÷ 3 = 1.5 and C (2) wins.
+    #[test]
+    fn meek_matches_cambridge_by_hand() {
+        let b = one_each(4, &[(6, &[0, 1]), (2, &[0, 2]), (1, &[1]), (2, &[2]), (1, &[3, 1])]);
+        for seed in 1..10 {
+            let a = analyze_other(&b, 2, System::MeekStv, seed, Truncation::Winners);
+            assert_eq!(a.winners, vec![0, 1]);
+            assert_eq!(a.excluded_order[0], 3);
+            assert_eq!(a.winners_at.as_ref().unwrap()[0], vec![0, 2], "seed {seed}");
+            assert_eq!(a.cutoff_rank, Some(2));
+        }
+    }
+
+    /// Meek: a winner's surplus passes through another winner. 2 seats, 30 voters.
+    /// 14 rank A B C, 10 rank B, 6 rank D. Quota 30 ÷ 3 = 10. A (14) keeps 10/14, passing 4
+    /// to B, who is already at 10 and so elected with 14 too. Both winners are elected on the
+    /// first count, so the count ends: A and B.
+    /// With 3 seats, C gets what passes through both A and B: with A and B at the quota q,
+    /// 14 × (1 − kA) × (1 − kB) reaches C. D (6) stays, so C and D compete for the last seat.
+    /// A = 14 kA = q; B = (10 + 14 (1 − kA)) kB = q; C = 14 (1 − kA)(1 − kB); no votes exhaust,
+    /// so q = 30 ÷ 4 = 7.5. kA = 15/28, B gets 10 + 6.5 = 16.5, kB = 15/33, and C gets
+    /// 6.5 × 18/33 = 3.545. D (6) is over C, so C is excluded and D wins: A, B, D.
+    #[test]
+    fn meek_passes_through_winners() {
+        let b = ballots(4, &[(14, &[0, 1, 2]), (10, &[1]), (6, &[3])]);
+        let two = analyze_other(&b, 2, System::MeekStv, 1, Truncation::Off);
+        assert_eq!(two.winners, vec![0, 1]);
+        let three = analyze_other(&b, 3, System::MeekStv, 1, Truncation::Off);
+        assert_eq!(three.winners, vec![0, 1, 3]);
+        assert_eq!(three.excluded_order, vec![2]);
+        assert_eq!(three.reach_pct[2], 100.0 * 14.0 / 30.0);
     }
 }

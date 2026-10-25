@@ -14,7 +14,7 @@ use stvsim::{ballots, model, settings};
 
 fn usage() -> ! {
     eprintln!(
-        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
+        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--system scottish_stv|cambridge_stv|meek_stv|borda|approval] [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
     );
     std::process::exit(2)
 }
@@ -65,6 +65,17 @@ fn count_files(args: &[String]) {
                 };
                 i += 1;
             }
+            "--system" => {
+                opt.system = match val() {
+                    "scottish_stv" => System::ScottishStv,
+                    "cambridge_stv" => System::CambridgeStv,
+                    "meek_stv" => System::MeekStv,
+                    "borda" => System::Borda,
+                    "approval" => System::Approval,
+                    _ => usage(),
+                };
+                i += 1;
+            }
             "--seed" => {
                 opt.lot_seed = val().parse().unwrap_or_else(|_| usage());
                 i += 1;
@@ -100,6 +111,7 @@ fn count_files(args: &[String]) {
         let mut line = json!({
             "file": f,
             "engine": engine_info(),
+            "system": opt.system,
             "rules": opt.rules,
             "surplus_order": opt.surplus,
             "lot_seed": opt.lot_seed,
