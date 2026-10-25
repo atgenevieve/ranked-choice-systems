@@ -475,7 +475,8 @@ pub fn worth_in_election(
 /// One simulated election, `i`, as a compact record for a page that shows elections as they
 /// finish (the public simulator): `cut`, its cutoff rank; `sc`, the seats that change when
 /// ballots are cut after rank 1, 2, … (up to the cutoff rank, after which none do); `v`, its
-/// voters; and, when `worth` is set, `w`, the summed change in winning for the 4 candidates drawn
+/// voters; `u` and `m`, for each rank, the votes there that ended up counting toward a winner
+/// and the ballots that rank anyone there; and, when `worth` is set, `w`, the summed change in winning for the 4 candidates drawn
 /// at random at each position (trailing zeros left off), and `wd`, how deep each was studied.
 /// The same numbers `simulate` and `position_worth` add up, election by election.
 pub fn election_record(s: &Settings, seats: usize, i: usize, worth: bool) -> Value {
@@ -489,7 +490,14 @@ pub fn election_record(s: &Settings, seats: usize, i: usize, worth: bool) -> Val
     let a = analyze(&b, seats, o, Truncation::Winners);
     let cut = a.cutoff_rank.unwrap_or(1);
     let sc: Vec<u32> = a.seats_changed.as_deref().unwrap_or(&[]).iter().take(cut.saturating_sub(1)).copied().collect();
-    let mut rec = json!({ "cut": cut, "sc": sc, "v": v });
+    // Share of the win: votes at each rank that ended up counting toward a winner, and ballots
+    // that rank anyone there (both trailing zeros left off).
+    let trim = |x: &[f64], round: f64| {
+        let mut x: Vec<f64> = x.iter().map(|y| (y * round).round() / round).collect();
+        x.truncate(x.iter().rposition(|&y| y != 0.0).map_or(0, |p| p + 1));
+        x
+    };
+    let mut rec = json!({ "cut": cut, "sc": sc, "v": v, "u": trim(&a.used_votes, 100.0), "m": trim(&a.marked, 1.0) });
     if worth {
         let limit = s.ballot.max_ranks(seats).unwrap_or(len).min(len);
         let mut w = vec![0i32; limit];

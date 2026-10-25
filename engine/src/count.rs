@@ -225,6 +225,9 @@ pub struct Counter<'a, N: Num> {
     track_reach: bool,
     /// reach[d] = vote weight that traveled to rank index d or deeper.
     reach: Vec<f64>,
+    /// used[d] = vote weight at rank index d that ended up counting toward a winner: what each
+    /// winner kept after passing on their surplus (tracked with reach).
+    used: Vec<f64>,
     exhausted_votes: f64,
     exhausted_papers: u64,
     /// first_landing[j] = first stage at which any vote landed at rank index j.
@@ -269,6 +272,7 @@ impl<'a, N: Num> Counter<'a, N> {
             stage: 0,
             track_reach,
             reach: if track_reach { vec![0.0; len] } else { Vec::new() },
+            used: if track_reach { vec![0.0; len] } else { Vec::new() },
             exhausted_votes: 0.0,
             exhausted_papers: 0,
             first_landing: vec![u32::MAX; len],
@@ -510,11 +514,19 @@ impl<'a, N: Num> Counter<'a, N> {
                 self.begin_transfer();
                 for p in pieces.iter() {
                     let mv = N::transfer(p.v, surplus, total);
+                    if self.track_reach {
+                        let m = self.bal.mult(p.b as usize);
+                        self.used[p.i as usize] += p.v.times(m).to_votes() - mv.times(m).to_votes();
+                    }
                     if !mv.is_zero() {
                         self.place(p.b as usize, mv, p.i as usize);
                     }
                 }
                 self.end_transfer();
+            } else if self.track_reach {
+                for p in pieces.iter() {
+                    self.used[p.i as usize] += p.v.times(self.bal.mult(p.b as usize)).to_votes();
+                }
             }
             return true;
         }
@@ -545,6 +557,23 @@ impl<'a, N: Num> Counter<'a, N> {
 
     pub fn run(&mut self) {
         while self.step() {}
+        if self.track_reach {
+            // Winners whose piles are still whole: elected at the end without a quota, or
+            // elected as the last seats filled, before their surplus moved. Each keeps a quota's
+            // worth at most, shared across their pile.
+            let q = self.quota.to_votes();
+            for i in 0..self.elected.len() {
+                let c = self.elected[i] as usize;
+                let total = self.tot[c].to_votes();
+                if self.pile[c].is_empty() || total <= 0.0 {
+                    continue;
+                }
+                let keep = (q / total).min(1.0);
+                for p in self.pile[c].iter() {
+                    self.used[p.i as usize] += keep * p.v.times(self.bal.mult(p.b as usize)).to_votes();
+                }
+            }
+        }
     }
 }
 
@@ -569,6 +598,10 @@ pub struct Analysis {
     pub excluded_order: Vec<u32>,
     /// reach_pct[d] = share of all votes (out of 100) that traveled to rank d+1 or deeper.
     pub reach_pct: Vec<f64>,
+    /// used_votes[d] = votes at rank d+1 that ended up counting toward a winner (see `Counter::used`).
+    pub used_votes: Vec<f64>,
+    /// marked[d] = ballots that rank someone at rank d+1.
+    pub marked: Vec<f64>,
     /// Deepest rank any vote landed on.
     pub deepest_rank: usize,
     /// Share of voting weight (out of 100) lost because ballots ran out of hopeful candidates.
@@ -615,6 +648,8 @@ fn analyze_with<N: Num>(bal: &Ballots, seats: usize, opt: Options, trunc: Trunca
         elected_order: full.elected.clone(),
         excluded_order: full.excluded.clone(),
         reach_pct: full.reach.iter().map(|x| 100.0 * x / v).collect(),
+        used_votes: full.used.clone(),
+        marked: (0..bal.len).map(|d| (0..bal.rows()).filter(|&b| bal.row(b)[d] != NONE).map(|b| bal.mult(b) as f64).sum()).collect(),
         deepest_rank: deepest + 1,
         exhausted_votes_pct: 100.0 * full.exhausted_votes / v,
         exhausted_ballots_pct: 100.0 * full.exhausted_papers as f64 / v,
@@ -702,6 +737,11 @@ mod tests {
             let a = analyze(&b, 1, opt(rules), Truncation::Winners);
             assert_eq!(a.winners, vec![1]);
             assert_eq!(a.reach_pct, vec![100.0, 25.0, 10.0]);
+            // Ben wins with 60 (35 first choices, 15 seconds from Cy, 10 thirds from Dee) and keeps
+            // a quota of 51 of them, shared in proportion.
+            let used: Vec<f64> = a.used_votes.iter().map(|x| (x * 1000.0).round() / 1000.0).collect();
+            assert_eq!(used, vec![29.75, 12.75, 8.5]);
+            assert_eq!(a.marked, vec![100.0, 100.0, 100.0]);
             assert_eq!(a.changed, Some(vec![true, false, false]));
             assert_eq!(a.winners_at, Some(vec![vec![0], vec![1], vec![1]]));
             assert_eq!(a.cutoff_rank, Some(2));
