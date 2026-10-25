@@ -249,10 +249,14 @@ function drawBranches() {
       sec.append(says);
     }
     const pair = document.createElement("div"); pair.className = "pair";
+    // The line under each chart title: what the chart is made of.
+    const across = n => `Across ${Number(n).toLocaleString()} simulated elections with ${seats} seats, ${b.candidates} candidates, and ${Number(b.voters).toLocaleString()} voters.`;
+    const subtitle = n => { const p = document.createElement("p"); p.className = "chartsub"; p.textContent = across(n); return p; };
+    const sims = got[0].g.total || got[0].g.r.settings.run.sims;
     const half = (title, legendHtml, rows) => {
       const d = document.createElement("div");
       const head = document.createElement("div"); head.className = "charthead";
-      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows, () => d)); d.append(head);
+      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows, () => d)); d.append(head, subtitle(sims));
       if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; d.append(l); }
       const c = document.createElement("div"); c.className = "chart"; d.append(c);
       pair.append(d);
@@ -274,8 +278,8 @@ function drawBranches() {
         return [k, ...fs.map(({ f, x }) => k <= x ? r2(f.mid[k - 1]) : ""), ...fs.map(({ f, x }) => k <= x ? f.most[k - 1] : "")];
       }),
     ];
-    const c1 = half("How many elections are still undecided", sysLegend, undecidedRows);
-    const c2 = half("How many winners change when ballots get cut", many
+    const c1 = half("How many elections are still undecided?", sysLegend, undecidedRows);
+    const c2 = half("How many winners change when ballots get cut?", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
       changeRows);
@@ -296,7 +300,7 @@ function drawBranches() {
           ...Array.from({ length: n }, (_, i) => [i + 1, ...ms.map(({ m }) => m.any[i] ? r2(m.any[i].m) : "")])];
       };
       const head = document.createElement("div"); head.className = "charthead"; head.append(t, copyButton(worthRows, () => card));
-      card.append(head);
+      card.append(head, subtitle(ms[0].w.total));
       if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
       card.append(read, c3);
       sec.append(card);
