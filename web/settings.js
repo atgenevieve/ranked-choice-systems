@@ -1,51 +1,74 @@
 // The public simulator's settings: what a visitor chooses, turned into the engine's settings
 // (a settings file as JSON, as in engine/README.md), and the engine requests that answer them.
-// Shared by the precompute script (precompute.mjs, in Node) and the web page, so a request the
-// page makes for the default settings is exactly the request that was precomputed.
+// Shared by the precompute script (precompute.mjs, in Node) and the web page, so the settings
+// the page builds for a preset are exactly the ones that were precomputed.
 // The model defaults are the tuner's branch page defaults (tuner/branches.html).
 
-/** Model settings a visitor can change, with the defaults the owner uses on the branch page. */
-export const MODEL_DEFAULTS = {
-  electorate: "organization",
+/** Every setting a visitor can change, with its default. */
+export const DEFAULTS = {
+  // Election tab
+  candidates: 113,
+  seats: 67,
+  slots: null,          // ballot slots: N in "rank up to N"; null means the number of seats
+  voters: 706,
   turnout: 10,          // turnout uncertainty, ± percent
+  // Ballot tab
   wording: "up_to",     // "up_to", "at_least", "exactly", or "none"
-  n: null,              // N in "rank up to N"; null means N is the number of seats
-  pull: 0.1,            // share of "up to N" voters drawn toward exactly N
+  pullAuto: false,      // use the share measured on real ballots
+  pull: 0.1,            // share of voters who'd stop short of N but rank exactly N
+  // Voters tab
+  electorate: "organization",
+  // Slates tab
   slates: 4,
   sizing: "expected_seats",
-  unaff: 0.15,          // share of voters on no slate, at least
+  unaff: 0.15,          // share of candidates on no slate, at least
   loyalty: 11,          // slate loyalty, in points above popularity
   evenness: 0.785,
-  spread: "auto",       // popularity spread, or "auto" for the value fitted to real elections
-  longshot: "auto",     // long shot share, or "auto"
-  gap: 2,               // how far long shots trail
+  // Popularity tab
+  spreadAuto: true,
+  spread: 1,
+  longshotAuto: true,
+  longshot: 0,
+  gap: 2,
+  // Seed tab
+  seed: 1,
 };
 
-/** Simulated elections per setting, and the seed every run starts from. */
-export const RUN = { sims: 1000, seed: 1 };
+/** The election numbers, set on the first tab or by a preset. */
+export const ELECTION_FIELDS = ["candidates", "seats", "slots", "voters"];
 
-/** Simulated elections per "worth" request, so a pool of workers can share them out. */
-export const WORTH_CHUNK = 50;
+/** Simulated elections per setting. */
+export const SIMS = 1000;
+
+/** Simulated elections per engine request when the page runs the engine itself: small, so the
+ *  charts fill in smoothly and a pool of workers can share them out. */
+export const CHUNK = 5;
+
+/** The share pulled up to N measured on real ballots, by ballot wording (docs/model-spec.md). */
+export const PULL_MEASURED = { up_to: 0.23, at_least: 0.97, exactly: 1 };
 
 /** Elections a visitor can start from. Candidates and seats for the NYC DSA branches come from
  *  the branches' candidate counts; voters from the 2026 turnout projections (tuner/branches.js). */
 export const PRESETS = [
-  { id: "bronx-upper-manhattan", group: "NYC DSA branch delegate elections", name: "Bronx/Upper Manhattan", candidates: 120, seats: 65, voters: 626 },
-  { id: "central-brooklyn", group: "NYC DSA branch delegate elections", name: "Central Brooklyn", candidates: 132, seats: 83, voters: 838 },
-  { id: "flatbush", group: "NYC DSA branch delegate elections", name: "Flatbush", candidates: 55, seats: 32, voters: 477 },
-  { id: "lower-manhattan", group: "NYC DSA branch delegate elections", name: "Lower Manhattan", candidates: 87, seats: 61, voters: 437 },
-  { id: "north-brooklyn", group: "NYC DSA branch delegate elections", name: "North Brooklyn", candidates: 105, seats: 76, voters: 731 },
-  { id: "queens", group: "NYC DSA branch delegate elections", name: "Queens", candidates: 113, seats: 67, voters: 706 },
-  { id: "south-brooklyn-staten-island", group: "NYC DSA branch delegate elections", name: "South Brooklyn + Staten Island", candidates: 78, seats: 51, voters: 461 },
+  { id: "bronx-upper-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "Bronx/Upper Manhattan", candidates: 120, seats: 65, voters: 626 },
+  { id: "central-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "Central Brooklyn", candidates: 132, seats: 83, voters: 838 },
+  { id: "flatbush", group: "NYC DSA branch delegate elections, 2026", name: "Flatbush", candidates: 55, seats: 32, voters: 477 },
+  { id: "lower-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "Lower Manhattan", candidates: 87, seats: 61, voters: 437 },
+  { id: "north-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "North Brooklyn", candidates: 105, seats: 76, voters: 731 },
+  { id: "queens", group: "NYC DSA branch delegate elections, 2026", name: "Queens", candidates: 113, seats: 67, voters: 706 },
+  { id: "south-brooklyn-staten-island", group: "NYC DSA branch delegate elections, 2026", name: "South Brooklyn + Staten Island", candidates: 78, seats: 51, voters: 461 },
   { id: "metro-dc-2025", group: "Other elections", name: "Metro DC DSA delegates, 2025", candidates: 75, seats: 46, voters: 432 },
 ];
 export const DEFAULT_PRESET = "queens";
 
+/** A preset's settings: the defaults with the preset's election numbers. */
+export const presetChoice = p => ({ ...DEFAULTS, candidates: p.candidates, seats: p.seats, voters: p.voters, slots: null });
+
 // ---------------------------------------------------------------- slate curves
 // Slate loyalty in points <-> the engine's own-slate multiplier, and evenness <-> spread to other
 // slates, from what each setting produced on twins of Scottish wards (data/model_check.py --curves,
-// saved in tuner/reference.json as slate_curves). The page and the precompute both read them from
-// the precomputed file, so they always agree.
+// saved in tuner/reference.json as slate_curves). The page reads them from meta.json, which the
+// precompute writes, so the page and the precompute always agree.
 
 function interp(points, x) {
   if (x <= points[0][0]) return points[0][1];
@@ -60,52 +83,71 @@ function interp(points, x) {
 const strengthFor = (curves, points) => Math.exp(interp(curves.strength.map(d => [d.clustering * 100, Math.log(d.setting)]), points));
 const spreadFor = (curves, evenness) =>
   interp(curves.spread.filter(d => d.setting >= 0.3).map(d => [d.evenness, d.setting]).sort((a, b) => a[0] - b[0]), evenness);
+/** Evenness from the engine's spread to other slates: the inverse of spreadFor. */
+export const evennessFor = (curves, spread) => interp(curves.spread.filter(d => d.setting >= 0.3).map(d => [d.setting, d.evenness]), spread);
 
 const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || lo)));
+const num = (v, lo, hi) => Math.max(lo, Math.min(hi, Number.isFinite(Number(v)) ? Number(v) : lo));
 
 /** Limits on what a visitor can enter. */
-export const LIMITS = { candidates: [2, 300], voters: [10, 50000], turnout: [0, 30] };
+export const LIMITS = { candidates: [2, 300], voters: [10, 50000], turnout: [0, 30], slates: [1, 12], seed: [1, 1e9] };
 
-/** The engine's settings for one election: `election` is {candidates, seats, voters}; `model`
- *  is MODEL_DEFAULTS with any changes. */
-export function engineSettings(election, model, curves) {
-  const m = { ...MODEL_DEFAULTS, ...model };
-  const cand = int(election.candidates, ...LIMITS.candidates);
-  const seats = int(election.seats, 1, cand - 1);
-  const ballot = { wording: m.wording };
-  if (m.wording !== "none") ballot.n = m.n == null ? "seats" : int(m.n, 1, cand);
-  if (m.wording === "up_to" || m.wording === "at_least") ballot.pull = Number(m.pull);
+/** A visitor's choice with every value in range: whole numbers where needed, seats fewer than
+ *  candidates, and ballot slots no more than candidates. */
+export function clean(choice) {
+  const c = { ...DEFAULTS, ...choice };
+  c.candidates = int(c.candidates, ...LIMITS.candidates);
+  c.seats = int(c.seats, 1, c.candidates - 1);
+  c.slots = c.slots == null || c.slots === "" ? null : int(c.slots, 1, c.candidates);
+  c.voters = int(c.voters, ...LIMITS.voters);
+  c.turnout = int(c.turnout, ...LIMITS.turnout);
+  if (!["up_to", "at_least", "exactly", "none"].includes(c.wording)) c.wording = DEFAULTS.wording;
+  c.pull = num(c.pull, 0, 1);
+  if (!["organization", "public"].includes(c.electorate)) c.electorate = DEFAULTS.electorate;
+  c.slates = int(c.slates, ...LIMITS.slates);
+  if (!["expected_seats", "same_as_voters"].includes(c.sizing)) c.sizing = DEFAULTS.sizing;
+  c.unaff = num(c.unaff, 0, 0.5);
+  c.loyalty = num(c.loyalty, 4, 66);
+  c.evenness = num(c.evenness, 0.65, 0.83);
+  c.spread = num(c.spread, 0, 2);
+  c.longshot = num(c.longshot, 0, 0.4);
+  c.gap = num(c.gap, -3, 4);
+  c.seed = int(c.seed, ...LIMITS.seed);
+  for (const k of ["pullAuto", "spreadAuto", "longshotAuto"]) c[k] = !!c[k];
+  return c;
+}
+
+/** The engine's settings for a visitor's choice. */
+export function engineSettings(choice, curves) {
+  const c = clean(choice);
+  const ballot = { wording: c.wording };
+  if (c.wording !== "none") ballot.n = c.slots == null ? "seats" : c.slots;
+  if (!c.pullAuto && (c.wording === "up_to" || c.wording === "at_least")) ballot.pull = c.pull;
   return {
-    run: { name: "simulator", seed: RUN.seed, sims: RUN.sims, truncation: true, curve_ranks: 0 },
-    election: { candidates: cand, seats: [seats], voters: int(election.voters, ...LIMITS.voters), turnout_spread: int(m.turnout, ...LIMITS.turnout) / 100, ranks: cand },
-    electorate: { type: m.electorate },
+    run: { name: "simulator", seed: c.seed, sims: SIMS, truncation: true, curve_ranks: 0 },
+    election: { candidates: c.candidates, seats: [c.seats], voters: c.voters, turnout_spread: c.turnout / 100, ranks: c.candidates },
+    electorate: { type: c.electorate },
     ballot,
     model: {
       version: "0.2",
-      slates: int(m.slates, 1, 12),
-      slate_candidates: m.sizing,
-      slate_strength: Number(strengthFor(curves, Number(m.loyalty)).toFixed(2)),
-      unaffiliated_share: Number(m.unaff),
-      other_slate_spread: Number(spreadFor(curves, Number(m.evenness)).toFixed(3)),
-      popularity_spread: m.spread === "auto" ? "auto" : Number(m.spread),
-      long_shot_share: m.longshot === "auto" ? "auto" : Number(m.longshot),
-      long_shot_gap: Number(m.gap),
+      slates: c.slates,
+      slate_candidates: c.sizing,
+      slate_strength: Number(strengthFor(curves, c.loyalty).toFixed(2)),
+      unaffiliated_share: c.unaff,
+      other_slate_spread: Number(spreadFor(curves, c.evenness).toFixed(3)),
+      popularity_spread: c.spreadAuto ? "auto" : c.spread,
+      long_shot_share: c.longshotAuto ? "auto" : c.longshot,
+      long_shot_gap: c.gap,
     },
   };
 }
 
-/** Every engine request one election needs: the election itself (truncation curve and winners
- *  changed), then what each ballot position is worth, in chunks. */
-export function requestsFor(settings) {
-  const out = [{ task: "election", settings }];
-  for (let first = 0; first < settings.run.sims; first += WORTH_CHUNK)
-    out.push({ task: "worth", settings, first, count: Math.min(WORTH_CHUNK, settings.run.sims - first) });
-  return out;
-}
+/** The engine request for simulated elections first to first + count − 1. */
+export const streamRequest = (settings, first, count) => ({ task: "stream", settings, first, count, worth: true });
 
-/** A request as text with its keys sorted, so the same request always gives the same key. */
-export function requestKey(request) {
+/** Settings as text with keys sorted, so the same settings always give the same key. */
+export function settingsKey(settings) {
   const canon = v => Array.isArray(v) ? v.map(canon)
     : v && typeof v === "object" ? Object.fromEntries(Object.keys(v).sort().map(k => [k, canon(v[k])])) : v;
-  return JSON.stringify(canon(request));
+  return JSON.stringify(canon(settings));
 }
