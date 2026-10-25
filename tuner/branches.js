@@ -320,7 +320,7 @@ function drawBranches() {
       const read = document.createElement("p"); read.className = "read";
       const slow = left.reduce((a, x) => (!a || x.w.done / x.w.total < a.w.done / a.w.total ? x : a), null);
       const fewer = ms.filter(({ w }) => w.total < Math.max(...ms.map(x => x.w.total)));
-      read.textContent = `How much each vote at this rank increases a candidate's average chance of winning, across ${Math.max(...ms.map(({ w }) => w.total)).toLocaleString()} simulated elections.` +
+      read.textContent = `How much each vote at this rank increases a candidate's average chance of winning, ${across(Math.max(...ms.map(({ w }) => w.total))).replace(/^A/, "a")}` +
         fewer.map(({ sys, w }) => ` ${sys.name}: from ${w.total.toLocaleString()} simulated elections, because it takes far longer to count.`).join("") +
         (slow ? ` Still running: ${slow.w.done.toLocaleString()} of ${slow.w.total.toLocaleString()} simulated elections so far${ms.length > 1 ? ` for ${slow.sys.name}` : ""}.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
@@ -330,7 +330,7 @@ function drawBranches() {
           ...Array.from({ length: n }, (_, i) => [i + 1, ...ms.map(({ m }) => m.any[i] ? r2(m.any[i].m) : "")])];
       };
       const head = document.createElement("div"); head.className = "charthead"; head.append(t, copyButton(worthRows, () => card));
-      card.append(head, subtitle(ms[0].w.total));
+      card.append(head);
       if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
       card.append(read, c3);
       sec.append(card);
