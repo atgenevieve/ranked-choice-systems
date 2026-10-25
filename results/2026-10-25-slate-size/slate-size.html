@@ -55,66 +55,147 @@ code { font-family: var(--font-data); font-size: 13px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .seg button:focus-visible { outline: 2px solid var(--sys-borda); outline-offset: 2px; }
 .wrap[data-seats="5"] .s50, .wrap[data-seats="50"] .s5 { display: none; }
+.ex { display: grid; gap: 10px; border: 1px solid var(--rule); padding: 16px 18px; min-width: 0; }
+.ex h3 { margin: 0; font-size: 17px; font-weight: 700; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.pair > div { min-width: 0; display: grid; gap: 6px; align-content: start; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { font-weight: 600; color: var(--ink-2); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+td.num, th.num { text-align: right; }
+tr.total td { border-top: 1.5px solid var(--ink); border-bottom: 0; font-weight: 700; }
+.win { color: var(--sys-borda); font-weight: 700; }
+.ballot { font-family: var(--font-data); font-size: 13px; }
+.takeaway { font-size: 17px; font-weight: 600; max-width: 66ch; }
 </style>
-
 <div class="wrap" data-seats="5">
   <header>
-    <h1>Borda counts change when a slate runs more candidates</h1>
-    <p>The same voters, with the same loyalties, can win a different number of seats under the Borda count just because one slate runs more or fewer candidates. Scottish STV holds steady. These charts show how big the swing is, in a 5-seat and a 50-seat election.</p>
+    <h1>Why a Borda count rewards or punishes a slate for how many candidates it runs</h1>
+    <p>Under the Borda count, the same voters can elect a different number of a slate's candidates depending only on how many candidates the slate puts up. Two tiny elections show why, and simulations show how big the effect gets.</p>
   </header>
 
-  <div class="setup">
-    <div class="label">The test election</div>
+  <section>
+    <div class="label">How a Borda count works</div>
+    <p>Each ballot hands out points by rank. If <b>N</b> candidates are running, a voter's first choice gets N − 1 points, their second choice N − 2, and so on down to 0. Candidates a voter leaves off get 0. The candidates with the most points win the seats.</p>
+    <p>The key detail: <b>a first choice is worth more points when more candidates are running.</b> So every candidate who enters the race changes the value of every rank on every ballot.</p>
+  </section>
+
+  <section>
+    <div class="label">Example 1 · Everyone ranks every candidate</div>
+    <h2>An extra candidate nobody needed wins slate A the seat</h2>
+    <p>One seat. Slate A has 2 voters, slate B has 3. Everyone ranks their own slate first, then the rest.</p>
+    <div class="ex">
+      <div class="pair">
+        <div>
+          <h3>Slate A runs 1 candidate</h3>
+          <div class="scroll"><table>
+            <tr><th>Voters</th><th>Ballot</th><th class="num">A1</th><th class="num">B1</th></tr>
+            <tr><td>2 slate A</td><td class="ballot">A1, B1</td><td class="num">2 × 1</td><td class="num">0</td></tr>
+            <tr><td>3 slate B</td><td class="ballot">B1, A1</td><td class="num">0</td><td class="num">3 × 1</td></tr>
+            <tr class="total"><td colspan="2">Points</td><td class="num">2</td><td class="num win">3 ✓</td></tr>
+          </table></div>
+          <p class="why">B1 wins, as you'd expect: more voters prefer B1.</p>
+        </div>
+        <div>
+          <h3>Slate A adds a second candidate</h3>
+          <div class="scroll"><table>
+            <tr><th>Voters</th><th>Ballot</th><th class="num">A1</th><th class="num">A2</th><th class="num">B1</th></tr>
+            <tr><td>2 slate A</td><td class="ballot">A1, A2, B1</td><td class="num">2 × 2</td><td class="num">2 × 1</td><td class="num">0</td></tr>
+            <tr><td>3 slate B</td><td class="ballot">B1, A1, A2</td><td class="num">3 × 1</td><td class="num">0</td><td class="num">3 × 2</td></tr>
+            <tr class="total"><td colspan="2">Points</td><td class="num win">7 ✓</td><td class="num">2</td><td class="num">6</td></tr>
+          </table></div>
+          <p class="why">Now A1 wins. Nobody changed their mind about A1 or B1.</p>
+        </div>
+      </div>
+      <p>What happened: on slate A's ballots, A2 sits between A1 and B1, so A1's lead over B1 grows from 1 point to 2 on each of those ballots. On slate B's ballots, A2 lands at the bottom, below A1, so B1's lead over A1 stays at 1 point. So slate A gained ground on its own ballots and lost none on slate B's. The extra candidate worked as a spacer.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Simulation 1 · Disciplined slates, everyone ranks every candidate</div>
+    <h2>The spacer effect at scale: more candidates, more seats</h2>
+    <p class="why">This switch changes all three simulations.</p>
     <div class="seg" role="group" aria-label="Seats">
       <button type="button" id="seats-5" data-seats="5" aria-pressed="true">5 seats</button>
       <button type="button" id="seats-50" data-seats="50" aria-pressed="false">50 seats</button>
     </div>
-    <ul>
-      <li><span class="s5">1,000 voters elect 5 seats.</span><span class="s50">100 voters elect 50 seats.</span></li>
-      <li><b>Slate A</b> has 40% of voters. Its fair share is <span class="s5">2 seats (40% of 5)</span><span class="s50">20 seats (40% of 50)</span>.</li>
-      <li><b>Slate B</b> has 60% of voters and always runs <span class="s5">5</span><span class="s50">50</span> candidates.</li>
-      <li>Slate A runs anywhere from <span class="s5">1 to 12</span><span class="s50">10 to 120</span> candidates. Nothing else changes: running more candidates splits a slate's support among them, but doesn't win it new supporters.</li>
-      <li>Each point is 1,000 simulated elections. Hover or tap a point to see how often slate A won its fair share.</li>
-    </ul>
-    <p class="why">The <b>Borda count</b> gives a candidate points for each ballot: the more candidates are running, the more points a first choice is worth, down to 0 for anyone left off. The highest totals win. <b>Approval</b> here counts every candidate a voter ranked as approved, and the most approved win.</p>
-  </div>
-
-  <section>
-    <div class="label">Chart 1 · Disciplined slates, everyone ranks every candidate</div>
-    <h2>Under Borda, slate A wins more seats the more candidates it runs</h2>
+    <p class="why">
+      <span class="s5">1,000 voters elect 5 seats. Slate A has 40% of voters, so its fair share is 2 seats. Slate B has 60% and runs 5 candidates. Slate A runs 1 to 12.</span>
+      <span class="s50">100 voters elect 50 seats. Slate A has 40% of voters, so its fair share is 20 seats. Slate B has 60% and runs 50 candidates. Slate A runs 10 to 120.</span>
+      Running more candidates splits a slate's support among them but doesn't win it new voters. Each point is the average of 1,000 simulated elections.</p>
     <div class="legend" data-legend="tight/all"></div>
     <div class="chart" data-chart="tight/all"></div>
-    <p class="why">Each extra candidate from slate A lands between A's favorites and slate B on every A voter's ballot. That widens the points gap between A's favorites and B's candidates on every A ballot. On B's ballots, the extra candidate lands below everyone who matters, so it costs A nothing there.
-      <span class="s5">Running 12 candidates instead of 2 nearly doubles slate A's seats, from 0.8 to 1.6, with no change in what voters want. STV stays at exactly 2 seats however many candidates A runs.</span>
-      <span class="s50">Running 120 candidates instead of 20 nearly doubles slate A's seats, from 9 to 17, with no change in what voters want. STV stays at 20 seats however many candidates A runs.</span>
-      Approval is left out of this chart: if every voter ranks everyone, every candidate is approved by every voter.</p>
+    <p class="why">
+      <span class="s5">Under Borda, slate A goes from 0.8 seats with 2 candidates to 1.6 seats with 12. Under STV it wins exactly 2 seats however many it runs.</span>
+      <span class="s50">Under Borda, slate A goes from 9 seats with 20 candidates to 17 seats with 120. Under STV it wins about 20 seats however many it runs.</span>
+      Slate B could fight back by running spacers of its own, so a Borda election rewards whichever slate floods the ballot hardest.</p>
   </section>
 
   <section>
-    <div class="label">Chart 2 · Disciplined slates, each voter ranks <span class="s5">5</span><span class="s50">50</span> candidates</div>
-    <h2>With shorter ballots, the same extra candidates push slate A out</h2>
+    <div class="label">Example 2 · Voters rank only a few candidates</div>
+    <h2>Now the extra candidates cost slate A its seat</h2>
+    <p>Two seats. Slate A has 2 voters, slate B has 3. Each voter ranks only their own slate, up to 2 candidates. Slate B runs 2 candidates.</p>
+    <div class="ex">
+      <div class="pair">
+        <div>
+          <h3>Slate A runs 1 · 3 running</h3>
+          <p class="why">First choice is worth 2 points, second choice 1.</p>
+          <div class="scroll"><table>
+            <tr><th>Voters</th><th>Ballot</th><th class="num">A1</th><th class="num">B1</th><th class="num">B2</th></tr>
+            <tr><td>2 slate A</td><td class="ballot">A1</td><td class="num">2 × 2</td><td class="num">0</td><td class="num">0</td></tr>
+            <tr><td>3 slate B</td><td class="ballot">B1, B2</td><td class="num">0</td><td class="num">3 × 2</td><td class="num">3 × 1</td></tr>
+            <tr class="total"><td colspan="2">Points</td><td class="num win">4 ✓</td><td class="num win">6 ✓</td><td class="num">3</td></tr>
+          </table></div>
+          <p class="why">One seat each: the fair result.</p>
+        </div>
+        <div>
+          <h3>Slate A runs 3 · 5 running</h3>
+          <p class="why">First choice is now worth 4 points, second choice 3.</p>
+          <div class="scroll"><table>
+            <tr><th>Voters</th><th>Ballot</th><th class="num">A1</th><th class="num">A2</th><th class="num">B1</th><th class="num">B2</th></tr>
+            <tr><td>2 slate A</td><td class="ballot">A1, A2</td><td class="num">2 × 4</td><td class="num">2 × 3</td><td class="num">0</td><td class="num">0</td></tr>
+            <tr><td>3 slate B</td><td class="ballot">B1, B2</td><td class="num">0</td><td class="num">0</td><td class="num">3 × 4</td><td class="num">3 × 3</td></tr>
+            <tr class="total"><td colspan="2">Points</td><td class="num">8</td><td class="num">6</td><td class="num win">12 ✓</td><td class="num win">9 ✓</td></tr>
+          </table></div>
+          <p class="why">Slate B takes both seats.</p>
+        </div>
+      </div>
+      <p>What happened: slate A's extra candidates made every rank worth 2 more points, on every ballot. Slate B has 3 voters to slate A's 2, so each step up adds 3 points to B2 but only 2 to A1. B2 started 1 point behind A1 and ended 1 point ahead. With short ballots, more candidates in the race help the bigger slate.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Simulation 2 · Disciplined slates, each voter ranks <span class="s5">5</span><span class="s50">50</span> candidates</div>
+    <h2>With short ballots, the more candidates slate A runs, the fewer seats it wins</h2>
     <div class="legend" data-legend="tight/up_to_seats"></div>
     <div class="chart" data-chart="tight/up_to_seats"></div>
-    <p class="why">When voters rank only as many candidates as there are seats, each extra candidate on the field raises the points every ranked candidate gets, for every voter. Slate B has more voters, so it gains more from each raise.
-      <span class="s5">Once slate A runs 8 candidates, it wins nothing under Borda.</span>
-      <span class="s50">Under Borda, slate A falls from 8 seats when it runs 10 candidates to under 1 seat when it runs 100.</span>
-      The direction of the effect flips with ballot length, which is part of the problem: a slate can't know in advance whether running more helps or hurts. Approval gives the majority slate <span class="s5">every seat</span><span class="s50">nearly every seat</span> here, whatever slate A does.</p>
+    <p class="why">
+      <span class="s5">Under Borda, slate A wins 0.8 seats with 1 candidate and nothing once it runs 8.</span>
+      <span class="s50">Under Borda, slate A falls from 8 seats with 10 candidates to under 1 seat with 100.</span>
+      Same voters as simulation 1. The only difference is how many candidates each voter ranks, and it flips the direction of the effect.</p>
   </section>
 
   <section>
-    <div class="label">Chart 3 · Loose slates, each voter ranks <span class="s5">5</span><span class="s50">50</span> candidates</div>
-    <h2>With loose slates, every method rewards a slate that runs about as many candidates as it can win</h2>
+    <div class="label">Simulation 3 · Loose slates, each voter ranks <span class="s5">5</span><span class="s50">50</span> candidates</div>
+    <h2>With looser loyalty, Borda punishes a slate that runs too many</h2>
     <div class="legend" data-legend="loose/up_to_seats"></div>
     <div class="chart" data-chart="loose/up_to_seats"></div>
-    <p class="why">Here voters lean toward their own slate (4 times as likely to pick it at each rank) but often rank the other slate's candidates too, closer to how members vote in real organizations.
-      <span class="s5">Every method peaks when slate A runs 3 or 4 candidates. Running more spreads A's votes too thin. Under STV the loss is gradual, from 2.1 to 1.4 seats at 12 candidates, as votes leak to slate B and ballots run out. Under Borda and approval, slate A drops to under 1 seat.</span>
-      <span class="s50">Every method peaks when slate A runs 30 to 40 candidates. Running more spreads A's votes too thin. Under STV the loss is gradual, from 22 to 21 seats at 120 candidates. Under Borda and approval, slate A drops from 22 seats to 9.</span></p>
+    <p class="why">Here voters lean toward their own slate (4 times as likely to pick it at each rank) but often rank the other slate too, closer to how members vote in real organizations.
+      <span class="s5">Slate A does best running 3 or 4 candidates under either method. Past that, Borda drops it below 1 seat, while STV slips only to 1.4.</span>
+      <span class="s50">Slate A does best running 30 to 40 candidates under either method. Past that, Borda drops it from 22 seats to 9, while STV slips only to 21.</span></p>
+  </section>
+
+  <section>
+    <div class="label">What it means</div>
+    <p class="takeaway">Under Borda, a slate's seats depend on a choice that has nothing to do with what voters want: how many names it puts on the ballot. Whether more names help or hurt depends on how many candidates voters rank, which no slate controls.</p>
+    <p class="why">STV doesn't work by position points, so an extra candidate only matters if voters actually move their votes to them. A slate that badly over-runs still loses a little under STV (votes leak to the other slate as its candidates are eliminated), but nothing like the Borda swing.</p>
   </section>
 
   <div class="note">
-    <p><b>What this shows and doesn't.</b> These elections use two slates and a simplified voter (each voter picks one candidate at a time, favoring their slate and popular candidates). They show how each counting method reacts to slate size. They don't predict a real election's numbers.</p>
+    <p><b>What this shows and doesn't.</b> The simulations use two slates and a simplified voter (each voter picks one candidate at a time, favoring their slate and popular candidates). They show how each counting method reacts to slate size. They don't predict a real election's numbers.</p>
     <p class="s50">With 100 voters and 50 seats, a candidate needs only 2 votes to win under STV, so single votes move seats. The STV lines wobble a little for that reason.</p>
-    <p>Run with fixed seed 1 by <code>engine/examples/slate_size.rs</code>, using the engine's own Scottish STV, Borda, and approval counts. Results: <code>results/2026-10-25-slate-size/</code>.</p>
+    <p>Run with fixed seed 1 by <code>engine/examples/slate_size.rs</code>, using the engine's own Scottish STV and Borda counts. Results: <code>results/2026-10-25-slate-size/</code>.</p>
   </div>
 </div>
 
@@ -125,7 +206,7 @@ const SYS = [
   { id: "borda", name: "Borda count", color: "--sys-borda" },
   { id: "approval", name: "Approval", color: "--sys-approval" },
 ];
-const SHOW = { "tight/all": ["scottish_stv", "borda"], "tight/up_to_seats": ["scottish_stv", "borda", "approval"], "loose/up_to_seats": ["scottish_stv", "borda", "approval"] };
+const SHOW = { "tight/all": ["scottish_stv", "borda"], "tight/up_to_seats": ["scottish_stv", "borda"], "loose/up_to_seats": ["scottish_stv", "borda"] };
 const mean = d => d.reduce((s, n, k) => s + n * k, 0) / d.reduce((s, n) => s + n, 0);
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.append(e); return e; };
