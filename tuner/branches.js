@@ -209,7 +209,10 @@ function drawBranches() {
       ["Ballots cut after rank", ...got.map(({ sys }) => many ? sys.name : "Elections still undecided (%)")],
       ...ranks().map(k => [k, ...got.map(({ g }) => { const f = branchFigures(g.r); return k <= xOf(g) ? r1(100 * (1 - f.same[k - 1])) : ""; })]),
     ];
-    const changeRows = () => [
+    // Datawrapper gives its base color to the last column, so the average (the main line) goes
+    // last when there's one system.
+    const changeRows = () => many ? changeRowsAll() : changeRowsAll().map(([k, avg, most]) => [k, most, avg]);
+    const changeRowsAll = () => [
       ["Ballots cut after rank", ...got.map(({ sys }) => many ? `${sys.name}: ${statWord().toLowerCase()}` : `${statWord()} winners changed`),
         ...got.map(({ sys }) => many ? `${sys.name}: most in any election` : "Most in any simulated election")],
       ...ranks().map(k => {
