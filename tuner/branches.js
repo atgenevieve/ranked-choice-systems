@@ -166,6 +166,7 @@ function copyButton(rows, chartNode) {
  *  transparent. The buttons are left out. Uses html-to-image (loaded by the page), which copies
  *  the page's fonts and styles. */
 const CARD = "#fffcf6";  // the card: a lighter bone than the Substack page
+const EXPORT_WIDTH = 760;  // px, before the 2x scale
 // Cuts empty rows (all card color) off the bottom of a canvas, up to `most` rows.
 function trimBottom(canvas, most) {
   const { width: w, height: h } = canvas;
@@ -189,10 +190,14 @@ async function chartPng(node) {
   // sits in a box with the same class as the chart's parent, so rules like ".pair h4" still apply.
   const box = document.createElement("div");
   box.className = node.parentElement.className;
-  box.style.cssText = `position: fixed; left: -10000px; top: 0; display: block; width: ${node.offsetWidth}px;`;
+  // Images are at least EXPORT_WIDTH wide, so a chart from a narrow column still comes out as
+  // a wide rectangle: each chart is drawn again at the copy's width.
+  box.style.cssText = `position: fixed; left: -10000px; top: 0; display: block; width: ${Math.max(node.offsetWidth, EXPORT_WIDTH)}px;`;
   const copy = node.cloneNode(true);
   copy.querySelectorAll(".copywrap, .copybox, .copyimg").forEach(e => e.remove());
   box.append(copy); document.body.append(box);
+  const charts = node.querySelectorAll(".chart");
+  copy.querySelectorAll(".chart").forEach((c, i) => charts[i] && charts[i]._draw && charts[i]._draw(c));
   // Text can come out a little taller in the image than on the page, which would cut off the
   // bottom of the chart. Render with room to spare, then trim the empty rows at the bottom.
   const spare = 40;
@@ -416,6 +421,7 @@ function drawWorthCharts() {
 /** Bars from 0, one per position. */
 function barChart(box, vals, opts) {
   box.replaceChildren();
+  box._draw = to => barChart(to, vals, opts);  // to draw the same chart again at another width (image export)
   const w = Math.max(280, box.clientWidth || 800), H = 240, L = 56, R = 10, T = 12, B = 38;
   const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
   const n = vals.length, bw = (w - L - R) / n;

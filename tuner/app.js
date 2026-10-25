@@ -265,6 +265,7 @@ function updateLabels(c) {
  *  (both drawn behind the lines)}. */
 function chart(box, series, opts) {
   box.replaceChildren();
+  box._draw = to => chart(to, series, opts);  // to draw the same chart again at another width (image export)
   const w = Math.max(280, box.clientWidth || 600), H = 250, L = 46, R = 14, T = 16, B = 38;
   const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
   const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
