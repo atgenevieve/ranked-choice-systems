@@ -75,8 +75,10 @@ export const CHUNK = 5;
 /** The share pulled up to N measured on real ballots, by ballot wording (docs/model-spec.md). */
 export const PULL_MEASURED = { up_to: 0.23, at_least: 0.97, exactly: 1 };
 
-/** Elections a visitor can start from. Candidates and seats for the NYC DSA branches come from
- *  the branches' candidate counts; voters from the 2026 turnout projections (tuner/branches.js). */
+/** Elections a visitor can start from, in the order the page lists them. Candidates and seats for
+ *  the NYC DSA branches come from the branches' candidate counts; voters from the 2026 turnout
+ *  projections (tuner/branches.js). The public elections are real contests in data/: candidates
+ *  on the ballot (write-ins left out), seats, ballots that ranked anyone, and the rank limit. */
 export const PRESETS = [
   { id: "bronx-upper-manhattan", group: "NYC DSA branch delegate elections, 2026", name: "Bronx/Upper Manhattan", candidates: 120, seats: 65, voters: 626 },
   { id: "central-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "Central Brooklyn", candidates: 132, seats: 83, voters: 838 },
@@ -85,12 +87,28 @@ export const PRESETS = [
   { id: "north-brooklyn", group: "NYC DSA branch delegate elections, 2026", name: "North Brooklyn", candidates: 105, seats: 76, voters: 731 },
   { id: "queens", group: "NYC DSA branch delegate elections, 2026", name: "Queens", candidates: 113, seats: 67, voters: 706 },
   { id: "south-brooklyn-staten-island", group: "NYC DSA branch delegate elections, 2026", name: "South Brooklyn + Staten Island", candidates: 78, seats: 51, voters: 461 },
-  { id: "metro-dc-2025", group: "Other elections", name: "Metro DC DSA delegates, 2025", candidates: 75, seats: 46, voters: 432 },
+  // data/nyc/ballots/2025-dem-mayor-citywide: 11 candidates and a write-in line, rank up to 5.
+  { id: "nyc-mayor-2025", group: "Recent public elections", name: "NYC mayoral primary, 2025", candidates: 11, seats: 1, voters: 1071730, slots: 5, electorate: "public" },
+  // data/portland/ballots/2024-mayor: 20 candidates and a write-in line, rank up to 6.
+  { id: "portland-mayor-2024", group: "Recent public elections", name: "Portland mayor, 2024", candidates: 20, seats: 1, voters: 309963, slots: 6, electorate: "public" },
+  // data/portland/ballots/2024-councilor-district-3: 30 candidates and a write-in line, 3 seats, rank up to 6.
+  { id: "portland-council-3-2024", group: "Recent public elections", name: "Portland Council District 3, 2024", candidates: 30, seats: 3, voters: 84515, slots: 6, electorate: "public" },
+  { id: "metro-dc-2025", group: "Other DSA elections", name: "Metro DC DSA delegates, 2025", candidates: 75, seats: 46, voters: 432 },
 ];
 export const DEFAULT_PRESET = "queens";
 
-/** A preset's settings: the defaults with the preset's election numbers. */
-export const presetChoice = p => ({ ...DEFAULTS, candidates: p.candidates, seats: p.seats, voters: p.voters, slots: null });
+/** A preset's settings: the defaults with the preset's election and, for public elections, its
+ *  voters and rank limit. */
+export const presetChoice = p => ({
+  ...DEFAULTS, candidates: p.candidates, seats: p.seats, voters: p.voters, slots: p.slots ?? null,
+  electorate: p.electorate ?? DEFAULTS.electorate,
+});
+
+/** The preset a visitor's settings match exactly, if any. */
+export function matchingPreset(choice) {
+  const c = clean(choice);
+  return PRESETS.find(p => { const d = clean(presetChoice(p)); return Object.keys(DEFAULTS).every(k => k === "seed" || d[k] === c[k]); });
+}
 
 // ---------------------------------------------------------------- slate curves
 // Slate loyalty in points <-> the engine's own-slate multiplier, and evenness <-> spread to other
