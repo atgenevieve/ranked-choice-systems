@@ -88,8 +88,8 @@ window.SECTIONS.popularity = () => {
 
   {
     const f = figure("Which popularity setting fits each type of election",
-      `This is how the leading candidates get tuned: to the quota. Much of the quota pattern comes from the field itself: with few candidates per seat, the leader passes the quota whatever voters do. Give the model each real election's own candidates and seats, and a setting of about 0.6 to 0.7 matches most types of election. Two types need a more lopsided setting: single-seat public races (about ${r1(fitQ[cellIdx("Public, 1 seat")])}) and organizational elections with 5 or more seats (about ${r1(fitQ[cellIdx("Organizational, 5 to 12 seats")])}), the type closest to yours.`,
-      `The top candidate's first choices as a multiple of the quota, in the typical (median) election of each type. The model bars use popularity alone, with no slates. The setting that fits each type is approximate: some groups are small (only ${big.n} organizational elections have 5 or more seats), and the model is random, so these move by about 0.1 between runs. Write-in slots on US ballots aren't counted as candidates.`);
+      `A setting of about 0.6 to 0.7 fits most types of election. Two need a more lopsided one: single-seat public races (about ${r1(fitQ[cellIdx("Public, 1 seat")])}) and organizational elections with 5 or more seats (about ${r1(fitQ[cellIdx("Organizational, 5 to 12 seats")])}), the type closest to yours.`,
+      `Each bar is how far the typical election's top candidate passes the quota (1× is exactly the quota). The fitted settings are rough, give or take 0.1: some groups are small, like the ${big.n} organizational elections with 5 or more seats.`);
     hbars(f, Q.map(c => ({ label: `${c.cell} (${c.n.toLocaleString()})`, values: [c.real.quota, c.model["0.7"].quota, c.model["1.0"].quota] })),
       [{ name: "Real elections", color: "--scotland" }, { name: "Model, setting 0.7", color: "--public" }, { name: "Model, setting 1.0", color: "--ers" }],
       { max: 2.5, step: 0.5, labelW: 250, fmt: xfmt, aria: "Top candidate against the quota: real elections against the model at two settings, by type of election" });

@@ -119,3 +119,4 @@ img.copyimg { display: block; max-width: 100%; margin-top: 8px; }
 @media (max-width: 760px) { .multiples.three { grid-template-columns: minmax(0, 1fr); } }
 .figure h3.group { font-size: 17px; margin: 18px 0 2px; }
 .panel h4 { margin: 0; font-size: 14px; font-weight: 600; }
+select, input, button, textarea { font-family: inherit; }
