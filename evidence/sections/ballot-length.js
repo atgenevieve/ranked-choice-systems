@@ -94,17 +94,25 @@ window.SECTIONS["ballot-length"] = () => {
   const f = figure("Same number of seats, more candidates",
     "Even with the number of seats held the same, more candidates means more ranks. Within Scottish wards of the same size, doubling the candidates adds about 20 to 27% more ranks; within union and society elections of the same size, about 43 to 62%.",
     `Each panel holds only elections with the same number of seats, so the trend inside a panel comes from the number of candidates alone. Panels need at least 15 elections. Taking candidates and seats together, seats matter much less: with the candidates held the same, doubling the seats adds about ${Math.round((2 ** DATA.both.scotland.c2 - 1) * 100)}% more ranks in Scotland and ${Math.round((2 ** DATA.both.ers.c2 - 1) * 100)}% in union and society elections, while doubling the candidates adds ${Math.round((2 ** DATA.both.scotland.c1 - 1) * 100)}% and ${Math.round((2 ** DATA.both.ers.c1 - 1) * 100)}%.`);
-  const box = document.createElement("div"); box.className = "multiples three"; f.append(box);
   const pts = chartPts();
+  // One row per group, under the group's name; each panel is titled by its seats.
+  const boxes = {};
   for (const p of DATA.same_seats) {
+    const group = p.group === "scotland" ? "Scotland" : "Union and society elections";
+    if (!boxes[group]) {
+      const gh = document.createElement("h3"); gh.className = "group"; gh.textContent = group;
+      boxes[group] = document.createElement("div"); boxes[group].className = "multiples three";
+      f.append(gh, boxes[group]);
+    }
+    const box = boxes[group];
     const panel = document.createElement("div"); panel.className = "panel";
-    const h = document.createElement("h3"); h.textContent = `${p.group === "scotland" ? "Scotland" : "Union and society elections"}, ${p.seats} seat${p.seats > 1 ? "s" : ""}`;
+    const h = document.createElement("h4"); h.textContent = `${p.seats} seat${p.seats > 1 ? "s" : ""}`;
     const m = document.createElement("div"); m.className = "meta";
     m.textContent = `${p.n} elections, ${p.min}–${p.max} candidates. Doubling candidates adds ~${Math.round((2 ** p.b - 1) * 100)}% more ranks.`;
     panel.append(h, m); box.append(panel);
     const mine = pts.filter(e => e.group === p.group && e.seats === p.seats);
     scatter(panel, {
-      aria: `${h.textContent}: average candidates ranked against number of candidates`,
+      aria: `${group}, ${h.textContent}: average candidates ranked against number of candidates`,
       height: 220, xMin: 0, xMax: 30, xTicks: [0, 10, 20, 30], yMax: 12, yStep: 4,
       xTitle: "Candidates", yTitle: "Average ranked",
       lines: [{ from: p.min, to: p.max, f: x => p.a * x ** p.b, color: GROUP[p.group].v }],
