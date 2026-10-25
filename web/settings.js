@@ -7,11 +7,27 @@
 /** How far behind long shots are, fitted on single-seat public races (the engine's default). */
 export const GAP_FITTED = 2.5;
 
+/** The engine's fitted popularity settings by type of voter (public, organization) and seats
+ *  (1, 2 to 4, 5 or more), copied from engine/src/model.rs (POPULARITY_SPREAD, LONG_SHOT_SHARE,
+ *  STANDOUT_SHARE). The page shows these on the sliders when "Use the value fitted" is ticked. */
+const FITTED = {
+  spread: { public: [1.1, 1.2, 1.2], organization: [0.8, 0.7, 0.5] },
+  longshot: { public: [0.1, 0, 0], organization: [0, 0, 0] },
+  standout: { public: [0, 0, 0], organization: [0, 0, 0.15] },
+};
+const seatBand = (seats) => (seats <= 1 ? 0 : seats <= 4 ? 1 : 2);
+
+/** The fitted popularity settings for an election: spread, long-shot share, standout share, and gap. */
+export const fitted = (c) => {
+  const b = seatBand(c.seats);
+  return { spread: FITTED.spread[c.electorate][b], longshot: FITTED.longshot[c.electorate][b], standout: FITTED.standout[c.electorate][b], gap: GAP_FITTED };
+};
+
 /** Whether the fitted model has long shots for this election: only single-seat public races. */
-export const fittedLongShots = (c) => c.electorate === "public" && c.seats === 1;
+export const fittedLongShots = (c) => fitted(c).longshot > 0;
 
 /** Whether the fitted model has standouts: only organizational elections with 5 or more seats. */
-export const fittedStandouts = (c) => c.electorate === "organization" && c.seats >= 5;
+export const fittedStandouts = (c) => fitted(c).standout > 0;
 
 /** Every setting a visitor can change, with its default. */
 export const DEFAULTS = {
