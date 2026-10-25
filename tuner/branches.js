@@ -134,10 +134,11 @@ function drawSummary() {
  *  into Datawrapper's data table (or a spreadsheet). rows() is called on click, so the button
  *  copies whatever the chart shows at that moment. If the browser blocks the clipboard, the
  *  numbers appear in a box, selected, to copy by hand. */
-function copyButton(rows) {
+function copyButton(rows, chartNode) {
   const wrap = document.createElement("span"); wrap.className = "copywrap";
   const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiet copy"; btn.textContent = "Copy data";
   wrap.append(btn);
+  if (chartNode) wrap.append(imageButton(chartNode));
   btn.addEventListener("click", async () => {
     const tsv = rows().map(r => r.join("\t")).join("\n");
     let ok = false;
@@ -155,6 +156,56 @@ function copyButton(rows) {
     btn.textContent = "Select all and copy below";
   });
   return wrap;
+}
+/** A chart drawn as a PNG for pasting into a post: the chart's title, key, and chart on a card
+ *  like the ones on genevieverand.com (the jobs page): 12px corners and a 1px edge of ink at 10%,
+ *  here on white, with 28px of padding, at twice screen resolution. Outside the corners is
+ *  transparent. The buttons are left out. Uses html-to-image (loaded by the page), which copies
+ *  the page's fonts and styles. */
+async function chartPng(node) {
+  const pad = 28, radius = 12, scale = 2;
+  // Hide the buttons while drawing, so the title gets the full width.
+  const hidden = [...node.querySelectorAll(".copywrap, .copybox")];
+  hidden.forEach(e => { e.style.display = "none"; });
+  // Charts side by side stretch to the taller one; draw this one at its own height.
+  node.style.alignSelf = "start";
+  let shot;
+  try { shot = await htmlToImage.toCanvas(node, { backgroundColor: "#ffffff", pixelRatio: scale }); }
+  finally { hidden.forEach(e => { e.style.display = ""; }); node.style.alignSelf = ""; }
+  const c = document.createElement("canvas");
+  c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
+  const g = c.getContext("2d");
+  g.beginPath(); g.roundRect(0, 0, c.width, c.height, radius * scale); g.fillStyle = "#ffffff"; g.fill();
+  const e = scale / 2;  // the 1px edge, drawn just inside the card
+  g.beginPath(); g.roundRect(e, e, c.width - 2 * e, c.height - 2 * e, radius * scale - e);
+  g.strokeStyle = "rgba(18, 16, 17, 0.1)"; g.lineWidth = scale; g.stroke();
+  g.drawImage(shot, pad * scale, pad * scale);
+  return new Promise(res => c.toBlob(res, "image/png"));
+}
+
+/** "Copy as image": puts the chart on the clipboard as a PNG. If the browser won't allow that,
+ *  downloads the PNG instead. */
+function imageButton(chartNode) {
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiet copy"; btn.textContent = "Copy as image";
+  const flash = t => { btn.textContent = t; setTimeout(() => { btn.textContent = "Copy as image"; }, 1800); };
+  btn.addEventListener("click", async () => {
+    btn.textContent = "Copying…";
+    // The clipboard write has to start during the click, with the image still being drawn.
+    const png = chartPng(chartNode());
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": png })]);
+      flash("Copied");
+    } catch {
+      try {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(await png);
+        a.download = (chartNode().querySelector("h4, h3, h2")?.textContent || "chart").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".png";
+        a.click();
+        flash("Downloaded");
+      } catch { flash("Couldn't copy"); }
+    }
+  });
+  return btn;
 }
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100;
 
@@ -195,7 +246,7 @@ function drawBranches() {
     const half = (title, legendHtml, rows) => {
       const d = document.createElement("div");
       const head = document.createElement("div"); head.className = "charthead";
-      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows)); d.append(head);
+      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows, () => d)); d.append(head);
       if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; d.append(l); }
       const c = document.createElement("div"); c.className = "chart"; d.append(c);
       pair.append(d);
@@ -238,7 +289,7 @@ function drawBranches() {
         return [["Position on one voter's ballot", ...ms.map(({ sys }) => many ? sys.name : "Added chance of winning (percentage points)")],
           ...Array.from({ length: n }, (_, i) => [i + 1, ...ms.map(({ m }) => m.any[i] ? r2(m.any[i].m) : "")])];
       };
-      const head = document.createElement("div"); head.className = "charthead"; head.append(t, copyButton(worthRows));
+      const head = document.createElement("div"); head.className = "charthead"; head.append(t, copyButton(worthRows, () => card));
       card.append(head);
       if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
       card.append(read, c3);
