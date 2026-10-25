@@ -100,7 +100,7 @@ window.SECTIONS["ballot-length"] = () => {
     const panel = document.createElement("div"); panel.className = "panel";
     const h = document.createElement("h3"); h.textContent = `${p.group === "scotland" ? "Scotland" : "Union and society elections"}, ${p.seats} seat${p.seats > 1 ? "s" : ""}`;
     const m = document.createElement("div"); m.className = "meta";
-    m.textContent = `${p.n} elections · ${p.min} to ${p.max} candidates · doubling the candidates adds about ${Math.round((2 ** p.b - 1) * 100)}%`;
+    m.textContent = `${p.n} elections, ${p.min}–${p.max} candidates. Doubling candidates adds ~${Math.round((2 ** p.b - 1) * 100)}% more ranks.`;
     panel.append(h, m); box.append(panel);
     const mine = pts.filter(e => e.group === p.group && e.seats === p.seats);
     scatter(panel, {
