@@ -1,0 +1,138 @@
+{
+  "contest": "2021-dem-mayor-citywide",
+  "election": "NYC 2021 primary, DEM Mayor Citywide",
+  "ballots_with_a_ranking": 942031,
+  "blank_ballots": 11083,
+  "official_winners": [
+    "Eric L. Adams"
+  ],
+  "seed": 1,
+  "resamples": 1000,
+  "cutoffs": [
+    {
+      "winner": "Eric L. Adams",
+      "runner_up": "Maya D. Wiley",
+      "winner_votes": 289403,
+      "runner_up_votes": 201127,
+      "winner_share": 58.998022547040954,
+      "margin_points": 17.99604509408191,
+      "margin_votes": 88276,
+      "exhausted": 451501,
+      "exhausted_share": 47.92846519912827,
+      "rank": 1,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        17.75798598068906,
+        18.223687240431474
+      ],
+      "resample_exhausted_share_p5_p95": [
+        47.84321322759018,
+        48.02146107718323
+      ]
+    },
+    {
+      "winner": "Eric L. Adams",
+      "runner_up": "Kathryn A. Garcia",
+      "winner_votes": 363258,
+      "runner_up_votes": 304718,
+      "winner_share": 54.38189396026205,
+      "margin_points": 8.763787920524091,
+      "margin_votes": 58540,
+      "exhausted": 274055,
+      "exhausted_share": 29.09193009571872,
+      "rank": 2,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        8.568557069599786,
+        8.967399776420798
+      ],
+      "resample_exhausted_share_p5_p95": [
+        29.019522712097583,
+        29.16773970283356
+      ]
+    },
+    {
+      "winner": "Eric L. Adams",
+      "runner_up": "Kathryn A. Garcia",
+      "winner_votes": 388437,
+      "runner_up_votes": 358944,
+      "winner_share": 51.97309003038611,
+      "margin_points": 3.9461800607722166,
+      "margin_votes": 29493,
+      "exhausted": 194650,
+      "exhausted_share": 20.66280196723887,
+      "rank": 3,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        3.767214244388737,
+        4.136452147933532
+      ],
+      "resample_exhausted_share_p5_p95": [
+        20.595813725875264,
+        20.728521672853653
+      ]
+    },
+    {
+      "winner": "Eric L. Adams",
+      "runner_up": "Kathryn A. Garcia",
+      "winner_votes": 398716,
+      "runner_up_votes": 384788,
+      "winner_share": 50.88882762564071,
+      "margin_points": 1.777655251281423,
+      "margin_votes": 13928,
+      "exhausted": 158527,
+      "exhausted_share": 16.828214782740694,
+      "rank": 4,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        1.5982997561170338,
+        1.9719957532758532
+      ],
+      "resample_exhausted_share_p5_p95": [
+        16.765897300619617,
+        16.88725742571104
+      ]
+    },
+    {
+      "winner": "Eric L. Adams",
+      "runner_up": "Kathryn A. Garcia",
+      "winner_votes": 404513,
+      "runner_up_votes": 397316,
+      "winner_share": 50.448786461951364,
+      "margin_points": 0.8975729239027274,
+      "margin_votes": 7197,
+      "exhausted": 140202,
+      "exhausted_share": 14.882949711846,
+      "rank": 5,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        0.7232701876172709,
+        1.0881431569907507
+      ],
+      "resample_exhausted_share_p5_p95": [
+        14.825297681286498,
+        14.941583663382627
+      ]
+    }
+  ],
+  "full_ballots": {
+    "winner": "Eric L. Adams",
+    "runner_up": "Kathryn A. Garcia",
+    "winner_votes": 404513,
+    "runner_up_votes": 397316,
+    "winner_share": 50.448786461951364,
+    "margin_points": 0.8975729239027274,
+    "margin_votes": 7197,
+    "exhausted": 140202,
+    "exhausted_share": 14.882949711846
+  },
+  "full_final_round": {
+    "Eric L. Adams": 404513,
+    "Kathryn A. Garcia": 397316
+  }
+}

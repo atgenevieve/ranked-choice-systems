@@ -1,0 +1,138 @@
+{
+  "contest": "2025-dem-mayor-citywide",
+  "election": "NYC 2025 primary, DEM Mayor Citywide",
+  "ballots_with_a_ranking": 1071730,
+  "blank_ballots": 6858,
+  "official_winners": [
+    "Zohran Kwame Mamdani"
+  ],
+  "seed": 1,
+  "resamples": 1000,
+  "cutoffs": [
+    {
+      "winner": "Zohran Kwame Mamdani",
+      "runner_up": "Andrew M. Cuomo",
+      "winner_votes": 469642,
+      "runner_up_votes": 387137,
+      "winner_share": 54.81483556436374,
+      "margin_points": 9.629671128727479,
+      "margin_votes": 82505,
+      "exhausted": 214951,
+      "exhausted_share": 20.056450785179102,
+      "rank": 1,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        9.452701024741653,
+        9.81461682132774
+      ],
+      "resample_exhausted_share_p5_p95": [
+        19.990935216892314,
+        20.116549877301185
+      ]
+    },
+    {
+      "winner": "Zohran Kwame Mamdani",
+      "runner_up": "Andrew M. Cuomo",
+      "winner_votes": 530391,
+      "runner_up_votes": 416494,
+      "winner_share": 56.014299518948974,
+      "margin_points": 12.02859903789795,
+      "margin_votes": 113897,
+      "exhausted": 124845,
+      "exhausted_share": 11.64892276972745,
+      "rank": 2,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        11.857916570877594,
+        12.200556999755364
+      ],
+      "resample_exhausted_share_p5_p95": [
+        11.59675944500947,
+        11.693994756141938
+      ]
+    },
+    {
+      "winner": "Zohran Kwame Mamdani",
+      "runner_up": "Andrew M. Cuomo",
+      "winner_votes": 551285,
+      "runner_up_votes": 428833,
+      "winner_share": 56.246798854831766,
+      "margin_points": 12.493597709663531,
+      "margin_votes": 122452,
+      "exhausted": 91612,
+      "exhausted_share": 8.548048482360295,
+      "rank": 3,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        12.327246517949815,
+        12.667255064490117
+      ],
+      "resample_exhausted_share_p5_p95": [
+        8.503447696714657,
+        8.591627555447735
+      ]
+    },
+    {
+      "winner": "Zohran Kwame Mamdani",
+      "runner_up": "Andrew M. Cuomo",
+      "winner_votes": 562776,
+      "runner_up_votes": 435566,
+      "winner_share": 56.371063222823445,
+      "margin_points": 12.742126445646882,
+      "margin_votes": 127210,
+      "exhausted": 73388,
+      "exhausted_share": 6.8476202028495985,
+      "rank": 4,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        12.57814013217226,
+        12.918479028631651
+      ],
+      "resample_exhausted_share_p5_p95": [
+        6.8045123305310105,
+        6.885222957274687
+      ]
+    },
+    {
+      "winner": "Zohran Kwame Mamdani",
+      "runner_up": "Andrew M. Cuomo",
+      "winner_votes": 573169,
+      "runner_up_votes": 443229,
+      "winner_share": 56.39218101570448,
+      "margin_points": 12.784362031408955,
+      "margin_votes": 129940,
+      "exhausted": 55332,
+      "exhausted_share": 5.162867513272933,
+      "rank": 5,
+      "winner_changes": false,
+      "resample_winner_changes": 0,
+      "resample_margin_points_p5_p95": [
+        12.6260502989407,
+        12.953068560441197
+      ],
+      "resample_exhausted_share_p5_p95": [
+        5.122824778628946,
+        5.195996193071016
+      ]
+    }
+  ],
+  "full_ballots": {
+    "winner": "Zohran Kwame Mamdani",
+    "runner_up": "Andrew M. Cuomo",
+    "winner_votes": 573169,
+    "runner_up_votes": 443229,
+    "winner_share": 56.39218101570448,
+    "margin_points": 12.784362031408955,
+    "margin_votes": 129940,
+    "exhausted": 55332,
+    "exhausted_share": 5.162867513272933
+  },
+  "full_final_round": {
+    "Zohran Kwame Mamdani": 573169,
+    "Andrew M. Cuomo": 443229
+  }
+}
