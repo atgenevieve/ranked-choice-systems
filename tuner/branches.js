@@ -166,6 +166,23 @@ function copyButton(rows, chartNode) {
  *  transparent. The buttons are left out. Uses html-to-image (loaded by the page), which copies
  *  the page's fonts and styles. */
 const CARD = "#fffcf6";  // the card: a lighter bone than the Substack page
+// Cuts empty rows (all card color) off the bottom of a canvas, up to `most` rows.
+function trimBottom(canvas, most) {
+  const { width: w, height: h } = canvas;
+  const px = canvas.getContext("2d").getImageData(0, h - most, w, most).data;
+  const bg = [parseInt(CARD.slice(1, 3), 16), parseInt(CARD.slice(3, 5), 16), parseInt(CARD.slice(5, 7), 16)];
+  let keep = most;
+  rows: for (; keep > 0; keep--) {
+    for (let i = (keep - 1) * w * 4; i < keep * w * 4; i += 4) {
+      if (Math.abs(px[i] - bg[0]) > 3 || Math.abs(px[i + 1] - bg[1]) > 3 || Math.abs(px[i + 2] - bg[2]) > 3) break rows;
+    }
+  }
+  const out = document.createElement("canvas");
+  out.width = w; out.height = h - most + keep;
+  out.getContext("2d").drawImage(canvas, 0, 0);
+  return out;
+}
+
 async function chartPng(node) {
   const pad = 28, radius = 12, scale = 2;
   // Draw an off-screen copy without the buttons, so the page itself doesn't change. The copy
@@ -176,9 +193,14 @@ async function chartPng(node) {
   const copy = node.cloneNode(true);
   copy.querySelectorAll(".copywrap, .copybox, .copyimg").forEach(e => e.remove());
   box.append(copy); document.body.append(box);
+  // Text can come out a little taller in the image than on the page, which would cut off the
+  // bottom of the chart. Render with room to spare, then trim the empty rows at the bottom.
+  const spare = 40;
+  copy.style.paddingBottom = `${spare}px`;
   let shot;
   try { shot = await htmlToImage.toCanvas(copy, { backgroundColor: CARD, pixelRatio: scale }); }
   finally { box.remove(); }
+  shot = trimBottom(shot, spare * scale);
   const c = document.createElement("canvas");
   c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
   const g = c.getContext("2d");
