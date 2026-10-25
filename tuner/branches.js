@@ -159,9 +159,10 @@ function copyButton(rows, chartNode) {
 }
 /** A chart drawn as a PNG for pasting into a post: the chart's title, key, and chart on a card
  *  like the ones on genevieverand.com (the jobs page): 12px corners and a 1px edge of ink at 10%,
- *  here on white, with 28px of padding, at twice screen resolution. Outside the corners is
+ *  here in a light bone a shade lighter than the Substack page (#fff8ec), with 28px of padding, at twice screen resolution. Outside the corners is
  *  transparent. The buttons are left out. Uses html-to-image (loaded by the page), which copies
  *  the page's fonts and styles. */
+const CARD = "#fffcf6";  // the card: a lighter bone than the Substack page
 async function chartPng(node) {
   const pad = 28, radius = 12, scale = 2;
   // Hide the buttons while drawing, so the title gets the full width.
@@ -170,12 +171,12 @@ async function chartPng(node) {
   // Charts side by side stretch to the taller one; draw this one at its own height.
   node.style.alignSelf = "start";
   let shot;
-  try { shot = await htmlToImage.toCanvas(node, { backgroundColor: "#ffffff", pixelRatio: scale }); }
+  try { shot = await htmlToImage.toCanvas(node, { backgroundColor: CARD, pixelRatio: scale }); }
   finally { hidden.forEach(e => { e.style.display = ""; }); node.style.alignSelf = ""; }
   const c = document.createElement("canvas");
   c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
   const g = c.getContext("2d");
-  g.beginPath(); g.roundRect(0, 0, c.width, c.height, radius * scale); g.fillStyle = "#ffffff"; g.fill();
+  g.beginPath(); g.roundRect(0, 0, c.width, c.height, radius * scale); g.fillStyle = CARD; g.fill();
   const e = scale / 2;  // the 1px edge, drawn just inside the card
   g.beginPath(); g.roundRect(e, e, c.width - 2 * e, c.height - 2 * e, radius * scale - e);
   g.strokeStyle = "rgba(18, 16, 17, 0.1)"; g.lineWidth = scale; g.stroke();
