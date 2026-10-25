@@ -8,7 +8,7 @@ import json, os, sys
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 import fit_length as F
-f = json.load(open("os.path.join(ROOT, "fits", "ballot-length.json")"))["fits"]["public"]
+f = json.load(open(os.path.join(ROOT, "fits", "ballot-length.json")))["fits"]["public"]
 p = (f["scale"], f["candidates_power"], f["seats_power"], f["bunching"], f["complete_share_at_4"], f["complete_fade"])
 out = []
 for e in F.rows("ausenate"):
