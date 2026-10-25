@@ -19,7 +19,7 @@ window.SECTIONS["slate-loyalty"] = () => {
       { label: "Pairs found only in ballots", sub: `${T["Found only in ballots"].length} pairs`, values: T["Found only in ballots"] },
     ], { min: -20, max: 80, bin: 2, ticks: [-20, 0, 20, 40, 60, 80], fmt: v => (v > 0 ? "+" : "") + v, xTitle: "Points above popularity alone", aria: "Clustering strength by type of grouping" });
     const p = document.createElement("p"); p.className = "note";
-    p.textContent = "These are associations, not effects: a strong grouping shows voters treated the candidates as belonging together, not that an endorsement caused it. Ranked-choice ballot data from Scotland, New York City, Portland OR, Minneapolis MN, and Oakland CA. Endorsement data sourced from public media on American elections.";
+    p.textContent = "These are correlations, not results. A strong grouping shows voters treated the candidates like they belong together; an endorsement could precede or follow that behavior. Ranked-choice ballot data from Scotland, New York City, Portland OR, Minneapolis MN, and Oakland CA. Endorsement data sourced from public media on American elections.";
     f.append(p);
   }
 
