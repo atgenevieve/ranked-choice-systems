@@ -250,7 +250,7 @@ function drawBranches() {
     }
     const pair = document.createElement("div"); pair.className = "pair";
     // The line under each chart title: what the chart is made of.
-    // Turnout varies from election to election, so the voter count is rounded (to the nearest 100).
+    // Turnout varies from election to election, so the voter count is rounded (to the nearest 100, or 10 below 100).
     const v = Number(b.voters), about = v >= 100 ? Math.round(v / 100) * 100 : Math.round(v / 10) * 10;
     const across = n => `Across ${Number(n).toLocaleString()} simulated elections with ${seats} seats, ${b.candidates} candidates, and ~${about.toLocaleString()} voters.`;
     const subtitle = n => { const p = document.createElement("p"); p.className = "chartsub"; p.textContent = across(n); return p; };
