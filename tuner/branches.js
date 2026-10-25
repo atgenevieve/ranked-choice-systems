@@ -306,7 +306,15 @@ function drawBranches() {
       }),
     ];
     const c1 = half("How many elections remain undecided at each rank position?", sysLegend, undecidedRows);
-    const c2 = half("How many winners change when ballots get trimmed?", many
+    // The chart's title states its finding (owner's wording): the rank beyond which cutting
+    // ballots changes under 1 winner on average (none, in the median election).
+    const beyond = ({ g }) => { const f = branchFigures(g.r); return seatStat === "median" ? f.kSeat : holdsFrom(f.mid, x => x < 1); };
+    const lower = n => n.replace(/^(Expanding|Approval)/, w => w.toLowerCase());
+    const ranksSaid = many
+      ? `Beyond rank ${got.map((x, i) => `${i && i === got.length - 1 ? "and " : ""}${beyond(x)} for ${lower(x.sys.name)}`).join(got.length > 2 ? ", " : " ")}`
+      : `Beyond rank ${beyond(got[0])}`;
+    const changeTitle = `${ranksSaid}, cutting ballots changes ${seatStat === "median" ? "no winners in the median election" : "less than 1 winner on average"}.`;
+    const c2 = half(changeTitle, many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
       changeRows);
