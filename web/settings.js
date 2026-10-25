@@ -90,7 +90,7 @@ const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || lo)
 const num = (v, lo, hi) => Math.max(lo, Math.min(hi, Number.isFinite(Number(v)) ? Number(v) : lo));
 
 /** Limits on what a visitor can enter. */
-export const LIMITS = { candidates: [2, 300], voters: [10, 50000], turnout: [0, 30], slates: [1, 12], seed: [1, 1e9] };
+export const LIMITS = { candidates: [2, 300], voters: [10, 2000000], turnout: [0, 30], slates: [1, 12], seed: [1, 1e9] };
 
 /** A visitor's choice with every value in range: whole numbers where needed, seats fewer than
  *  candidates, and ballot slots no more than candidates. */
