@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NYC Mayoral Ballot Cuts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a column of settings beside a column of results (stacked on phones). Every setting
+   reads the same way: name and value, what it is, the control with real elections marked on
+   it, what it does in your election, and why you'd change it. */
+:root {
+  /* genevieverand.com's look: porcelain ground (#fff8ec, the lighter bone in the site's repo),
+     ink #121011, and ink at lower strengths for secondary text, rules, and the grid. EB Garamond
+     for headings, Public Sans for text. Light only, like the site. */
+  color-scheme: light;
+  --bg: #fff8ec;          /* porcelain, matching the Substack page */
+  --surface: #fff8ec;
+  --panel: #f8f1e5;       /* the settings column: ink at 3% */
+  --ink: #121011;
+  --ink-2: #6c6864;       /* ink at 62%, the site's --soft */
+  --rule: #cbc5bc;        /* ink at 22%, the site's --line */
+  --grid: #e7e1d6;        /* ink at 10%, the site's --grid */
+  --model: #121011;       /* the simulated elections: ink */
+  --model-soft: #b8b2aa;  /* a second line: ink at 30% */
+  --real: #aca79f;        /* the real elections */
+  --real-ink: #4d4a48;
+  --mark: #121011;        /* reference lines and crossing points */
+  --good: #121011; --good-bg: transparent;
+  --warn: #6c6864; --warn-bg: transparent;
+  --bad: #121011; --bad-bg: transparent;
+  --focus: #121011;
+  --radius: 7px;          /* boxes, like the site's form fields */
+  --radius-pill: 999px;   /* buttons */
+  --font-text: "EB Garamond", Garamond, "Times New Roman", serif;
+  --font-ui: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* The voting systems, in the research charts' colors: the one place the page needs more than ink. */
+  --sys-scottish: #1baf7a; --sys-expanding: #c2338a; --sys-borda: #eb6834; --sys-approval: #6250d6;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+header { border-bottom: 1px solid var(--ink); padding-bottom: 18px; }
+header h1 { font-family: var(--font-text); font-size: clamp(34px, 5vw, 46px); font-weight: 400; line-height: 1.1; margin: 0; text-wrap: balance; }
+header p { margin: 10px 0 0; color: var(--ink-2); max-width: 60ch; font-family: var(--font-text); font-size: 19px; line-height: 1.45; }
+.layout { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* Settings: one panel, one tab per group of settings. */
+.controls { background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius); padding: 0 16px 16px; display: grid; gap: 14px; min-width: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px 2px; border-bottom: 1px solid var(--rule); margin: 0 -16px; padding: 8px 12px 0; }
+.tabs button { background: transparent; color: var(--ink-2); border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 6px 7px; font-size: 14px; font-weight: 600; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tabs button:hover { color: var(--ink); }
+.tabpanel { display: grid; gap: 16px; min-width: 0; }
+.tabpanel[hidden] { display: none; }
+.tabpanel > h2 { font-family: var(--font-text); font-size: 22px; font-weight: 400; margin: 0; }
+.group { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px 16px; display: grid; gap: 16px; min-width: 0; }
+.group > h2 { font-family: var(--font-text); font-size: 21px; font-weight: 400; margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--grid); }
+.setting { display: grid; gap: 6px; min-width: 0; }
+.setting + .setting { border-top: 1px dashed var(--grid); padding-top: 14px; }
+.setting-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.setting-head label, .setting-head .label { font-size: 14.5px; font-weight: 600; }
+.slider-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: start; }
+.slider-value { display: grid; gap: 3px; align-content: start; }
+.slider-value .typed { width: 5.4em; }
+.slider-row output { font-family: var(--font-ui); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; line-height: 1.3; padding-top: 1px; }
+.slider-track { display: grid; gap: 4px; min-width: 0; }
+.setting-head output { font-family: var(--font-ui); font-size: 13px; color: var(--model); font-variant-numeric: tabular-nums; text-align: right; }
+.what { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.yours { margin: 0; font-size: 13.5px; }
+.yours::before { content: "In your election: "; font-weight: 600; }
+.yours:empty { display: none; }
+details.why summary { cursor: pointer; font-size: 13px; color: var(--model); width: fit-content; }
+details.why p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.inline-slider { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.pctbox { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.pctbox input { width: 4.2em; }
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label { font-size: 13.5px; font-weight: 500; }
+input[type="number"], input[type="text"], select {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 6px 8px; width: 100%; min-width: 0;
+}
+input[type="number"] { font-family: var(--font-ui); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--model); margin: 0; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--ink); }
+input:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+input:disabled { opacity: 0.45; }
+/* Real elections marked along a slider's scale: short values at their positions, named below. */
+.scale { display: grid; gap: 2px; }
+.scale .track { position: relative; height: 22px; margin: 0 8px; font-family: var(--font-ui); font-size: 11.5px; color: var(--real-ink); }
+.scale .tick { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; line-height: 1.1; white-space: nowrap; }
+.scale .tick::before { content: ""; width: 1px; height: 6px; background: var(--real-ink); margin-bottom: 2px; }
+.scale .tick.left { transform: translateX(-4px); justify-items: start; }
+.scale .tick.right { transform: translateX(calc(-100% + 4px)); justify-items: end; }
+.scale .key { margin: 0; font-size: 12px; color: var(--real-ink); }
+.check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.segmented { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ink); border-radius: var(--radius-pill); overflow: hidden; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented label { text-align: center; padding: 6px 8px; font-size: 13.5px; cursor: pointer; background: var(--surface); }
+.segmented input:checked + label { background: var(--model); color: var(--surface); font-weight: 600; }
+.segmented input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
+.stat-switch { display: flex; align-items: center; gap: 10px; font-size: 13.5px; }
+.stat-switch .segmented { width: 220px; }
+.hint { font-size: 12.5px; color: var(--ink-2); margin: 0; }
+
+/* Results */
+.results { display: grid; gap: 20px; min-width: 0; }
+section.panel { background: var(--surface); border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 14px 0 18px; display: grid; gap: 14px; min-width: 0; }
+section.panel > h2 { font-family: var(--font-text); font-size: 30px; font-weight: 400; line-height: 1.15; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--ink-2); max-width: 72ch; font-family: var(--font-text); font-size: 15px; }
+.headline { margin: 0; font-family: var(--font-text); font-size: 24px; font-weight: 400; line-height: 1.4; max-width: 62ch; text-wrap: pretty; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.figure { border-top: 1px solid var(--ink); padding-top: 8px; display: grid; gap: 4px; align-content: start; }
+.figure .k { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); }
+.figure .n { font-family: var(--font-text); font-size: 36px; font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.figure .t { font-size: 13px; color: var(--ink-2); }
+.chartcard { display: grid; gap: 6px; min-width: 0; padding-top: 12px; border-top: 1px solid var(--grid); }
+.chartcard h3 { font-family: var(--font-ui); font-size: 15px; font-weight: 700; margin: 0; }
+.chartcard .read { margin: 0; font-family: var(--font-text); font-size: 14.5px; color: var(--ink-2); max-width: 72ch; }
+.chartcard .found { margin: 0; font-family: var(--font-text); font-size: 15px; }
+.chart { width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+.chart .title { font-family: var(--font-ui); font-size: 12px; fill: var(--ink-2); }
+.chart .lab { font-family: var(--font-ui); font-size: 12px; fill: var(--ink); }
+.chart .marklab { font-family: var(--font-ui); font-size: 12px; font-weight: 600; fill: var(--mark); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.status { font-size: 13px; color: var(--ink-2); min-height: 1.5em; margin: 0; }
+.status.busy::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--model); margin-right: 6px; animation: pulse 1s infinite alternate; }
+@keyframes pulse { from { opacity: 0.25; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .status.busy::before { animation: none; } }
+.error { color: var(--bad); font-weight: 600; }
+.sweep-fields { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
+.sweep-fields .field { width: 120px; }
+.sweep-fields .field.sweep-turnout { width: 220px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 14px; height: 10px; border-radius: 0; display: inline-block; }
+.swatch.line { height: 3px; }
+.swatch.line.dashed { background: repeating-linear-gradient(90deg, var(--ink-2) 0 4px, transparent 4px 7px); }
+.summary th.sys { text-align: center; border-bottom: 1px solid var(--grid); }
+.summary th.sys .legend { justify-content: center; color: var(--ink); }
+
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { font-size: 13px; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--ink); }
+td.n, th.n { text-align: right; font-family: var(--font-ui); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip { display: inline-block; font-size: 13px; font-weight: 600; padding: 0; white-space: nowrap; }
+.chip.close { color: var(--good); background: var(--good-bg); }
+.chip.near { color: var(--warn); background: var(--warn-bg); }
+.chip.off { color: var(--bad); background: var(--bad-bg); }
+.chip.none { color: var(--ink-2); background: var(--grid); }
+
+.save-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.save-row input { flex: 1 1 220px; }
+button { font: inherit; font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: var(--radius-pill); border: 1px solid var(--model); background: var(--model); color: var(--surface); cursor: pointer; }
+button.quiet { background: transparent; color: var(--model); }
+button:disabled { opacity: 0.5; cursor: default; }
+pre.toml { margin: 0; font-family: var(--font-data); font-size: 12.5px; background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px 12px; overflow-x: auto; max-height: 260px; }
+ul.saved { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.saved li { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--grid); padding-bottom: 6px; }
+ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
+/* Branch page: an editable table of branches, a summary table, and two charts per branch. */
+.branch-table { width: 100%; border-top: 0; border-bottom: 1px solid var(--rule); }
+.branch-table th, .branch-table td { padding: 4px 3px; border-bottom: 1px solid var(--grid); }
+.branch-table th { font-size: 12px; border-bottom: 1px solid var(--rule); }
+.branch-table input { padding: 4px 5px; font-size: 13px; }
+.branch-table input[type="text"] { min-width: 7em; }
+.branch-table td.num { width: 4.6em; }
+.summary td, .summary th { white-space: nowrap; }
+.lede a { color: var(--model); }
+.branches { display: grid; gap: 22px; }
+.branch { display: grid; gap: 8px; border-top: 1px solid var(--ink); padding-top: 12px; min-width: 0; }
+.branch h3 { margin: 0; font-family: var(--font-text); font-size: 28px; font-weight: 400; line-height: 1.15; }
+.branch .meta { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.branch .says { margin: 0; font-size: 15px; }
+.branch .stats { display: grid; gap: 0; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 10px 24px; }
+.pair h4 { margin: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 700; }
+.worthcard { display: grid; gap: 4px; margin-top: 8px; min-width: 0; }
+.worthcard h4 { margin: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 700; }
+.chartsub { margin: 2px 0 8px; font-family: var(--font-ui); font-size: 13px; color: var(--ink-2); }
+.worthcard .read { margin: 0 0 4px; font-size: 13px; color: var(--ink-2); max-width: 90ch; }
+/* Each chart sits at the bottom of its column, so the two charts' axes line up whatever is above them. */
+.pair > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.pair > div > .chart { margin-top: auto; }
+/* Each chart's title with its "Copy data" button (copies the numbers for Datawrapper). */
+.charthead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.copywrap { display: inline-flex; gap: 6px; flex: none; }
+img.copyimg { display: block; max-width: 100%; margin-top: 8px; }
+button.copy { padding: 4px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; flex: none; }
+textarea.copybox { width: 100%; font-family: var(--font-data); font-size: 12px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius); padding: 6px 8px; }
+</style>
+<style>.stackcol .lab { font-size: 11.5px; } .summary td { white-space: nowrap; }</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <h1>NYC mayoral primaries</h1>
+    <p>What happens to the real Democratic primaries for mayor, in 2025 and 2021, if every ballot is cut short after rank 1, 2, 3, 4, or 5. These are the actual ballots, recounted, not simulations.</p>
+  </header>
+  <div class="results">
+    <section class="panel">
+      <h2>Do lower ranks change who wins?</h2>
+      <p class="lede">We recounted every ballot from the NYC Board of Elections' cast vote records (the file listing each ballot's rankings, with no voter information) with instant runoff, keeping only each voter's first 1, 2, 3, 4, or 5 choices. NYC ballots allow 5 ranks. With all 5, our count matches the official final round exactly. To see how much chance alone could move the numbers, we also redrew the ballots at random 1,000 times and recounted each redraw.</p>
+      <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Primary</th><th class="n">Candidates</th><th class="n">Ballots</th><th>Winner</th><th>Runner-up</th><th class="n">Lead, first choices only</th><th class="n">Lead, all 5 ranks</th><th class="n">Ran out of choices, all 5 ranks</th></tr></thead><tbody></tbody></table></div>
+      <div class="branches" id="years"></div>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const DATA = {"2025": {"candidates": 11, "ballots": 1071730, "blank": 6858, "cut": [{"rank": 1, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 469642, "runner_up_votes": 387137, "margin_points": 9.629671128727479, "exhausted": 214951, "exhausted_share": 20.056450785179102, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [9.452701024741653, 9.81461682132774]}, {"rank": 2, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 530391, "runner_up_votes": 416494, "margin_points": 12.02859903789795, "exhausted": 124845, "exhausted_share": 11.64892276972745, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [11.857916570877594, 12.200556999755364]}, {"rank": 3, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 551285, "runner_up_votes": 428833, "margin_points": 12.493597709663531, "exhausted": 91612, "exhausted_share": 8.548048482360295, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.327246517949815, 12.667255064490117]}, {"rank": 4, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 562776, "runner_up_votes": 435566, "margin_points": 12.742126445646882, "exhausted": 73388, "exhausted_share": 6.8476202028495985, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.57814013217226, 12.918479028631651]}, {"rank": 5, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 573169, "runner_up_votes": 443229, "margin_points": 12.784362031408955, "exhausted": 55332, "exhausted_share": 5.162867513272933, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.6260502989407, 12.953068560441197]}]}, "2021": {"candidates": 13, "ballots": 942031, "blank": 11083, "cut": [{"rank": 1, "winner": "Eric L. Adams", "runner_up": "Maya D. Wiley", "winner_votes": 289403, "runner_up_votes": 201127, "margin_points": 17.99604509408191, "exhausted": 451501, "exhausted_share": 47.92846519912827, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [17.75798598068906, 18.223687240431474]}, {"rank": 2, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 363258, "runner_up_votes": 304718, "margin_points": 8.763787920524091, "exhausted": 274055, "exhausted_share": 29.09193009571872, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [8.568557069599786, 8.967399776420798]}, {"rank": 3, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 388437, "runner_up_votes": 358944, "margin_points": 3.9461800607722166, "exhausted": 194650, "exhausted_share": 20.66280196723887, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [3.767214244388737, 4.136452147933532]}, {"rank": 4, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 398716, "runner_up_votes": 384788, "margin_points": 1.777655251281423, "exhausted": 158527, "exhausted_share": 16.828214782740694, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [1.5982997561170338, 1.9719957532758532]}, {"rank": 5, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 404513, "runner_up_votes": 397316, "margin_points": 0.8975729239027274, "exhausted": 140202, "exhausted_share": 14.882949711846, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [0.7232701876172709, 1.0881431569907507]}]}};
+const YEARS = [
+  { y: "2025", title: "2025 Democratic primary for mayor", short: { "Zohran Kwame Mamdani": "Mamdani", "Andrew M. Cuomo": "Cuomo" } },
+  { y: "2021", title: "2021 Democratic primary for mayor", short: { "Eric L. Adams": "Adams", "Kathryn A. Garcia": "Garcia", "Maya D. Wiley": "Wiley" } },
+];
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent?.append(e); return e; };
+const text = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
+/** A chart on linear scales. series: [{points: [[x, y]], color, width, dots, dash}];
+ *  opts: {xMin, xMax, xTicks, yMax, yStep, yFmt, xTitle, hlines: [{y, label}],
+ *  marks: [{x, y, label, color}] (color: a CSS variable; default --mark), vlines: [x] (faint dotted), bars: [{x, y}] and bands: [{points: [[x, low, high]], color}]
+ *  (both drawn behind the lines)}. */
+function chart(box, series, opts) {
+  box.replaceChildren();
+  const w = Math.max(280, box.clientWidth || 600), H = 250, L = 46, R = 14, T = 16, B = 38;
+  const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
+  const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
+  const sy = y => T + (1 - y / opts.yMax) * (H - T - B);
+  for (let y = 0; y <= opts.yMax + 1e-9; y += opts.yStep) {
+    el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
+    text(svg, L - 6, sy(y) + 4, opts.yFmt(y), { "text-anchor": "end" });
+  }
+  for (const x of opts.xTicks) text(svg, sx(x), H - B + 15, String(opts.xLabel ? opts.xLabel(x) : x), { "text-anchor": "middle" });
+  text(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
+  if (opts.bars) {
+    const bw = Math.max(2, (sx(opts.xMin + 1) - sx(opts.xMin)) * 0.7);
+    for (const b of opts.bars) {
+      const h = sy(0) - sy(b.y);
+      if (h > 0) el("rect", { x: sx(b.x) - bw / 2, y: sy(b.y), width: bw, height: h, rx: 1.5, fill: css("--real") }, svg);
+    }
+  }
+  for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: sy(0), stroke: css("--ink-2"), "stroke-width": 1, "stroke-dasharray": "2 3", opacity: 0.6 }, svg);
+  for (const b of opts.bands || []) {
+    const edge = [...b.points.map(([x, , hi]) => [x, hi]), ...b.points.map(([x, lo]) => [x, lo]).reverse()];
+    el("polygon", { points: edge.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" "), fill: css(b.color), opacity: b.opacity ?? 0.55 }, svg);
+  }
+  for (const h of opts.hlines || []) {
+    el("line", { x1: L, x2: w - R, y1: sy(h.y), y2: sy(h.y), stroke: css("--mark"), "stroke-width": 1, "stroke-dasharray": "5 4", opacity: 0.7 }, svg);
+    text(svg, L + 4, sy(h.y) - 4, h.label, { class: "lab" });
+  }
+  for (const s of series) {
+    const p = s.points.map(([x, y]) => `${sx(x).toFixed(1)},${sy(Math.min(y, opts.yMax)).toFixed(1)}`).join(" ");
+    el("polyline", { points: p, fill: "none", stroke: css("--surface"), "stroke-width": (s.width || 2.5) + 3, "stroke-linejoin": "round" }, svg);
+    el("polyline", { points: p, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2.5, "stroke-linejoin": "round", ...(s.dash ? { "stroke-dasharray": s.dash } : {}) }, svg);
+    if (s.dots) for (const [x, y] of s.points) el("circle", { cx: sx(x), cy: sy(Math.min(y, opts.yMax)), r: 2.6, fill: css(s.color) }, svg);
+  }
+  // Crossing points: a ring on the curve, a dashed drop to the rank axis, and a label. Each label
+  // takes the first spot around its point that crosses no data line, no ring, no other label, and
+  // no other label's leader line, with its own leader line (when it had to move away) crossing no
+  // label either. Light background lines (--model-soft) may run under a label; the main lines may
+  // not. Labels are drawn last, so their outline covers anything they still overlap.
+  const lines = series.filter(s => s.color !== "--model-soft").map(s => s.points.map(([x, y]) => [sx(x), sy(Math.min(y, opts.yMax))]));
+  const marks = (opts.marks || []).map(m => ({ m, x: sx(m.x), y: sy(Math.min(m.y, opts.yMax)), ink: css(m.color || "--mark") }));
+  const rings = marks.map(({ x, y }) => ({ x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 }));
+  const labels = [], leaders = [];
+  const overlap = (r, o) => r.x1 < o.x2 && r.x2 > o.x1 && r.y1 < o.y2 && r.y2 > o.y1;
+  const segHits = ([x0, y0, x1, y1], r, pad = 2) => {
+    for (let t = 0; t <= 1; t += 0.05) {
+      const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
+      if (x > r.x1 - pad && x < r.x2 + pad && y > r.y1 - pad && y < r.y2 + pad) return true;
+    }
+    return false;
+  };
+  const clashes = (r, own) => labels.some(o => overlap(r, o)) || rings.some((o, i) => i !== own && overlap(r, o)) ||
+    leaders.some(seg => segHits(seg, r)) || r.x1 < L || r.x2 > w - R || r.y1 < 0 || r.y2 > H - B;
+  const hits = (r, own) => clashes(r, own) ||
+    lines.some(pts => pts.some((p, i) => i > 0 && segHits([...pts[i - 1], ...p], r)));
+  for (const { x, y, ink } of marks) el("line", { x1: x, x2: x, y1: y, y2: sy(0), stroke: ink, "stroke-width": ink === css("--mark") ? 1 : 1.5, "stroke-dasharray": "2 3" }, svg);
+  // Rightmost first: the last crossing usually sits lowest, with the least room around it.
+  const order = marks.map((_, i) => i).sort((i, j) => marks[j].x - marks[i].x);
+  const placed = order.map(own => { const { m, x, y, ink } = marks[own];
+    // The label's real width, measured once drawn (an estimate if the chart isn't on screen yet).
+    const probe = text(svg, 0, -100, m.label, { class: "marklab" });
+    const width = (probe.getComputedTextLength?.() || m.label.length * 7) + 4;
+    probe.remove();
+    // Candidate spots, nearest first: up or down from the point (down first for `below`), and
+    // shifted sideways when the near ones are taken.
+    const spots = [];
+    for (const dy of [-8, 16, -22, 30, -36, 44, -50, 58, -64, 72, -78, 86, -92, 100, -106, -120])
+      for (const dx of [9, 40, 80, 120]) for (const side of [1, -1]) spots.push({ dx: dx * side, dy, side });
+    const far = s => Math.abs(s.dy + (m.below ? -4 : 4)) + 0.6 * Math.abs(s.dx);
+    spots.sort((p, q) => far(p) - far(q));
+    const box = s => ({ x1: s.side > 0 ? x + s.dx : x + s.dx - width, x2: s.side > 0 ? x + s.dx + width : x + s.dx, y1: y + s.dy - 10, y2: y + s.dy + 2 });
+    // A label that had to move away from its point gets a thin line back to it.
+    const leader = s => {
+      if (Math.abs(s.dy) <= 16 && Math.abs(s.dx) <= 9) return null;  // right beside its point
+      const b = box(s);
+      return [x, y + (s.dy < 0 ? -5 : 5), s.side > 0 ? b.x1 : b.x2, s.dy < 0 ? b.y2 : b.y1];
+    };
+    const leaderClear = s => { const seg = leader(s); return !seg || !labels.some(o => segHits(seg, o, 4)); };
+    // Best: a near spot clear of everything, leader included. Next: the nearest spot clear of
+    // labels and leaders, even over a data line (the label's outline covers it). Last resort:
+    // the first spot.
+    const near = s => far(s) <= 40;
+    const spot = spots.find(s => near(s) && !hits(box(s), own) && leaderClear(s)) || spots.find(s => !clashes(box(s), own) && leaderClear(s)) ||
+      spots.find(s => !clashes(box(s), own)) || spots[0];
+    labels.push(box(spot));
+    const seg = leader(spot);
+    if (seg) leaders.push(seg);
+    return { m, x, y, ink, spot, seg };
+  });
+  for (const { ink, seg } of placed) if (seg) el("line", { x1: seg[0], y1: seg[1], x2: seg[2], y2: seg[3], stroke: ink, "stroke-width": 1 }, svg);
+  for (const { x, y, ink } of placed) el("circle", { cx: x, cy: y, r: 5, fill: css("--surface"), stroke: ink, "stroke-width": 2 }, svg);
+  for (const { m, x, y, ink, spot } of placed)
+    text(svg, x + spot.dx, y + spot.dy, m.label, { class: "marklab", "text-anchor": spot.side > 0 ? "start" : "end", ...(m.color ? { style: `fill:${ink}` } : {}) });
+}
+
+function niceStep(max) {
+  const raw = max / 5, p = Math.pow(10, Math.floor(Math.log10(raw)));
+  return [1, 2, 2.5, 5, 10].map(m => m * p).find(s => s >= raw) || raw;
+}
+/** A "Copy data" button: copies a chart's numbers as tab-separated rows, which paste straight
+ *  into Datawrapper's data table (or a spreadsheet). rows() is called on click, so the button
+ *  copies whatever the chart shows at that moment. If the browser blocks the clipboard, the
+ *  numbers appear in a box, selected, to copy by hand. */
+function copyButton(rows, chartNode) {
+  const wrap = document.createElement("span"); wrap.className = "copywrap";
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiet copy"; btn.textContent = "Copy data";
+  wrap.append(btn);
+  if (chartNode) wrap.append(imageButton(chartNode));
+  btn.addEventListener("click", async () => {
+    const tsv = rows().map(r => r.join("\t")).join("\n");
+    let ok = false;
+    try { await navigator.clipboard.writeText(tsv); ok = true; } catch { /* clipboard may be blocked in the frame */ }
+    if (!ok) {
+      const ta = document.createElement("textarea"); ta.value = tsv; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch { /* fall through to the box */ }
+      ta.remove();
+    }
+    if (ok) { btn.textContent = "Copied"; setTimeout(() => { btn.textContent = "Copy data"; }, 1500); return; }
+    let box = wrap.parentElement.parentElement.querySelector("textarea.copybox");
+    if (!box) { box = document.createElement("textarea"); box.className = "copybox"; box.readOnly = true; box.rows = 6; wrap.parentElement.after(box); }
+    box.value = tsv; box.select();
+    btn.textContent = "Select all and copy below";
+  });
+  return wrap;
+}
+/** A chart drawn as a PNG for pasting into a post: the chart's title, key, and chart on a card
+ *  like the ones on genevieverand.com (the jobs page): 12px corners and a 1px edge of ink at 10%,
+ *  here in a light bone a shade lighter than the Substack page (#fff8ec), with 28px of padding, at twice screen resolution. Outside the corners is
+ *  transparent. The buttons are left out. Uses html-to-image (loaded by the page), which copies
+ *  the page's fonts and styles. */
+const CARD = "#fffcf6";  // the card: a lighter bone than the Substack page
+// Cuts empty rows (all card color) off the bottom of a canvas, up to `most` rows.
+function trimBottom(canvas, most) {
+  const { width: w, height: h } = canvas;
+  const px = canvas.getContext("2d").getImageData(0, h - most, w, most).data;
+  const bg = [parseInt(CARD.slice(1, 3), 16), parseInt(CARD.slice(3, 5), 16), parseInt(CARD.slice(5, 7), 16)];
+  let keep = most;
+  rows: for (; keep > 0; keep--) {
+    for (let i = (keep - 1) * w * 4; i < keep * w * 4; i += 4) {
+      if (Math.abs(px[i] - bg[0]) > 3 || Math.abs(px[i + 1] - bg[1]) > 3 || Math.abs(px[i + 2] - bg[2]) > 3) break rows;
+    }
+  }
+  const out = document.createElement("canvas");
+  out.width = w; out.height = h - most + keep;
+  out.getContext("2d").drawImage(canvas, 0, 0);
+  return out;
+}
+
+async function chartPng(node) {
+  const pad = 28, radius = 12, scale = 2;
+  // Draw an off-screen copy without the buttons, so the page itself doesn't change. The copy
+  // sits in a box with the same class as the chart's parent, so rules like ".pair h4" still apply.
+  const box = document.createElement("div");
+  box.className = node.parentElement.className;
+  box.style.cssText = `position: fixed; left: -10000px; top: 0; display: block; width: ${node.offsetWidth}px;`;
+  const copy = node.cloneNode(true);
+  copy.querySelectorAll(".copywrap, .copybox, .copyimg").forEach(e => e.remove());
+  box.append(copy); document.body.append(box);
+  // Text can come out a little taller in the image than on the page, which would cut off the
+  // bottom of the chart. Render with room to spare, then trim the empty rows at the bottom.
+  const spare = 40;
+  copy.style.paddingBottom = `${spare}px`;
+  let shot;
+  try { shot = await htmlToImage.toCanvas(copy, { backgroundColor: CARD, pixelRatio: scale }); }
+  finally { box.remove(); }
+  shot = trimBottom(shot, spare * scale);
+  const c = document.createElement("canvas");
+  c.width = shot.width + 2 * pad * scale; c.height = shot.height + 2 * pad * scale;
+  const g = c.getContext("2d");
+  g.beginPath(); g.roundRect(0, 0, c.width, c.height, radius * scale); g.fillStyle = CARD; g.fill();
+  const e = scale / 2;  // the 1px edge, drawn just inside the card
+  g.beginPath(); g.roundRect(e, e, c.width - 2 * e, c.height - 2 * e, radius * scale - e);
+  g.strokeStyle = "rgba(18, 16, 17, 0.1)"; g.lineWidth = scale; g.stroke();
+  g.drawImage(shot, pad * scale, pad * scale);
+  return new Promise(res => c.toBlob(res, "image/png"));
+}
+
+/** "Copy as image": puts the chart on the clipboard as a PNG. If the browser won't allow that,
+ *  downloads the PNG instead. */
+function imageButton(chartNode) {
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiet copy"; btn.textContent = "Copy as image";
+  const flash = t => { btn.textContent = t; setTimeout(() => { btn.textContent = "Copy as image"; }, 1800); };
+  btn.addEventListener("click", async () => {
+    btn.textContent = "Copying…";
+    // The clipboard write has to start during the click, with the image still being drawn.
+    const png = chartPng(chartNode());
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": png })]);
+      flash("Copied");
+    } catch {
+      // The clipboard is blocked: show the image under the chart to copy by hand (right-click or
+      // long-press, then Copy image).
+      try {
+        const node = chartNode();
+        let shown = node.querySelector("img.copyimg");
+        if (!shown) { shown = document.createElement("img"); shown.className = "copyimg"; shown.alt = "The chart as an image"; node.append(shown); }
+        shown.src = URL.createObjectURL(await png);
+        btn.textContent = "Right-click the image below to copy";
+      } catch { flash("Couldn't copy"); }
+    }
+  });
+  return btn;
+}
+const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100;
+const fmt = n => Number(n).toLocaleString("en-US");
+const nm = (Y, s) => Y.short[s] || s;
+const RANKS = [1, 2, 3, 4, 5];
+
+/** Stacked columns, one per rank: each part is {key, color, vals}. Same frame as chart(). */
+function stackChart(box, parts, opts) {
+  box.replaceChildren();
+  const w = Math.max(280, box.clientWidth || 600), H = 250, L = 56, R = 14, T = 16, B = 38;
+  const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
+  const n = parts[0].vals.length, bw = (w - L - R) / n;
+  const sx = i => L + i * bw + bw / 2, sy = v => T + (1 - v / opts.yMax) * (H - T - B);
+  for (let y = 0; y <= opts.yMax + 1e-9; y += opts.yStep) {
+    el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
+    text(svg, L - 6, sy(y) + 4, opts.yFmt(y), { "text-anchor": "end" });
+  }
+  for (let i = 0; i < n; i++) {
+    let base = 0;
+    for (const p of parts) {
+      const v = p.vals[i];
+      el("rect", { x: sx(i) - bw * 0.3, y: sy(base + v), width: bw * 0.6, height: Math.max(0, sy(base) - sy(base + v)), fill: css(p.color) }, svg);
+      if (p.labels && p.labels[i] && sy(base) - sy(base + v) > 16) text(svg, sx(i), (sy(base) + sy(base + v)) / 2 + 4, p.labels[i], { "text-anchor": "middle", class: "lab" });
+      base += v;
+    }
+    text(svg, sx(i), H - B + 15, String(i + 1), { "text-anchor": "middle" });
+  }
+  text(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
+}
+
+function drawSummary() {
+  const body = $("summary").tBodies[0];
+  body.replaceChildren();
+  for (const Y of YEARS) {
+    const d = DATA[Y.y], c1 = d.cut[0], c5 = d.cut[4];
+    const tr = document.createElement("tr");
+    [Y.y, d.candidates, fmt(d.ballots), nm(Y, c5.winner), nm(Y, c5.runner_up), `${r1(c1.margin_points)} points`, `${r1(c5.margin_points)} points`, `${r1(c5.exhausted_share)}%`].forEach((v, i) => {
+      const td = document.createElement("td"); td.textContent = v; if (i === 1 || i === 2 || i > 4) td.className = "n"; tr.append(td);
+    });
+    body.append(tr);
+  }
+}
+
+const drawn = [];
+function drawYears() {
+  const box = $("years");
+  box.replaceChildren();
+  drawn.length = 0;
+  for (const Y of YEARS) {
+    const d = DATA[Y.y], cut = d.cut, c1 = cut[0], c5 = cut[4];
+    const W = nm(Y, c5.winner);
+    const sec = document.createElement("section"); sec.className = "branch";
+    const h = document.createElement("h3"); h.textContent = Y.title;
+    const stats = document.createElement("div"); stats.className = "stats";
+    for (const line of [`Candidates: ${d.candidates}, plus write-ins`, `Ballots with a ranking: ${fmt(d.ballots)} (and ${fmt(d.blank)} blank)`, "Ranks allowed: 5"]) {
+      const p = document.createElement("p"); p.className = "says"; p.textContent = line; stats.append(p);
+    }
+    const says = document.createElement("p"); says.className = "says";
+    const changed = cut.some(c => c.winner !== c5.winner);
+    says.textContent = `${W} wins whether ballots stop after rank 1 or run all 5, and in all 1,000 redraws of the ballots at every cutoff. ` +
+      (c5.margin_points > c1.margin_points
+        ? `Each extra rank widens ${W}'s lead, from ${r1(c1.margin_points)} points on first choices alone to ${r1(c5.margin_points)} with all 5.`
+        : `But each extra rank shrinks ${W}'s lead, from ${r1(c1.margin_points)} points on first choices alone${c1.runner_up !== c5.runner_up ? ` (over ${nm(Y, c1.runner_up)})` : ""} to ${r1(c5.margin_points)} over ${nm(Y, c5.runner_up)} with all 5.`);
+    sec.append(h, stats, says);
+    const across = `From all ${fmt(d.ballots)} ballots with a ranking in the ${Y.y} Democratic primary for mayor.`;
+    const pairs = [document.createElement("div"), document.createElement("div")];
+    pairs.forEach(p => { p.className = "pair"; });
+    const card = (pair, title, sub, legendHtml, rows) => {
+      const dv = document.createElement("div");
+      const head = document.createElement("div"); head.className = "charthead";
+      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows, () => dv));
+      const p = document.createElement("p"); p.className = "chartsub"; p.textContent = sub;
+      dv.append(head, p);
+      if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; dv.append(l); }
+      const c = document.createElement("div"); c.className = "chart"; dv.append(c);
+      pair.append(dv);
+      return c;
+    };
+    const sw = (v, label, extra = "") => `<span><i class="swatch line${extra}" style="background:var(${v})"></i>${label}</span>`;
+    const box1 = (c, cls) => `<span><i class="swatch" style="background:var(${c})"></i>${cls}</span>`;
+    const changes = cut.map(c => (c.winner !== c5.winner ? 1 : 0));
+    const most = cut.map((c, i) => Math.max(changes[i], c.resample_winner_changes > 0 ? 1 : 0));
+    const c1el = card(pairs[0], "How many winners change when ballots get cut?", across,
+      sw("--model", "This election") + sw("--model-soft", "Most in any of 1,000 redraws"),
+      () => [["Ballots cut after rank", "Winners changed", "Most in any of 1,000 redraws"], ...RANKS.map((k, i) => [k, changes[i], most[i]])]);
+    const c2el = card(pairs[0], "How big is the winner's lead in the final round?", `${across} Shaded: the range across 1,000 redraws of the ballots.`,
+      sw("--model", `${W}'s lead, in percentage points`),
+      () => [["Ballots cut after rank", `${W}'s lead (percentage points)`, "Runner-up", "Redraws: low", "Redraws: high"], ...cut.map(c => [c.rank, r1(c.margin_points), nm(Y, c.runner_up), r1(c.resample_margin_points_p5_p95[0]), r1(c.resample_margin_points_p5_p95[1])])]);
+    const c3el = card(pairs[1], "How many ballots run out of choices?", `${across} A ballot runs out when every candidate it ranks is knocked out before the final round.`,
+      "",
+      () => [["Ballots cut after rank", "Ran out of choices (%)"], ...cut.map(c => [c.rank, r1(c.exhausted_share)])]);
+    const c4el = card(pairs[1], "Where do the ballots end up in the final round?", across,
+      box1("--model", W) + box1("--model-soft", "Runner-up") + box1("--grid", "Ran out of choices"),
+      () => [["Ballots cut after rank", W, "Runner-up", "Runner-up name", "Ran out of choices"], ...cut.map(c => [c.rank, c.winner_votes, c.runner_up_votes, nm(Y, c.runner_up), c.exhausted])]);
+    sec.append(pairs[0], pairs[1]);
+    box.append(sec);
+    drawn.push({ Y, d, c1el, c2el, c3el, c4el, changes, most });
+  }
+  for (const { Y, d, c1el, c2el, c3el, c4el, changes, most } of drawn) {
+    const cut = d.cut, W = nm(Y, cut[4].winner);
+    const ax = { xMin: 1, xMax: 5, xTicks: RANKS, xTitle: "Ballots cut after this rank" };
+    chart(c1el, [
+      { points: RANKS.map((k, i) => [k, most[i]]), color: "--model-soft", width: 1.8 },
+      { points: RANKS.map((k, i) => [k, changes[i]]), color: "--model", dots: true },
+    ], { ...ax, yMax: 1, yStep: 1, yFmt: v => String(Math.round(v)), aria: `${Y.y}: winners who change when every ballot stops at each rank` });
+    const swap = cut.find(c => c.runner_up !== cut[4].runner_up);
+    chart(c2el, [{ points: cut.map(c => [c.rank, c.margin_points]), color: "--model", dots: true }], {
+      ...ax, yMax: 20, yStep: 5, yFmt: v => String(Math.round(v)),
+      bands: [{ points: cut.map(c => [c.rank, ...c.resample_margin_points_p5_p95]), color: "--model-soft" }],
+      marks: [
+        { x: 5, y: cut[4].margin_points, label: `${r1(cut[4].margin_points)} points` },
+        ...(swap ? [{ x: swap.rank, y: swap.margin_points, label: `Runner-up: ${nm(Y, swap.runner_up)}` }] : []),
+      ],
+      aria: `${Y.y}: ${W}'s final-round lead when every ballot stops at each rank`,
+    });
+    chart(c3el, [{ points: cut.map(c => [c.rank, c.exhausted_share]), color: "--model", dots: true }], {
+      ...ax, yMax: 50, yStep: 10, yFmt: v => `${Math.round(v)}%`,
+      marks: [{ x: 1, y: cut[0].exhausted_share, label: `${r1(cut[0].exhausted_share)}%` }, { x: 5, y: cut[4].exhausted_share, label: `${r1(cut[4].exhausted_share)}%` }],
+      aria: `${Y.y}: share of ballots that run out of choices when every ballot stops at each rank`,
+    });
+    stackChart(c4el, [
+      { color: "--model", vals: cut.map(c => c.winner_votes) },
+      { color: "--model-soft", vals: cut.map(c => c.runner_up_votes), labels: cut.map(c => nm(Y, c.runner_up)) },
+      { color: "--grid", vals: cut.map(c => c.exhausted) },
+    ], { yMax: 1250000, yStep: 250000, yFmt: v => v ? `${v / 1000}k` : "0", xTitle: "Ballots cut after this rank", aria: `${Y.y}: where ballots end up in the final round at each cutoff` });
+  }
+}
+drawSummary();
+drawYears();
+let lastW = 0;
+addEventListener("resize", () => { const w = $("years").clientWidth; if (Math.abs(w - lastW) > 20) { lastW = w; drawYears(); } });
+</script>
+</body></html>

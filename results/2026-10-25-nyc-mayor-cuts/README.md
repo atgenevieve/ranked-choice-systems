@@ -22,3 +22,7 @@ With full ballots, the final rounds match the official counts: 2025 Mamdani 573,
 | 5 | 12.8 | 5.2% | 0.9 | Garcia | 14.9% |
 
 The winner (Mamdani in 2025, Adams in 2021) is the same at every cutoff, and in all 1,000 redraws at every cutoff. The redraws move the lead by less than 0.2 points. Percentages are of ballots with at least one ranking.
+
+## Page
+
+`page.html` is the source of the "NYC Mayoral Ballot Cuts" page (https://claude.ai/artifact/Hmfqf5qbAwJgXE7ePpzPt5), styled like the NYC DSA Branches page, with "Copy data" and "Copy as image" on every chart. The numbers are written into the page from the two JSON files here.
