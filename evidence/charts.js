@@ -71,7 +71,7 @@ function niceTicks(max, step) { const t = []; for (let v = 0; v <= max + 1e-9; v
 function scatter(f, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 800, H = opts.height || 340, L = 40, R = 16, T = 16, B = 38;
+    const w = plot.clientWidth || 800, H = opts.height || 340, L = 40, R = 16, T = 26, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria }, plot);
     const sx = v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
@@ -85,7 +85,7 @@ function scatter(f, opts) {
       txt(svg, sx(t), H - B + 15, opts.xFmt ? opts.xFmt(t) : String(t), { "text-anchor": "middle" });
     }
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
-    txt(svg, L, T - 4, opts.yTitle, { class: "title" });
+    txt(svg, 0, T - 14, opts.yTitle, { class: "title" });
     if (opts.marker) {
       const mx = sx(opts.marker.x);
       el("line", { x1: mx, x2: mx, y1: T, y2: H - B, stroke: css("--axis"), "stroke-width": 1 }, svg);
@@ -155,7 +155,7 @@ function columns(f, bins, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const total = bins.reduce((a, b) => a + b.count, 0);
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 200, L = 40, R = 8, T = opts.yTitle ? 26 : 16, B = 34;
+    const w = plot.clientWidth || 600, H = opts.height || 200, L = 40, R = 8, T = opts.yTitle ? 30 : 16, B = 34;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const shares = bins.map(b => b.count / total), top = Math.max(...shares);
@@ -173,7 +173,7 @@ function columns(f, bins, opts = {}) {
       hitArea(svg, { tag: "rect", attrs: { x: L + i * bw, y: T, width: bw, height: H - T - B } }, opts.title || "", [`${b.label}: ${pct(v)} (${b.count.toLocaleString()})`], `${b.label}: ${pct(v)}`);
     });
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
-    if (opts.yTitle) txt(svg, L, T - 4, opts.yTitle, { class: "title" });
+    if (opts.yTitle) txt(svg, 0, T - 14, opts.yTitle, { class: "title" });
   });
 }
 
@@ -339,7 +339,7 @@ function densityLines(f, series, opts) {
   legend(f, curves.map(c => ["dot", c.color, `${c.name} (median ${c.median.toFixed(2)})`]));
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 12, T = 16, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 12, T = 26, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const top = Math.max(...curves.flatMap(c => c.ys)), step = opts.yStep || (top <= 0.04 ? 0.01 : 0.02);
@@ -354,7 +354,7 @@ function densityLines(f, series, opts) {
       txt(svg, sx(t), H - B + 15, opts.xFmt ? opts.xFmt(t) : String(t), { "text-anchor": "middle" });
     }
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
-    txt(svg, L, T - 4, opts.yTitle || "", { class: "title" });
+    txt(svg, 0, T - 14, opts.yTitle || "", { class: "title" });
     for (const c of curves) {
       const pts = xs.map((x, i) => `${sx(x).toFixed(1)},${sy(c.ys[i]).toFixed(1)}`);
       el("polygon", { points: `${sx(min)},${sy(0)} ${pts.join(" ")} ${sx(max)},${sy(0)}`, fill: css(c.color), opacity: 0.1 }, svg);
@@ -387,7 +387,7 @@ function ladder(f, series, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const n = series[0].values.length;
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 320, L = 46, R = 16, T = 18, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 320, L = 46, R = 16, T = 28, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = i => L + 14 + i / (n - 1) * (w - L - R - 28), sy = v => T + (1 - v / opts.yMax) * (H - T - B);
@@ -397,7 +397,7 @@ function ladder(f, series, opts) {
     }
     for (let i = 0; i < n; i++) txt(svg, sx(i), H - B + 15, opts.xLabels[i], { "text-anchor": "middle" });
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
-    txt(svg, L, T - 6, opts.yTitle || "", { class: "title" });
+    txt(svg, 0, T - 14, opts.yTitle || "", { class: "title" });
     for (const s of series.filter(s => s.items)) for (const it of s.items)
       el("polyline", { points: it.shares.map((v, i) => `${sx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" "), fill: "none", stroke: css(s.color), "stroke-width": 1.2, opacity: 0.18, "stroke-linejoin": "round" }, svg);
     for (const s of series.filter(s => s.band)) {
@@ -427,7 +427,7 @@ function lineChart(f, series, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const fmt = opts.fmt || (v => String(v));
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 14, T = 18, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 300, L = 46, R = 14, T = 28, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R), sy = v => T + (1 - Math.min(v, opts.yMax) / opts.yMax) * (H - T - B);
@@ -439,7 +439,7 @@ function lineChart(f, series, opts) {
     for (let x = Math.ceil(opts.xMin / opts.xStep) * opts.xStep, i = 0; x <= opts.xMax + 1e-9; x += opts.xStep, i++)
       if (i % every === 0) txt(svg, sx(x), H - B + 15, x.toLocaleString(), { "text-anchor": "middle" });
     txt(svg, (L + w - R) / 2, H - 4, opts.xTitle || "", { "text-anchor": "middle", class: "title" });
-    txt(svg, L, T - 6, opts.yTitle || "", { class: "title" });
+    txt(svg, 0, T - 14, opts.yTitle || "", { class: "title" });
     for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: H - B, stroke: css("--axis"), "stroke-width": 1, "stroke-dasharray": "2 3" }, svg);
     for (const s of series.filter(s => s.band)) {
       const up = s.band.map(([x, , hi]) => `${sx(x)},${sy(hi)}`), down = s.band.map(([x, lo]) => `${sx(x)},${sy(lo)}`).reverse();
