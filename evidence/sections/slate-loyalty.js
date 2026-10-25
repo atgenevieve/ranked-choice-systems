@@ -8,7 +8,7 @@ window.SECTIONS["slate-loyalty"] = () => {
   {
     // Typical (median) strength of each kind of endorsement, lowest and highest, for the takeaway.
     const endorse = ["Endorsing organization", "Candidate pact", "Newspaper"].map(k => +med(D.types[k]).toFixed(0)).sort((x, y) => x - y).filter((x, i, a) => i === 0 || i === a.length - 1);
-    const f = figure("How strongly voters stick to a group",
+    const f = figure("How strongly voters stick to a group", null,
       `Parties printed on the ballot are noticeably more correlated with voters' candidate groupings (+${med(wardExcess).toFixed(0)} points) than external endorsements (+${endorse[0]}–${endorse[1]} points) or natural ideological sorting (+${med(D.types["Found only in ballots"]).toFixed(0)} points).`);
     const T = D.types;
     strips(f, [

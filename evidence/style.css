@@ -15,7 +15,7 @@
   --bar: #2a78d6;
   --limit: #0d366b;
   --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-data: var(--font-body);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
