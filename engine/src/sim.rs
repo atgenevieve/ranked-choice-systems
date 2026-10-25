@@ -340,13 +340,6 @@ mod tests {
     }
 
     #[test]
-    fn worth_batch_is_five_percent_of_a_quota() {
-        assert_eq!(super::worth_batch(706, 67), 1);
-        assert_eq!(super::worth_batch(84_515, 3), 1_056);
-        assert_eq!(super::worth_batch(1_071_730, 1), 26_793);
-    }
-
-    #[test]
     fn turnout_draw() {
         // No spread: always the expected number.
         assert!((0..50).all(|i| draw_voters(432, 0.0, i) == 432));
@@ -504,18 +497,10 @@ pub fn worth_in_election(
     depth
 }
 
-/// How many voters change their ballots together when measuring position worth for the
-/// public simulator: 5% of the votes it takes to win a seat, and at least 1. Elections with
-/// fewer than about 40 votes per seat (every DSA branch election) use one voter.
-pub fn worth_batch(voters: usize, seats: usize) -> usize {
-    ((voters / (seats + 1)) / 20).max(1)
-}
-
 /// One simulated election, `i`, as a compact record for a page that shows elections as they
 /// finish (the public simulator): `cut`, its cutoff rank; `sc`, the seats that change when
 /// ballots are cut after rank 1, 2, … (up to the cutoff rank, after which none do); `v`, its
-/// voters; and, when `worth` is set, `w`, the summed change in winning per voter (see
-/// `worth_batch`) for the 4 candidates drawn
+/// voters; and, when `worth` is set, `w`, the summed change in winning for the 4 candidates drawn
 /// at random at each position (trailing zeros left off), and `wd`, how deep each was studied.
 /// The same numbers `simulate` and `position_worth` add up, election by election.
 pub fn election_record(s: &Settings, seats: usize, i: usize, worth: bool) -> Value {
@@ -533,7 +518,7 @@ pub fn election_record(s: &Settings, seats: usize, i: usize, worth: bool) -> Val
     if worth {
         let limit = s.ballot.max_ranks(seats).unwrap_or(len).min(len);
         let mut w = vec![0f64; limit];
-        let wd = worth_in_election(&mut b, seats, es, o, limit, &a.elected_order, &a.excluded_order, worth_batch(v, seats), |is_edge, k, d| {
+        let wd = worth_in_election(&mut b, seats, es, o, limit, &a.elected_order, &a.excluded_order, 1, |is_edge, k, d| {
             if !is_edge {
                 w[k] += d;
             }

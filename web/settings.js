@@ -187,8 +187,16 @@ export function engineSettings(choice, curves) {
   };
 }
 
+/** Whether position worth can be measured: with more than 200 votes per seat, one ballot almost
+ *  never decides a seat, so 1,000 simulated elections can't tell the positions apart. */
+export const WORTH_MAX_VOTES_PER_SEAT = 200;
+export const worthMeasurable = (voters, seats) => voters / (seats + 1) <= WORTH_MAX_VOTES_PER_SEAT;
+
 /** The engine request for simulated elections first to first + count − 1. */
-export const streamRequest = (settings, first, count) => ({ task: "stream", settings, first, count, worth: true });
+export const streamRequest = (settings, first, count) => ({
+  task: "stream", settings, first, count,
+  worth: worthMeasurable(settings.election.voters, settings.election.seats[0]),
+});
 
 /** Settings as text with keys sorted, so the same settings always give the same key. */
 export function settingsKey(settings) {
