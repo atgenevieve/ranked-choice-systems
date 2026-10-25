@@ -11,6 +11,7 @@
     "clustering": 0.3717,
     "complete": 0.22388904613642796,
     "even_last": 0.247844,
+    "even_next_last": 0.306825,
     "even_top": 1.9448759999999998,
     "evenness": 0.7668,
     "fills_limit": 0.36451784762919553,
@@ -22,14 +23,15 @@
    },
    "simulated": {
     "complete": 0.16146895948703002,
-    "even_last": 0.22319999999999998,
-    "even_top": 1.86,
-    "evenness": 0.8194,
+    "even_last": 0.23099999999999998,
+    "even_next_last": 0.299,
+    "even_top": 1.879936,
+    "evenness": 0.8142,
     "fills_limit": 0.3332,
     "length_mean": 2.2462,
     "no_slate": 0.25,
     "only_candidate": 0.75,
-    "quota": 0.8988,
+    "quota": 0.9096,
     "running_mate": 0.0
    }
   },
@@ -42,6 +44,7 @@
     "clustering": 0.6163,
     "complete": 0.11269589716499384,
     "even_last": 0.15942,
+    "even_next_last": 0.33404,
     "even_top": 2.069288,
     "evenness": 0.8474,
     "length_mean": 3.079089026915114,
@@ -54,6 +57,7 @@
     "clustering": 0.6051,
     "complete": 0.11541151783632549,
     "even_last": 0.0742,
+    "even_next_last": 0.284788,
     "even_top": 2.0896,
     "evenness": 0.7811,
     "length_mean": 3.1376,
@@ -72,6 +76,7 @@
     "clustering": 0.5699000000000001,
     "complete": 0.05980949266178815,
     "even_last": 0.072936,
+    "even_next_last": 0.085965,
     "even_top": 3.5678340000000004,
     "evenness": 0.8586,
     "length_mean": 6.675419441714888,
@@ -84,6 +89,7 @@
     "clustering": 0.6156999999999999,
     "complete": 0.0108,
     "even_last": 0.0372,
+    "even_next_last": 0.0858,
     "even_top": 4.1850000000000005,
     "evenness": 0.7057,
     "length_mean": 5.41,
@@ -101,6 +107,7 @@
    "real": {
     "complete": 0.5881704122432098,
     "even_last": 0.314355,
+    "even_next_last": 0.56847,
     "even_top": 1.9027749999999999,
     "length_mean": 3.635235732009926,
     "quota": 0.759534
@@ -108,6 +115,7 @@
    "simulated": {
     "complete": 0.3944,
     "even_last": 0.337468,
+    "even_next_last": 0.55,
     "even_top": 1.902096,
     "evenness": 0.861,
     "length_mean": 3.059,
@@ -125,6 +133,7 @@
    "real": {
     "complete": 0.299645390070922,
     "even_last": 0.274685,
+    "even_next_last": 0.44665000000000005,
     "even_top": 1.9230749999999999,
     "length_mean": 3.908333333333333,
     "quota": 1.0635350000000001
@@ -133,6 +142,7 @@
     "clustering": 0.1416,
     "complete": 0.3569767441860465,
     "even_last": 0.26923400000000003,
+    "even_next_last": 0.4487209999999999,
     "even_top": 2.093022,
     "evenness": 0.8504,
     "length_mean": 4.1568627450980395,
@@ -150,20 +160,22 @@
    "real": {
     "complete": 0.2222222222222222,
     "even_last": 0.234672,
+    "even_next_last": 0.403632,
     "even_top": 3.053574,
     "length_mean": 6.765859284890427,
     "quota": 2.113638
    },
    "simulated": {
-    "clustering": 0.1023,
+    "clustering": 0.14309999999999998,
     "complete": 0.2585669781931464,
-    "even_last": 0.077784,
-    "even_top": 3.1167,
-    "evenness": 0.8011,
+    "even_last": 0.231704,
+    "even_next_last": 0.344864,
+    "even_top": 3.0138420000000004,
+    "evenness": 0.8234,
     "length_mean": 6.873614190687362,
     "no_slate": 0.2,
     "only_candidate": 0.0,
-    "quota": 2.101336,
+    "quota": 2.16357,
     "running_mate": 0.8
    }
   }

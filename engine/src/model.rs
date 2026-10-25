@@ -46,6 +46,14 @@ pub struct SlateParams {
     /// (2 means about 7 times less popular).
     #[serde(default = "default_long_shot_gap")]
     pub long_shot_gap: f64,
+    /// Version 0.2: share of candidates who are standouts, far more popular than the rest (the
+    /// mirror image of long shots). "auto" picks it by type of election.
+    #[serde(default = "auto")]
+    pub standout_share: Auto,
+    /// Version 0.2: how far above the rest standouts sit, on the same scale as the spread
+    /// (1.25 means about 3.5 times more popular). "auto" picks it by type of election.
+    #[serde(default = "auto")]
+    pub standout_lift: Auto,
     /// Version 0.2: how strongly voters prefer their own slate: "loose", "tight", or a
     /// multiplier on own-slate candidates' tickets.
     #[serde(default)]
@@ -68,7 +76,8 @@ fn default_unaffiliated() -> f64 {
     0.15
 }
 fn default_long_shot_gap() -> f64 {
-    2.0
+    // Fitted with the share on single-seat public races (data/fits/long-shot-tuning.json).
+    2.5
 }
 fn default_other_spread() -> f64 {
     // Gives Scottish twins an evenness of 0.84 for votes leaving a party, as in real wards.
@@ -229,8 +238,13 @@ fn seat_band(seats: usize) -> usize {
 /// 2 to 4 seats, organization 5 or more), the spread still follows the quota; see the model spec.
 /// Public elections with 5 or more seats use the 2-to-4-seat values: the only real ones are
 /// mostly Canberra, whose full party lists the owner judged too unusual to tune to.
-const POPULARITY_SPREAD: [[f64; 3]; 2] = [[1.1, 1.2, 1.2], [0.8, 0.7, 1.0]];
+const POPULARITY_SPREAD: [[f64; 3]; 2] = [[1.1, 1.2, 1.2], [0.8, 0.7, 0.5]];
 const LONG_SHOT_SHARE: [[f64; 3]; 2] = [[0.1, 0.0, 0.0], [0.0, 0.0, 0.0]];
+/// Standouts, fitted by data/model_check.py --tune-standouts (data/fits/standout-tuning.json):
+/// only organizational elections with 5 or more seats have them, where the leader sits far
+/// above the quota while the rest of the field stays even.
+const STANDOUT_SHARE: [[f64; 3]; 2] = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.15]];
+const STANDOUT_LIFT: f64 = 1.25;
 /// Own-slate multipliers for "loose" and "tight" slates, checked by data/model_check.py on
 /// twins of Scottish wards: loose gives about 12 points of clustering above popularity (like
 /// Portland's endorsement slates, 10 to 15), tight about 62 (like Scottish parties, 61).
@@ -254,6 +268,8 @@ pub fn auto_values(kind: ElectorateType, seats: usize) -> serde_json::Value {
         "popularity_spread": POPULARITY_SPREAD[k][band],
         "long_shot_share": LONG_SHOT_SHARE[k][band],
         "long_shot_gap": default_long_shot_gap(),
+        "standout_share": STANDOUT_SHARE[k][band],
+        "standout_lift": STANDOUT_LIFT,
         "slate_strength": { "loose": STRENGTH_LOOSE, "tight": STRENGTH_TIGHT },
         "other_slate_spread": default_other_spread(),
         "unaffiliated_share": default_unaffiliated(),
@@ -280,6 +296,9 @@ impl SlateParams {
         }
         if let Auto::Value(x) = self.long_shot_share {
             share("long_shot_share", x)?;
+        }
+        if let Auto::Value(x) = self.standout_share {
+            share("standout_share", x)?;
         }
         if self.slates == 0 {
             return Err("model.slates must be at least 1".into());
@@ -570,6 +589,12 @@ pub fn generate(c: usize, s: usize, v: usize, row: usize, el: &Electorate, rules
     for &cand in order.iter().take(n_long) {
         long_shot[cand] = true;
         pop[cand] *= (-p.long_shot_gap).exp();
+    }
+    // Standouts come from the candidates who aren't long shots.
+    let n_stand = ((p.standout_share.or(STANDOUT_SHARE[kind][band]) * c as f64).round() as usize).min(c - n_long);
+    let lift = p.standout_lift.or(STANDOUT_LIFT);
+    for &cand in order.iter().skip(n_long).take(n_stand) {
+        pop[cand] *= lift.exp();
     }
     // Groups for drawing: one per slate, and one (index f) for candidates in no slate.
     let ng = f + 1;

@@ -303,6 +303,43 @@ mod tests {
     }
 
     #[test]
+    fn position_worth_skips_voters_who_ranked_only_the_candidate() {
+        // Short "up to 5" ballots: some voters rank only one candidate. Without that candidate
+        // their ballot would be blank, which once crashed the count.
+        let mut s: crate::settings::Settings = serde_json::from_str(r#"{"run":{"name":"t","seed":1,"sims":100},
+            "election":{"candidates":12,"seats":[5],"voters":200,"turnout_spread":0.1,"ranks":12},
+            "electorate":{"type":"organization"},"ballot":{"wording":"up_to","n":"seats","pull":0.1}}"#).unwrap();
+        s.finish().unwrap();
+        let (a, e) = super::position_worth(&s, 5, 50, 50);
+        assert_eq!(a.n[0], 200.0);
+        assert_eq!(e.n[0], 200.0);
+    }
+
+    #[test]
+    fn election_records_add_up_to_simulate_and_position_worth() {
+        let mut s: crate::settings::Settings = toml::from_str(
+            "[run]\nname = \"t\"\nsims = 30\n[election]\ncandidates = 14\nseats = [5]\nvoters = 150\nturnout_spread = 0.1\n[ballot]\nwording = \"up_to\"\nn = \"seats\"\n",
+        ).unwrap();
+        s.finish().unwrap();
+        let line = super::simulate(&s, 5, 1);
+        let (any, _) = super::position_worth(&s, 5, 0, 30);
+        let recs: Vec<_> = (0..30).map(|i| super::election_record(&s, 5, i, true)).collect();
+        // Seats changed, summed over elections, match simulate's average at every rank.
+        let mean = line["truncation"]["seats_changed"]["mean"].as_array().unwrap();
+        for (k, m) in mean.iter().enumerate() {
+            let total: u64 = recs.iter().map(|r| r["sc"].as_array().unwrap().get(k).map_or(0, |x| x.as_u64().unwrap())).sum();
+            assert!((total as f64 / 30.0 - m.as_f64().unwrap()).abs() < 1e-3, "rank {}", k + 1);
+        }
+        // Worth sums and comparison counts match position_worth's.
+        for k in 0..any.sum.len() {
+            let sum: f64 = recs.iter().map(|r| r["w"].as_array().unwrap().get(k).map_or(0.0, |x| x.as_f64().unwrap())).sum();
+            let n = recs.iter().flat_map(|r| r["wd"].as_array().unwrap().iter().map(|d| d.as_u64().unwrap() as usize)).filter(|&d| d > k).count();
+            assert!((sum - any.sum[k]).abs() < 1e-9, "position {}", k + 1);
+            assert_eq!(n as f64, any.n[k], "position {}", k + 1);
+        }
+    }
+
+    #[test]
     fn turnout_draw() {
         // No spread: always the expected number.
         assert!((0..50).all(|i| draw_voters(432, 0.0, i) == 432));
@@ -351,7 +388,6 @@ impl WorthSums {
 /// Two groups of candidates: `any`, 4 drawn at random; `edge`, the last 2 elected and the 2
 /// strongest losers, whose races came down to a vote or two.
 pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) -> (WorthSums, WorthSums) {
-    use crate::ballots::{Ballots, NONE};
     let c = s.election.candidates;
     let len = s.election.ranks;
     let limit = s.ballot.max_ranks(seats).unwrap_or(len).min(len);
@@ -363,34 +399,135 @@ pub fn position_worth(s: &Settings, seats: usize, first: usize, count: usize) ->
         let mut b = model::generate(c, seats, v, len, &s.electorate, &s.ballot, &s.model, es).ballots;
         let o = Options { lot_seed: es ^ 0x5851F42D4C957F2D, ..opt };
         let full = analyze(&b, seats, o, Truncation::Off);
-        let mut r = Rng::new(es ^ 0x776F_7274_6821);
-        let mut studied: Vec<(u32, bool)> = (0..4).map(|_| ((r.next_u64() % c as u64) as u32, false)).collect();
-        studied.extend(full.elected_order.iter().rev().take(2).map(|&x| (x, true)));
-        studied.extend(full.excluded_order.iter().rev().take(2).map(|&x| (x, true)));
-        for (cand, is_edge) in studied {
+        worth_in_election(&mut b, seats, es, o, limit, &full.elected_order, &full.excluded_order, 1, |is_edge, k, d| {
+            if is_edge { edge.add(k, d) } else { any.add(k, d) }
+        });
+    }
+    (any, edge)
+}
+
+/// What each ballot position is worth in one election (see `position_worth`): calls
+/// `add(is_edge, position index, change in winning per voter)` for each comparison. `b` is the
+/// election's ballots, edited and then restored; `elected` and `excluded` come from its full count.
+/// `batch` voters (drawn at random) change their ballots together and the change in winning is
+/// divided by how many did, so a large election, where one ballot almost never decides a seat,
+/// still shows what each vote is worth. With `batch` 1 it's one voter, as before.
+/// Returns, for each of the 4 candidates drawn at random, the deepest position studied (0 when
+/// the candidate was skipped), so a page can tell how many comparisons each position has.
+#[allow(clippy::too_many_arguments)]
+pub fn worth_in_election(
+    b: &mut crate::ballots::Ballots,
+    seats: usize,
+    es: u64,
+    o: Options,
+    limit: usize,
+    elected: &[u32],
+    excluded: &[u32],
+    batch: usize,
+    mut add: impl FnMut(bool, usize, f64),
+) -> [usize; 4] {
+    use crate::ballots::{Ballots, NONE};
+    let c = b.c;
+    let batch = batch.max(1);
+    let mut depth = [0usize; 4];
+    let mut r = Rng::new(es ^ 0x776F_7274_6821);
+    let mut studied: Vec<(u32, bool)> = (0..4).map(|_| ((r.next_u64() % c as u64) as u32, false)).collect();
+    studied.extend(elected.iter().rev().take(2).map(|&x| (x, true)));
+    studied.extend(excluded.iter().rev().take(2).map(|&x| (x, true)));
+    for (j, (cand, is_edge)) in studied.into_iter().enumerate() {
+        // A voter who ranked only this candidate would cast a blank ballot without them,
+        // which the count can't take, so draw another voter. Elections where no voter
+        // ranked only this candidate draw exactly as before.
+        let mut chosen: Vec<(usize, Vec<u32>, Vec<u32>)> = Vec::with_capacity(batch);
+        let mut tries = 0;
+        while chosen.len() < batch && tries < 100 * batch {
             let row = (r.next_u64() % b.rows() as u64) as usize;
+            tries += 1;
+            if batch > 1 && chosen.iter().any(|x| x.0 == row) {
+                continue;
+            }
             let orig: Vec<u32> = b.row(row).to_vec();
             let others: Vec<u32> = orig.iter().copied().filter(|&x| x != NONE && x != cand).collect();
-            let set = |b: &mut Ballots, vals: &[u32]| {
-                let w = b.len;
-                for (j, x) in b.prefs[row * w..(row + 1) * w].iter_mut().enumerate() {
-                    *x = *vals.get(j).unwrap_or(&NONE);
+            if !others.is_empty() {
+                chosen.push((row, orig, others));
+            }
+        }
+        if chosen.is_empty() {
+            continue;
+        }
+        let set = |b: &mut Ballots, row: usize, vals: &[u32]| {
+            let w = b.len;
+            for (j, x) in b.prefs[row * w..(row + 1) * w].iter_mut().enumerate() {
+                *x = *vals.get(j).unwrap_or(&NONE);
+            }
+        };
+        let wins = |b: &Ballots| analyze(b, seats, o, Truncation::Off).winners.contains(&cand) as i32 as f64;
+        for (row, _, others) in chosen.iter() {
+            set(b, *row, others);
+        }
+        let base = wins(b);
+        // At each position, the chosen voters with room on their ballot to rank the candidate
+        // there do; the rest leave them off.
+        let room = |x: &(usize, Vec<u32>, Vec<u32>)| limit.min(x.2.len() + 1);
+        let deepest = chosen.iter().map(room).max().unwrap();
+        for k in 1..=deepest {
+            let mut n = 0.0;
+            for x in chosen.iter() {
+                let (row, _, others) = x;
+                if room(x) < k {
+                    set(b, *row, others);
+                    continue;
                 }
-            };
-            let wins = |b: &Ballots| analyze(b, seats, o, Truncation::Off).winners.contains(&cand) as i32 as f64;
-            set(&mut b, &others);
-            let base = wins(&b);
-            for k in 1..=limit.min(others.len() + 1) {
+                n += 1.0;
                 let mut vals: Vec<u32> = others[..k - 1].to_vec();
                 vals.push(cand);
                 vals.extend(&others[k - 1..]);
                 vals.truncate(limit);
-                set(&mut b, &vals);
-                let d = wins(&b) - base;
-                if is_edge { edge.add(k - 1, d) } else { any.add(k - 1, d) }
+                set(b, *row, &vals);
             }
-            set(&mut b, &orig);
+            add(is_edge, k - 1, (wins(b) - base) / n);
+        }
+        if !is_edge {
+            depth[j] = deepest;
+        }
+        for (row, orig, _) in chosen.iter() {
+            set(b, *row, orig);
         }
     }
-    (any, edge)
+    depth
+}
+
+/// One simulated election, `i`, as a compact record for a page that shows elections as they
+/// finish (the public simulator): `cut`, its cutoff rank; `sc`, the seats that change when
+/// ballots are cut after rank 1, 2, … (up to the cutoff rank, after which none do); `v`, its
+/// voters; and, when `worth` is set, `w`, the summed change in winning for the 4 candidates drawn
+/// at random at each position (trailing zeros left off), and `wd`, how deep each was studied.
+/// The same numbers `simulate` and `position_worth` add up, election by election.
+pub fn election_record(s: &Settings, seats: usize, i: usize, worth: bool) -> Value {
+    let c = s.election.candidates;
+    let len = s.election.ranks;
+    let opt = Options { rules: s.run.rules, surplus: s.run.surplus_order, quota: s.run.quota, lot_seed: 0 };
+    let es = election_seed(s.run.seed, c, seats, i);
+    let v = draw_voters(s.election.voters.unwrap(), s.election.turnout_spread.unwrap_or(0.0), es);
+    let mut b = model::generate(c, seats, v, len, &s.electorate, &s.ballot, &s.model, es).ballots;
+    let o = Options { lot_seed: es ^ 0x5851F42D4C957F2D, ..opt };
+    let a = analyze(&b, seats, o, Truncation::Winners);
+    let cut = a.cutoff_rank.unwrap_or(1);
+    let sc: Vec<u32> = a.seats_changed.as_deref().unwrap_or(&[]).iter().take(cut.saturating_sub(1)).copied().collect();
+    let mut rec = json!({ "cut": cut, "sc": sc, "v": v });
+    if worth {
+        let limit = s.ballot.max_ranks(seats).unwrap_or(len).min(len);
+        let mut w = vec![0f64; limit];
+        let wd = worth_in_election(&mut b, seats, es, o, limit, &a.elected_order, &a.excluded_order, 1, |is_edge, k, d| {
+            if !is_edge {
+                w[k] += d;
+            }
+        });
+        let keep = w.iter().rposition(|&x| x != 0.0).map_or(0, |p| p + 1);
+        w.truncate(keep);
+        let w: Vec<f64> = w.iter().map(|x| (x * 1e6).round() / 1e6).collect();
+        rec["w"] = json!(w);
+        rec["wd"] = json!(wd);
+    }
+    rec
 }

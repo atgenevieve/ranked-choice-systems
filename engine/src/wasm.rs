@@ -14,12 +14,15 @@
 //!   worth to a candidate, in simulated elections i to i + n − 1 (`sim::position_worth`): sums
 //!   for candidates drawn at random (`any`) and for candidates on the edge (`edge`), so a page
 //!   can split the elections across several workers and add the sums.
+//! - `{"task": "stream", "settings": {...}, "first": i, "count": n, "worth": bool}`: simulated
+//!   elections i to i + n − 1, one compact record each (`sim::election_record`), for the public
+//!   simulator, which draws its charts as elections finish.
 //! - `{"task": "defaults", "electorate": "public" | "organization", "seats": n}`: what "auto"
 //!   and the named settings mean for that type of election.
 
 use crate::model::{self, BallotRules, Electorate, RankCount, SlateParams, Wording};
 use crate::settings::Settings;
-use crate::sim::{position_worth, simulate};
+use crate::sim::{election_record, position_worth, simulate};
 use crate::stats::{measure, medians};
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -107,6 +110,20 @@ fn handle(text: &str) -> Result<Value, String> {
             let count = req["count"].as_u64().unwrap_or(s.run.sims as u64) as usize;
             let (any, edge) = position_worth(&s, seats, first, count);
             Ok(json!({ "any": any.to_json(), "edge": edge.to_json() }))
+        }
+        Some("stream") => {
+            let mut s: Settings = serde_json::from_value(req["settings"].clone()).map_err(|e| format!("settings: {e}"))?;
+            s.finish()?;
+            let c = s.election.candidates;
+            let seats = s.election.seats.first().copied().unwrap_or(1);
+            if seats < 1 || seats >= c {
+                return Err("seats must be fewer than candidates".into());
+            }
+            let first = req["first"].as_u64().unwrap_or(0) as usize;
+            let count = req["count"].as_u64().unwrap_or(1) as usize;
+            let worth = req["worth"].as_bool().unwrap_or(true);
+            let records: Vec<Value> = (first..first + count).map(|i| election_record(&s, seats, i, worth)).collect();
+            Ok(json!({ "records": records }))
         }
         Some("describe") => {
             // A sample of the viewer's own election, measured: what each setting produces.

@@ -22,7 +22,7 @@ How they relate: if reach at rank *k* is zero, truncating there can't change any
 ### Two versions of truncation
 
 - **Whole electorate (build first).** Cut everyone's ballots at rank *k*. Answers "how deep does ranking need to go for the election to come out the same?"
-- **Single voter (later).** Could one voter's rank *k* decide a seat? Much rarer. Answers "is it worth my time to fill in rank *k*?" A first, candidate-side version exists: **position worth** (`sim::position_worth`, shown on the branch page), how many percentage points more likely a candidate is to win when one voter ranks them at position *k* instead of leaving them off, for candidates drawn at random and for candidates on the edge.
+- **Single voter (later).** Could one voter's rank *k* decide a seat? Much rarer. Answers "is it worth my time to fill in rank *k*?" A first, candidate-side version exists: **position worth** (`sim::position_worth`, shown on the branch page), how many percentage points more likely a candidate is to win when one voter ranks them at position *k* instead of leaving them off, for candidates drawn at random and for candidates on the edge. The public simulator shows it only for elections with up to 200 votes per seat; above that, one ballot almost never decides a seat, so the simulations can't measure it and the page shows a note instead (October 25, 2026).
 
 ### Key definitions
 
@@ -69,7 +69,7 @@ Fixed in milestone 1: Scottish rounding (5 decimal places), Scottish tie-breakin
 
 Still open:
 
-- **Model version 0.2 gaps** (milestone 4, `docs/model-check.md`): the last candidate is too weak in Scottish multi-seat wards and organizational elections with 5 or more seats. An option (standout candidates) is waiting on the owner.
+- **Model version 0.2 gaps** (milestone 4, `docs/model-check.md`): the last candidate is too weak in Scottish multi-seat wards. Organizational elections with 5 or more seats now use standout candidates (October 25, 2026).
 - **One voting system.** Only Scottish STV (milestone 7). An exact-quota option (`run.quota = "exact"`) exists for measuring quota rounding.
 - **Quota rounding and turnout** (open question 3 in `docs/model-spec.md`): with few votes per seat, Scottish rules' whole-vote quota makes the answer swing by 2 to 3 times as voters change by a few (a sawtooth with a step every seats + 1 voters). Never report a result for one exact voter count in such elections. Decided: turnout is an expected number plus an uncertainty (`election.turnout_spread`, default 10%), and the headline reads "Across the turnouts you expect, 95 of 100 elections are decided within the first N ranks." The quota belongs to the voting method (Scottish STV for now), not the model.
 
@@ -93,6 +93,7 @@ All of this was measured with **reach**. Truncation results will differ, and the
 - `evidence/`: the model evidence page (one tab per model decision), and how to rebuild its data.
 - `docs/model-check.md`: how simulated elections compare with real ones (milestone 4).
 - `tuner/`: the model tuner, a web page that runs the engine (compiled to WebAssembly) to adjust the model and compare it with real elections. See `tuner/README.md`.
+- `web/`: the public simulator on genevieverand.com/projects/ranked-choice-simulator: shared settings, the browser engine client, and the precompute that saves results for any sample election too slow to run in a browser (none since the page became organizational-only, October 25, 2026). See `web/README.md`.
 - `docs/model-review.md`: the milestone 3 review: what real data shows for each model assumption, with proposals and decisions.
 - `docs/real-data-findings.md`: detailed findings from real ballots.
 - `docs/endorsement-cohesion.md`: a reusable method for measuring how voters follow endorsements, slates, and pacts on ranked ballots, with early findings. Keep it usable outside this project.
