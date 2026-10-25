@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NYC Mayoral Ballot Cuts</title>
+<title>NYC Mayoral Rank Depth</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -198,32 +198,28 @@ button.copy { padding: 4px 12px; font-size: 12px; font-weight: 500; white-space:
 textarea.copybox { width: 100%; font-family: var(--font-data); font-size: 12px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius); padding: 6px 8px; }
 </style>
 <style>.stackcol .lab { font-size: 11.5px; } .summary td { white-space: nowrap; }</style>
+<style>:root { --nyc: #2a78d6; }</style>
 </head><body>
-
 <div class="wrap">
   <header>
     <h1>NYC mayoral primaries</h1>
-    <p>What happens to the real Democratic primaries for mayor, in 2025 and 2021, if every ballot is cut short after rank 1, 2, 3, 4, or 5. These are the actual ballots, recounted, not simulations.</p>
+    <p>How many ranks matter in a race shaped like New York City's Democratic primary for mayor: 1,000 simulated races, next to what the real 2025 and 2021 ballots show when they're cut short.</p>
   </header>
   <div class="results">
     <section class="panel">
-      <h2>Do lower ranks change who wins?</h2>
-      <p class="lede">We recounted every ballot from the NYC Board of Elections' cast vote records (the file listing each ballot's rankings, with no voter information) with instant runoff, keeping only each voter's first 1, 2, 3, 4, or 5 choices. NYC ballots allow 5 ranks. With all 5, our count matches the official final round exactly. To see how much chance alone could move the numbers, we also redrew the ballots at random 1,000 times and recounted each redraw.</p>
-      <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Primary</th><th class="n">Candidates</th><th class="n">Ballots</th><th>Winner</th><th>Runner-up</th><th class="n">Lead, first choices only</th><th class="n">Lead, all 5 ranks</th><th class="n">Ran out of choices, all 5 ranks</th></tr></thead><tbody></tbody></table></div>
-      <div class="branches" id="years"></div>
+      <h2>How many ranks matter in a mayoral primary</h2>
+      <p class="lede">Simulated results are based on 1,000 simulations of each race, with the real race's candidates and turnout, one seat, and a ballot that allows up to 5 ranks, counted by moving each vote down to the voter's next choice until one candidate has a majority. Voters follow the project's public-voter model, fitted to 1,100 Scottish council elections. Real results come from recounting every ballot in the NYC Board of Elections' cast vote records with each ballot cut after rank 1 to 5.</p>
+      <p class="lede"><b>One caution:</b> simulated voters run out of choices more often than real ones. By the final round, about 25% of simulated ballots have no candidate left, against 5% in the real 2025 race and 15% in 2021. The model's public voters were fitted to Scottish ballots, and NYC mayoral voters rank more of the candidates, so treat the simulated curves as a rough guide for NYC. The real races and all 126 real NYC primaries are the firmer evidence.</p>
+      <div class="tablewrap"><table class="summary" id="summary"><thead><tr><th>Race</th><th class="n">Candidates</th><th class="n">Seats</th><th class="n">Voters (±10%)</th><th class="n">95% threshold</th><th class="n">Real race: winner changes</th></tr></thead><tbody></tbody></table></div>
+      <div class="branches" id="races"></div>
     </section>
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
-const DATA = {"2025": {"candidates": 11, "ballots": 1071730, "blank": 6858, "cut": [{"rank": 1, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 469642, "runner_up_votes": 387137, "margin_points": 9.629671128727479, "exhausted": 214951, "exhausted_share": 20.056450785179102, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [9.452701024741653, 9.81461682132774]}, {"rank": 2, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 530391, "runner_up_votes": 416494, "margin_points": 12.02859903789795, "exhausted": 124845, "exhausted_share": 11.64892276972745, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [11.857916570877594, 12.200556999755364]}, {"rank": 3, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 551285, "runner_up_votes": 428833, "margin_points": 12.493597709663531, "exhausted": 91612, "exhausted_share": 8.548048482360295, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.327246517949815, 12.667255064490117]}, {"rank": 4, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 562776, "runner_up_votes": 435566, "margin_points": 12.742126445646882, "exhausted": 73388, "exhausted_share": 6.8476202028495985, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.57814013217226, 12.918479028631651]}, {"rank": 5, "winner": "Zohran Kwame Mamdani", "runner_up": "Andrew M. Cuomo", "winner_votes": 573169, "runner_up_votes": 443229, "margin_points": 12.784362031408955, "exhausted": 55332, "exhausted_share": 5.162867513272933, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [12.6260502989407, 12.953068560441197]}]}, "2021": {"candidates": 13, "ballots": 942031, "blank": 11083, "cut": [{"rank": 1, "winner": "Eric L. Adams", "runner_up": "Maya D. Wiley", "winner_votes": 289403, "runner_up_votes": 201127, "margin_points": 17.99604509408191, "exhausted": 451501, "exhausted_share": 47.92846519912827, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [17.75798598068906, 18.223687240431474]}, {"rank": 2, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 363258, "runner_up_votes": 304718, "margin_points": 8.763787920524091, "exhausted": 274055, "exhausted_share": 29.09193009571872, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [8.568557069599786, 8.967399776420798]}, {"rank": 3, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 388437, "runner_up_votes": 358944, "margin_points": 3.9461800607722166, "exhausted": 194650, "exhausted_share": 20.66280196723887, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [3.767214244388737, 4.136452147933532]}, {"rank": 4, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 398716, "runner_up_votes": 384788, "margin_points": 1.777655251281423, "exhausted": 158527, "exhausted_share": 16.828214782740694, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [1.5982997561170338, 1.9719957532758532]}, {"rank": 5, "winner": "Eric L. Adams", "runner_up": "Kathryn A. Garcia", "winner_votes": 404513, "runner_up_votes": 397316, "margin_points": 0.8975729239027274, "exhausted": 140202, "exhausted_share": 14.882949711846, "resample_winner_changes": 0, "resample_margin_points_p5_p95": [0.7232701876172709, 1.0881431569907507]}]}};
-const YEARS = [
-  { y: "2025", title: "2025 Democratic primary for mayor", short: { "Zohran Kwame Mamdani": "Mamdani", "Andrew M. Cuomo": "Cuomo" } },
-  { y: "2021", title: "2021 Democratic primary for mayor", short: { "Eric L. Adams": "Adams", "Kathryn A. Garcia": "Garcia", "Maya D. Wiley": "Wiley" } },
-];
+const DATA = {"sims": {"2025": {"candidates": 11, "voters": 1071730, "spread": 0.1, "counts": [948, 26, 10, 9, 7], "mean": [0.052, 0.025, 0.016, 0.007, 0.0], "most": [1, 1, 1, 1, 0], "exhausted": 24.702275512957225, "sims": 1000, "commit": "4f67a02"}, "2021": {"candidates": 13, "voters": 942031, "spread": 0.1, "counts": [945, 31, 11, 7, 6], "mean": [0.055, 0.024, 0.013, 0.006, 0.0], "most": [1, 1, 1, 1, 0], "exhausted": 27.939896552488175, "sims": 1000, "commit": "4f67a02"}}, "real": {"2025": {"changed": [0, 0, 0, 0, 0], "redraw": [0, 0, 0, 0, 0], "exhausted": 5.162867513272933, "winner": "Zohran Kwame Mamdani"}, "2021": {"changed": [0, 0, 0, 0, 0], "redraw": [0, 0, 0, 0, 0], "exhausted": 14.882949711846, "winner": "Eric L. Adams"}}, "nyc126": [2.4, 1.6, 0.8, 0.0, 0.0]};
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent?.append(e); return e; };
@@ -248,7 +244,7 @@ function chart(box, series, opts) {
     const bw = Math.max(2, (sx(opts.xMin + 1) - sx(opts.xMin)) * 0.7);
     for (const b of opts.bars) {
       const h = sy(0) - sy(b.y);
-      if (h > 0) el("rect", { x: sx(b.x) - bw / 2, y: sy(b.y), width: bw, height: h, rx: 1.5, fill: css("--real") }, svg);
+      if (h > 0) el("rect", { x: sx(b.x) - bw / 2, y: sy(b.y), width: bw, height: h, rx: 1.5, fill: css("--nyc") }, svg);
     }
   }
   for (const x of opts.vlines || []) el("line", { x1: sx(x), x2: sx(x), y1: T, y2: sy(0), stroke: css("--ink-2"), "stroke-width": 1, "stroke-dasharray": "2 3", opacity: 0.6 }, svg);
@@ -437,134 +433,85 @@ function imageButton(chartNode) {
   return btn;
 }
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100;
-const fmt = n => Number(n).toLocaleString("en-US");
-const nm = (Y, s) => Y.short[s] || s;
 const RANKS = [1, 2, 3, 4, 5];
-
-/** Stacked columns, one per rank: each part is {key, color, vals}. Same frame as chart(). */
-function stackChart(box, parts, opts) {
-  box.replaceChildren();
-  const w = Math.max(280, box.clientWidth || 600), H = 250, L = 56, R = 14, T = 16, B = 38;
-  const svg = el("svg", { viewBox: `0 0 ${w} ${H}`, height: H, role: "img", "aria-label": opts.aria || "" }, box);
-  const n = parts[0].vals.length, bw = (w - L - R) / n;
-  const sx = i => L + i * bw + bw / 2, sy = v => T + (1 - v / opts.yMax) * (H - T - B);
-  for (let y = 0; y <= opts.yMax + 1e-9; y += opts.yStep) {
-    el("line", { x1: L, x2: w - R, y1: sy(y), y2: sy(y), stroke: css(y === 0 ? "--rule" : "--grid"), "stroke-width": 1 }, svg);
-    text(svg, L - 6, sy(y) + 4, opts.yFmt(y), { "text-anchor": "end" });
-  }
-  for (let i = 0; i < n; i++) {
-    let base = 0;
-    for (const p of parts) {
-      const v = p.vals[i];
-      el("rect", { x: sx(i) - bw * 0.3, y: sy(base + v), width: bw * 0.6, height: Math.max(0, sy(base) - sy(base + v)), fill: css(p.color) }, svg);
-      if (p.labels && p.labels[i] && sy(base) - sy(base + v) > 16) text(svg, sx(i), (sy(base) + sy(base + v)) / 2 + 4, p.labels[i], { "text-anchor": "middle", class: "lab" });
-      base += v;
-    }
-    text(svg, sx(i), H - B + 15, String(i + 1), { "text-anchor": "middle" });
-  }
-  text(svg, (L + w - R) / 2, H - 4, opts.xTitle, { "text-anchor": "middle", class: "title" });
+const RACES = [{ y: "2025", winner: "Mamdani" }, { y: "2021", winner: "Adams" }];
+const fmt = n => Number(n).toLocaleString("en-US");
+function figures(s) {
+  const same = []; s.counts.reduce((a, n, i) => { same[i] = (a + n) / s.sims; return a + n; }, 0);
+  const undecided = same.map(x => 100 * (1 - x));
+  const k95 = same.findIndex(x => x >= 0.95 - 1e-9) + 1;
+  return { undecided, k95 };
 }
-
 function drawSummary() {
-  const body = $("summary").tBodies[0];
-  body.replaceChildren();
-  for (const Y of YEARS) {
-    const d = DATA[Y.y], c1 = d.cut[0], c5 = d.cut[4];
+  const body = $("summary").tBodies[0]; body.replaceChildren();
+  for (const R of RACES) {
+    const s = DATA.sims[R.y], f = figures(s), any = DATA.real[R.y].changed.some(Boolean);
     const tr = document.createElement("tr");
-    [Y.y, d.candidates, fmt(d.ballots), nm(Y, c5.winner), nm(Y, c5.runner_up), `${r1(c1.margin_points)} points`, `${r1(c5.margin_points)} points`, `${r1(c5.exhausted_share)}%`].forEach((v, i) => {
-      const td = document.createElement("td"); td.textContent = v; if (i === 1 || i === 2 || i > 4) td.className = "n"; tr.append(td);
+    [`${R.y} Democratic primary for mayor`, s.candidates, 1, fmt(s.voters), f.k95, any ? "Yes" : "No, at every cutoff"].forEach((v, i) => {
+      const td = document.createElement("td"); td.textContent = v; if (i > 0) td.className = "n"; tr.append(td);
     });
     body.append(tr);
   }
 }
-
-const drawn = [];
-function drawYears() {
-  const box = $("years");
-  box.replaceChildren();
-  drawn.length = 0;
-  for (const Y of YEARS) {
-    const d = DATA[Y.y], cut = d.cut, c1 = cut[0], c5 = cut[4];
-    const W = nm(Y, c5.winner);
+function drawRaces() {
+  const box = $("races"); box.replaceChildren();
+  const todo = [];
+  for (const R of RACES) {
+    const s = DATA.sims[R.y], real = DATA.real[R.y], f = figures(s);
     const sec = document.createElement("section"); sec.className = "branch";
-    const h = document.createElement("h3"); h.textContent = Y.title;
+    const h = document.createElement("h3"); h.textContent = `${R.y} Democratic primary for mayor`;
     const stats = document.createElement("div"); stats.className = "stats";
-    for (const line of [`Candidates: ${d.candidates}, plus write-ins`, `Ballots with a ranking: ${fmt(d.ballots)} (and ${fmt(d.blank)} blank)`, "Ranks allowed: 5"]) {
+    for (const line of [`Candidates: ${s.candidates}`, "Seats: 1", `Voters: ${fmt(s.voters)} (±${Math.round(s.spread * 100)}%)`, "Ranks allowed: 5"]) {
       const p = document.createElement("p"); p.className = "says"; p.textContent = line; stats.append(p);
     }
     const says = document.createElement("p"); says.className = "says";
-    const changed = cut.some(c => c.winner !== c5.winner);
-    says.textContent = `${W} wins whether ballots stop after rank 1 or run all 5, and in all 1,000 redraws of the ballots at every cutoff. ` +
-      (c5.margin_points > c1.margin_points
-        ? `Each extra rank widens ${W}'s lead, from ${r1(c1.margin_points)} points on first choices alone to ${r1(c5.margin_points)} with all 5.`
-        : `But each extra rank shrinks ${W}'s lead, from ${r1(c1.margin_points)} points on first choices alone${c1.runner_up !== c5.runner_up ? ` (over ${nm(Y, c1.runner_up)})` : ""} to ${r1(c5.margin_points)} over ${nm(Y, c5.runner_up)} with all 5.`);
+    says.textContent = `Simulated: 95% of races are decided within the first ${f.k95} ranks; first choices alone pick a different winner in ${r1(f.undecided[0])}% of races. Real: ${R.winner} wins at every cutoff, from first choices alone to all 5 ranks.`;
     sec.append(h, stats, says);
-    const across = `From all ${fmt(d.ballots)} ballots with a ranking in the ${Y.y} Democratic primary for mayor.`;
-    const pairs = [document.createElement("div"), document.createElement("div")];
-    pairs.forEach(p => { p.className = "pair"; });
-    const card = (pair, title, sub, legendHtml, rows) => {
-      const dv = document.createElement("div");
-      const head = document.createElement("div"); head.className = "charthead";
-      const t = document.createElement("h4"); t.textContent = title; head.append(t, copyButton(rows, () => dv));
+    const pair = document.createElement("div"); pair.className = "pair";
+    const about = Math.round(s.voters / 10000) * 10000;
+    const sub = `Across ${fmt(s.sims)} simulated elections with 1 seat, ${s.candidates} candidates, and ~${fmt(about)} voters, and the real ${R.y} race.`;
+    const card = (title, legendHtml, rows) => {
+      const d = document.createElement("div");
+      const hd = document.createElement("div"); hd.className = "charthead";
+      const t = document.createElement("h4"); t.textContent = title; hd.append(t, copyButton(rows, () => d));
       const p = document.createElement("p"); p.className = "chartsub"; p.textContent = sub;
-      dv.append(head, p);
-      if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; dv.append(l); }
-      const c = document.createElement("div"); c.className = "chart"; dv.append(c);
-      pair.append(dv);
-      return c;
+      d.append(hd, p);
+      const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; d.append(l);
+      const c = document.createElement("div"); c.className = "chart"; d.append(c);
+      pair.append(d); return c;
     };
-    const sw = (v, label, extra = "") => `<span><i class="swatch line${extra}" style="background:var(${v})"></i>${label}</span>`;
-    const box1 = (c, cls) => `<span><i class="swatch" style="background:var(${c})"></i>${cls}</span>`;
-    const changes = cut.map(c => (c.winner !== c5.winner ? 1 : 0));
-    const most = cut.map((c, i) => Math.max(changes[i], c.resample_winner_changes > 0 ? 1 : 0));
-    const c1el = card(pairs[0], "How many winners change when ballots get cut?", across,
-      sw("--model", "This election") + sw("--model-soft", "Most in any of 1,000 redraws"),
-      () => [["Ballots cut after rank", "Winners changed", "Most in any of 1,000 redraws"], ...RANKS.map((k, i) => [k, changes[i], most[i]])]);
-    const c2el = card(pairs[0], "How big is the winner's lead in the final round?", `${across} Shaded: the range across 1,000 redraws of the ballots.`,
-      sw("--model", `${W}'s lead, in percentage points`),
-      () => [["Ballots cut after rank", `${W}'s lead (percentage points)`, "Runner-up", "Redraws: low", "Redraws: high"], ...cut.map(c => [c.rank, r1(c.margin_points), nm(Y, c.runner_up), r1(c.resample_margin_points_p5_p95[0]), r1(c.resample_margin_points_p5_p95[1])])]);
-    const c3el = card(pairs[1], "How many ballots run out of choices?", `${across} A ballot runs out when every candidate it ranks is knocked out before the final round.`,
-      "",
-      () => [["Ballots cut after rank", "Ran out of choices (%)"], ...cut.map(c => [c.rank, r1(c.exhausted_share)])]);
-    const c4el = card(pairs[1], "Where do the ballots end up in the final round?", across,
-      box1("--model", W) + box1("--model-soft", "Runner-up") + box1("--grid", "Ran out of choices"),
-      () => [["Ballots cut after rank", W, "Runner-up", "Runner-up name", "Ran out of choices"], ...cut.map(c => [c.rank, c.winner_votes, c.runner_up_votes, nm(Y, c.runner_up), c.exhausted])]);
-    sec.append(pairs[0], pairs[1]);
-    box.append(sec);
-    drawn.push({ Y, d, c1el, c2el, c3el, c4el, changes, most });
+    const sw = (v, label, dashed) => `<span><i class="swatch line${dashed ? " dashed" : ""}" style="background:var(${v})"></i>${label}</span>`;
+    const c1 = card("How many elections remain undecided at each rank position?",
+      sw("--model", "Simulated") + sw("--nyc", `Real ${R.y} race`) + sw("--model-soft", "All 126 real NYC primaries, 2021 to 2025"),
+      () => [["Ballots cut after rank", "Simulated elections still undecided (%)", `Real ${R.y} race still undecided (%)`, "All 126 real NYC primaries still undecided (%)"],
+        ...RANKS.map((k, i) => [k, r1(f.undecided[i]), 100 * real.changed.slice(i).some(Boolean), DATA.nyc126[i]])]);
+    const c2 = card("How many winners change when ballots get trimmed?",
+      sw("--model", "Average") + sw("--model-soft", "Most in any simulated election") + sw("--nyc", `Real ${R.y} race`),
+      () => [["Ballots cut after rank", "Average winners changed", "Most in any simulated election", `Real ${R.y} race`],
+        ...RANKS.map((k, i) => [k, r2(s.mean[i]), s.most[i], real.changed[i]])]);
+    sec.append(pair); box.append(sec);
+    todo.push({ R, s, real, f, c1, c2 });
   }
-  for (const { Y, d, c1el, c2el, c3el, c4el, changes, most } of drawn) {
-    const cut = d.cut, W = nm(Y, cut[4].winner);
-    const ax = { xMin: 1, xMax: 5, xTicks: RANKS, xTitle: "Ballots cut after this rank" };
-    chart(c1el, [
-      { points: RANKS.map((k, i) => [k, most[i]]), color: "--model-soft", width: 1.8 },
-      { points: RANKS.map((k, i) => [k, changes[i]]), color: "--model", dots: true },
-    ], { ...ax, yMax: 1, yStep: 1, yFmt: v => String(Math.round(v)), aria: `${Y.y}: winners who change when every ballot stops at each rank` });
-    const swap = cut.find(c => c.runner_up !== cut[4].runner_up);
-    chart(c2el, [{ points: cut.map(c => [c.rank, c.margin_points]), color: "--model", dots: true }], {
-      ...ax, yMax: 20, yStep: 5, yFmt: v => String(Math.round(v)),
-      bands: [{ points: cut.map(c => [c.rank, ...c.resample_margin_points_p5_p95]), color: "--model-soft" }],
-      marks: [
-        { x: 5, y: cut[4].margin_points, label: `${r1(cut[4].margin_points)} points` },
-        ...(swap ? [{ x: swap.rank, y: swap.margin_points, label: `Runner-up: ${nm(Y, swap.runner_up)}` }] : []),
-      ],
-      aria: `${Y.y}: ${W}'s final-round lead when every ballot stops at each rank`,
-    });
-    chart(c3el, [{ points: cut.map(c => [c.rank, c.exhausted_share]), color: "--model", dots: true }], {
-      ...ax, yMax: 50, yStep: 10, yFmt: v => `${Math.round(v)}%`,
-      marks: [{ x: 1, y: cut[0].exhausted_share, label: `${r1(cut[0].exhausted_share)}%` }, { x: 5, y: cut[4].exhausted_share, label: `${r1(cut[4].exhausted_share)}%` }],
-      aria: `${Y.y}: share of ballots that run out of choices when every ballot stops at each rank`,
-    });
-    stackChart(c4el, [
-      { color: "--model", vals: cut.map(c => c.winner_votes) },
-      { color: "--model-soft", vals: cut.map(c => c.runner_up_votes), labels: cut.map(c => nm(Y, c.runner_up)) },
-      { color: "--grid", vals: cut.map(c => c.exhausted) },
-    ], { yMax: 1250000, yStep: 250000, yFmt: v => v ? `${v / 1000}k` : "0", xTitle: "Ballots cut after this rank", aria: `${Y.y}: where ballots end up in the final round at each cutoff` });
+  const ax = { xMin: 1, xMax: 5, xTicks: RANKS, xTitle: "Ballots cut after this rank" };
+  for (const { R, s, real, f, c1, c2 } of todo) {
+    chart(c1, [
+      { points: RANKS.map((k, i) => [k, DATA.nyc126[i] / 100]), color: "--model-soft", width: 1.8 },
+      { points: RANKS.map((k, i) => [k, real.changed.slice(i).some(Boolean) ? 1 : 0]), color: "--nyc", dots: true },
+      { points: RANKS.map((k, i) => [k, f.undecided[i] / 100]), color: "--model", dots: true },
+    ], { ...ax, yMax: 0.1, yStep: 0.025, yFmt: v => `${+(v * 100).toFixed(1)}%`,
+      marks: [{ x: f.k95, y: f.undecided[f.k95 - 1] / 100, label: `5% undecided: rank ${f.k95}` }],
+      aria: `${R.y}: share of elections still undecided when ballots are cut after each rank` });
+    chart(c2, [
+      { points: RANKS.map((k, i) => [k, s.most[i]]), color: "--model-soft", width: 1.8 },
+      { points: RANKS.map((k, i) => [k, real.changed[i]]), color: "--nyc", dots: true },
+      { points: RANKS.map((k, i) => [k, s.mean[i]]), color: "--model", dots: true },
+    ], { ...ax, yMax: 1, yStep: 0.2, yFmt: v => v.toFixed(1),
+      marks: [{ x: 1, y: s.mean[0], label: `${r2(s.mean[0])} on average` }],
+      aria: `${R.y}: winners who change when every ballot stops at each rank` });
   }
 }
-drawSummary();
-drawYears();
+drawSummary(); drawRaces();
 let lastW = 0;
-addEventListener("resize", () => { const w = $("years").clientWidth; if (Math.abs(w - lastW) > 20) { lastW = w; drawYears(); } });
+addEventListener("resize", () => { const w = $("races").clientWidth; if (Math.abs(w - lastW) > 20) { lastW = w; drawRaces(); } });
 </script>
 </body></html>
