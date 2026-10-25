@@ -165,7 +165,7 @@ function copyButton(rows, chartNode) {
 async function chartPng(node) {
   const pad = 28, radius = 12, scale = 2;
   // Hide the buttons while drawing, so the title gets the full width.
-  const hidden = [...node.querySelectorAll(".copywrap, .copybox")];
+  const hidden = [...node.querySelectorAll(".copywrap, .copybox, .copyimg")];
   hidden.forEach(e => { e.style.display = "none"; });
   // Charts side by side stretch to the taller one; draw this one at its own height.
   node.style.alignSelf = "start";
@@ -196,12 +196,14 @@ function imageButton(chartNode) {
       await navigator.clipboard.write([new ClipboardItem({ "image/png": png })]);
       flash("Copied");
     } catch {
+      // The clipboard is blocked: show the image under the chart to copy by hand (right-click or
+      // long-press, then Copy image).
       try {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(await png);
-        a.download = (chartNode().querySelector("h4, h3, h2")?.textContent || "chart").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".png";
-        a.click();
-        flash("Downloaded");
+        const node = chartNode();
+        let shown = node.querySelector("img.copyimg");
+        if (!shown) { shown = document.createElement("img"); shown.className = "copyimg"; shown.alt = "The chart as an image"; node.append(shown); }
+        shown.src = URL.createObjectURL(await png);
+        btn.textContent = "Right-click the image below to copy";
       } catch { flash("Couldn't copy"); }
     }
   });
