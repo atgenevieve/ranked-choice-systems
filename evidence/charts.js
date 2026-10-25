@@ -5,6 +5,12 @@ const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS,
 const txt = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
 // The vertical axis's title, turned sideways and centered along the axis, at the chart's left edge.
 const yTitle = (svg, top, bottom, s) => { if (!s) return; const y = (top + bottom) / 2; txt(svg, 11, y, s, { class: "title", "text-anchor": "middle", transform: `rotate(-90 11 ${y})` }); };
+// Room left of a chart's plot: the sideways title (if any), then the widest tick label, then a 6px gap.
+const yLeft = (labels, title) => {
+  const g = (yLeft.ctx ||= document.createElement("canvas").getContext("2d"));
+  g.font = `11px ${getComputedStyle(document.body).getPropertyValue("--font-data") || "monospace"}`;
+  return Math.ceil((title ? 20 : 2) + Math.max(0, ...labels.map(t => g.measureText(t).width)) + 6);
+};
 const pct = x => (x * 100).toFixed(0) + "%";
 let draws = [];
 let DATA = null;
@@ -73,7 +79,8 @@ function niceTicks(max, step) { const t = []; for (let v = 0; v <= max + 1e-9; v
 function scatter(f, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 800, H = opts.height || 340, L = 56, R = 16, T = 16, B = 38;
+    const w = plot.clientWidth || 800, H = opts.height || 340, R = 16, T = 16, B = 38;
+    const L = yLeft(niceTicks(opts.yMax, opts.yStep).map(t => opts.yFmt ? opts.yFmt(t) : String(t)), opts.yTitle);
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria }, plot);
     const sx = v => L + (v - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R);
@@ -157,12 +164,13 @@ function columns(f, bins, opts = {}) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const total = bins.reduce((a, b) => a + b.count, 0);
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 200, L = opts.yTitle ? 56 : 40, R = 8, T = 16, B = 34;
+    const w = plot.clientWidth || 600, H = opts.height || 200, R = 8, T = 16, B = 34;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const shares = bins.map(b => b.count / total), top = Math.max(...shares);
     const step = opts.step || (top <= 0.2 ? 0.05 : top <= 0.4 ? 0.1 : top <= 0.8 ? 0.2 : 0.25);
     const maxY = opts.maxY || Math.ceil(top / step - 1e-9) * step;
+    const L = yLeft(niceTicks(maxY, step).map(pct), opts.yTitle);
     const sy = v => T + (1 - v / maxY) * (H - T - B), bw = (w - L - R) / bins.length;
     for (const t of niceTicks(maxY, step)) {
       el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
@@ -341,11 +349,12 @@ function densityLines(f, series, opts) {
   legend(f, curves.map(c => ["dot", c.color, `${c.name} (median ${c.median.toFixed(2)})`]));
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 300, L = 62, R = 12, T = 16, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 300, R = 12, T = 16, B = 38;
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const top = Math.max(...curves.flatMap(c => c.ys)), step = opts.yStep || (top <= 0.04 ? 0.01 : 0.02);
     const yMax = Math.ceil(top / step) * step;
+    const L = yLeft(niceTicks(yMax, step).map(pct), opts.yTitle);
     const sx = v => L + (v - min) / (max - min) * (w - L - R), sy = v => T + (1 - v / yMax) * (H - T - B);
     for (const t of niceTicks(yMax, step)) {
       el("line", { x1: L, x2: w - R, y1: sy(t), y2: sy(t), stroke: css(t === 0 ? "--axis" : "--grid"), "stroke-width": 1 }, svg);
@@ -389,7 +398,8 @@ function ladder(f, series, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const n = series[0].values.length;
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 320, L = 62, R = 16, T = 18, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 320, R = 16, T = 18, B = 38;
+    const L = yLeft(niceTicks(opts.yMax, opts.yStep).map(pct), opts.yTitle);
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = i => L + 14 + i / (n - 1) * (w - L - R - 28), sy = v => T + (1 - v / opts.yMax) * (H - T - B);
@@ -429,7 +439,8 @@ function lineChart(f, series, opts) {
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   const fmt = opts.fmt || (v => String(v));
   draws.push(() => {
-    const w = plot.clientWidth || 600, H = opts.height || 300, L = 62, R = 14, T = 18, B = 38;
+    const w = plot.clientWidth || 600, H = opts.height || 300, R = 14, T = 18, B = 38;
+    const L = yLeft(niceTicks(opts.yMax, opts.yStep).map(String), opts.yTitle);
     plot.replaceChildren();
     const svg = el("svg", { height: H, viewBox: `0 0 ${w} ${H}`, role: "img", "aria-label": opts.aria || "" }, plot);
     const sx = x => L + (x - opts.xMin) / (opts.xMax - opts.xMin) * (w - L - R), sy = v => T + (1 - Math.min(v, opts.yMax) / opts.yMax) * (H - T - B);

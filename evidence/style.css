@@ -34,12 +34,12 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 .wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 header { padding-block: 30px 10px; display: grid; gap: 10px; }
 h1 { font-size: 28px; margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
-.lede { margin: 0; color: var(--ink-2); max-width: 70ch; }
+.lede { margin: 0; color: var(--ink-2); }
 main { padding-block: 10px 60px; display: grid; gap: 22px; }
 .figure { background: var(--surface); border: 1px solid var(--grid); border-radius: 10px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
 .figure h2 { font-size: 18px; margin: 0; text-wrap: balance; }
-.figure .note { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 72ch; }
-.takeaway { margin: 0; font-size: 14px; font-weight: 600; max-width: 72ch; }
+.figure .note { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.takeaway { margin: 0; font-size: 14px; font-weight: 600; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin: 0; padding: 0; list-style: none; }
 .legend li { display: inline-flex; align-items: center; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
@@ -89,7 +89,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .decision .status { background: color-mix(in srgb, var(--public) 16%, var(--surface)); color: var(--ink); }
 .decision dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 14px; }
 .decision dt { font-weight: 600; color: var(--ink-2); }
-.decision dd { margin: 0; max-width: 72ch; }
+.decision dd { margin: 0; }
 .decision .status { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--grid); color: var(--ink-2); }
 .decision a, .overview a { color: var(--public); }
 .overview { display: grid; gap: 14px; }
