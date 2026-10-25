@@ -164,17 +164,22 @@ function drawBranches() {
       sec.append(says);
     }
     const pair = document.createElement("div"); pair.className = "pair";
+    const subtitle = () => {
+      const p = document.createElement("p"); p.className = "sub";
+      p.textContent = `Across ${(got[0].g.total || got[0].g.r.settings.run.sims).toLocaleString()} simulated elections with ${seats} seats, ${b.candidates} candidates, and ~${Number(b.voters).toLocaleString()} voters.`;
+      return p;
+    };
     const half = (title, legendHtml) => {
       const d = document.createElement("div");
-      const t = document.createElement("h4"); t.textContent = title; d.append(t);
+      const t = document.createElement("h4"); t.textContent = title; d.append(t, subtitle());
       if (legendHtml) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = legendHtml; d.append(l); }
       const c = document.createElement("div"); c.className = "chart"; d.append(c);
       pair.append(d);
       return c;
     };
     const sysLegend = many ? got.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join("") : "";
-    const c1 = half("How many elections are still undecided", sysLegend);
-    const c2 = half("How many winners change", many
+    const c1 = half("How many elections are still undecided?", sysLegend);
+    const c2 = half("How many winners change?", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`);
     sec.append(pair);
@@ -188,7 +193,7 @@ function drawBranches() {
       read.textContent = `How much each vote at this rank increases a candidate's chance of winning, on average.` +
         (left.length ? ` Still running: ${Math.min(...left.map(({ w }) => w.done)).toLocaleString()} of ${left[0].w.total.toLocaleString()} simulated elections so far.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
-      card.append(t);
+      card.append(t, subtitle());
       if (many) { const l = document.createElement("div"); l.className = "legend"; l.innerHTML = ms.map(({ sys }) => `<span><i class="swatch line" style="background:var(${sys.color})"></i>${sys.name}</span>`).join(""); card.append(l); }
       card.append(read, c3);
       sec.append(card);
