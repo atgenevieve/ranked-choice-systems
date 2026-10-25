@@ -268,9 +268,9 @@ function drawBranches() {
     // What each chart's "Copy data" button copies: the ranks drawn, one column per line.
     const xOf = g => Math.min(xMax, g.r.truncation.p_changed.length);
     const ranks = () => Array.from({ length: Math.max(...got.map(({ g }) => xOf(g))) }, (_, i) => i + 1);
-    const decidedRows = () => [
-      ["Ballots cut after rank", ...got.map(({ sys }) => many ? sys.name : "Elections decided (%)")],
-      ...ranks().map(k => [k, ...got.map(({ g }) => { const f = branchFigures(g.r); return k <= xOf(g) ? r1(100 * f.same[k - 1]) : ""; })]),
+    const undecidedRows = () => [
+      ["Ballots cut after rank", ...got.map(({ sys }) => many ? sys.name : "Elections still undecided (%)")],
+      ...ranks().map(k => [k, ...got.map(({ g }) => { const f = branchFigures(g.r); return k <= xOf(g) ? r1(100 * (1 - f.same[k - 1])) : ""; })]),
     ];
     const changeRows = () => [
       ["Ballots cut after rank", ...got.map(({ sys }) => many ? `${sys.name}: ${statWord().toLowerCase()}` : `${statWord()} winners changed`),
@@ -280,7 +280,7 @@ function drawBranches() {
         return [k, ...fs.map(({ f, x }) => k <= x ? r2(f.mid[k - 1]) : ""), ...fs.map(({ f, x }) => k <= x ? f.most[k - 1] : "")];
       }),
     ];
-    const c1 = half("How many elections are decided at each rank position?", sysLegend, decidedRows);
+    const c1 = half("How many elections remain undecided at each rank position?", sysLegend, undecidedRows);
     const c2 = half("How many winners change when ballots get trimmed?", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
@@ -313,16 +313,16 @@ function drawBranches() {
     const f0 = one && branchFigures(one.g.r);
     chart(c1, got.map(({ sys, g }) => {
       const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
-      return { points: f.same.slice(0, x).map((y, i) => [i + 1, y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
+      return { points: f.same.slice(0, x).map((y, i) => [i + 1, 1 - y]), color: many ? sys.color : "--model", dots: !many && x <= 40 };
     }), {
       xMin: 1, xMax, xTicks, yMax: 1, yStep: 0.25, yFmt: pctAxis, xTitle: "Ballots cut after this rank",
-      // The share decided (cutting at this rank or any deeper one leaves the winners unchanged).
-      // One system: its 50, 80, 95, and 100% ranks. Several: each system's 95% rank, in its color.
+      // The share still undecided (cutting at this rank or a deeper one can still change the winners).
+      // One system: where 50, 20, 5, and 0% are left. Several: each system's 5% rank, in its color.
       marks: !one
-        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: f.same[f.k95 - 1], label: `95% decided: rank ${f.k95}`, color: sys.color, below: true }; })
+        ? got.map(({ sys, g }) => { const f = branchFigures(g.r); return { x: f.k95, y: 1 - f.same[f.k95 - 1], label: `5% undecided: rank ${f.k95}`, color: sys.color }; })
         : [[f0.k50, "50%"], [f0.k80, "80%"], [f0.k95, "95%"], [f0.kAll, "100%"]].filter(([k], i, a) => a.findIndex(o => o[0] === k) === i)
-          .map(([k, l]) => ({ x: k, y: f0.same[k - 1], label: `${l} decided: rank ${k}`, below: true })),
-      aria: `${b.name}: share of simulated elections decided when ballots are cut after each rank`,
+          .map(([k, l]) => ({ x: k, y: 1 - f0.same[k - 1], label: `${100 - parseInt(l)}% undecided: rank ${k}` })),
+      aria: `${b.name}: share of simulated elections still undecided when ballots are cut after each rank`,
     });
     chart(c2, got.flatMap(({ sys, g }) => {
       const f = branchFigures(g.r), x = Math.min(xMax, g.r.truncation.p_changed.length);
