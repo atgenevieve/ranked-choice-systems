@@ -214,8 +214,7 @@ window.SECTIONS["ballot-length"] = () => {
 {
   const d = DATA.party_then_stop;
   const f = figure("Scotland: voters who rank their party's candidates, then stop",
-    `About ${pct(d.all)} of voters whose first choice had running mates ranked exactly that party's candidates and no one else.`,
-    "Among Scottish voters whose first choice's party ran 2 or more candidates in the ward. This is why the proposal ties ballot length to slates: for many voters, the list ends where their slate ends.");
+    `About ${pct(d.all)} of Scottish voters whose first choice's party ran 2 or more candidates in the ward ranked exactly that party's candidates and no one else. This is why the proposal ties ballot length to slates: for many voters, the list ends where their slate ends.`);
   const plot = document.createElement("div"); plot.className = "plot"; f.append(plot);
   draws.push(() => {
     const w = plot.clientWidth || 600, rows = d.by_party, rowH = 34, L = 140, R = 48, T = 4, B = 24, H = T + rows.length * rowH + B;
