@@ -218,7 +218,7 @@ function drawBranches() {
       }),
     ];
     const c1 = half("How many elections are still undecided", sysLegend, undecidedRows);
-    const c2 = half("How many winners change", many
+    const c2 = half("How many winners change when ballots get cut", many
       ? `${sysLegend}<span><i class="swatch line" style="background:var(--ink-2)"></i>${statWord()}</span><span><i class="swatch line dashed"></i>Most in any simulated election</span>`
       : `<span><i class="swatch line" style="background:var(--model)"></i>${statWord()}</span><span><i class="swatch line" style="background:var(--model-soft)"></i>Most in any simulated election</span>`,
       changeRows);
