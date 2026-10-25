@@ -1,0 +1,88 @@
+{
+ "sample": 400,
+ "cell": "Organization, 5 or more seats",
+ "elections": 18,
+ "popularity_spread": 0.5,
+ "standout_share": 0.15,
+ "standout_lift": 1.25,
+ "score": 0.00063,
+ "real": {
+  "complete": 0.2222222222222222,
+  "even_last": 0.234672,
+  "even_next_last": 0.403632,
+  "even_top": 3.053574,
+  "length_mean": 6.765859284890427,
+  "quota": 2.113638
+ },
+ "simulated": {
+  "clustering": 0.14309999999999998,
+  "complete": 0.2585669781931464,
+  "even_last": 0.231704,
+  "even_next_last": 0.344864,
+  "even_top": 3.0138420000000004,
+  "evenness": 0.8234,
+  "length_mean": 6.873614190687362,
+  "no_slate": 0.2,
+  "only_candidate": 0.0,
+  "quota": 2.16357,
+  "running_mate": 0.8
+ },
+ "runners_up": [
+  {
+   "popularity_spread": 0.5,
+   "standout_share": 0.1,
+   "standout_lift": 1.25,
+   "score": 0.00079,
+   "quota": 2.164,
+   "even_last": 0.24
+  },
+  {
+   "popularity_spread": 0.5,
+   "standout_share": 0.05,
+   "standout_lift": 1.25,
+   "score": 0.00409,
+   "quota": 2.079,
+   "even_last": 0.256
+  },
+  {
+   "popularity_spread": 0.4,
+   "standout_share": 0.2,
+   "standout_lift": 1.25,
+   "score": 0.00438,
+   "quota": 2.02,
+   "even_last": 0.219
+  },
+  {
+   "popularity_spread": 0.5,
+   "standout_share": 0.15,
+   "standout_lift": 1.0,
+   "score": 0.00468,
+   "quota": 1.985,
+   "even_last": 0.244
+  },
+  {
+   "popularity_spread": 0.5,
+   "standout_share": 0.1,
+   "standout_lift": 1.0,
+   "score": 0.00506,
+   "quota": 1.972,
+   "even_last": 0.24
+  },
+  {
+   "popularity_spread": 0.5,
+   "standout_share": 0.05,
+   "standout_lift": 1.5,
+   "score": 0.00571,
+   "quota": 2.279,
+   "even_last": 0.235
+  },
+  {
+   "popularity_spread": 0.4,
+   "standout_share": 0.2,
+   "standout_lift": 1.5,
+   "score": 0.00917,
+   "quota": 2.315,
+   "even_last": 0.225
+  }
+ ]
+}

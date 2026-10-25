@@ -17,11 +17,11 @@ To rerun: `python3 -I data/model_check.py data/fits/model-check.json --sample 20
 - **Ballot length:** the average number of ranks within about 0.1 to 0.3 in most types of election; the share ranking every candidate in Scotland (12% real, 12% model); the share who fill a limit (37% real, 33% model).
 - **Slates in Scotland:** clustering above popularity (0.62 real, 0.61 model) and the share of candidates with a running mate.
 - **The top candidate against the quota,** within about 10% in every type of election. This is what popularity is tuned to.
-- **The last candidate** in four of six types.
+- **The last candidate** in five of six types.
 
 ## What doesn't, yet
 
-- **The last candidate is too weak** in Scottish multi-seat wards (0.16 of an even split, model 0.07) and in organizational elections with 5 or more seats (0.24, model 0.08), the type closest to the owner's. The model spec lists an option for the owner: a share of standout candidates.
+- **The last candidate is too weak** in Scottish multi-seat wards (0.16 of an even split, model 0.07), where the weak bottom comes from tight parties. Organizational elections with 5 or more seats had the same problem (0.24, model 0.08) until standout candidates were added on October 25, 2026 (now 0.23).
 - **Evenness of votes leaving a party in Scotland** came out at 0.78 against a real 0.85 once popularity was tuned.
 - **Canberra is a comparison only.** Only 9 public elections have 5 or more seats, mostly Canberra, where every party runs a full list. The owner judged these too unusual to tune to, so that type uses the 2-to-4-seat popularity settings, and its row shows how far Canberra sits from them. Canberra voters also go further past their instruction (6.7 ranks real, 5.4 model).
 - **Organization, 1 seat** includes Debian, the American Psychological Association, and UK Labour, which the ballot-length fit doesn't use; their ballots run longer than the fit (3.6 real, 3.1 model).
@@ -32,9 +32,9 @@ To rerun: `python3 -I data/model_check.py data/fits/model-check.json --sample 20
 
 | Statistic | Real | Model |
 |---|---|---|
-| Top candidate's first choices, as a multiple of the quota | 0.88× | 0.90× |
-| Top candidate, as a multiple of an even split | 1.94× | 1.86× |
-| Last candidate, as a multiple of an even split | 0.25× | 0.22× |
+| Top candidate's first choices, as a multiple of the quota | 0.88× | 0.91× |
+| Top candidate, as a multiple of an even split | 1.94× | 1.88× |
+| Last candidate, as a multiple of an even split | 0.25× | 0.23× |
 | Average ballot length (ranks) | 2.28 | 2.25 |
 | Share ranking every candidate | 22% | 16% |
 | Share filling the ballot's limit | 36% | 33% |
@@ -107,13 +107,13 @@ To rerun: `python3 -I data/model_check.py data/fits/model-check.json --sample 20
 
 | Statistic | Real | Model |
 |---|---|---|
-| Top candidate's first choices, as a multiple of the quota | 2.11× | 2.10× |
-| Top candidate, as a multiple of an even split | 3.05× | 3.12× |
-| Last candidate, as a multiple of an even split | 0.23× | 0.08× |
+| Top candidate's first choices, as a multiple of the quota | 2.11× | 2.16× |
+| Top candidate, as a multiple of an even split | 3.05× | 3.01× |
+| Last candidate, as a multiple of an even split | 0.23× | 0.23× |
 | Average ballot length (ranks) | 6.77 | 6.87 |
 | Share ranking every candidate | 22% | 26% |
-| Clustering above popularity | – | 0.10 |
-| Evenness of votes leaving a party or slate | – | 0.80 |
+| Clustering above popularity | – | 0.14 |
+| Evenness of votes leaving a party or slate | – | 0.82 |
 | Candidates with a running mate | – | 80% |
 | Their party's or slate's only candidate | – | 0% |
 | Candidates in no party or slate | – | 20% |

@@ -10,6 +10,9 @@ export const GAP_FITTED = 2.5;
 /** Whether the fitted model has long shots for this election: only single-seat public races. */
 export const fittedLongShots = (c) => c.electorate === "public" && c.seats === 1;
 
+/** Whether the fitted model has standouts: only organizational elections with 5 or more seats. */
+export const fittedStandouts = (c) => c.electorate === "organization" && c.seats >= 5;
+
 /** Every setting a visitor can change, with its default. */
 export const DEFAULTS = {
   // Election tab
@@ -21,7 +24,7 @@ export const DEFAULTS = {
   // Ballot tab
   wording: "up_to",     // "up_to", "at_least", "exactly", or "none"
   pullAuto: false,      // use the share measured on real ballots
-  pull: 0.1,            // share of voters who'd stop short of N but rank exactly N
+  pull: 0.23,           // share of voters who'd stop short of N but rank exactly N: measured for "up to"
   // Voters tab
   electorate: "organization",
   // Slates tab
@@ -35,6 +38,8 @@ export const DEFAULTS = {
   spread: 1,
   longshotAuto: true,
   longshot: 0,
+  standoutAuto: true,
+  standout: 0,
   gapAuto: true,
   gap: GAP_FITTED,
   // Seed tab
@@ -118,9 +123,10 @@ export function clean(choice) {
   c.evenness = num(c.evenness, 0.65, 0.83);
   c.spread = num(c.spread, 0, 2);
   c.longshot = num(c.longshot, 0, 0.4);
+  c.standout = num(c.standout, 0, 0.4);
   c.gap = num(c.gap, -3, 4);
   c.seed = int(c.seed, ...LIMITS.seed);
-  for (const k of ["pullAuto", "spreadAuto", "longshotAuto", "gapAuto"]) c[k] = !!c[k];
+  for (const k of ["pullAuto", "spreadAuto", "longshotAuto", "gapAuto", "standoutAuto"]) c[k] = !!c[k];
   return c;
 }
 
@@ -145,6 +151,7 @@ export function engineSettings(choice, curves) {
       popularity_spread: c.spreadAuto ? "auto" : c.spread,
       long_shot_share: c.longshotAuto ? "auto" : c.longshot,
       long_shot_gap: c.gapAuto ? GAP_FITTED : c.gap,
+      standout_share: c.standoutAuto ? "auto" : c.standout,
     },
   };
 }

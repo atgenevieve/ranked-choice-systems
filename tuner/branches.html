@@ -235,7 +235,7 @@ ul.saved .when { font-size: 12.5px; color: var(--ink-2); }
           <div class="setting-head"><label for="pull">Voters pulled up to N</label><output id="pull-v"></output></div>
           <p class="what">Of the voters who would stop before N on their own, the share who keep going and rank exactly N because the ballot names that number.</p>
           <label class="check" for="pull-auto"><input type="checkbox" id="pull-auto"> Use the share measured on real ballots</label>
-          <input type="range" id="pull" min="0" max="1" step="0.01" value="0.1">
+          <input type="range" id="pull" min="0" max="1" step="0.01" value="0.23">
           <div class="scale" id="pull-scale"></div>
           <p class="yours" id="pull-yours"></p>
           <details class="why"><summary>Why change it</summary><p>Real ballots give 23% for "rank up to N" (US city limits of 3 to 6; most fall between 14% and 36%) and 97% for "rank at least N" (Canberra). No real ballot has a limit near 46, so if your members follow the ballot's number more or less than that, try other values and see how much the results move.</p></details>
