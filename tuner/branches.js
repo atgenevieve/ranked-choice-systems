@@ -298,7 +298,7 @@ function drawBranches() {
       const read = document.createElement("p"); read.className = "read";
       const slow = left.reduce((a, x) => (!a || x.w.done / x.w.total < a.w.done / a.w.total ? x : a), null);
       const fewer = ms.filter(({ w }) => w.total < Math.max(...ms.map(x => x.w.total)));
-      read.textContent = `How much each vote at this rank increases a candidate's chance of winning, on average.` +
+      read.textContent = `How much each vote at this rank increases a candidate's average chance of winning, across ${Math.max(...ms.map(({ w }) => w.total)).toLocaleString()} simulated elections.` +
         fewer.map(({ sys, w }) => ` ${sys.name}: from ${w.total.toLocaleString()} simulated elections, because it takes far longer to count.`).join("") +
         (slow ? ` Still running: ${slow.w.done.toLocaleString()} of ${slow.w.total.toLocaleString()} simulated elections so far${ms.length > 1 ? ` for ${slow.sys.name}` : ""}.` : "");
       const c3 = document.createElement("div"); c3.className = "chart";
