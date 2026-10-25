@@ -9,7 +9,12 @@ new supporters. Voters pick one candidate at a time in proportion to popularity 
 1,000 elections per point, seed 1, engine commit 356015e plus `engine/examples/slate_size.rs`.
 This is a simplified illustration, not the project's voter model.
 
-Files: `slate_size.jsonl` (per slate size and system, how often slate A won 0 to 5 seats),
+50 seats (owner's request, 100 voters): `slate_size -- 50 100 1000`, slate B runs 50, slate A
+10 to 120, short ballots rank 50. Same patterns, larger for Borda: tight full ballots 9 -> 17
+seats (fair share 20), tight 50-rank ballots 7.6 -> 0.4, STV about 20 throughout; loose: STV
+22 -> 20.7, Borda and approval 22 -> 9. With a 2-vote STV quota, single votes move seats.
+
+Files: `slate_size.jsonl`, `slate_size_50_seats.jsonl` (per slate size and system, how often slate A won 0 to 5 seats),
 `slate-size.html` (the published page), `page.template.html` (page before data is filled in).
 
 Findings: STV gives tight slate A its fair 2 seats at every slate size. Borda with full ballots
