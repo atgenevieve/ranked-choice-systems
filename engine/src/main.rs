@@ -10,11 +10,11 @@ use serde_json::{json, Value};
 use std::io::Write;
 use stvsim::count::{analyze, Options, Quota, Rules, SurplusOrder, Truncation};
 use stvsim::sim::{election_seed, engine_info, simulate};
-use stvsim::{ballots, model, settings};
+use stvsim::{ballots, count, model, settings};
 
 fn usage() -> ! {
     eprintln!(
-        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim version"
+        "usage:\n  stvsim run <settings.toml>\n  stvsim generate <settings.toml> <folder>\n  stvsim stats [--merge-last] <file.ballots>...\n  stvsim count [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] [--no-truncation] <file.ballots>...\n  stvsim trace [--rules scottish|reference] [--surplus-order largest|election] [--quota whole|exact] [--seed N] <file.ballots>...\n  stvsim version"
     );
     std::process::exit(2)
 }
@@ -24,6 +24,7 @@ fn main() {
     match args.first().map(String::as_str) {
         Some("run") if args.len() == 2 => run(&args[1]),
         Some("count") => count_files(&args[1..]),
+        Some("trace") => trace_files(&args[1..]),
         Some("generate") if args.len() == 3 => generate(&args[1], &args[2]),
         Some("stats") if args.len() >= 2 => stats_files(&args[1..]),
         Some("version") => println!("{}", engine_info()),
@@ -34,6 +35,86 @@ fn main() {
 // ---------------------------------------------------------------- count real ballots
 
 fn count_files(args: &[String]) {
+    let (opt, trunc, files) = count_args(args);
+    let stdout = std::io::stdout();
+    let mut out = stdout.lock();
+    let mut failed = false;
+    for f in files {
+        let (bal, seats) = match ballots::read_file(&f) {
+            Ok(x) => x,
+            Err(e) => {
+                eprintln!("{e}");
+                failed = true;
+                continue;
+            }
+        };
+        let a = analyze(&bal, seats, opt, trunc);
+        let official = official_winners(&f);
+        let matches = official.as_ref().map(|o| {
+            let mut o = o.clone();
+            o.sort_unstable();
+            o == a.winners
+        });
+        let mut line = json!({
+            "file": f,
+            "engine": engine_info(),
+            "rules": opt.rules,
+            "surplus_order": opt.surplus,
+            "lot_seed": opt.lot_seed,
+            "candidates": bal.c,
+            "seats": seats,
+            "voters": bal.voters(),
+            "official_winners": official,
+            "matches_official": matches,
+        });
+        if let (Value::Object(m), Value::Object(r)) = (&mut line, serde_json::to_value(&a).unwrap()) {
+            m.extend(r);
+        }
+        writeln!(out, "{line}").unwrap();
+    }
+    if failed {
+        std::process::exit(1);
+    }
+}
+
+/// Prints a stage-by-stage record of each count (`count::trace`), one JSON line per file.
+fn trace_files(args: &[String]) {
+    let (opt, _, files) = count_args(args);
+    let stdout = std::io::stdout();
+    let mut out = stdout.lock();
+    let mut failed = false;
+    for f in files {
+        let (bal, seats) = match ballots::read_file(&f) {
+            Ok(x) => x,
+            Err(e) => {
+                eprintln!("{e}");
+                failed = true;
+                continue;
+            }
+        };
+        let t = count::trace(&bal, seats, opt);
+        let mut line = json!({
+            "file": f,
+            "engine": engine_info(),
+            "rules": opt.rules,
+            "surplus_order": opt.surplus,
+            "quota_rule": opt.quota,
+            "lot_seed": opt.lot_seed,
+            "candidates": bal.c,
+            "seats": seats,
+            "voters": bal.voters(),
+        });
+        if let (Value::Object(m), Value::Object(r)) = (&mut line, serde_json::to_value(&t).unwrap()) {
+            m.extend(r);
+        }
+        writeln!(out, "{line}").unwrap();
+    }
+    if failed {
+        std::process::exit(1);
+    }
+}
+
+fn count_args(args: &[String]) -> (Options, Truncation, Vec<String>) {
     let mut opt = Options { rules: Rules::Scottish, surplus: SurplusOrder::Largest, quota: Quota::Whole, lot_seed: 1 };
     let mut trunc = Truncation::Winners;
     let mut files = Vec::new();
@@ -78,45 +159,7 @@ fn count_files(args: &[String]) {
     if files.is_empty() {
         usage();
     }
-    let stdout = std::io::stdout();
-    let mut out = stdout.lock();
-    let mut failed = false;
-    for f in files {
-        let (bal, seats) = match ballots::read_file(&f) {
-            Ok(x) => x,
-            Err(e) => {
-                eprintln!("{e}");
-                failed = true;
-                continue;
-            }
-        };
-        let a = analyze(&bal, seats, opt, trunc);
-        let official = official_winners(&f);
-        let matches = official.as_ref().map(|o| {
-            let mut o = o.clone();
-            o.sort_unstable();
-            o == a.winners
-        });
-        let mut line = json!({
-            "file": f,
-            "engine": engine_info(),
-            "rules": opt.rules,
-            "surplus_order": opt.surplus,
-            "lot_seed": opt.lot_seed,
-            "candidates": bal.c,
-            "seats": seats,
-            "voters": bal.voters(),
-            "official_winners": official,
-            "matches_official": matches,
-        });
-        if let (Value::Object(m), Value::Object(r)) = (&mut line, serde_json::to_value(&a).unwrap()) {
-            m.extend(r);
-        }
-        writeln!(out, "{line}").unwrap();
-    }
-    if failed {
-        std::process::exit(1);
-    }
+    (opt, trunc, files)
 }
 
 /// Prints the tuner's statistics (`stats.rs`) for each ballot file, using the parties in its

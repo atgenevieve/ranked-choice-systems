@@ -236,6 +236,40 @@ pub struct Counter<'a, N: Num> {
     touched: Vec<u32>,
     mark: Vec<u32>,
     stamp: u32,
+    /// Set only by `trace`: a record of every stage.
+    log: Option<Box<Trace>>,
+}
+
+/// One stage of a traced count: the first preferences, one surplus transfer, one exclusion,
+/// or the last hopefuls elected without reaching the quota.
+#[derive(Clone, Debug, Serialize)]
+pub struct Stage {
+    /// "first", "surplus", "exclusion", or "remaining".
+    pub kind: &'static str,
+    /// The candidate whose ballots moved (surplus or exclusion).
+    pub from: Option<u32>,
+    /// The share of each ballot's value that moved on (surplus only).
+    pub transfer_value: Option<f64>,
+    /// Candidates elected at the end of this stage, in the order they were elected.
+    pub elected: Vec<u32>,
+    /// Where the ballots went: (candidate, or `None` when the ballot ran out; rank, from 1,
+    /// the ballot was read at; votes; ballot papers), one entry per candidate and rank.
+    pub moves: Vec<(Option<u32>, Option<u32>, f64, u64)>,
+    /// Every candidate's total at the end of this stage. A winner whose surplus has moved on
+    /// shows the quota, and an excluded candidate shows 0.
+    pub totals: Vec<f64>,
+}
+
+/// A full record of a count, for explaining it: what moved at each stage, and the votes each
+/// winner held when elected, split by the rank they were read at.
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct Trace {
+    pub quota: f64,
+    pub stages: Vec<Stage>,
+    /// (candidate, votes[rank index]) for each winner, in the order they were elected.
+    pub held_at_election: Vec<(u32, Vec<f64>)>,
+    #[serde(skip)]
+    surplus_moved: Vec<bool>,
 }
 
 impl<'a, N: Num> Counter<'a, N> {
@@ -277,6 +311,7 @@ impl<'a, N: Num> Counter<'a, N> {
             touched: Vec::new(),
             mark: vec![0; c],
             stamp: 0,
+            log: None,
         };
         for b in 0..bal.rows() {
             let cand = bal.prefs[b * len] as usize;
@@ -387,6 +422,14 @@ impl<'a, N: Num> Counter<'a, N> {
     }
 
     fn elect(&mut self, c: usize) {
+        if let Some(t) = self.log.as_mut() {
+            let mut held = vec![0.0; self.bal.len];
+            for p in self.pile[c].iter() {
+                held[p.i as usize] += p.v.times(self.bal.mult(p.b as usize)).to_votes();
+            }
+            t.held_at_election.push((c as u32, held));
+            t.stages.last_mut().unwrap().elected.push(c as u32);
+        }
         self.st[c] = ELECTED;
         self.hopeful_n -= 1;
         self.elected.push(c as u32);
@@ -439,6 +482,18 @@ impl<'a, N: Num> Counter<'a, N> {
         }
         let m = bal.mult(b);
         let w = value.times(m);
+        if let Some(t) = self.log.as_mut() {
+            let to = (j < lim).then(|| row[j]);
+            let rank = (j < lim).then_some(j as u32 + 1);
+            let moves = &mut t.stages.last_mut().unwrap().moves;
+            match moves.iter_mut().find(|x| x.0 == to && x.1 == rank) {
+                Some(x) => {
+                    x.2 += w.to_votes();
+                    x.3 += m;
+                }
+                None => moves.push((to, rank, w.to_votes(), m)),
+            }
+        }
         if j >= lim {
             self.exhausted_votes += w.to_votes();
             self.exhausted_papers += m;
@@ -469,6 +524,10 @@ impl<'a, N: Num> Counter<'a, N> {
     }
 
     fn end_transfer(&mut self) {
+        if let Some(mut t) = self.log.take() {
+            t.stages.last_mut().unwrap().totals = self.shown_totals(&t);
+            self.log = Some(t);
+        }
         let touched = std::mem::take(&mut self.touched);
         for &t in touched.iter() {
             let tu = t as usize;
@@ -507,6 +566,7 @@ impl<'a, N: Num> Counter<'a, N> {
             let surplus = total.minus(self.quota);
             let pieces = std::mem::take(&mut self.pile[c]);
             if surplus.is_positive() {
+                self.log_stage("surplus", c, Some(surplus.to_votes() / total.to_votes()));
                 self.begin_transfer();
                 for p in pieces.iter() {
                     let mv = N::transfer(p.v, surplus, total);
@@ -519,6 +579,11 @@ impl<'a, N: Num> Counter<'a, N> {
             return true;
         }
         if self.hopeful_n <= self.seats - self.elected.len() {
+            if let Some(mut t) = self.log.take() {
+                let totals = self.shown_totals(&t);
+                t.stages.push(Stage { kind: "remaining", from: None, transfer_value: None, elected: Vec::new(), moves: Vec::new(), totals });
+                self.log = Some(t);
+            }
             for c in 0..self.bal.c {
                 if self.st[c] == HOPEFUL {
                     self.elect(c);
@@ -535,6 +600,7 @@ impl<'a, N: Num> Counter<'a, N> {
             return false;
         }
         let pieces = std::mem::take(&mut self.pile[lo]);
+        self.log_stage("exclusion", lo, None);
         self.begin_transfer();
         for p in pieces.iter() {
             self.place(p.b as usize, p.v, p.i as usize);
@@ -545,6 +611,68 @@ impl<'a, N: Num> Counter<'a, N> {
 
     pub fn run(&mut self) {
         while self.step() {}
+    }
+
+    fn shown_totals(&self, t: &Trace) -> Vec<f64> {
+        (0..self.bal.c)
+            .map(|c| match self.st[c] {
+                OUT => 0.0,
+                ELECTED if t.surplus_moved[c] => self.quota.to_votes(),
+                _ => self.tot[c].to_votes(),
+            })
+            .collect()
+    }
+
+    fn log_stage(&mut self, kind: &'static str, from: usize, transfer_value: Option<f64>) {
+        if let Some(t) = self.log.as_mut() {
+            if kind == "surplus" {
+                t.surplus_moved[from] = true;
+            }
+            t.stages.push(Stage { kind, from: Some(from as u32), transfer_value, elected: Vec::new(), moves: Vec::new(), totals: Vec::new() });
+        }
+    }
+}
+
+/// Counts the ballots once, recording every stage (`Trace`). The count itself is the same as
+/// `analyze`'s full count.
+pub fn trace(bal: &Ballots, seats: usize, opt: Options) -> Trace {
+    match opt.rules {
+        Rules::Scottish => trace_with::<Fixed>(bal, seats, opt),
+        Rules::Reference => trace_with::<f64>(bal, seats, opt),
+    }
+}
+
+fn trace_with<N: Num>(bal: &Ballots, seats: usize, opt: Options) -> Trace {
+    let lot = lot_draw(bal.c, opt);
+    let mut c = Counter::<N>::new(bal, seats, opt, &lot, false);
+    let first = bal.prefs.chunks(bal.len).enumerate().fold(Vec::<(Option<u32>, Option<u32>, f64, u64)>::new(), |mut acc, (b, row)| {
+        let m = bal.mult(b);
+        match acc.iter_mut().find(|x| x.0 == Some(row[0])) {
+            Some(x) => {
+                x.2 += m as f64;
+                x.3 += m;
+            }
+            None => acc.push((Some(row[0]), Some(1), m as f64, m)),
+        }
+        acc
+    });
+    let totals = c.tot.iter().map(|x| x.to_votes()).collect();
+    c.log = Some(Box::new(Trace {
+        quota: c.quota.to_votes(),
+        stages: vec![Stage { kind: "first", from: None, transfer_value: None, elected: Vec::new(), moves: first, totals }],
+        held_at_election: Vec::new(),
+        surplus_moved: vec![false; bal.c],
+    }));
+    c.run();
+    *c.log.take().unwrap()
+}
+
+fn lot_draw(c: usize, opt: Options) -> Vec<u64> {
+    if opt.rules == Rules::Scottish {
+        let mut r = Rng::new(opt.lot_seed);
+        (0..c).map(|_| r.next_u64()).collect()
+    } else {
+        Vec::new()
     }
 }
 
@@ -599,12 +727,7 @@ pub fn analyze(bal: &Ballots, seats: usize, opt: Options, trunc: Truncation) -> 
 }
 
 fn analyze_with<N: Num>(bal: &Ballots, seats: usize, opt: Options, trunc: Truncation) -> Analysis {
-    let lot: Vec<u64> = if opt.rules == Rules::Scottish {
-        let mut r = Rng::new(opt.lot_seed);
-        (0..bal.c).map(|_| r.next_u64()).collect()
-    } else {
-        Vec::new()
-    };
+    let lot = lot_draw(bal.c, opt);
     let mut full = Counter::<N>::new(bal, seats, opt, &lot, true);
     full.run();
     let v = bal.voters() as f64;
@@ -792,6 +915,43 @@ mod tests {
             seen.insert(a.excluded_order[0]);
         }
         assert_eq!(seen.len(), 2);
+    }
+
+    /// The traced count elects the same candidates as the full count, keeps every vote
+    /// accounted for at each stage, and records the hand-checked example's stages.
+    #[test]
+    fn trace_matches_count() {
+        // Ana 0, Ben 1, Cy 2, Dee 3: Dee goes (10 votes to Cy), then Cy (25 to Ben), and Ben wins.
+        let b = ballots(4, &[(40, &[0, 1, 2]), (35, &[1, 0, 3]), (15, &[2, 1, 0]), (10, &[3, 2, 1])]);
+        let t = trace(&b, 1, opt(Rules::Scottish));
+        let kinds: Vec<_> = t.stages.iter().map(|s| (s.kind, s.from)).collect();
+        assert_eq!(kinds, vec![("first", None), ("exclusion", Some(3)), ("exclusion", Some(2))]);
+        assert_eq!(t.stages[1].moves, vec![(Some(2), Some(2), 10.0, 10)]);
+        assert_eq!(t.stages[2].moves, vec![(Some(1), Some(2), 15.0, 15), (Some(1), Some(3), 10.0, 10)]);
+        assert_eq!(t.stages[2].elected, vec![1]);
+        assert_eq!(t.held_at_election, vec![(1, vec![35.0, 15.0, 10.0])]);
+
+        let v02 = SlateParams::default();
+        for (c, seats, v, seed) in [(8, 3, 200, 5), (15, 5, 300, 6), (30, 10, 600, 7), (40, 20, 400, 8)] {
+            let b = generate(c, 3, v, c, &Electorate::default(), &BallotRules::default(), &v02, seed).ballots;
+            for rules in [Rules::Scottish, Rules::Reference] {
+                let a = analyze(&b, seats, opt(rules), Truncation::Off);
+                let t = trace(&b, seats, opt(rules));
+                let order: Vec<u32> = t.stages.iter().flat_map(|s| s.elected.clone()).collect();
+                assert_eq!(order, a.elected_order);
+                let out: Vec<u32> = t.stages.iter().filter(|s| s.kind == "exclusion").map(|s| s.from.unwrap()).collect();
+                assert_eq!(out, a.excluded_order);
+                let mut lost = 0.0;
+                for s in t.stages.iter() {
+                    lost += s.moves.iter().filter(|m| m.0.is_none()).map(|m| m.2).sum::<f64>();
+                    // Every vote is held by a candidate or lost, except the fractions of a vote
+                    // that Scottish rules drop when cutting transfer values to 5 decimal places.
+                    let held: f64 = s.totals.iter().sum();
+                    let gap = v as f64 - held - lost;
+                    assert!(gap > -1e-6 && (gap < 1e-6 || rules == Rules::Scottish && gap < 0.01 * v as f64), "{rules:?} {} {gap}", s.kind);
+                }
+            }
+        }
     }
 
     /// The shortcut (start each truncated count from a copy of the full count)

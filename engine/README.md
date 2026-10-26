@@ -108,6 +108,14 @@ This reads files in the format in `docs/ballot-format.md` and writes one line of
 
 Options: `--rules scottish|reference`, `--surplus-order largest|election`, `--quota whole|exact`, `--seed N` (the seed for decisions by lot), and `--no-truncation`.
 
+### Stage by stage
+
+```
+target/release/stvsim trace <file.ballots>...
+```
+
+This counts each file once more and records what happened at every stage, for explaining a count to people: one line of JSON per election, with the `quota`, a list of `stages`, and `held_at_election`. Each stage is the first preferences (`first`), one surplus transfer (`surplus`, with its `transfer_value`, the share of each ballot's value that moved on), one exclusion (`exclusion`), or the last hopefuls elected without reaching the quota (`remaining`). It lists `from` (the candidate whose ballots moved), `elected` (candidates elected at the end of the stage), `moves` (where the ballots went: `[candidate or null when the ballot ran out, rank read from 1, votes, ballot papers]`), and `totals` (every candidate's votes at the end of the stage; a winner whose surplus has moved on shows the quota, and an excluded candidate shows 0). `held_at_election` gives each winner's votes when elected, split by the rank the votes were read at. It takes the same options as `count`, except `--no-truncation`. The record only watches the count: the winners and order are the same as `count`'s, which a test checks.
+
 ## Counting rules
 
 Scottish rules, from the Scottish Local Government Elections Order 2011 (SSI 2011/399), Schedule 1, rules 47 to 53:
@@ -152,6 +160,7 @@ This counts 24 test elections with both the engine (reference rules) and `refere
 - A surplus transfer where cutting to 5 decimal places changes the totals.
 - Two exclusion ties that Scottish rules settle by looking back, where the reference rule gives a different answer, including one where it changes the winner.
 - Ties settled by lot: repeatable for a given seed, and different seeds reach both outcomes.
+- The stage-by-stage record (`stvsim trace`) elects and excludes the same candidates in the same order as the count, accounts for every vote at every stage, and records the 100-voter example's stages exactly.
 - The truncation shortcut (below) gives the same winners as a from-scratch recount at every cutoff, on 48 simulated elections under both rule sets.
 
 ## How truncation is made fast
